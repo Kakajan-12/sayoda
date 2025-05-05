@@ -1,0 +1,159 @@
+{
+  "SectionTittle": {
+    "popular": "Meşhur",
+    "blogs": "Bloglar",
+    "iterinary": "Syýahat Jarnamasy",
+    "includnesses": "Näme goşuldy we näme goşulmaýar?",
+    "gallery": "Galereýa",
+    "map": "Harita",
+    "why": "Näme üçin bizi saýlamaly?",
+    "how": "Nädip işleýär?",
+    "testimonial": "Teswirler"
+  },
+  "Header": {
+    "main": "Baş sahypa",
+    "tours": "Syýahatlar",
+    "about": "Biz Barada",
+    "blog": "Blog",
+    "contact": "Aragatnaşyk"
+  },
+  "Footer": {
+    "location": "Aşgabady, Türkmenistan",
+    "phone": "Telefon",
+    "email": "Elektron poçta",
+    "usefulTitle": "Peýdaly zatlar",
+    "destinationsTitle": "Ýerler",
+    "ourTitle": "Hyzmatlarymyz",
+    "practicalTitle": "Praktiki maglumatlar",
+    "useful": [
+      "Biziň hakda",
+      "Hyzmatlar",
+      "Teswirler",
+      "Bloglar",
+      "Bellanama şertleri",
+      "Gizlinlik syýasaty"
+    ],
+    "destinations": [
+      "Türkmenistan",
+      "Özbegistan",
+      "Tajikistan",
+      "Kyrgyzstan",
+      "Gazagystan",
+      "Paýkistan"
+    ],
+    "our": ["Türkmen wiza", "Myhmanhanalar"],
+    "practical": [
+      "Türkmenistana nädip barmaly",
+      "Haýsy wagt bararlyk",
+      "Haryt pullaryny näme getirmeli"
+    ]
+  },
+  "Explore": {
+    "tittle": "Merkezi Aziýanyň ýüregini derňäň",
+    "desc": "Biz – syýahatlar boýunça lezzetli hünärmenlerden ybarat topar, Merkezi Aziýanyň iň gizlin we täsirli ýurtlarynda unudylmasyz syýahatlary döretmäge gönükdirilen. Merwiň gadymy harabalaryndan Darwazanyň höweslendiriji gaz kraterine çenli – biz taryhy, medeniýeti we sergäni özünde jemleýän aýratyn tejribeleri döredýäris.",
+    "secTittle": "Näme teklip edýäris",
+    "offers": [
+      "Özbegistan, Türkmenistan, Tadjikistan, Gazagystan we Kyrgyzstanyň eksklýuziv syýahatlary.",
+      "Şol şol taryhy we medeni öwrülişler bilen meşhur Şol bolşy ýaly Ýüpek ýoly boýunça syýahatlar.",
+      "Gözelligi bilen haýran galdyrýan daglar, çöl we gadymy şäherler arkaly syýahatlar."
+    ]
+  },
+  "TourPerPage": {
+    "from": "Başlangyç bahasy",
+    "available": "Elýeterli",
+    "group": "Toparyň ululygy",
+    "notes": "Wajyp bellikler",
+    "offer": "Biziň hödürleýänlerimiz",
+    "destinations": "Ugrukmalar",
+    "duration": "Dowamlylygy",
+    "languages": "Diller",
+    "tour": "Syýahat görnüşi",
+    "dates": "Seneler we elýeterlilik",
+    "include": "Girýär",
+    "notincluded": "Girýänok",
+    "whats" : "Nämeler girýär we girmeýär?"
+  },
+  "Include": ["Goşuldy", "Goşulmaýar"],
+  "About": {
+    "tittle": "Biziň hakda",
+    "text": "SAYODA TRAVEL-a hoş geldiňiz, Merkezi Aziýanyň täsirli sahypalaryna, baý taryhy we janly medeniýetlerine ýol açýar. Biz Özbegistan, Türkmenistan, Tadjikistan, Kyrgyzstan we Gazagystan boýunça ähli toparly syýahatlary taýýarlap, unudylmaz syýahatlary hödürleýäris."
+  },
+  "Services": {
+    "tittle": "Hyzmatlar",
+    "provide": "Biz gowy hyzmatlary hödürleýäris",
+    "text": "Biz, Merkezi Aziýa bilen syýahat edeniňizde rahatlyk bilen kömek bermek üçin dürli syýahatlary hödürleýäris:",
+    "cardtittle": [
+      "Özelleşdirilen syýahatlar",
+      "Medeniýet boýunça çäreler",
+      "Iň ýokary komfort we rahatlyk",
+      "Gyzgyn syýahatlar"
+    ],
+    "cardtext": [
+      "Bir öýdäki syýahatçılar, toparlar we maşgalalar üçin ýörite ýollar.",
+      "UNESCO mirasynyň obýektleri boýunça syýahatlar, ýerli sungat we däp-dessurlara bagyşlanan çäreler.",
+      "Ýokary derejeli myhmanhanalarda ýaşamak we hususy ulag hyzmatlary.",
+      "Daglara syýahatlar, çöl keşpleri we iň uzak künjeklerde täze açylmalar."
+    ]
+  },
+  "Why": {
+    "cardtittle": [
+      "Durnukly we aladawsyz meýilnama düzme",
+      "Hakyky we çuňňur syýahatlar",
+      "Öýjükli ýerli gurlar"
+    ],
+    "cardtext": [
+      "Bize ähli jikme-jiklikleri çözmek – wizalaryňyzy we jaýlaşmakdan başlap, transport we syýahatlaryňyza çenli ähli zatlary ýerine ýetirýäris. Size diňe syýahatdan lezzet almak galýar!",
+      "Biz adaty syýahat ýollaryndan daşarda, ýerli hünärmenler bilen çuňňur medeni tejribeler teklip edýäris. Ýüpek ýolyndaky gadymy şäherleri öwrenmekden başlap, adaty yurtda ýaşamaga çenli – biz size unudylmaz syýahat üpjün ederis.",
+      "Biziň hünärmen gurlarımız – bu ýerli ýaşaýjylardyr, taryh, medeniýet we gizlin gyzyklanma hakda çuňňur bilimleri bolan, syýahatyňyzy öwrener ýaly we ylhamlandyryjy edýär."
+    ]
+  },
+  "Work": {
+    "cardtittle": [
+      "Syýahatyňyzy we syýahat paketini saýlaň",
+      "Syýahatyňyzy ýola goýuň",
+      "Özüňize ýönekeý bukja ediň"
+    ],
+    "cardtext": [
+      "Biz adaty syýahat ýollaryndan daşarda, ýerli hünärmenler bilen çuňňur medeni tejribeler teklip edýäris. Ýüpek ýolyndaky gadymy şäherleri öwrenmekden başlap, adaty yurtda ýaşamaga çenli – biz size unudylmaz syýahat üpjün ederis.",
+      "Häzirki wagtda ähli syýahatçylar birmeňzeş däl! Biziň toparymyz syýahatyňyzy diňe bir meňzeş däl, eýsem hereketleriňizi, ýerleşmegiňizi we syýahatyňyzy özüňiziň islegleriňize görä sazlamakda kömek eder. Köp gün goşmak ýa-da aýratyn bir ýerde gezelenç etmek isleýärsiňizmi? Biz ähli zatlary üpjün ederis.",
+      "Şu wagta çenli syýahatyňyzy kabul eden soň, syýahatyňyzy onlaýn töleg arkaly ýeňil rezerwasiýa ediň. Biz dürli töleg usullaryny kabul edýäris we gizlin arza çykarmalardan goranmak bilen aç-açan bahalary üpjün edýäris."
+    ]
+  },
+  "Discover": {
+    "tittle": "Merkezi Aziýada özüňize laýyk syýahaty tapyň",
+    "text": "Özbegistan, Türkmenistan, Tadjikistan, Kyrgyzstan we Gazagystan boýunça saýlanan syýahatlary derňäň. Eger-de medeni mirasy, täsirli tebigaty ýa-da sergäni syýahatlary gözleseňiz, biz size iň gowy syýahaty üpjün ederis!",
+    "des": "Wejeler",
+    "tour": "Syýahat görnüşi",
+    "travel": "Syýahat usuly",
+    "btnSearch": "Gözleg"
+  },
+  "Unveiling": {
+    "tittle": "Merkezi Aziýany açmak — Ýaşam syýahaty",
+    "text": "Özbegistan, Türkmenistan, Tadjikistan, Kyrgyzstan we Gazagystan boýunça saýlanan syýahatlaryň çeşmelerini öwreniň. Eger-de siz medeni miras, täsirli tebigat ýa-da syýahatlaryň güýçli täsirini gözleýän bolsaňyz, biz size iň amatly syýahaty taýýarlarys!"
+  },
+  "ContactUs": {
+    "tittle": "Soraglaryňyz barmy ýa-da syýahaty planlaşdyrmak üçin kömek gerekmi?",
+    "cardtittle": ["Biziň salgymyz", "Bize hat ýazyň" , "Biz bilen habarlaşyň"],
+    "cardtext": ["Aşgabat, Türkmenistan"],
+    "Iname": "Adyňyz",
+    "Iemail": "Email-yňyz",
+    "Isubject": "Mesele",
+    "Imessage": "Habarnama",
+    "btn": "Habarnama iberiň"
+  },
+  "Booking": {
+    "bookings": "Bron etmek",
+    "send": "Sorag iber",
+    "tittle": " Merkezi Aziýany gözden geçirmäge taýýar! Aýal-reýsyňyzy rezerwasiýa etmek aňsat!",
+    "contact": "Habarlaşmak üçin maglumatlar",
+    "tour": "Syýahatyň jikme-jikleri",
+    "gender": ["Müsür", "Aýal"],
+    "location": ["Raýatlyk", "Daşary ýurt"],
+    "Iemail": "Elektron poçta",
+    "Iname": "Ady",
+    "Isurname": "Familiýasy",
+    "Iphone": "Telefon (+kod)",
+    "Itravelers": "Syýahatçylar",
+    "Icomment": "Teswirler we goşmaça maglumat"
+  }
+}

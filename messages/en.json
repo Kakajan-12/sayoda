@@ -1,0 +1,159 @@
+{
+  "SectionTittle": {
+    "popular": "Popular",
+    "blogs": "Blogs",
+    "iterinary": "Tour Iterinary",
+    "includnesses": "What's Included & Excluded?",
+    "gallery": "Gallery",
+    "map": "Map",
+    "why": "Why Choose Us",
+    "how": "How to work ",
+    "testimonial": "Testimonials"
+  },
+  "Header": {
+    "main": "Main",
+    "tours": "Tours",
+    "about": "About Us",
+    "blog": "Blog",
+    "contact": "Contact Us"
+  },
+  "Footer": {
+    "location": "Ashgabat, Turkmenistan",
+    "phone": "Phone",
+    "email": "Email",
+    "usefulTitle": "Useful Things",
+    "destinationsTitle": "Destinations",
+    "ourTitle": "Our Services",
+    "practicalTitle": "Practical Informations",
+    "useful": [
+      "About Us",
+      "Services",
+      "Testimonials",
+      "Blogs",
+      "Term of booking",
+      "Privacy Policy"
+    ],
+    "destinations": [
+      "Turkmenistan",
+      "Uzbekistan",
+      "Tajikistan",
+      "Kyrgyzystan",
+      "Kazakhstan",
+      "Pakistan"
+    ],
+    "our": ["Turkmen Visa", "Hotels"],
+    "practical": [
+      "How to get to Turkmenistan",
+      "When to go",
+      "What currency ti bring"
+    ]
+  },
+  "Explore": {
+    "tittle": "Explore the Heart of Central Asia",
+    "desc": "We are a passionate team of travel experts dedicated to creating unforgettable journeys through one of the most mysterious and fascinating countries in Central Asia. From the ancient ruins of Merv to the mesmerizing Darvaza Gas Crater, we craft unique experiences that blend history, culture, and adventure.",
+    "secTittle": "What We Offer",
+    "offers": [
+      "Exlusive tours to Uzbekistan, Turkmenistan, Tajikistan, Kazakhstan and Kyrgyzystan.",
+      "Culural and historical explorations along the legendary Silk Road",
+      "Adventure trips through breathtaking mountains deserts and ancient cities "
+    ]
+  },
+  "TourPerPage": {
+    "from": "From",
+    "available": "Available",
+    "group": "Group size",
+    "notes": "Important Notes",
+    "offer": "What We Offer ",
+    "destinations": "Destinations",
+    "duration": "Duration",
+    "languages": "Languages",
+    "tour": "Tour Type",
+    "dates": "Dates & Availablity",
+    "include": "Included",
+    "notincluded": "Not Included",
+    "whats" : "What’s Included & Excluded?"
+  },
+  "Include": ["Included", "Not Included"],
+  "About": {
+    "tittle": "About Us",
+    "text": "Welcome to SAYODA TRAVEL, your gateway to the breath-taking landscapes, rich history, and vibrant cultures of Central Asia.   We specialize in carefully curated tours across Uzbekistan, Turkmenistan,Tajikistan, Kyrgyzstan, and Kazakhstan, offering unforgettable travel experiences."
+  },
+  "Services": {
+    "tittle": "SERVICES",
+    "provide": "We Provide Awesome Services",
+    "text": "We offer a variety of travel experience to help you explore Central Asia with easy:",
+    "cardtittle": [
+      "Customized Tours",
+      "Cultural Experiences",
+      "Luxury & Comfort",
+      "Adventure Travel"
+    ],
+    "cardtext": [
+      "Tailor-made itineraries for solo travelers, groups, and families.",
+      "Guided tours to UNESCO sites, local crafts, and traditions.",
+      "High-end accommodations and private transport options.",
+      "Trekking, desert expeditions, and off-the-beaten-path discoveries."
+    ]
+  },
+  "Why": {
+    "cardtittle": [
+      "Seamless & Stress-Free Planning",
+      "Authentic & Immersive Travel",
+      "Expert Local Guides"
+    ],
+    "cardtext": [
+      "We handle all the details – from visas and accommodations to transportation and guided tours. You just focus on enjoying the adventure!",
+      "We go beyond the typical tourist routes, offering deep cultural experiences with local experts. From exploring ancient Silk Road cities to staying in traditional yurts, we ensure an unforgettable journey.",
+      "Our professional guides are locals with in-depth knowledge of history, culture, and hidden gems, making your trip both educational and inspiring."
+    ]
+  },
+  "Work": {
+    "cardtittle": [
+      "Choose Your Destination & Tour Package",
+      "Customize Your Experience",
+      "Book with Ease"
+    ],
+    "cardtext": [
+      "We go beyond the typical tourist routes, offering deep cultural experiences with local experts. From exploring ancient Silk Road cities to staying in traditional yurts, we ensure an unforgettable journey.",
+      "Not all travelers are the same! Our team will help personalize your itinerary, adjusting activities, accommodations, and travel dates to fit your needs. Want to add extra days or visit a special location? We’ve got you covered.",
+      "Once you’ve finalized your itinerary, secure your booking with a simple online payment. We accept multiple payment methods and provide transparent pricing with no hidden fees."
+    ]
+  },
+  "Discover": {
+    "tittle": "Discover Your Perfect Central Asia Advanture",
+    "text": "Explore a variety of handpicked tours across Uzbekistan, Turkmenistan, Tajikistan  Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking landscapes, or thrilling adventures, we have the perfect itinerary for you!",
+    "des": "Destinations",
+    "tour": "Tour Type",
+    "travel": "Travel Style",
+    "btnSearch": "Search"
+  },
+  "Unveiling": {
+    "tittle": "Unveiling Central Asia The  Journey of a Lifetime",
+    "text": "Explore a variety of handpicked tours across Uzbekistan, Turkmenistan, Tajikistan  Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking  landscapes, or thrilling adventures, we have the perfect itinerary for you!"
+  },
+  "ContactUs": {
+    "tittle": "Have questions or need help planning your trip?",
+    "cardtittle": ["Our Address", "Email Us" , "Call Us"],
+    "cardtext": ["Ashgabat, Turkmenistan"],
+    "Iname": "Your Name",
+    "Iemail": "Your Email",
+    "Isubject": "Subject",
+    "Imessage": "Message",
+    "btn": "Send Message"
+  },
+  "Booking": {
+    "bookings": "Booking",
+    "send": "Send Reques",
+    "tittle": "Ready to explore Central Asia?  Booking your dream trip is easy!",
+    "contact": "Contact Details",
+    "tour": "Tour Details",
+    "gender": ["Mr", "Ms"],
+    "location": ["Citizenship", "Abroud"],
+    "Iemail": "E-mail",
+    "Iname": "First Name",
+    "Isurname": "Last Name",
+    "Iphone": "Phone (+code)",
+    "Itravelers": "Travelers",
+    "Icomment": "Comments and additional information"
+  }
+}

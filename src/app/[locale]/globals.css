@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .border-gradient {
+    border-width: 4px;
+    border-style: solid;
+    border-image-source: linear-gradient(
+      90deg,
+      #e0ecf6 0%,
+      #215584 50.36%,
+      #dfe3ea 100%
+    );
+    border-image-slice: 1;
+    border-radius: 15px;
+  }
+  .shadowFilter {
+    box-shadow: 0px 8px 8px 8px #00000040;
+  }
+}
+
+.footerForCenters {
+  @apply flex flex-col gap-2 py-6;
+}
+.forH5 {
+  @apply text-xl mb-3 font-semibold tracking-widest;
+}
+.footerLink {
+  @apply flex items-center text-lg  font-normal gap-2;
+}
+
+.InputBorders {
+  border: 1px solid #646464;
+  border-radius: 10px;
+  padding: 12px 10px;
+  background-color: white;
+}
+
+/* /////////////////////////////////// PER TOUR PAGE CSSS ///////////////////////////// */
+@layer utilities {
+  @media (max-width: 300px) {
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  @media (min-width: 300px) {
+    .custom {
+      position: absolute;
+      top: 50%;
+      left: 25%;
+      transform: translate(-25%, -50%);
+    }
+  }
+}
+/* /////////////////////////////////// PER TOUR PAGE CSSS ///////////////////////////// */
