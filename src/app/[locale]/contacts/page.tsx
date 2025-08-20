@@ -1,16 +1,14 @@
 import React from 'react'
-import AddressForm from '../../../Components/ContactUs/Address'
 import ContactMain from '../../../Components/ContactUs/ContactUsMain'
 import ContactForm from '../../../Components/ContactUs/ContactForm'
-import Map from '../../../Components/TourPerPage/Map'
+import LocationSwitcher from "../../../Components/ContactUs/Address";
 
 const page = () => {
   return (
     <div className='bg-[#E8ECF0]'>
         <ContactMain/>
-        <AddressForm/>
+        <LocationSwitcher/>
         <ContactForm/>
-        <Map/>
     </div>
   )
 }

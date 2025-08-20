@@ -1,173 +1,134 @@
 "use client";
-
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import BurgerMenu from "../../../public/burgerMenu.png";
 import Logo from "../../../public/IMG_20250217_105552631_275 1.png";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import HeaderDrawer from "./HeaderDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/Store/store";
 import { makeFalse, makeToggle } from "@/app/Redux/FalseTrueForHtml";
 import { ComfortaFont } from "@/Ui/Fonts";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 export const navbar = [
-  {
-    key: "main",
-    url: "/",
-    name: "Main",
-    img: "/IconMenu/home_10024936.png",
-  },
-  {
-    key: "tours",
-    url: "/tours",
-    name: "Tours",
-    img: "/IconMenu/maps_9570867.png",
-  },
-  {
-    key: "about",
-    url: "/aboutUs",
-    name: "About Us",
-    img: "/IconMenu/maps_9570867.png",
-  },
-  {
-    key: "blog",
-    url: "/blog",
-    name: "Blog",
-    img: "/IconMenu/feedback_11910958.png",
-  },
-  {
-    key: "contact",
-    url: "/contactUs",
-    name: "Contact Us",
-    img: "/IconMenu/location-dot-slash_9612477.png",
-  },
+  { key: "main", url: "/", name: "Main", img: "/IconMenu/home_10024936.png" },
+  { key: "tours", url: "/tours", name: "Tours", img: "/IconMenu/maps_9570867.png" },
+  { key: "about", url: "/about", name: "About Us", img: "/IconMenu/maps_9570867.png" },
+  { key: "blog", url: "/blog", name: "Blog", img: "/IconMenu/feedback_11910958.png" },
+  { key: "contact", url: "/contacts", name: "Contact Us", img: "/IconMenu/location-dot-slash_9612477.png" },
 ];
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [forLang, setForLang] = useState(false);
   const location = usePathname();
+  const dispatch = useDispatch();
+  const router = useRouter();
   const forVisibility = useSelector((state: RootState) => state.trufalse.value);
-  const makeToggless = useDispatch();
-  const makeFlase = () => makeToggless(makeFalse());
   const t = useTranslations("Header");
   const uselocale = useLocale();
-  const router = useRouter();
   const currentLocale = location.split("/")[1];
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const switchLanguage = (newLocale: string) => {
     const newPath = location.replace(
-      `/${currentLocale}`,
-      `/${newLocale === "tm" ? "tk" : newLocale}`
+        `/${currentLocale}`,
+        `/${newLocale === "tm" ? "tk" : newLocale}`
     );
     router.push(newPath);
   };
-  const filteredlanguages = routing.locales
-    .filter((lang) => lang !== uselocale)
-    .map((lang) => (lang === "tk" ? "tm" : lang));
+
+  const filteredLanguages = routing.locales
+      .filter((lang) => lang !== uselocale)
+      .map((lang) => (lang === "tk" ? "tm" : lang));
+
   const activeNav = location.replace(`/${uselocale}`, "") || "/";
+
   return (
-    <header
-      className={`bg-mainBlue  sticky z-40 top-0 w-full ${ComfortaFont.className}`}
-    >
-      <div className="w-full sticky bg-mainBlue  z-30">
-        <div className="  container mx-auto  sm:px-2  ">
-          <div className="flex  justify-between   relative items-center">
+      <header className={`bg-mainBlue sticky z-40 top-0 w-full ${ComfortaFont.className}`}>
+        <div className="container mx-auto sm:px-2">
+          <div className="flex justify-between items-center relative py-2">
+            {/* LOGO */}
             <Link href="/" className="">
-              <Image
-                className="sm:w-48 sm:h-20 w-36 h-16"
-                alt="logo"
-                src={Logo}
-              />
+              <Image className="sm:w-48 sm:h-20 w-36 h-16" alt="logo" src={Logo} />
             </Link>
-            <div
-              className={`hidden  md:flex items-center  lg:gap-x-12 gap-x-6   `}
-            >
-              {navbar.map((items) => {
-                return (
+
+            {/* NAVBAR FOR DESKTOP */}
+            <div className="hidden md:flex items-center lg:gap-x-12 gap-x-6">
+              {navbar.map((items) => (
                   <Link
-                    className={`
-                    lg:text-sm 2xl:text-lg  text-sm   font-medium 
-                 ${items.url === activeNav ? "text-[#BF8B30]" : "text-white"} `}
-                    key={items.name}
-                    href={items.url}
+                      key={items.name}
+                      className={`lg:text-sm 2xl:text-lg text-sm font-medium ${
+                          items.url === activeNav ? "text-[#BF8B30]" : "text-white"
+                      }`}
+                      href={items.url}
                   >
                     {t(items.key)}
                   </Link>
-                );
-              })}
-              <div
-                className={`hidden md:flex text-sm lg:text-lg font-normal  text-white   `}
-              >
-                <p
-                  onClick={() => setForLang((l) => !l)}
-                  className="cursor-pointer"
-                >
-                  {currentLocale.includes("tk")
-                    ? "TM"
-                    : currentLocale.toUpperCase()}
-                </p>
+              ))}
 
-                <AnimatePresence initial={false}>
-                  {forLang && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className=" -right-1.5   absolute overflow-hidden    top-[85px]  bg-mainBlue  "
-                      >
-                        <div className="px-2.5 py-4 border-[1px] border-mainBlue   text-lg  gap-4 flex flex-col">
-                          {filteredlanguages.map((items) => (
-                            <p
+              {/* LANGUAGE SWITCH */}
+              <div
+                  className="hidden md:flex text-sm lg:text-lg font-normal text-white relative cursor-pointer select-none"
+                  ref={langRef}
+                  onClick={() => setIsLangOpen((prev) => !prev)}
+              >
+                <p>{currentLocale.includes("tk") ? "TM" : currentLocale.toUpperCase()}</p>
+                {isLangOpen && (
+                    <div className="absolute top-full mt-2 bg-mainBlue rounded shadow-lg z-50" style={{left: "-16px"}}>
+                      {filteredLanguages.map((lang) => (
+                          <p
+                              key={lang}
                               onClick={() => {
-                                switchLanguage(items);
-                                setForLang(false);
+                                switchLanguage(lang);
+                                setIsLangOpen(false);
                               }}
-                              className="text-white cursor-pointer  "
-                            >
-                              {items.toUpperCase()}
-                            </p>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
+                              className="px-4 py-2 hover:bg-[#BF8B30] cursor-pointer"
+                          >
+                            {lang.toUpperCase()}
+                          </p>
+                      ))}
+                    </div>
+                )}
               </div>
             </div>
-            {/* MENUUUU BURGER  ICON*/}
+
+            {/* BURGER MENU BUTTON */}
             <div className="flex md:hidden">
-              <div className="  justify-self-end flex items-center  lgx:hidden">
-                <button
-                  onClick={() => makeToggless(makeToggle())}
-                  className="px-4 py-2 z-0   text-white rounded"
-                >
-                  <Image alt="icn" className="sm:w-8 w-6" src={BurgerMenu} />
-                </button>
-              </div>
+              <button
+                  onClick={() => dispatch(makeToggle())}
+                  className="px-4 py-2 z-50 relative text-white rounded"
+              >
+                <Image alt="burger menu" className="sm:w-8 w-6" src={BurgerMenu}/>
+              </button>
             </div>
-            {/* MENUUUU BURGER ICON */}
           </div>
         </div>
-      </div>
 
-      {/* DRAWER FOR MOBILE  */}
-      <AnimatePresence initial={false}>
-        {forVisibility && (
-          <>
-            <HeaderDrawer isOpen={isOpen} onClose={() => makeFlase()} />
-          </>
-        )}
-      </AnimatePresence>
-      {/* DRAWER FOR MOBILE  */}
-    </header>
+        {/* MOBILE DRAWER */}
+        <AnimatePresence>
+          {forVisibility && (
+              <HeaderDrawer
+                  isOpen={forVisibility}
+                  onClose={() => dispatch(makeFalse())}
+              />
+          )}
+        </AnimatePresence>
+      </header>
   );
 }

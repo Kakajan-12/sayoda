@@ -6,9 +6,9 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 const textsArray = new Array(3).fill({tittle : "", text:''})
 const HowToWork = () => {
-    const section = useTranslations("SectionTittle")
+    const section = useTranslations("SectionTitle")
     const work =  useTranslations("Work")
-    const tittle = work.raw("cardtittle")
+    const title = work.raw("cardtitle")
     const text = work.raw("cardtext")
   return (
     <div className='w-full h-auto relative'>
@@ -20,7 +20,7 @@ const HowToWork = () => {
                     <div className='relative '>
                        <span className=' absolute top-0 text-6xl lg:text-8xl  opacity-15 font-extrabold md:text-7xl '>0{i + 1}</span>
                        <div className='px-7 md:px-12 xl:px-20 flex flex-col gap-4 py-10 lg:py-12  md:w-3/5'>
-                            <h4 className={`${PoppinFont.className}  pl-5 md:pl-6 text-xl font-medium leading-7 lg:leading-10 md:text-2xl lg:text-3xl`} >{tittle[i]}</h4>
+                            <h4 className={`${PoppinFont.className}  pl-5 md:pl-6 text-xl font-medium leading-7 lg:leading-10 md:text-2xl lg:text-3xl`} >{title[i]}</h4>
                             <p  className={`${QuicksandFont.className}  text-sm font-normal leading-6 md:text-md lg:text-xl lg:leading-8`}>{text[i]}</p>
                        </div>
                     </div>

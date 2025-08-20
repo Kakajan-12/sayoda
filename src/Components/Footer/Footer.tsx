@@ -1,139 +1,223 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/IMG_20250217_105552631_275 1.png";
-import Icon1 from "../../../public/Icons/Vector (29).png";
-import Icon2 from "../../../public/Icons/Vector (30).png";
-import Icon3 from "../../../public/Icons/instagram (4).png";
 import Link from "next/link";
 import Arrowicon from "../../../public/Icons/Vector (28).png";
-import {usePathname} from "next/navigation";
-import {PoppinFont, QuicksandFont} from "@/Ui/Fonts";
-import {useTranslations} from "next-intl";
-import {i} from "framer-motion/client";
-import {FaXTwitter} from "react-icons/fa6";
-import {TbBrandFacebook} from "react-icons/tb";
-import {GrInstagram} from "react-icons/gr";
-import {FiFacebook} from "react-icons/fi";
+import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
+import { useTranslations, useLocale } from "next-intl";
+import { FaXTwitter, FaTelegram, FaLinkedin, FaWhatsapp } from "react-icons/fa6";
+import { GrInstagram } from "react-icons/gr";
+import { FiFacebook } from "react-icons/fi";
+import { BASE_API_URL } from "@/i18n/api";
 
 const usefulThings = [
-    {id: 1, name: "About Us", href: "/aboutUs"},
-    {id: 2, name: "Services", href: "/services"},
-    {id: 3, name: "Testimonails", href: "/testimonials"},
-    {id: 4, name: "Blogs", href: "/blogs"},
-    {id: 5, name: "Terms of booking", href: "/terms"},
-    {id: 6, name: "Privacy policy", href: "/privacy"},
+    { id: 1, name: "About Us", href: "/about" },
+    { id: 2, name: "Tours", href: "/tours" },
+    { id: 3, name: "Blogs", href: "/blogs" },
+    { id: 4, name: "Contacts", href: "/contacts" },
 ];
-const Destianations = [
-    {id: 1, name: "Turkmenistan", href: "/turkmenistan"},
-    {id: 2, name: "Uzbekistan", href: "/uzbekistan"},
-    {id: 3, name: "Tajikistan", href: "/tajikistan"},
-    {id: 4, name: "Kyrgyzystan", href: "/kyrgyzystan"},
-    {id: 5, name: "Kazakhstan", href: "/kazakhstan"},
-    {id: 6, name: "Pakistan", href: "/pakistan"},
-];
-const OurSerivces = [
-    {id: 1, name: "Turkmen Visa", href: "/tukmenVisa"},
-    {id: 2, name: "Hotels", href: "/hotels"},
-];
-const PracticalInformaions = [
-    {id: 1, name: "How to get to Turmenistan", href: "/getTurkmenistan"},
-    {id: 2, name: "When to go", href: "/whentogo"},
-    {id: 3, name: "What currency to bring", href: "/currencytobring  "},
-];
-const iconsFooter = [
-    <FaXTwitter className="w-7 h-10"/>,
-    <FiFacebook className="w-20 h-20"/>,
-    <GrInstagram className="w-7 h-10"/>
-];
+
+interface ContactAddress {
+    address_tk: string;
+    address_en: string;
+    address_ru: string;
+}
+interface ContactMail {
+    mail: string;
+}
+interface ContactNumber {
+    number: string;
+}
+interface Messenger {
+    id: number;
+    icon: string;
+    url: string;
+}
+
 const Footer = () => {
     const t = useTranslations("Footer");
     const useful = t.raw("useful");
-    const destinations = t.raw("destinations");
-    const our = t.raw("our");
-    const practical = t.raw("practical");
+    const locale = useLocale();
+
+    const [address, setAddress] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
+    const [messengers, setMessengers] = useState<Messenger[]>([]);
+    const [locations, setLocations] = useState<{id: number, location_tk: string, location_en: string, location_ru: string}[]>([]);
+    const [visa, setVisa] = useState<{id: number, title_tk: string, title_en: string, title_ru: string}[]>([]);
+
+    const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                const resAddr = await fetch(`${BASE_API_URL}/api/contact-address`);
+                const addrData: ContactAddress[] = await resAddr.json();
+                if (addrData.length > 0) {
+                    const item = addrData[0];
+                    const localizedAddress =
+                        locale === "ru"
+                            ? item.address_ru
+                            : locale === "tk"
+                                ? item.address_tk
+                                : item.address_en;
+                    setAddress(stripHtml(localizedAddress));
+                }
+
+                const resMail = await fetch(`${BASE_API_URL}/api/contact-mails`);
+                const mailData: ContactMail[] = await resMail.json();
+                if (mailData.length > 0) setEmail(mailData[0].mail);
+
+                const resPhone = await fetch(`${BASE_API_URL}/api/contact-numbers`);
+                const phoneData: ContactNumber[] = await resPhone.json();
+                if (phoneData.length > 0) setPhone(phoneData[0].number);
+
+                const resMess = await fetch(`${BASE_API_URL}/api/links`);
+                const messData: Messenger[] = await resMess.json();
+                if (Array.isArray(messData)) {
+                    setMessengers(messData);
+                }
+            } catch (err) {
+                console.error("Ошибка при загрузке контактов:", err);
+            }
+        };
+        fetchContacts();
+    }, [locale]);
+
+    useEffect(() => {
+        const fetchLocations = async () => {
+            try {
+                const res = await fetch(`${BASE_API_URL}/api/tour-location`);
+                const data = await res.json();
+                if (Array.isArray(data)) setLocations(data);
+            } catch (err) {
+                console.error("Ошибка при загрузке локаций:", err);
+            }
+        };
+        fetchLocations();
+    }, []);
+
+    useEffect(() => {
+        const fetchVisa = async () => {
+            try {
+                const res = await fetch(`${BASE_API_URL}/api/visa`);
+                const data = await res.json();
+                if (Array.isArray(data)) setVisa(data);
+            } catch (err) {
+                console.error("Ошибка при загрузке:", err);
+            }
+        };
+        fetchVisa();
+    }, []);
+
+
+    const renderMessengerIcons = () =>
+        messengers.length > 0 &&
+        messengers.map((item) => {
+            const iconType = item.icon?.toLowerCase();
+            let Icon: React.ElementType | null = null;
+
+            switch (iconType) {
+                case "telegram":
+                    Icon = FaTelegram;
+                    break;
+                case "linkedin":
+                    Icon = FaLinkedin;
+                    break;
+                case "instagram":
+                    Icon = GrInstagram;
+                    break;
+                case "whatsapp":
+                    Icon = FaWhatsapp;
+                    break;
+                case "facebook":
+                    Icon = FiFacebook;
+                    break;
+                case "twitter":
+                    Icon = FaXTwitter;
+                    break;
+                default:
+                    return null;
+            }
+
+            return (
+                <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Icon style={{ width: "25px", height: "25px" }} />
+                </a>
+            );
+        });
+
     return (
         <div
-            className={`w-full py-20  bg-mainBlue  ${PoppinFont.className} text-white`}
+            className={`w-full py-20 bg-mainBlue ${PoppinFont.className} text-white`}
         >
             <div
-                className="   container mx-auto px-5 md:px-2 grid sm:grid-cols-2  xl:grid-cols-4 lg:grid-cols-3   md:grid-cols-2 ">
-                <div className=" flex flex-col gap-3">
+                className="container mx-auto px-5 md:px-2 grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+                <div className="flex flex-col gap-3">
                     <Image className="w-48 h-20" alt="logo" src={Logo}/>
-                    <h5>{t("location")}</h5>
-                    <h5>{t("phone")}: 993-**-**-**-**</h5>
-                    <h5>{t("email")}: sayoda@gmail.com</h5>
-                    <div className="flex  gap-2  mt-4 ">
-                        {iconsFooter.map((items) => {
-                            return (
-                                <div
-                                    className="bg-mainLight text-mainBlue w-10 h-10 flex items-center justify-center rounded-full p-2.5">
-                                    {items}
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <h5>{t("location")}: {address}</h5>
+                    <h5>{t("phone")}: {phone}</h5>
+                    <h5>{t("email")}: {email}</h5>
+                    <div className="flex gap-3 mt-4">{renderMessengerIcons()}</div>
                 </div>
+
                 <div className="footerForCenters">
-                    <h5 className="forH5 ">{t("usefulTitle")}</h5>
-                    {usefulThings.map((items, i) => {
-                        return (
-                            <Link
-                                className={`footerLink  ${QuicksandFont.className}`}
-                                href={items.href}
-                                key={items.id}
-                            >
-                                <Image alt="icn " className="w-1.5 h-3" src={Arrowicon}/>
-                                {useful[i]}
-                            </Link>
-                        );
-                    })}
+                    <h5 className="forH5">{t("usefulTitle")}</h5>
+                    {usefulThings.map((items, i) => (
+                        <Link
+                            className={`footerLink ${QuicksandFont.className}`}
+                            href={items.href}
+                            key={items.id}
+                        >
+                            <Image alt="icon" className="w-1.5 h-3" src={Arrowicon}/>
+                            {useful[i]}
+                        </Link>
+                    ))}
                 </div>
+
                 <div className="footerForCenters">
-                    <h5 className="forH5 ">{t("destinationsTitle")}</h5>
-                    {Destianations.map((items, i) => {
-                        return (
-                            <Link
-                                className={`footerLink  ${QuicksandFont.className}`}
-                                href={items.href}
-                                key={items.id}
-                            >
-                                <Image alt="icn " className="w-1.5 h-3" src={Arrowicon}/>
-                                {destinations[i]}
-                            </Link>
-                        );
-                    })}
+                    <h5 className="forH5">{t("destinationsTitle")}</h5>
+                    {locations.map((loc, i) => (
+                        <Link
+                            className={`footerLink ${QuicksandFont.className}`}
+                            href={`/tours?location=${loc.id}`}
+                            key={loc.id}
+                        >
+                            <Image alt="icon" className="w-1.5 h-3" src={Arrowicon}/>
+                            {locale === "ru" ? loc.location_ru : locale === "tk" ? loc.location_tk : loc.location_en}
+                        </Link>
+                    ))}
                 </div>
-                <div className=" flex flex-col gap-2.5 py-6 ">
-                    <div className=" flex flex-col gap-1 ">
-                        <h5 className="forH5 ">{t("ourTitle")}</h5>
-                        {OurSerivces.map((items, i) => {
-                            return (
-                                <Link
-                                    className={`footerLink  ${QuicksandFont.className}`}
-                                    href={items.href}
-                                    key={items.id}
-                                >
-                                    <Image alt="icn " className="w-1.5 h-3" src={Arrowicon}/>
-                                    {our[i]}
-                                </Link>
-                            );
-                        })}
-                    </div>
-                    <div className=" flex flex-col gap-1  pt-10 sm:pt-2">
-                        <h5 className="forH5 ">{t("practicalTitle")}</h5>
-                        {PracticalInformaions.map((items, i) => {
-                            return (
-                                <Link
-                                    className={`footerLink  ${QuicksandFont.className}`}
-                                    href={items.href}
-                                    key={items.id}
-                                >
-                                    <Image alt="icn " className="w-1.5 h-3" src={Arrowicon}/>
-                                    {practical[i]}
-                                </Link>
-                            );
-                        })}
+
+
+                <div className="flex flex-col gap-2.5 py-6">
+                    <div className="flex flex-col gap-1 pt-10 sm:pt-2">
+                        <h5 className="forH5">{t("practicalTitle")}</h5>
+                        {visa.map((visa, i) => (
+                            <Link
+                                className={`footerLink ${QuicksandFont.className}`}
+                                href={`/visa/${visa.id}`}
+                                key={visa.id}
+                            >
+                                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html:
+                                            locale === "ru"
+                                                ? visa.title_ru
+                                                : locale === "tk"
+                                                    ? visa.title_tk
+                                                    : visa.title_en,
+                                    }}
+                                />
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

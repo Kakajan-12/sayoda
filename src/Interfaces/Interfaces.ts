@@ -3,10 +3,9 @@ export interface FormDate {
   lastName: string;
   email: string;
   phone: string;
-  data: string;
-  numberTravels: string;
+  travelers: string;
   tour: string;
-  comment: string;
+  message: string;
   gender: string;
   location: string;
 }

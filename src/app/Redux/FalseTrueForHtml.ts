@@ -1,28 +1,14 @@
-// 'use server'
-import { createSlice } from "@reduxjs/toolkit";
-interface CounterState {
-  value: boolean;
-}
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: CounterState = {
-  value: false,
-};
-
-export const toggleTrueFalse = createSlice({
-  name: "checker",
-  initialState,
+const trufalseSlice = createSlice({
+  name: 'trufalse',
+  initialState: { value: false },
   reducers: {
-    makeTrue: (state) => {
-      state.value = true;
-    },
-    makeFalse: (state) => {
-      state.value = false;
-    },
-    makeToggle: (state) => {
-      state.value = !state.value;
-    },
+    makeTrue: (state) => { state.value = true; },
+    makeFalse: (state) => { state.value = false; },
+    makeToggle: (state) => { state.value = !state.value; },
   },
 });
-export const { makeTrue, makeFalse, makeToggle } = toggleTrueFalse.actions;
 
-export default toggleTrueFalse.reducer;
+export const { makeTrue, makeFalse, makeToggle } = trufalseSlice.actions;
+export default trufalseSlice.reducer;

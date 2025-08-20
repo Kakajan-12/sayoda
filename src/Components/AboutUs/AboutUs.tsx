@@ -28,7 +28,7 @@ const AboutUs = () => {
              <div className='container mx-auto relative z-20 text-white px-7 text-center'>
             <h2 className={`text-2xl sm:text-3xl relative xl:text-4xl flex justify-center 2xl:text-5xl font-bold font-comforta`}>
                <Image alt='left' className='w-10   absolute justify-self-center mr-36 -top-4  z-0  hidden sm:block' src={imgcenter}/>
-               <span className='z-20 relative'> {t("tittle")}</span>
+               <span className='z-20 relative'> {t("title")}</span>
             </h2>
             <p className={`font-quicksand text-sm sm:text-lg sm:px-10 lg:mt-10 lg:px-28 sm:leading-8 lg:leading-9 2xl:leading-[47px] font-normal lg:text-2xl xl:text-2xl 2xl:text-3xl leading-7 mt-5 `}>
                 {t("text")}

@@ -20,6 +20,10 @@
   }
 }
 
+.main-background-color{
+  background-color: #215584;
+}
+
 .footerForCenters {
   @apply flex flex-col gap-2 py-6;
 }
@@ -37,7 +41,7 @@
   background-color: white;
 }
 
-/* /////////////////////////////////// PER TOUR PAGE CSSS ///////////////////////////// */
+
 @layer utilities {
   @media (max-width: 300px) {
     .center {
@@ -56,4 +60,15 @@
     }
   }
 }
-/* /////////////////////////////////// PER TOUR PAGE CSSS ///////////////////////////// */
+
+
+input.no-spin::-webkit-outer-spin-button,
+input.no-spin::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.no-spin {
+  -moz-appearance: textfield;
+}
+

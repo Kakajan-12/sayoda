@@ -1,15 +1,11 @@
-// 'use server'
-import { configureStore } from "@reduxjs/toolkit";
-import {  toggleTrueFalse } from "../Redux/FalseTrueForHtml";
-import { drawerforInputs } from "../Redux/DrawerInputs";
+import { configureStore } from '@reduxjs/toolkit';
+import trufalseReducer from '@/app/Redux/FalseTrueForHtml'; // ✅ подключаем наш слайс
+
 export const store = configureStore({
-  reducer: {
-    trufalse: toggleTrueFalse.reducer,
-    inputs : drawerforInputs.reducer
-  },
+    reducer: {
+        trufalse: trufalseReducer,
+    },
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

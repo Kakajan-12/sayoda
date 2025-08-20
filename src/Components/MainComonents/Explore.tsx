@@ -25,16 +25,16 @@ const Explore = () => {
           </div>
         </div>
         <div className="flex md:w-1/2 flex-col gap-6 ">
-            <h2 className={`text-2xl lg:text-3xl  2xl:text-5xl leading-9  2xl:leading-[65px] font-bold   ${PoppinFont.className}`}>"{t("tittle")}"</h2>
+            <h2 className={`text-2xl lg:text-3xl  2xl:text-5xl leading-9  2xl:leading-[65px] font-bold   ${PoppinFont.className}`}>"{t("title")}"</h2>
             <p className={`${QuicksandFont.className} font-normal text-sm tracking-wide  leading-6 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}>{t("desc")}</p>
             <div className="flex flex-col gap-y-3 xl:gap-y-5">
-                <p className={`${PoppinFont.className} font-bold text-lg lg:text-xl xl:text-2xl 2xl:text-3xl`}>{t("secTittle")}</p>
+                <p className={`${PoppinFont.className} font-bold text-lg lg:text-xl xl:text-2xl 2xl:text-3xl`}>{t("secTitle")}</p>
                 {
                     offers.map((items : string)=> {
                         return (
-                          <div className="flex gap-2.5 items-center">
-                            <Image width={2} height={2} className="w-4 h-4" alt="test" src='/Check.png'/>
-                            <p className={`${QuicksandFont.className} text-xs xl:text-sm font-normal 2xl:text-xl`}>{items}</p>
+                          <div key={items} className="flex items-start space-x-2">
+                            <Image width={2} height={2} className="w-4 h-4 mt-2" alt="test" src='/Check.png'/>
+                            <p className={`${QuicksandFont.className} text-xs xl:text-sm font-normal 2xl:text-xl `}>{items}</p>
                           </div>
                         )
                     })

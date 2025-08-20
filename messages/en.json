@@ -1,8 +1,8 @@
 {
-  "SectionTittle": {
+  "SectionTitle": {
     "popular": "Popular",
     "blogs": "Blogs",
-    "iterinary": "Tour Iterinary",
+    "itinerary": "Tour Iterinary",
     "includnesses": "What's Included & Excluded?",
     "gallery": "Gallery",
     "map": "Map",
@@ -18,20 +18,18 @@
     "contact": "Contact Us"
   },
   "Footer": {
-    "location": "Ashgabat, Turkmenistan",
+    "location": "Address",
     "phone": "Phone",
     "email": "Email",
-    "usefulTitle": "Useful Things",
+    "usefulTitle": "Useful Links",
     "destinationsTitle": "Destinations",
     "ourTitle": "Our Services",
     "practicalTitle": "Practical Informations",
     "useful": [
       "About Us",
-      "Services",
-      "Testimonials",
+      "Tours",
       "Blogs",
-      "Term of booking",
-      "Privacy Policy"
+      "Contact us"
     ],
     "destinations": [
       "Turkmenistan",
@@ -48,10 +46,24 @@
       "What currency ti bring"
     ]
   },
+  "Blogs": {
+    "learn": "Learn more",
+    "blogs": "Blogs"
+  },
+  "Filter": {
+    "popular": "Popular",
+    "all-tours": "All tours",
+    "all-types": "All types",
+    "all-categories": "All categories",
+    "all-locations": "All locations",
+    "reset": "Reset filters",
+    "search": "Search",
+    "filter": "Filter"
+  },
   "Explore": {
-    "tittle": "Explore the Heart of Central Asia",
+    "title": "Explore the Heart of Central Asia",
     "desc": "We are a passionate team of travel experts dedicated to creating unforgettable journeys through one of the most mysterious and fascinating countries in Central Asia. From the ancient ruins of Merv to the mesmerizing Darvaza Gas Crater, we craft unique experiences that blend history, culture, and adventure.",
-    "secTittle": "What We Offer",
+    "secTitle": "What We Offer",
     "offers": [
       "Exlusive tours to Uzbekistan, Turkmenistan, Tajikistan, Kazakhstan and Kyrgyzystan.",
       "Culural and historical explorations along the legendary Silk Road",
@@ -61,9 +73,8 @@
   "TourPerPage": {
     "from": "From",
     "available": "Available",
-    "group": "Group size",
+    "category": "Category",
     "notes": "Important Notes",
-    "offer": "What We Offer ",
     "destinations": "Destinations",
     "duration": "Duration",
     "languages": "Languages",
@@ -71,18 +82,21 @@
     "dates": "Dates & Availablity",
     "include": "Included",
     "notincluded": "Not Included",
-    "whats" : "What’s Included & Excluded?"
+    "whats" : "What’s Included & Excluded?",
+    "price": "Price",
+    "days": "Days",
+    "lang": "Lang"
   },
   "Include": ["Included", "Not Included"],
   "About": {
-    "tittle": "About Us",
+    "title": "About Us",
     "text": "Welcome to SAYODA TRAVEL, your gateway to the breath-taking landscapes, rich history, and vibrant cultures of Central Asia.   We specialize in carefully curated tours across Uzbekistan, Turkmenistan,Tajikistan, Kyrgyzstan, and Kazakhstan, offering unforgettable travel experiences."
   },
   "Services": {
-    "tittle": "SERVICES",
+    "title": "SERVICES",
     "provide": "We Provide Awesome Services",
     "text": "We offer a variety of travel experience to help you explore Central Asia with easy:",
-    "cardtittle": [
+    "cardtitle": [
       "Customized Tours",
       "Cultural Experiences",
       "Luxury & Comfort",
@@ -96,7 +110,7 @@
     ]
   },
   "Why": {
-    "cardtittle": [
+    "cardtitle": [
       "Seamless & Stress-Free Planning",
       "Authentic & Immersive Travel",
       "Expert Local Guides"
@@ -108,7 +122,7 @@
     ]
   },
   "Work": {
-    "cardtittle": [
+    "cardtitle": [
       "Choose Your Destination & Tour Package",
       "Customize Your Experience",
       "Book with Ease"
@@ -120,7 +134,7 @@
     ]
   },
   "Discover": {
-    "tittle": "Discover Your Perfect Central Asia Advanture",
+    "title": "Discover Your Perfect Central Asia Advanture",
     "text": "Explore a variety of handpicked tours across Uzbekistan, Turkmenistan, Tajikistan  Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking landscapes, or thrilling adventures, we have the perfect itinerary for you!",
     "des": "Destinations",
     "tour": "Tour Type",
@@ -128,23 +142,23 @@
     "btnSearch": "Search"
   },
   "Unveiling": {
-    "tittle": "Unveiling Central Asia The  Journey of a Lifetime",
+    "title": "Unveiling Central Asia The  Journey of a Lifetime",
     "text": "Explore a variety of handpicked tours across Uzbekistan, Turkmenistan, Tajikistan  Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking  landscapes, or thrilling adventures, we have the perfect itinerary for you!"
   },
   "ContactUs": {
-    "tittle": "Have questions or need help planning your trip?",
-    "cardtittle": ["Our Address", "Email Us" , "Call Us"],
+    "title": "Have questions or need help planning your trip?",
+    "cardtitle": ["Our Address", "Email Us" , "Call Us"],
     "cardtext": ["Ashgabat, Turkmenistan"],
-    "Iname": "Your Name",
-    "Iemail": "Your Email",
+    "Iname": "Name",
+    "Iemail": "Email",
     "Isubject": "Subject",
     "Imessage": "Message",
     "btn": "Send Message"
   },
   "Booking": {
     "bookings": "Booking",
-    "send": "Send Reques",
-    "tittle": "Ready to explore Central Asia?  Booking your dream trip is easy!",
+    "send": "Send Request",
+    "title": "Ready to explore Central Asia?  Booking your dream trip is easy!",
     "contact": "Contact Details",
     "tour": "Tour Details",
     "gender": ["Mr", "Ms"],
@@ -152,6 +166,7 @@
     "Iemail": "E-mail",
     "Iname": "First Name",
     "Isurname": "Last Name",
+    "Icountry": "Citizenship",
     "Iphone": "Phone (+code)",
     "Itravelers": "Travelers",
     "Icomment": "Comments and additional information"

@@ -1,6 +1,4 @@
-import Image from "next/image";
 import React from "react";
-import left from "../../public/IconMenu/backIconBlue.png";
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,

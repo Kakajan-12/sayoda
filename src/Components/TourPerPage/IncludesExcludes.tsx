@@ -1,43 +1,98 @@
-import { exludesArray, includesArray } from '@/app/[locale]/ArrayForTest/ArrayForTest'
-import { PoppinFont, QuicksandFont } from '@/Ui/Fonts'
-import React from 'react'
-import cheked from '../../../public/Tour Icons/checked 1.svg'
-import notChecked from '../../../public/Tour Icons/x-square.svg'
-import { div } from 'framer-motion/client'
-import Image from 'next/image'
-import { Quicksand } from 'next/font/google'
-import { useTranslations } from 'next-intl'
-const IncludesExcludes = () => {
-  const t= useTranslations("TourPerPage")
-  return (
-    <div className='w-full bg-[#E3ECF5] py-10 md:py-20 h-auto'>
-          <div className='container mx-auto px-5 lg:px-32'>
-              <h2 className={`text-xl lg:text-2xl  2xl:text-3xl leading-9  2xl:leading-[65px] font-bold  ${PoppinFont.className}`}>{t("whats")}</h2>
-              
-              <div className='flex flex-col mt-10 gap-y-12 md:gap-x-10  sm:flex-row sm:justify-between'>
-                   <div className='flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 xl:py-14 lg:px-10 sm:px-6 rounded-xl'>
-                    <h3 className={`text-lg font-semibold lg:text-xl  lg:mb-5  ${PoppinFont.className}`}>{t("include")}</h3>
-                    {includesArray.map((items) => (
-                        <div className='flex  gap-3'>
-                          <Image alt='test' className='w-4 h-5 sm:w-4  xl:mt-1 sm:h-5 lg:w-5 lg:h-' src={cheked}/>
-                          <p className='text-sm min-[500px]:text-sm lg:text-md xl:text-lg'>{items.name}</p>
-                        </div>
-                    ))}
-                   </div>
-                   <div className='flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 sm:px-6 lg:px-10 xl:py-16  sm:py-7 rounded-xl'>
-                    <h3 className={`text-lg font-semibold lg:mb-5 lg:text-xl ${PoppinFont.className}`}>{t("notincluded")}</h3>
-                    {exludesArray.map((items) => (
-                        <div className='flex gap-3'>
-                          <Image alt='test' className='w-5 h-3.5 xl:mt-1 mt-[3px] sm:mt-0 sm:w-3.5 lg:w-4  sm:h-5' src={notChecked}/>
-                          <p className={`${QuicksandFont.className} min-[500px]:text-sm text-sm lg:text-md xl:text-lg   font-medium`}>{items.name}</p>
-                        </div>
-                    ))}
-                   </div>
-              </div>
-                
-          </div>
-    </div>
-  )
+'use client'
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { BASE_API_URL } from "@/i18n/api";
+import { useTranslations, useLocale } from "next-intl";
+import cheked from "../../../public/Tour Icons/checked 1.svg";
+import notChecked from "../../../public/Tour Icons/x-square.svg";
+
+interface Item {
+    id: number;
+    text_en: string;
+    text_ru: string;
+    text_tk: string;
 }
 
-export default IncludesExcludes
+export default function IncludesExcludes({ tourId }: { tourId: number }) {
+    const t = useTranslations("TourPerPage");
+    const locale = useLocale();
+    const [includes, setIncludes] = useState<Item[]>([]);
+    const [excludes, setExcludes] = useState<Item[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const [incRes, excRes] = await Promise.all([
+                    fetch(`${BASE_API_URL}/api/includes/tour/${tourId}`),
+                    fetch(`${BASE_API_URL}/api/excludes/tour/${tourId}`)
+                ]);
+
+                const incData = await incRes.json();
+                const excData = await excRes.json();
+
+                setIncludes(incData);
+                setExcludes(excData);
+            } catch (error) {
+                console.error("Ошибка загрузки includes/excludes", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    }, [tourId]);
+
+    const getLocalizedText = (item: Item) => {
+        switch (locale) {
+            case "tk":
+                return item.text_tk;
+            case "ru":
+                return item.text_ru;
+            case "en":
+            default:
+                return item.text_en;
+        }
+    };
+
+    if (loading) return <p>Loading...</p>;
+
+    return (
+        <div className="w-full bg-[#E3ECF5] py-10 md:py-20">
+            <div className="container mx-auto px-5 lg:px-32">
+                <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-bold">
+                    {t("whats")}
+                </h2>
+
+                <div className="flex flex-col mt-10 gap-y-12 md:gap-x-10 sm:flex-row sm:justify-between">
+                    {/* Includes */}
+                    <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
+                        <h3 className="text-lg font-semibold lg:text-xl">
+                            {t("include")}
+                        </h3>
+                        {includes.map(item => (
+                            <div key={item.id} className="flex gap-3">
+                                <Image alt="checked" src={cheked} />
+                                <div dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Excludes */}
+                    <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
+                        <h3 className="text-lg font-semibold lg:text-xl">
+                            {t("notincluded")}
+                        </h3>
+                        {excludes.map(item => (
+                            <div key={item.id} className="flex gap-3">
+                                <Image alt="not checked" src={notChecked} />
+                                <div dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
