@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'api.oguzforum.com',
+                hostname: 'api.sayodatravel.com',
                 pathname: '/uploads/**',
             },
         ],
