@@ -15,7 +15,7 @@ export default async function Page({ params }: any) {
 
     const blog = await getBlogData(id);
     const blogData = Array.isArray(blog) ? blog[0] : blog;
-
+    console.log(blogData)
     return (
         <div>
             <MainCountries data={blogData} />
