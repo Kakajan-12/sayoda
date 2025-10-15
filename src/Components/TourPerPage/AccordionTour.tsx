@@ -41,7 +41,6 @@ const AccordionTour: React.FC<AccordionTourProps> = ({ tourId }) => {
             .catch(err => console.error(err))
     }, [tourId])
 
-    // функция для получения текста в зависимости от языка
     const getLocalizedText = (item: ItineraryItem, field: 'title' | 'text') => {
         switch (locale) {
             case 'tk':

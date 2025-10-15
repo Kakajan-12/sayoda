@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 const MainSwiper = () => {
-    const router = useRouter(); // <-- инициализация
+    const router = useRouter();
     const [slides, setSlides] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
