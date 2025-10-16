@@ -26,7 +26,7 @@ const Map: React.FC<MapProps> = ({ data }) => {
                 alt="Map image"
                 width={400}
                 height={300}
-                className="max-w-96 h-full object-cover"
+                className="w-full h-full object-cover"
             />
 
         </div>
