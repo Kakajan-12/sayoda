@@ -139,7 +139,7 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                         <p className='bg-mainBlueGray bg-opacity-90 h-14 rounded-xl xl:text-2xl text-2xl sm:text-3xl flex justify-center items-center'>
                             {t("from")}: <span className='xl:text-4xl ml-2.5'>{data.price}$</span>
                         </p>
-                        <div className='bg-mainBlueGray bg-opacity-90 w-56 h-14 flex flex-col justify-center items-center rounded-xl'>
+                        <div className='bg-mainBlueGray bg-opacity-90 max-w-96 flex flex-col justify-center items-center rounded-xl py-6 px-4'>
                             <InfoP
                                 label={t("category")}
                                 value={String(getFieldByLocale('cat') ?? '')}
