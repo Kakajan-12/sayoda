@@ -12,8 +12,8 @@ const Map: React.FC<MapProps> = ({ data }) => {
   const t = useTranslations("SectionTitle");
 
   return (
-      <div className='container mx-auto px-5 pt-10 pb-24 md:pb-32 md:pt-20'>
-        <h2 className={`text-2xl lg:text-2xl 2xl:text-4xl leading-9 2xl:leading-[65px] font-bold ${PoppinFont.className}`}>
+      <div className='container mx-auto px-4 pt-10 pb-24 md:pb-32 md:pt-20'>
+        <h2 className={`text-2xl 2xl:text-4xl leading-9 2xl:leading-[65px] font-bold ${PoppinFont.className}`}>
           {t("map")}
         </h2>
 

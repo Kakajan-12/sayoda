@@ -29,14 +29,14 @@ const WhyChoose = () => {
   const rawTittle = Why.raw('cardtitle')
   const rawText = Why.raw('cardtext')
   return (
-    <div className='container mx-auto px-5 pb-10'>
-         <h2 className={`text-2xl lg:text-2xl  2xl:text-4xl leading-9  2xl:leading-[65px] font-bold  ${PoppinFont.className}`}>{t("why")}?</h2>
-         <div className='flex flex-col mt-8 gap-5 md:mt-10 md:flex-row md:justify-center'>
+    <div className='container mx-auto px-4 pb-10'>
+         <h2 className={`text-2xl 2xl:text-4xl leading-9  2xl:leading-[65px] font-bold  ${PoppinFont.className}`}>{t("why")}?</h2>
+         <div className='flex flex-col mt-8 gap-5 lg:flex-row lg:justify-center'>
             {
                 chooseArray.map((items , i) => (
-                    <div className={`${backColors(i)}  md:w-[397px]  rounded-3xl text-white relative px-8 py-6 sm:px-10 sm:py-10 md:px-7 flex flex-col gap-5 lg:gap-8 `}>
-                        <Image alt='imgs' className='w-full h-full object-cover top-0 right-0 rounded-3xl absolute' src={items.img} />
-                        <i className={`${PoppinFont.className} text-xl font-semibold  relative sm:text-xl  lg:text-2xl z-20 `}>{rawTittle[i]}</i>
+                    <div className={`${backColors(i)}  lg:w-96  rounded-2xl text-white relative px-8 py-6 sm:px-10 sm:py-10 md:px-7 flex flex-col gap-5 lg:gap-8 `}>
+                        <Image alt='imgs' className='w-full h-full object-cover inset-0 absolute' src={items.img} />
+                        <i className={`${PoppinFont.className} text-xl font-semibold relative lg:text-2xl z-20 `}>{rawTittle[i]}</i>
                         <p className={`${QuicksandFont.className} text-sm font-medium  relative sm:text-md lg:text-lg z-20`}>{rawText[i]}</p>
                     </div>
                 ))

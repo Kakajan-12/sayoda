@@ -83,11 +83,11 @@ const TourCards: React.FC<Props> = ({ tours }) => {
                             width={400}
                             height={200}
                         />
-                        <div className="w-full h-full p-5 border-x-2 border-b-2 rounded-b-xl flex flex-col justify-between border-[#E6E6E6]">
-                            <p className={`${PoppinFont.className} font-bold text-sm`}>
+                        <div className="w-full h-full p-3 border-x-2 border-b-2 rounded-b-xl flex flex-col justify-between border-[#E6E6E6]">
+                            <p className={`${PoppinFont.className} font-bold text-sm md:text-md lg:text-lg`}>
                                 {title}
                             </p>
-                            <p className={`${QuicksandFont.className} py-3 font-medium text-xs`}>
+                            <p className={`${QuicksandFont.className} pt-3 pb-1 font-medium text-xs md:text-md leading-6 line-clamp-3`}>
                                 {text}
                             </p>
                             <div className="w-full h-[2px] bg-slate-200"></div>

@@ -24,10 +24,10 @@ const BtnBooking: React.FC<BtnBookingProps> = ({ tourId, tourTitle }) => {
     };
 
     return (
-        <div className="container mx-auto px-5 w-full pb-24 flex justify-center">
+        <div className="container mx-auto px-4 w-full pb-24 flex justify-center">
             <button
                 onClick={handleClick}
-                className="text-sm md:text-xl xl:text-2xl text-white bg-mainNormBlue py-7 px-32 rounded-xl">
+                className="text-md md:text-xl xl:text-2xl text-white bg-mainNormBlue w-full sm:w-48 py-4 rounded-xl">
                 {t("bookings")}
             </button>
         </div>

@@ -26,7 +26,7 @@ const BlogsCardsProps = () => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 9;
+  const postsPerPage = 8;
 
   const width = WindowWidth();
   const t = useTranslations("SectionTitle");

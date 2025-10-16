@@ -54,7 +54,7 @@ const AccordionTour: React.FC<AccordionTourProps> = ({ tourId }) => {
     }
 
     return (
-        <div className='container mx-auto px-5 py-10 md:py-20'>
+        <div className='container mx-auto px-4 pb-5'>
             <h2 className={`text-xl lg:text-2xl 2xl:text-3xl leading-9 2xl:leading-[65px] font-bold ${PoppinFont.className}`}>
                 {t('itinerary')}
             </h2>

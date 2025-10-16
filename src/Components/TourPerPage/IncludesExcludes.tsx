@@ -66,27 +66,25 @@ export default function IncludesExcludes({ tourId }: { tourId: number }) {
                 </h2>
 
                 <div className="flex flex-col mt-10 gap-y-12 md:gap-x-10 sm:flex-row sm:justify-between">
-                    {/* Includes */}
                     <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
                         <h3 className="text-lg font-semibold lg:text-xl">
                             {t("include")}
                         </h3>
                         {includes.map(item => (
-                            <div key={item.id} className="flex gap-3">
-                                <Image alt="checked" src={cheked} />
+                            <div key={item.id} className="flex items-start gap-3">
+                                <Image alt="checked" src={cheked} className="pt-1"/>
                                 <div dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }} />
                             </div>
                         ))}
                     </div>
 
-                    {/* Excludes */}
                     <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
                         <h3 className="text-lg font-semibold lg:text-xl">
                             {t("notincluded")}
                         </h3>
                         {excludes.map(item => (
-                            <div key={item.id} className="flex gap-3">
-                                <Image alt="not checked" src={notChecked} />
+                            <div key={item.id} className="flex items-start gap-3">
+                                <Image alt="not checked" src={notChecked} className="pt-1"/>
                                 <div dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }} />
                             </div>
                         ))}

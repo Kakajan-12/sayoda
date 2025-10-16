@@ -44,6 +44,12 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
     const t = useTranslations("TourPerPage")
     const locale = useLocale();
 
+    const days: Record<'en' | 'ru' | 'tk', string> = {
+        en: 'days',
+        ru: 'день',
+        tk: 'gün'
+    };
+
     const getFieldByLocale = (fieldBase: string) => {
         return data[`${fieldBase}_${locale}` as keyof TourData] || data[`${fieldBase}_tk` as keyof TourData] || '';
     }
@@ -62,13 +68,12 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
     };
 
     return (
-        <div className='container mx-auto px-5 py-10 md:py-14'>
+        <div className='container mx-auto px-4 py-5 md:py-14'>
             <div className="w-full flex md:flex-row flex-col md:space-x-5 lg:space-x-10 space-y-10 md:space-y-0 md:justify-between">
 
-                {/* Left Column */}
                 <div className="flex md:w-3/5 flex-col gap-6">
                     <div
-                        className={`text-2xl lg:text-2xl 2xl:text-5xl leading-9 2xl:leading-[65px] font-bold ${PoppinFont.className}`}
+                        className={`text-xl lg:text-2xl 2xl:text-5xl leading-7 2xl:leading-[65px] font-bold ${PoppinFont.className}`}
                         dangerouslySetInnerHTML={{ __html: getFieldByLocale('title') }}
                     />
 
@@ -91,11 +96,13 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                         <div className="flex items-center space-x-4">
                             <div className="flex items-center space-x-2">
                                 <div><MdOutlineAccessTime size={20}/></div>
-                                <div className={`${QuicksandFont.className} hidden md:block font-normal text-xs leading-5 lg:leading-6 lg:text-sm xl:text-md 2xl:text-lg`}>
+                                <div
+                                    className={`${QuicksandFont.className} hidden md:block font-normal text-xs leading-5 lg:leading-6 lg:text-sm xl:text-md 2xl:text-lg`}>
                                     {t('duration')}:
                                 </div>
                             </div>
-                            <div dangerouslySetInnerHTML={{ __html: getFieldByLocale('duration') }} />
+                            <div dangerouslySetInnerHTML={{__html: getFieldByLocale('duration')}}/>
+                            <span className="!ml-1">{days[locale as keyof typeof days] ?? days.en}</span>
                         </div>
 
                         <div className="flex items-center space-x-4">
@@ -120,20 +127,19 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                     </div>
                 </div>
 
-                {/* Right Column */}
                 <div className="relative flex justify-end w-full h-[450px] sm:h-[500px] md:h-[500px] md:w-2/5 text-white">
                     <Image
                         alt="tour image"
-                        className="w-3/4 h-full rounded-2xl object-cover"
+                        className="w-full sm:w-3/4 h-full rounded-2xl object-cover"
                         src={getFixedImageUrl(data.image)}
                         width={1000}
                         height={1000}
                     />
-                    <div className="absolute center custom flex flex-col justify-center gap-2">
-                        <p className='bg-mainBlueGray bg-opacity-90 py-5 px-10 rounded-xl xl:text-2xl text-2xl sm:text-3xl flex justify-center items-center'>
+                    <div className="absolute center flex flex-col justify-center gap-2 left-0 top-1/3">
+                        <p className='bg-mainBlueGray bg-opacity-90 h-14 rounded-xl xl:text-2xl text-2xl sm:text-3xl flex justify-center items-center'>
                             {t("from")}: <span className='xl:text-4xl ml-2.5'>{data.price}$</span>
                         </p>
-                        <div className='bg-mainBlueGray bg-opacity-90 w-full flex flex-col 2xl:px-5 sm:px-4 px-3 py-7 sm:py-8 lg:py-10 rounded-xl'>
+                        <div className='bg-mainBlueGray bg-opacity-90 w-56 h-14 flex flex-col justify-center items-center rounded-xl'>
                             <InfoP
                                 label={t("category")}
                                 value={String(getFieldByLocale('cat') ?? '')}
@@ -143,11 +149,10 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                     </div>
                 </div>
 
-                {/* Mobile View */}
                 <div className="flex md:hidden flex-col gap-6 md:w-3/5">
-                    <p className={`${QuicksandFont.className} font-normal text-sm leading-5 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}>
-                        {getFieldByLocale('text')}
-                    </p>
+                    <p className={`${QuicksandFont.className} font-normal text-sm leading-5 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}
+                        dangerouslySetInnerHTML={{ __html: getFieldByLocale('text') }}
+                    />
 
                 </div>
 
