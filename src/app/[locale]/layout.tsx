@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
@@ -16,8 +17,7 @@ export const metadata: Metadata = {
       { url: "/favicon.ico" },
       { url: "/icon.png", type: "image/svg+xml" },
     ],
-  }
-
+  },
 };
 
 export default async function RootLayout({
@@ -39,6 +39,19 @@ export default async function RootLayout({
             <Header />
             {children}
             <Footer />
+            <Script id="crisp-widget" strategy="afterInteractive">
+              {`
+                window.$crisp = [];
+                window.CRISP_WEBSITE_ID = "e7dbcc8b-ef2d-4ec3-a9ac-3e4ac41a7e48";
+                (function () {
+                  var d = document;
+                  var s = d.createElement("script");
+                  s.src = "https://client.crisp.chat/l.js";
+                  s.async = 1;
+                  d.getElementsByTagName("head")[0].appendChild(s);
+                })();
+              `}
+            </Script>
           </BodyWrapper>
         </NextIntlClientProvider>
       </Providers>

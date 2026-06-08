@@ -34,7 +34,7 @@ const WhyChoose = () => {
          <div className='flex flex-col mt-8 gap-5 lg:flex-row lg:justify-center'>
             {
                 chooseArray.map((items , i) => (
-                    <div className={`${backColors(i)}  lg:w-96  rounded-2xl text-white relative px-8 py-6 sm:px-10 sm:py-10 md:px-7 flex flex-col gap-5 lg:gap-8 `}>
+                    <div key={i} className={`${backColors(i)}  lg:w-96  rounded-2xl text-white relative px-8 py-6 sm:px-10 sm:py-10 md:px-7 flex flex-col gap-5 lg:gap-8 `}>
                         <Image alt='imgs' className='w-full h-full object-cover inset-0 absolute' src={items.img} />
                         <i className={`${PoppinFont.className} text-xl font-semibold relative lg:text-2xl z-20 `}>{rawTittle[i]}</i>
                         <p className={`${QuicksandFont.className} text-sm font-medium  relative sm:text-md lg:text-lg z-20`}>{rawText[i]}</p>

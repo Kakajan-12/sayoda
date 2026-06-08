@@ -27,7 +27,7 @@ const Services = () => {
           <div  className='relative mx-auto container px-5 md:px-0 md:pl-5 z-20 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2  xl:grid-cols-4  gap-3 '>
             {
               servicesImgs.map((items, i) => (
-                <div className={`   flex justify-between md:flex-col md:justify-between  items-center shadow-xl    h-auto  shadow-[#00000040] bg-white gap-x-6 px-5 dort:px-10 sm:px-5 md:px-5   py-6`}>
+                <div key={i} className={`   flex justify-between md:flex-col md:justify-between  items-center shadow-xl    h-auto  shadow-[#00000040] bg-white gap-x-6 px-5 dort:px-10 sm:px-5 md:px-5   py-6`}>
                   <div className=' rounded-full  flex justify-center items-center p-3 lg:p-4 bg-[#F1F0ED]'>
                     <Image alt='imgs' className={`min-w-10 w-10 md:min-w-14 lg:w-14 ${i === 1 ? '' : ''}`} src={items.img}/>
                   </div>

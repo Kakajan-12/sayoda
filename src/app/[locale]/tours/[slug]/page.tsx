@@ -8,31 +8,37 @@ import BtnBooking from "@/Components/TourPerPage/BtnBooking";
 import { BASE_API_URL } from "@/i18n/api";
 
 async function getTourData(slug: string) {
-    const res = await fetch(`${BASE_API_URL}/api/tours/${slug}`, { cache: "no-store" });
-    if (!res.ok) throw new Error("Не удалось загрузить данные");
-    return res.json();
+  const res = await fetch(`${BASE_API_URL}/api/tours/${slug}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Не удалось загрузить данные");
+  return res.json();
 }
 
-export default async function Page({ params }: any) {
-    const { slug, locale } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}) {
+  const { slug, locale } = await params;
 
-    const tour = await getTourData(slug);
+  const tour = await getTourData(slug);
 
-    const tourTitle =
-        locale === "ru"
-            ? tour.title_ru
-            : locale === "en"
-                ? tour.title_en
-                : tour.title_tk;
+  const tourTitle =
+    locale === "ru"
+      ? tour.title_ru
+      : locale === "en"
+        ? tour.title_en
+        : tour.title_tk;
 
-    return (
-        <div>
-            <SilkRoad data={tour} />
-            <AccordionTour tourId={tour.id} />
-            <IncludesExcludes tourId={tour.id} />
-            <Gallery tourId={tour.id} />
-            <Map data={tour} />
-            <BtnBooking tourId={tour.id} tourTitle={tourTitle} />
-        </div>
-    );
+  return (
+    <div className="pb-24">
+      <SilkRoad data={tour} locale={locale} />
+      <AccordionTour tourId={tour.id} />
+      <IncludesExcludes tourId={tour.id} />
+      <Gallery tourId={tour.id} />
+      <Map data={tour} />
+      <BtnBooking tourId={tour.id} tourTitle={tourTitle} />
+    </div>
+  );
 }

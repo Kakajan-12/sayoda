@@ -155,6 +155,18 @@
     "Imessage": "Message",
     "btn": "Send Message"
   },
+  "Visa": {
+    "turkmenVisa": "Turkmen Visa",
+    "embassiesIn": "Embassies in Turkmenistan",
+    "embassiesAbroad": "Embassies Abroad",
+    "crossingBorders": "Crossing Borders",
+    "institutionName": "Name of institution",
+    "head": "Head",
+    "position": "Position",
+    "contactInfo": "Contact information",
+    "embassiesInText": "Information about foreign embassies and consulates accredited in Turkmenistan will be published here soon.",
+    "crossingBordersText": "Detailed information about border crossing points and procedures is available in the Turkmen Visa section."
+  },
   "Booking": {
     "bookings": "Booking",
     "send": "Send Request",

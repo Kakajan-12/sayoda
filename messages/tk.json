@@ -156,6 +156,18 @@
     "Imessage": "Habarnama",
     "btn": "Habarnama iberiň"
   },
+  "Visa": {
+    "turkmenVisa": "Türkmen wizasy",
+    "embassiesIn": "Türkmenistandaky ilçihanalar",
+    "embassiesAbroad": "Daşary ýurtlardaky ilçihanalar",
+    "crossingBorders": "Serhet geçişleri",
+    "institutionName": "Guramanyň ady",
+    "head": "Ýolbaşçy",
+    "position": "Wezipesi",
+    "contactInfo": "Habarlaşmak maglumatlary",
+    "embassiesInText": "Türkmenistanda akkreditasiýa edilen daşary ýurt ilçihanalary we konsulluklary barada maglumat ýakyn wagtda ýerleşdiriler.",
+    "crossingBordersText": "Serhet geçiş nokatlary we proseduralary barada jikme-jik maglumat «Türkmen wizasy» bölüminde bar."
+  },
   "Booking": {
     "bookings": "Bron etmek",
     "send": "Ugratmak",
