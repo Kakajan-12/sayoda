@@ -39,16 +39,21 @@
       "Gazagystan",
       "Paýkistan"
     ],
-    "our": ["Türkmen wiza", "Myhmanhanalar"],
+    "our": [
+      "Türkmen wiza",
+      "Myhmanhanalar"
+    ],
     "practical": [
       "Türkmenistana nädip barmaly",
       "Haýsy wagt bararlyk",
       "Haryt pullaryny näme getirmeli"
-    ]
+    ],
+    "hotelsLink": "Myhmanhanalar"
   },
   "Blogs": {
     "learn": "Giňişleýin",
-    "blogs": "Blog"
+    "blogs": "Blog",
+    "date": "Sene"
   },
   "Filter": {
     "popular": "Meşhur",
@@ -83,12 +88,15 @@
     "dates": "Seneler we elýeterlilik",
     "include": "Girýär",
     "notincluded": "Girýänok",
-    "whats" : "Nämeler girýär we girmeýär?",
+    "whats": "Nämeler girýär we girmeýär?",
     "price": "Bahasy",
     "days": "Gün",
     "lang": "Diller"
   },
-  "Include": ["Goşuldy", "Goşulmaýar"],
+  "Include": [
+    "Goşuldy",
+    "Goşulmaýar"
+  ],
   "About": {
     "title": "Biziň hakda",
     "text": "SAYODA TRAVEL-a hoş geldiňiz, Merkezi Aziýanyň täsirli sahypalaryna, baý taryhy we janly medeniýetlerine ýol açýar. Biz Özbegistan, Türkmenistan, Täjigistan, Gyrgyzstan we Gazagystan boýunça ähli toparly syýahatlary taýýarlap, unudylmaz syýahatlary hödürleýäris."
@@ -148,13 +156,31 @@
   },
   "ContactUs": {
     "title": "Soraglaryňyz barmy ýa-da syýahaty planlaşdyrmak üçin kömek gerekmi?",
-    "cardtitle": ["Biziň salgymyz", "Bize hat ýazyň" , "Biz bilen habarlaşyň"],
-    "cardtext": ["Aşgabat, Türkmenistan"],
+    "cardtitle": [
+      "Biziň salgymyz",
+      "Bize hat ýazyň",
+      "Biz bilen habarlaşyň"
+    ],
+    "cardtext": [
+      "Aşgabat, Türkmenistan"
+    ],
     "Iname": "Adyňyz",
     "Iemail": "Email-yňyz",
     "Isubject": "Mesele",
     "Imessage": "Habarnama",
     "btn": "Habarnama iberiň"
+  },
+  "Visa": {
+    "turkmenVisa": "Türkmen wizasy",
+    "embassiesIn": "Türkmenistandaky ilçihanalar",
+    "embassiesAbroad": "Daşary ýurtlardaky ilçihanalar",
+    "crossingBorders": "Serhet geçişleri",
+    "institutionName": "Guramanyň ady",
+    "head": "Ýolbaşçy",
+    "position": "Wezipesi",
+    "contactInfo": "Habarlaşmak maglumatlary",
+    "embassiesInText": "Türkmenistanda akkreditasiýa edilen daşary ýurt ilçihanalary we konsulluklary barada maglumat ýakyn wagtda ýerleşdiriler.",
+    "crossingBordersText": "Serhet geçiş nokatlary we proseduralary barada jikme-jik maglumat «Türkmen wizasy» bölüminde bar."
   },
   "Booking": {
     "bookings": "Bron etmek",
@@ -162,7 +188,10 @@
     "title": "Merkezi Aziýany öwrenmäge taýynmy? Arzuw syýahatyňyzy bronlamak aňsat!",
     "contact": "Habarlaşmak üçin maglumatlar",
     "tour": "Syýahatyň jikme-jikleri",
-    "location": ["Raýatlyk", "Daşary ýurt"],
+    "location": [
+      "Raýatlyk",
+      "Daşary ýurt"
+    ],
     "Iemail": "Elektron poçta",
     "Iname": "Ady",
     "Isurname": "Familiýasy",
@@ -170,5 +199,26 @@
     "Iphone": "Telefon (+kod)",
     "Itravelers": "Syýahatçylar",
     "Icomment": "Teswirler we goşmaça maglumat"
+  },
+  "NotFound": {
+    "title": "Sahypa tapylmady",
+    "description": "Gözleýän sahypaňyz ýok ýa-da başga ýere geçirildi.",
+    "home": "Baş sahypa"
+  },
+  "Hotels": {
+    "title": "Myhmanhanalar",
+    "all": "Hemmesi",
+    "reviews": "syn",
+    "safeStays": "Howpsuz we arassaçylykly ýaşaýyş",
+    "freeBreakfast": "Mugt ertirlik",
+    "kidsPlayArea": "Çagalar üçin oýun meýdançasy",
+    "freeParking": "Mugt awtoduralga",
+    "freeWifi": "Mugt Wi-Fi",
+    "freeCancellation": "Mugt ýatyrmak, saýlanan nyrhlarda häzir töleg ýok",
+    "includedTitle": "Bahasyna girýär",
+    "travelTax": "Syýahat salgydy",
+    "bookNow": "Bron etmek",
+    "loading": "Myhmanhanalar ýüklenýär...",
+    "notFound": "Myhmanhana tapylmady"
   }
 }

@@ -39,16 +39,21 @@
       "Kazakhstan",
       "Pakistan"
     ],
-    "our": ["Turkmen Visa", "Hotels"],
+    "our": [
+      "Turkmen Visa",
+      "Hotels"
+    ],
     "practical": [
       "How to get to Turkmenistan",
       "When to go",
       "What currency ti bring"
-    ]
+    ],
+    "hotelsLink": "Hotels"
   },
   "Blogs": {
     "learn": "Learn more",
-    "blogs": "Blogs"
+    "blogs": "Blogs",
+    "date": "Date"
   },
   "Filter": {
     "popular": "Popular",
@@ -82,12 +87,15 @@
     "dates": "Dates & Availablity",
     "include": "Included",
     "notincluded": "Not Included",
-    "whats" : "What’s Included & Excluded?",
+    "whats": "What’s Included & Excluded?",
     "price": "Price",
     "days": "Days",
     "lang": "Lang"
   },
-  "Include": ["Included", "Not Included"],
+  "Include": [
+    "Included",
+    "Not Included"
+  ],
   "About": {
     "title": "About Us",
     "text": "Welcome to SAYODA TRAVEL, your gateway to the breath-taking landscapes, rich history, and vibrant cultures of Central Asia.   We specialize in carefully curated tours across Uzbekistan, Turkmenistan,Tajikistan, Kyrgyzstan, and Kazakhstan, offering unforgettable travel experiences."
@@ -147,13 +155,31 @@
   },
   "ContactUs": {
     "title": "Have questions or need help planning your trip?",
-    "cardtitle": ["Our Address", "Email Us" , "Call Us"],
-    "cardtext": ["Ashgabat, Turkmenistan"],
+    "cardtitle": [
+      "Our Address",
+      "Email Us",
+      "Call Us"
+    ],
+    "cardtext": [
+      "Ashgabat, Turkmenistan"
+    ],
     "Iname": "Name",
     "Iemail": "Email",
     "Isubject": "Subject",
     "Imessage": "Message",
     "btn": "Send Message"
+  },
+  "Visa": {
+    "turkmenVisa": "Turkmen Visa",
+    "embassiesIn": "Embassies in Turkmenistan",
+    "embassiesAbroad": "Embassies Abroad",
+    "crossingBorders": "Crossing Borders",
+    "institutionName": "Name of institution",
+    "head": "Head",
+    "position": "Position",
+    "contactInfo": "Contact information",
+    "embassiesInText": "Information about foreign embassies and consulates accredited in Turkmenistan will be published here soon.",
+    "crossingBordersText": "Detailed information about border crossing points and procedures is available in the Turkmen Visa section."
   },
   "Booking": {
     "bookings": "Booking",
@@ -161,8 +187,14 @@
     "title": "Ready to explore Central Asia?  Booking your dream trip is easy!",
     "contact": "Contact Details",
     "tour": "Tour Details",
-    "gender": ["Mr", "Ms"],
-    "location": ["Citizenship", "Abroud"],
+    "gender": [
+      "Mr",
+      "Ms"
+    ],
+    "location": [
+      "Citizenship",
+      "Abroud"
+    ],
     "Iemail": "E-mail",
     "Iname": "First Name",
     "Isurname": "Last Name",
@@ -170,5 +202,26 @@
     "Iphone": "Phone (+code)",
     "Itravelers": "Travelers",
     "Icomment": "Comments and additional information"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you are looking for doesn't exist or has been moved.",
+    "home": "Back to home"
+  },
+  "Hotels": {
+    "title": "Hotels",
+    "all": "All",
+    "reviews": "reviews",
+    "safeStays": "Safe and Hygienic Stays",
+    "freeBreakfast": "Free Breakfast",
+    "kidsPlayArea": "Kids play area",
+    "freeParking": "Free parking",
+    "freeWifi": "Free Wi-Fi",
+    "freeCancellation": "Free cancellation, Zero Payment Now on select rates",
+    "includedTitle": "Included in the price",
+    "travelTax": "Travel tax",
+    "bookNow": "Book now",
+    "loading": "Loading hotels...",
+    "notFound": "No hotels found"
   }
 }

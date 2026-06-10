@@ -3,7 +3,7 @@ import React from 'react'
 import { PoppinFont, QuicksandFont } from '@/Ui/Fonts'
 import Image from 'next/image'
 import { InfoP } from '@/Ui/tourInfo/InfoP'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { FaRegMap } from "react-icons/fa6";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { HiTranslate } from "react-icons/hi";
@@ -38,16 +38,29 @@ interface TourData {
 
 interface SilkRoadProps {
     data: TourData;
+    locale: string;
 }
 
-const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
+const SilkRoad: React.FC<SilkRoadProps> = ({ data, locale }) => {
     const t = useTranslations("TourPerPage")
-    const locale = useLocale();
 
-    const days: Record<'en' | 'ru' | 'tk', string> = {
-        en: 'days',
-        ru: 'день',
-        tk: 'gün'
+    const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
+
+    const getDurationCount = () => {
+        const match = stripHtml(String(getFieldByLocale('duration'))).match(/\d+/);
+        return match ? Number(match[0]) : 0;
+    };
+
+    const getDaysWord = (count: number, loc: string) => {
+        if (loc === 'ru') {
+            const n = Math.abs(count) % 100;
+            const mod10 = n % 10;
+            if (mod10 === 1 && n !== 11) return 'день';
+            if (mod10 >= 2 && mod10 <= 4 && (n < 10 || n >= 20)) return 'дня';
+            return 'дней';
+        }
+        if (loc === 'en') return count === 1 ? 'day' : 'days';
+        return 'gün';
     };
 
     const getFieldByLocale = (fieldBase: string) => {
@@ -102,7 +115,7 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                                 </div>
                             </div>
                             <div dangerouslySetInnerHTML={{__html: getFieldByLocale('duration')}}/>
-                            <span className="!ml-1">{days[locale as keyof typeof days] ?? days.en}</span>
+                            <span className="!ml-1">{getDaysWord(getDurationCount(), locale)}</span>
                         </div>
 
                         <div className="flex items-center space-x-4">
@@ -150,10 +163,10 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data }) => {
                 </div>
 
                 <div className="flex md:hidden flex-col gap-6 md:w-3/5">
-                    <p className={`${QuicksandFont.className} font-normal text-sm leading-5 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}
+                    <div
+                        className={`${QuicksandFont.className} font-normal text-sm leading-5 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}
                         dangerouslySetInnerHTML={{ __html: getFieldByLocale('text') }}
                     />
-
                 </div>
 
             </div>

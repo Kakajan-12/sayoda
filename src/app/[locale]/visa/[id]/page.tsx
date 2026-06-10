@@ -1,35 +1,26 @@
-import { BASE_API_URL } from "@/i18n/api";
+import { getLocalizedVisaField, getVisaById } from "@/api/getVisa";
+import { notFound } from "next/navigation";
 
-async function getVisaData(id: string) {
-    const res = await fetch(`${BASE_API_URL}/api/visa/${id}`, { cache: "no-store" });
-    if (!res.ok) throw new Error("Не удалось загрузить данные");
-    return res.json();
-}
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
+  const { id, locale } = await params;
+  const visa = await getVisaById(id);
 
-export default async function Page({ params }: any) {
-    const { id, locale } = params;
+  if (!visa) notFound();
 
-    const data = await getVisaData(id);
-    const visa = Array.isArray(data) ? data[0] : data;
+  const title = getLocalizedVisaField(visa, locale, "title");
+  const text = getLocalizedVisaField(visa, locale, "text");
 
-    const title =
-        locale === "ru"
-            ? visa.title_ru
-            : locale === "tk"
-                ? visa.title_tk
-                : visa.title_en;
-
-    const text =
-        locale === "ru"
-            ? visa.text_ru
-            : locale === "tk"
-                ? visa.text_tk
-                : visa.text_en;
-
-    return (
-        <div className="container mx-auto px-5 py-10">
-            <h1 className="text-2xl font-bold mb-6" dangerouslySetInnerHTML={{ __html: title }} />
-            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: text }} />
-        </div>
-    );
+  return (
+    <>
+      <h2
+        className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-6"
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+      <div className="rich-content" dangerouslySetInnerHTML={{ __html: text }} />
+    </>
+  );
 }
