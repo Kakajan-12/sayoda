@@ -89,7 +89,7 @@ const MainSwiper = () => {
               className="object-cover object-center"
             />
           </div>
-          <div className="absolute inset-x-0 bottom-0 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
+          <div className="absolute inset-x-0 -bottom-20 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
             <div className="max-w-7xl mx-auto grid grid-cols-2 min-[480px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
@@ -157,7 +157,10 @@ const MainSwiper = () => {
                         height={533}
                         sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
                         onLoad={() =>
-                          setLoadedImages((prev) => ({ ...prev, [slide.id]: true }))
+                          setLoadedImages((prev) => ({
+                            ...prev,
+                            [slide.id]: true,
+                          }))
                         }
                         className={`h-full w-full object-cover transition-opacity duration-500 ${
                           loadedImages[slide.id] ? "opacity-100" : "opacity-0"

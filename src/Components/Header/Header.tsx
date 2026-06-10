@@ -203,7 +203,7 @@ export default function Header() {
         </div>
       </div>
       <div className="bg-mainBlue/85 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto sm:px-5 lg:px-10">
+        <div className="container mx-auto sm:pr-5 lg:pr-10">
           <div className="flex justify-between items-center relative py-2">
             {/* LOGO */}
             <Link href="/" className="">

@@ -3,8 +3,9 @@
 
 import { useState, useEffect } from "react";
 import { QuicksandFont, PoppinFont } from "@/Ui/Fonts";
-import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
+import { LuMapPin, LuMail, LuPhone } from "react-icons/lu";
+import type { IconType } from "react-icons";
 
 // Типы
 type Location = {
@@ -59,12 +60,7 @@ export default function ContactPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Иконки
-  const icons = [
-    "/IconsContact/icon (1).png", // Address
-    "/IconsContact/icon (2).png", // Email
-    "/IconsContact/icon.png", // Phone
-  ];
+  const icons: IconType[] = [LuMapPin, LuMail, LuPhone];
 
   // Загрузка данных при монтировании
   useEffect(() => {
@@ -153,19 +149,19 @@ export default function ContactPage() {
   // Данные для карточек — с учётом языка
   const contactItems = [
     {
-      img: icons[0],
+      icon: icons[0],
       title: cardTitles[0],
       detail: active.address
         ? extractText(getText(active.address, "address"))
         : "",
     },
     {
-      img: icons[1],
+      icon: icons[1],
       title: cardTitles[1],
       detail: active.mail?.mail || "",
     },
     {
-      img: icons[2],
+      icon: icons[2],
       title: cardTitles[2],
       detail: active.number?.number || "",
     },
@@ -175,63 +171,58 @@ export default function ContactPage() {
     <div
       className={`w-full container mx-auto px-5 py-10 h-auto flex flex-col lg:flex-row ${QuicksandFont.className}`}
     >
-      {/* Заголовок: Название локации на текущем языке */}
       <div className="container mx-auto flex flex-col">
-        <h1 className="text-3xl font-bold text-left mb-6 text-gray-800">
+        <h2 className="text-3xl font-bold text-left mb-6 text-gray-800">
           {extractText(getText(active.location, "location"))}
-        </h1>
+        </h2>
 
-        {/* Кнопки выбора локации — с языковой поддержкой */}
-        <div className="flex flex-wrap justify-start gap-4 mb-10">
-          {data.map((item, index) => {
-            const locName = extractText(getText(item.location, "location"));
+        {data.length > 1 && (
+          <div className="flex flex-wrap justify-start gap-4 mb-10">
+            {data.map((item, index) => {
+              const locName = extractText(getText(item.location, "location"));
+              return (
+                <button
+                  key={item.location.id}
+                  onClick={() => setActiveIndex(index)}
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md
+                  ${
+                    activeIndex === index
+                      ? "bg-[#4D779D] text-white"
+                      : "bg-white text-[#4D779D] hover:bg-gray-100"
+                  }
+                `}
+                >
+                  {locName}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Карточки контактов */}
+        <div className="flex flex-col gap-4">
+          {contactItems.map((item, i) => {
+            const Icon = item.icon;
             return (
-              <button
-                key={item.location.id}
-                onClick={() => setActiveIndex(index)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md
-                ${
-                  activeIndex === index
-                    ? "bg-[#4D779D] text-white"
-                    : "bg-white text-[#4D779D] hover:bg-gray-100"
-                }
-              `}
+              <div
+                key={i}
+                className="bg-white flex items-start text-center gap-3"
               >
-                {locName}
-              </button>
+                <Icon className="w-6 h-6 lg:w-7 lg:h-7 mt-1 shrink-0 text-[#4D779D]" />
+                <div className="flex flex-col items-start justify-start gap-1">
+                  <p className="text-lg font-medium text-gray-800">
+                    {item.title}
+                  </p>
+                  <p className="text-[#4D779D] text-left">{item.detail}</p>
+                </div>
+              </div>
             );
           })}
         </div>
-
-        {/* Карточки контактов */}
-        <div className="flex flex-col gap-6 mb-12">
-          {contactItems.map((item, i) => (
-            <div
-              key={i}
-              className="bg-white shadow-md shadow-black/10 rounded-xl p-8 flex items-center text-center gap-3"
-            >
-              <Image
-                src={item.img}
-                alt="icon"
-                width={64}
-                height={64}
-                className="w-12 lg:w-16"
-              />
-              <div className="flex flex-col gap-3">
-                <p className="text-xl font-medium text-gray-800">
-                  {item.title}
-                </p>
-                <p className="text-[#4D779D]">{item.detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      <div className="px-5">
-        <h2
-          className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-6 ${PoppinFont.className}`}
-        >
+      <div className="py-5 lg:py-0 px-0 lg:px-5">
+        <h2 className={`text-2xl lg:text-3xl font-bold text-gray-800  mb-6`}>
           {m("map")}
         </h2>
         <div

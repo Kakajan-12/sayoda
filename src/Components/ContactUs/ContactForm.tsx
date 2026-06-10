@@ -83,7 +83,7 @@ const ContactForm = () => {
       <div className="container mx-auto px-5">
         <form
           onSubmit={handleSubmit}
-          className="shadow-xl px-5 w-full bg-white rounded-2xl grid gap-y-7 py-10 md:gap-x-5 grid-cols-1 md:grid-cols-2"
+          className="px-5 w-full bg-gray-100 rounded grid gap-y-7 py-10 md:gap-x-5 grid-cols-1 md:grid-cols-2"
         >
           <input
             name="name"
@@ -143,7 +143,7 @@ const ContactForm = () => {
           <button
             type="submit"
             disabled={sending}
-            className="col-span-full justify-self-center max-w-fit bg-mainBlue py-2 px-10 rounded-xl text-white"
+            className="col-span-full justify-self-center max-w-fit bg-mainBlue hover:bg-mainBlue/80 transition-colors duration-300 py-2 px-10 rounded-md text-white"
           >
             {sending ? "..." : t("btn")}
           </button>

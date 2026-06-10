@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
+import FooterImage from "../../Components/Footer/Image";
 import Providers from "../Redux/Provider";
 import BodyWrapper from "../Redux/BodyProvider";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -38,6 +39,8 @@ export default async function RootLayout({
           <BodyWrapper>
             <Header />
             {children}
+
+            <FooterImage />
             <Footer />
             <Script id="crisp-widget" strategy="afterInteractive">
               {`

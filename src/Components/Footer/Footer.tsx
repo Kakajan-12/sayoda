@@ -179,17 +179,36 @@ const Footer = () => {
       className={`w-full py-20 bg-mainBlue ${PoppinFont.className} text-white`}
     >
       <div className="container mx-auto px-4">
-        <div className="grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 items-start gap-3 lg:gap-16">
+        <div className="grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 items-start gap-3 sm:gap-10 lg:gap-16">
           <div className="flex flex-col gap-3">
             <Image className="w-48 h-20" alt="logo" src={Logo} />
-            <h5>
-              {t("location")}: {address}
+            <h5 className="font-semibold font-poppins ">
+              {t("location")}:{" "}
+              <span className={`font-normal ${QuicksandFont.className}`}>
+                {address}
+              </span>
             </h5>
-            <h5>
-              {t("phone")}: {phone}
+            <h5 className="font-semibold font-poppins">
+              {t("phone")}:{" "}
+              <a
+                href={`tel:${phone}`}
+                className="hover:text-mainLight hover:translate-x-1 transition-all duration-300"
+              >
+                <span className={`font-normal ${QuicksandFont.className}`}>
+                  {phone}
+                </span>{" "}
+              </a>
             </h5>
-            <h5>
-              {t("email")}: {email}
+            <h5 className="font-semibold font-poppins">
+              {t("email")}:{" "}
+              <a
+                href={`mailto:${email}`}
+                className="hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}"
+              >
+                <span className={`font-normal ${QuicksandFont.className}`}>
+                  {email}
+                </span>
+              </a>
             </h5>
             <div className="flex gap-3 mt-4">{renderMessengerIcons()}</div>
           </div>
@@ -225,7 +244,7 @@ const Footer = () => {
             ))}
           </div>
           <div className="footerForCenters">
-            <h5 className="forH5">{t("practicalTitle")}</h5>
+            <h5 className="forH5">{t("ourTitle")}</h5>
             {visa.map((visa, i) => (
               <Link
                 className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
@@ -245,6 +264,13 @@ const Footer = () => {
                 />
               </Link>
             ))}
+            <Link
+              className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+              href="/hotels"
+            >
+              <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+              {t("hotelsLink")}
+            </Link>
           </div>
         </div>
         <div className="flex items-center w-full justify-end">

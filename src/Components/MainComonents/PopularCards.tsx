@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { PoppinFont } from '@/Ui/Fonts';
 import { useTranslations } from 'next-intl';
-import PopularCard from "../CardProps/PopularCardProps";
+import TourCards from "./TourCards";
 import { BASE_API_URL } from "@/i18n/api";
 
 interface Tour {
@@ -66,7 +66,7 @@ const PopularCards = () => {
             <h2 className={`${PoppinFont.className} md:mb-14 mb-10 font-bold text-xl md:text-2xl xl:text-3xl`}>
                 {t("popular")}
             </h2>
-            <PopularCard cards={popularTours} />
+            <TourCards tours={popularTours} />
         </div>
     );
 };

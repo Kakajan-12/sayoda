@@ -1,12 +1,9 @@
 "use client";
 
 import React from "react";
-import { MontserratFont, PoppinFont, QuicksandFont } from "@/Ui/Fonts";
+import { MontserratFont, PoppinFont } from "@/Ui/Fonts";
 import Image from "next/image";
-import CallendaIcon from "../../../public/PopularCardIcons/calendar4-week.svg";
-import DollarIcon from "../../../public/PopularCardIcons/dollar-sign.svg";
-import GroupIcon from "../../../public/PopularCardIcons/person-square.svg";
-import { WindowWidth } from "@/Hooks/WindowWidth";
+import { IoLanguage } from "react-icons/io5";
 import Link from "next/link";
 import { BASE_API_URL } from "@/i18n/api";
 import { useLocale, useTranslations } from "next-intl";
@@ -37,10 +34,8 @@ interface Props {
 }
 
 const TourCards: React.FC<Props> = ({ tours }) => {
-  const width = WindowWidth();
   const locale = useLocale();
   const t = useTranslations("TourPerPage");
-
   const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
 
   const getLocalized = (item: Tour, field: string) =>
@@ -61,10 +56,9 @@ const TourCards: React.FC<Props> = ({ tours }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 min-[500px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {tours.map((tour) => {
         const title = stripHtml(getLocalized(tour, "title"));
-        const text = stripHtml(getLocalized(tour, "text"));
         const duration = stripHtml(getLocalized(tour, "duration"));
         const lang = stripHtml(getLocalized(tour, "lang"));
 
@@ -72,63 +66,44 @@ const TourCards: React.FC<Props> = ({ tours }) => {
           <Link
             key={tour.id}
             href={tour.id ? `/tours/${tour.id}` : "#"}
-            className="flex flex-col border-[#E6E6E6]"
+            className="group flex flex-col overflow-hidden bg-white rounded-md ring-1 ring-[#E1E1E1] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-            <Image
-              alt={title}
-              className="w-full rounded-t-xl object-cover min-h-[200px] h-[200px]"
-              src={getFixedImageUrl(tour.image)}
-              width={400}
-              height={200}
-            />
-            <div className="w-full h-full p-3 border-x-2 border-b-2 rounded-b-xl flex flex-col justify-between border-[#E6E6E6]">
+            <div className="relative aspect-[4/2.5] w-full overflow-hidden">
+              <div className="relative h-full w-full overflow-hidden">
+                <Image
+                  alt={title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  src={getFixedImageUrl(tour.image)}
+                  width={300}
+                  height={200}
+                />
+                {duration && (
+                  <span
+                    className={`${MontserratFont.className} absolute bottom-3 right-3 rounded-full bg-white/80 px-3 py-1 text-sm font-bold shadow-md backdrop-blur`}
+                  >
+                    {duration} {t("days")}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-1 flex-col gap-5 px-4 py-3">
               <h3
-                className={`${PoppinFont.className} font-bold text-sm md:text-md lg:text-lg line-clamp-3 min-h-[3lh]`}
+                className={`${PoppinFont.className} font-semibold text-base md:text-lg leading-snug line-clamp-2 min-h-[2lh] transition-colors group-hover:text-[#245483]`}
               >
                 {title}
               </h3>
-              <p
-                className={`${QuicksandFont.className} pt-3 pb-1 font-medium text-xs md:text-md leading-6 line-clamp-3`}
-              >
-                {text}
-              </p>
-              <div className="w-full h-[2px] bg-slate-200"></div>
-              <div className="flex flex-col pt-3 gap-2">
-                <p className="flex items-center gap-x-2 text-xs">
-                  <Image alt="Price" className="w-3 md:w-4" src={DollarIcon} />
-                  <span
-                    className={`${MontserratFont.className} text-xs font-bold`}
-                  >
-                    {t("price")}
-                  </span>
+
+              <div className="mt-auto flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 text-xs md:text-sm">
+                  <IoLanguage className="h-4 w-4 shrink-0" />
+                  <span className="line-clamp-1">{lang}</span>
+                </div>
+                <span
+                  className={`${PoppinFont.className} shrink-0 text-lg font-bold`}
+                >
                   {tour.price}$
-                </p>
-                <p className="flex items-center gap-x-2 text-xs">
-                  <Image
-                    alt="Duration"
-                    className="w-3 md:w-4"
-                    src={CallendaIcon}
-                  />
-                  <span
-                    className={`${MontserratFont.className} text-xs font-bold`}
-                  >
-                    {t("days")}
-                  </span>{" "}
-                  {duration}
-                </p>
-                <p className="flex items-center gap-x-2 text-xs">
-                  <Image
-                    alt="Language"
-                    className="w-3 md:w-4"
-                    src={GroupIcon}
-                  />
-                  <span
-                    className={`${MontserratFont.className} text-xs font-bold`}
-                  >
-                    {t("lang")}
-                  </span>{" "}
-                  {lang}
-                </p>
+                </span>
               </div>
             </div>
           </Link>

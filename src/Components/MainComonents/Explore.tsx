@@ -1,6 +1,6 @@
 import React from "react";
-import MainImg from "../../../public/ExploreImg/MainExplore.png";
-import LowerImg from "../../../public/ExploreImg/lowerExplore.png";
+import MainImg from "../../../public/ExploreImg/discover.jpg";
+import LowerImg from "../../../public/ExploreImg/discover2.jpg";
 import Image from "next/image";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { useTranslations } from "next-intl";
@@ -31,7 +31,11 @@ const Explore = () => {
           </div>
           <div className="absolute bottom-0 rounded-xl w-4/5 md:w-11/12 lg:w-4/5  opacity-50 h-5/6 bg-mainLight -z-10"></div>
           <div className="absolute right-10 md:right-0  lg:right-10 top-1/3 w-5/12 lg:w-2/5 md:w-3/6">
-            <Image className="w-full  " alt="test" src={LowerImg} />
+            <Image
+              className="w-full rounded-2xl object-cover"
+              alt="test"
+              src={LowerImg}
+            />
           </div>
         </div>
         <div className="flex md:w-1/2 flex-col gap-6 ">
