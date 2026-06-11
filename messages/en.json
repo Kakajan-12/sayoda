@@ -89,7 +89,7 @@
     "notincluded": "Not Included",
     "whats": "What’s Included & Excluded?",
     "price": "Price",
-    "days": "Days",
+    "days": "{count, plural, one {# day} other {# days}}",
     "lang": "Lang"
   },
   "Include": [
@@ -167,7 +167,10 @@
     "Iemail": "Email",
     "Isubject": "Subject",
     "Imessage": "Message",
-    "btn": "Send Message"
+    "btn": "Send Message",
+    "successTitle": "Message sent!",
+    "successMessage": "Thank you for reaching out. We will get back to you as soon as possible.",
+    "close": "Close"
   },
   "Visa": {
     "turkmenVisa": "Turkmen Visa",

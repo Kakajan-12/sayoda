@@ -1,9 +1,9 @@
 import NextImage from "next/image";
-import footerImage from "../../../public/image.png";
+import footerImage from "../../../public/image2.png";
 
 const FooterImage = () => {
   return (
-    <div className="w-full bg-white leading-none mb-10">
+    <div className="w-full bg-white">
       <NextImage
         src={footerImage}
         alt="Ashgabat skyline"

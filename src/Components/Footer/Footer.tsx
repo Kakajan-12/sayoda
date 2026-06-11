@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/IMG_20250217_105552631_275 1.png";
 import Link from "next/link";
-import Arrowicon from "../../../public/Icons/Vector (28).png";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { useTranslations, useLocale } from "next-intl";
+import { SlArrowRight } from "react-icons/sl";
 import {
   FaXTwitter,
   FaTelegram,
@@ -19,7 +19,7 @@ import { BASE_API_URL } from "@/i18n/api";
 const usefulThings = [
   { id: 1, name: "About Us", href: "/about" },
   { id: 2, name: "Tours", href: "/tours" },
-  { id: 3, name: "Blogs", href: "/blogs" },
+  { id: 3, name: "Blogs", href: "/blog" },
   { id: 4, name: "Contacts", href: "/contacts" },
 ];
 
@@ -216,11 +216,11 @@ const Footer = () => {
             <h5 className="forH5">{t("usefulTitle")}</h5>
             {usefulThings.map((items, i) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
                 href={items.href}
                 key={items.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 {useful[i]}
               </Link>
             ))}
@@ -228,13 +228,13 @@ const Footer = () => {
 
           <div className="footerForCenters">
             <h5 className="forH5">{t("destinationsTitle")}</h5>
-            {locations.map((loc, i) => (
+            {locations.map((loc) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
                 href={`/tours?location=${loc.id}`}
                 key={loc.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 {locale === "ru"
                   ? loc.location_ru
                   : locale === "tk"
@@ -247,11 +247,11 @@ const Footer = () => {
             <h5 className="forH5">{t("ourTitle")}</h5>
             {visa.map((visa, i) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
                 href={`/visa/${visa.id}`}
                 key={visa.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 <span
                   dangerouslySetInnerHTML={{
                     __html:
@@ -265,10 +265,10 @@ const Footer = () => {
               </Link>
             ))}
             <Link
-              className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+              className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
               href="/hotels"
             >
-              <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+              <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
               {t("hotelsLink")}
             </Link>
           </div>

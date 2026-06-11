@@ -4,6 +4,7 @@ import LowerImg from "../../../public/ExploreImg/discover2.jpg";
 import Image from "next/image";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { useTranslations } from "next-intl";
+import { FiCheckCircle } from "react-icons/fi";
 const liArray = [
   {
     name: "Exclusive tours to Uzbekistan, Turkmenistan, Tajikistan, Kazakhstan, and Kyrgyzstan.",
@@ -58,13 +59,7 @@ const Explore = () => {
             {offers.map((items: string) => {
               return (
                 <div key={items} className="flex items-start space-x-2">
-                  <Image
-                    width={2}
-                    height={2}
-                    className="w-4 h-4 mt-2"
-                    alt="test"
-                    src="/Check.png"
-                  />
+                  <FiCheckCircle className="w-5 h-5 mt-0.5 text-mainLight" />
                   <p
                     className={`${QuicksandFont.className} text-xs xl:text-sm font-normal 2xl:text-xl `}
                   >

@@ -146,7 +146,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
             ))}
           </ul>
         </div>
-        <a
+        {/* <a
           href={hotel.book_url || "#"}
           target={
             hotel.book_url && hotel.book_url !== "#" ? "_blank" : undefined
@@ -155,7 +155,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
           className="rounded-md bg-mainBlue py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-mainBlue/90"
         >
           {t("bookNow")}
-        </a>
+        </a> */}
       </div>
     </div>
   );

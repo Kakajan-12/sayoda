@@ -4,7 +4,7 @@ import img2 from "../../../public/AboutImgs/2.jpg";
 import img3 from "../../../public/AboutImgs/3.jpg";
 import img4 from "../../../public/AboutImgs/4.jpg";
 import Image from "next/image";
-import aboutImg from "../../../public/AboutImgs/about.png";
+import aboutImg from "../../../public/AboutImgs/about.webp";
 import { useTranslations } from "next-intl";
 import { ComfortaFont } from "@/Ui/Fonts";
 const arrayContactImg = [

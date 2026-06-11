@@ -1,6 +1,6 @@
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import React from "react";
-import mainImg from "../../../public/DiscoverImg/cover.png";
+import mainImg from "../../../public/DiscoverImg/cover.webp";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 

@@ -90,7 +90,7 @@
     "notincluded": "Girýänok",
     "whats": "Nämeler girýär we girmeýär?",
     "price": "Bahasy",
-    "days": "Gün",
+    "days": "{count} gün",
     "lang": "Diller"
   },
   "Include": [
@@ -168,7 +168,10 @@
     "Iemail": "Email-yňyz",
     "Isubject": "Mesele",
     "Imessage": "Habarnama",
-    "btn": "Habarnama iberiň"
+    "btn": "Habarnama iberiň",
+    "successTitle": "Habarnama iberildi!",
+    "successMessage": "Habarlaşanyňyz üçin sag boluň. Biz siziň bilen gysga wagtda habarlaşarys.",
+    "close": "Ýapmak"
   },
   "Visa": {
     "turkmenVisa": "Türkmen wizasy",

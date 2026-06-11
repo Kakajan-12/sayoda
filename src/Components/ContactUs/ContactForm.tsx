@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
+import SuccessModal from "@/Ui/SuccessModal";
 
 const ContactForm = () => {
   const t = useTranslations("ContactUs");
@@ -18,7 +19,7 @@ const ContactForm = () => {
 
   const [captchaImage, setCaptchaImage] = useState("");
   const [sending, setSending] = useState(false);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadCaptcha = async () => {
@@ -45,7 +46,6 @@ const ContactForm = () => {
     e.preventDefault();
     setSending(true);
     setError(null);
-    setSuccess(null);
 
     try {
       const res = await fetch(`${BASE_API_URL}/send`, {
@@ -61,7 +61,7 @@ const ContactForm = () => {
         setError(data.error || "Failed to send");
         loadCaptcha();
       } else {
-        setSuccess("Message sent successfully!");
+        setShowSuccessModal(true);
         setFormData({
           name: "",
           email: "",
@@ -147,10 +147,17 @@ const ContactForm = () => {
           >
             {sending ? "..." : t("btn")}
           </button>
-          {success && <p className="text-green-600 mt-2">{success}</p>}
           {error && <p className="text-red-600 mt-2">{error}</p>}
         </form>
       </div>
+      <SuccessModal
+        open={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title={t("successTitle")}
+        message={t("successMessage")}
+        closeLabel={t("close")}
+        titleId="contact-success-title"
+      />
     </div>
   );
 };

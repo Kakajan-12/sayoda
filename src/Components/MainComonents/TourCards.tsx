@@ -60,6 +60,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
       {tours.map((tour) => {
         const title = stripHtml(getLocalized(tour, "title"));
         const duration = stripHtml(getLocalized(tour, "duration"));
+        const dayCount = Number.parseInt(duration, 10);
         const lang = stripHtml(getLocalized(tour, "lang"));
 
         return (
@@ -81,7 +82,9 @@ const TourCards: React.FC<Props> = ({ tours }) => {
                   <span
                     className={`${MontserratFont.className} absolute bottom-3 right-3 rounded-full bg-white/80 px-3 py-1 text-sm font-bold shadow-md backdrop-blur`}
                   >
-                    {duration} {t("days")}
+                    {Number.isFinite(dayCount)
+                      ? t("days", { count: dayCount })
+                      : duration}
                   </span>
                 )}
               </div>
