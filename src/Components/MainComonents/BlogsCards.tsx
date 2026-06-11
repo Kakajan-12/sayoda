@@ -41,7 +41,7 @@ const BlogsCards = () => {
   };
 
   return (
-    <div className="w-full h-auto bg-mainForBackground py-10 md:py-20">
+    <div className="w-full h-auto bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
       <div className="container mx-auto px-5 relative">
         <h2
           className={`${PoppinFont.className} md:mb-14 mb-10 font-bold text-2xl md:text-3xl xl:text-4xl`}
@@ -70,7 +70,7 @@ const BlogsCards = () => {
           modules={[Navigation, Pagination]}
           className="mySwiper h-auto relative z-20 w-full"
         >
-          {blogs.map((blog, i) => (
+          {blogs.slice(0, 8).map((blog, i) => (
             <SwiperSlide
               key={blog.id}
               className="flex justify-center items-center"

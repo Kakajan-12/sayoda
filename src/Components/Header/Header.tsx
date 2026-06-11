@@ -211,6 +211,8 @@ export default function Header() {
                 className="sm:w-48 sm:h-20 w-36 h-16"
                 alt="logo"
                 src={Logo}
+                loading="eager"
+                priority
               />
             </Link>
 

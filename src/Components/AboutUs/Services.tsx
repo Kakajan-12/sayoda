@@ -35,7 +35,7 @@ const Services = () => {
   const rawtitle = t.raw("cardtitle");
   const rawtext = t.raw("cardtext");
   return (
-    <div className="flex flex-col md:flex-row md:container md:items-start lg:items-center  md:mx-auto md:px-5 gap-14 md:gap-5 2xl:gap-7 pt-10 md:pt-36 lg:pt-48 pb-20 ">
+    <div className="flex flex-col md:flex-row md:container md:items-start lg:items-center md:mx-auto md:px-5 gap-14 md:gap-5 2xl:gap-7 pt-16 md:pt-20 pb-20">
       <div className="container md:w-2/6 mx-auto px-5 md:px-0 space-y-2 sm:space-y-3 md:space-y-4  ">
         <h3
           className={`${PoppinFont.className} text-2xl  sm:text-3xl  lg:text-3xl  2xl:text-4xl leading-9  2xl:leading-[65px] font-bold`}

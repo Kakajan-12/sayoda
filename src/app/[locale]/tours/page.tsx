@@ -11,7 +11,7 @@ import ReactPaginate from "react-paginate";
 import { FiFilter } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useSearchParams } from "next/navigation";
-
+import { BarLoader } from "react-spinners";
 interface Filters {
   popular: boolean | null;
   tourType: number | null;
@@ -289,7 +289,9 @@ function ToursPage() {
 
       <div className="container mx-auto py-2 px-5">
         {loading ? (
-          <p>Загрузка туров...</p>
+          <p className="flex justify-center items-center py-10">
+            <BarLoader color="#245483" />
+          </p>
         ) : displayTours.length ? (
           <TourCards tours={displayTours} />
         ) : (

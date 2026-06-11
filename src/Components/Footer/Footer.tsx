@@ -176,7 +176,7 @@ const Footer = () => {
 
   return (
     <div
-      className={`w-full py-20 bg-mainBlue ${PoppinFont.className} text-white`}
+      className={`w-full py-10 lg:py-16 bg-mainBlue ${PoppinFont.className} text-white`}
     >
       <div className="container mx-auto px-4">
         <div className="grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 items-start gap-3 sm:gap-10 lg:gap-16">
@@ -273,14 +273,14 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="flex items-center w-full justify-end">
+        <div className="flex items-center w-full justify-end mt-10">
           <p className="mr-2">Powered by</p>
           <Image
             src="/logo.svg"
             alt="Hebent tech"
             width={30}
             height={30}
-            className="w-5"
+            className="w-5 h-auto"
           />
           <Link
             href="https://hebent.tech"

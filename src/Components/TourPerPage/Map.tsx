@@ -1,7 +1,7 @@
 import { PoppinFont } from '@/Ui/Fonts';
 import { useTranslations, useLocale } from 'next-intl';
 import React from 'react';
-import Image from 'next/image';
+import ImageWithSkeleton from '@/Ui/ImageWithSkeleton';
 import {BASE_API_URL} from "@/i18n/api";
 
 interface MapProps {
@@ -19,14 +19,15 @@ const Map: React.FC<MapProps> = ({ data }) => {
           {t("map")}
         </h2>
 
-        <div className="w-full flex justify-center rounded-xl mt-10">
+        <div className="relative w-full flex justify-center rounded-xl mt-10">
           {/*<div dangerouslySetInnerHTML={{ __html: data.map }} />*/}
-            <Image
+            <ImageWithSkeleton
                 src={`${BASE_API_URL}/${data.map.replace("\\", "/")}`}
                 alt="Map image"
                 width={400}
                 height={300}
                 className="w-full h-full object-cover"
+                skeletonClassName="rounded-xl"
             />
 
         </div>

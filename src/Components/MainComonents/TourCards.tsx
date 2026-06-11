@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MontserratFont, PoppinFont } from "@/Ui/Fonts";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { IoLanguage } from "react-icons/io5";
 import Link from "next/link";
 import { BASE_API_URL } from "@/i18n/api";
@@ -71,7 +71,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
           >
             <div className="relative aspect-[4/2.5] w-full overflow-hidden">
               <div className="relative h-full w-full overflow-hidden">
-                <Image
+                <ImageWithSkeleton
                   alt={title}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   src={getFixedImageUrl(tour.image)}

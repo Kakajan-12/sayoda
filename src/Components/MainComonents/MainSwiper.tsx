@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { PoppinFont } from "@/Ui/Fonts";
 import { useLocale } from "next-intl";
 import { BASE_API_URL } from "@/i18n/api";
@@ -29,7 +29,6 @@ const MainSwiper = () => {
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   const [navigatingTourId, setNavigatingTourId] = useState<number | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
   const [error, setError] = useState<string | null>(null);
   const locale = useLocale();
 
@@ -81,7 +80,7 @@ const MainSwiper = () => {
       <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
         <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
           <div className="absolute inset-0 overflow-hidden -top-28">
-            <Image
+            <ImageWithSkeleton
               src={mainImage}
               alt="Central Asia map"
               fill
@@ -114,7 +113,7 @@ const MainSwiper = () => {
     <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
       <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
         <div className="absolute inset-0 overflow-hidden -top-28">
-          <Image
+          <ImageWithSkeleton
             src={mainImage}
             alt="Central Asia map"
             fill
@@ -145,26 +144,15 @@ const MainSwiper = () => {
                     onClick={() => handleCardClick(slide.tour_id)}
                     className="group relative block w-full aspect-[3/4] rounded-2xl overflow-hidden  transition-transform duration-300 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
                   >
-                    {!loadedImages[slide.id] && (
-                      <div className="absolute inset-0 bg-gray-200/70 animate-pulse" />
-                    )}
-
                     <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                      <Image
+                      <ImageWithSkeleton
                         src={getFixedImageUrl(slide.image)}
                         alt={stripHtml(getLocalized(slide, "title"))}
                         width={400}
                         height={533}
                         sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
-                        onLoad={() =>
-                          setLoadedImages((prev) => ({
-                            ...prev,
-                            [slide.id]: true,
-                          }))
-                        }
-                        className={`h-full w-full object-cover transition-opacity duration-500 ${
-                          loadedImages[slide.id] ? "opacity-100" : "opacity-0"
-                        }`}
+                        className="h-full w-full object-cover"
+                        skeletonClassName="rounded-2xl"
                       />
                     </div>
 

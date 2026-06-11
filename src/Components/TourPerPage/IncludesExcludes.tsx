@@ -5,7 +5,7 @@ import { BASE_API_URL } from "@/i18n/api";
 import { useTranslations, useLocale } from "next-intl";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-
+import { BarLoader } from "react-spinners";
 interface Item {
   id: number;
   text_en: string;
@@ -55,7 +55,12 @@ export default function IncludesExcludes({ tourId }: { tourId: number }) {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center py-10">
+        <BarLoader color="#245483" />
+      </div>
+    );
 
   return (
     <div className="w-full bg-[#E3ECF5] py-10 lg:py-20">
