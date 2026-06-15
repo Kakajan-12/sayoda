@@ -1,14 +1,17 @@
 import { getLocalizedVisaField, getVisaById } from "@/api/getVisa";
 import { notFound } from "next/navigation";
 
-export default async function Page({
+export default async function VisaTypePage({
   params,
 }: {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ id: string; locale: string; country: string }>;
 }) {
-  const { id, locale } = await params;
-  const visa = await getVisaById(id);
+  const { id, locale, country } = await params;
 
+  // Visa type details are Turkmenistan-specific.
+  if (country !== "turkmenistan") notFound();
+
+  const visa = await getVisaById(id);
   if (!visa) notFound();
 
   const title = getLocalizedVisaField(visa, locale, "title");

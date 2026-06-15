@@ -248,7 +248,7 @@ const Footer = () => {
             {visa.map((visa, i) => (
               <Link
                 className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
-                href={`/visa/${visa.id}`}
+                href={`/destinations/turkmenistan/visa/${visa.id}`}
                 key={visa.id}
               >
                 <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />

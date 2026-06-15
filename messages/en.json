@@ -15,7 +15,8 @@
     "tours": "Tours",
     "about": "About Us",
     "blog": "Blog",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "destinations": "Destinations"
   },
   "Footer": {
     "location": "Address",
@@ -226,5 +227,16 @@
     "bookNow": "Book now",
     "loading": "Loading hotels...",
     "notFound": "No hotels found"
+  },
+  "Destinations": {
+    "tabGeneral": "General Information",
+    "tabVisa": "How To Get A Visa",
+    "tabTours": "Fixed/Group Tours",
+    "tabSights": "Sights",
+    "tabHotels": "Hotels",
+    "days": "days",
+    "viewTour": "View Tour",
+    "noTours": "No tours available for this destination yet.",
+    "noSights": "No articles available yet."
   }
 }

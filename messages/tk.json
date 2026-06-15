@@ -15,7 +15,8 @@
     "tours": "Syýahatlar",
     "about": "Biz Barada",
     "blog": "Blog",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "destinations": "Ugurlar"
   },
   "Footer": {
     "location": "Adres",
@@ -223,5 +224,16 @@
     "bookNow": "Bron etmek",
     "loading": "Myhmanhanalar ýüklenýär...",
     "notFound": "Myhmanhana tapylmady"
+  },
+  "Destinations": {
+    "tabGeneral": "Umumy maglumat",
+    "tabVisa": "Wizany nädip almaly",
+    "tabTours": "Toparlaýyn syýahatlar",
+    "tabSights": "Gözel ýerler",
+    "tabHotels": "Myhmanhanalar",
+    "days": "gün",
+    "viewTour": "Doly görmek",
+    "noTours": "Bu ugur boýunça häzirlikçe syýahat ýok.",
+    "noSights": "Häzirlikçe makala ýok."
   }
 }

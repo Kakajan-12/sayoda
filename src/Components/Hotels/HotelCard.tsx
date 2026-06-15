@@ -22,12 +22,16 @@ interface Props {
   hotel: Hotel;
 }
 
-const getFixedImageUrl = (path: string) =>
-  `${BASE_API_URL.replace(/\/+$/, "")}/${path
+const getFixedImageUrl = (path: string) => {
+  if (!path) return "";
+  if (/^(https?:)?\/\//.test(path) || path.startsWith("/")) return path;
+
+  return `${BASE_API_URL.replace(/\/+$/, "")}/${path
     .replace(/\\/g, "/")
     .replace(/^(\.\.\/)+/, "")
     .replace(/^\/+/, "")
     .replace(/^app\//, "")}`;
+};
 
 const HotelCard: React.FC<Props> = ({ hotel }) => {
   const locale = useLocale();

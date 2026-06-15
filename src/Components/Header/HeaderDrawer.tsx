@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-const HeaderDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
+const HeaderDrawer: React.FC<Props> = ({ onClose }) => {
   const [forLang, setForLang] = useState(false);
   const t = useTranslations("Header");
   const location = usePathname();
