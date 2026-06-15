@@ -3,10 +3,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { PoppinFont } from "@/Ui/Fonts";
 import { useLocale } from "next-intl";
 import { BASE_API_URL } from "@/i18n/api";
+import { findDestinationByName } from "@/data/destinations";
 import { FreeMode, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -28,8 +29,7 @@ const MainSwiper = () => {
   const router = useRouter();
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
-  const [navigatingTourId, setNavigatingTourId] = useState<number | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+  const [navigatingId, setNavigatingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const locale = useLocale();
 
@@ -71,9 +71,18 @@ const MainSwiper = () => {
 
   const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
 
-  const handleCardClick = (tourId: number) => {
-    setNavigatingTourId(tourId);
-    router.push(`/tours/${tourId}`);
+  const handleCardClick = (slide: Slide) => {
+    setNavigatingId(slide.id);
+    const dest = findDestinationByName(
+      stripHtml(slide.title_en),
+      stripHtml(slide.title_ru),
+      stripHtml(slide.title_tk),
+    );
+    if (dest) {
+      router.push(`/destinations/${dest.slug}`);
+    } else {
+      router.push(`/tours/${slide.tour_id}`);
+    }
   };
 
   if (loading) {
@@ -81,7 +90,7 @@ const MainSwiper = () => {
       <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
         <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
           <div className="absolute inset-0 overflow-hidden -top-28">
-            <Image
+            <ImageWithSkeleton
               src={mainImage}
               alt="Central Asia map"
               fill
@@ -114,7 +123,7 @@ const MainSwiper = () => {
     <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
       <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
         <div className="absolute inset-0 overflow-hidden -top-28">
-          <Image
+          <ImageWithSkeleton
             src={mainImage}
             alt="Central Asia map"
             fill
@@ -141,30 +150,19 @@ const MainSwiper = () => {
                 <SwiperSlide key={slide.id}>
                   <button
                     type="button"
-                    disabled={navigatingTourId === slide.tour_id}
-                    onClick={() => handleCardClick(slide.tour_id)}
+                    disabled={navigatingId === slide.id}
+                    onClick={() => handleCardClick(slide)}
                     className="group relative block w-full aspect-[3/4] rounded-2xl overflow-hidden  transition-transform duration-300 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
                   >
-                    {!loadedImages[slide.id] && (
-                      <div className="absolute inset-0 bg-gray-200/70 animate-pulse" />
-                    )}
-
                     <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
-                      <Image
+                      <ImageWithSkeleton
                         src={getFixedImageUrl(slide.image)}
                         alt={stripHtml(getLocalized(slide, "title"))}
                         width={400}
                         height={533}
                         sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
-                        onLoad={() =>
-                          setLoadedImages((prev) => ({
-                            ...prev,
-                            [slide.id]: true,
-                          }))
-                        }
-                        className={`h-full w-full object-cover transition-opacity duration-500 ${
-                          loadedImages[slide.id] ? "opacity-100" : "opacity-0"
-                        }`}
+                        className="h-full w-full object-cover"
+                        skeletonClassName="rounded-2xl"
                       />
                     </div>
 
@@ -176,7 +174,7 @@ const MainSwiper = () => {
                       {stripHtml(getLocalized(slide, "title"))}
                     </h2>
 
-                    {navigatingTourId === slide.tour_id && (
+                    {navigatingId === slide.id && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                         <span className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       </div>

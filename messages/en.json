@@ -15,7 +15,8 @@
     "tours": "Tours",
     "about": "About Us",
     "blog": "Blog",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "destinations": "Destinations"
   },
   "Footer": {
     "location": "Address",
@@ -89,7 +90,7 @@
     "notincluded": "Not Included",
     "whats": "What’s Included & Excluded?",
     "price": "Price",
-    "days": "Days",
+    "days": "{count, plural, one {# day} other {# days}}",
     "lang": "Lang"
   },
   "Include": [
@@ -167,7 +168,10 @@
     "Iemail": "Email",
     "Isubject": "Subject",
     "Imessage": "Message",
-    "btn": "Send Message"
+    "btn": "Send Message",
+    "successTitle": "Message sent!",
+    "successMessage": "Thank you for reaching out. We will get back to you as soon as possible.",
+    "close": "Close"
   },
   "Visa": {
     "turkmenVisa": "Turkmen Visa",
@@ -223,5 +227,16 @@
     "bookNow": "Book now",
     "loading": "Loading hotels...",
     "notFound": "No hotels found"
+  },
+  "Destinations": {
+    "tabGeneral": "General Information",
+    "tabVisa": "How To Get A Visa",
+    "tabTours": "Fixed/Group Tours",
+    "tabSights": "Sights",
+    "tabHotels": "Hotels",
+    "days": "days",
+    "viewTour": "View Tour",
+    "noTours": "No tours available for this destination yet.",
+    "noSights": "No articles available yet."
   }
 }

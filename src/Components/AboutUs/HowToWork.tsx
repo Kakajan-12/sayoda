@@ -1,7 +1,6 @@
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import React from "react";
 import img1 from "../../../public/AboutImgs/HowtoWork/Vector 3.svg";
-import img2 from "../../../public/AboutImgs/HowtoWork/image 16.svg";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 const textsArray = new Array(3).fill({ tittle: "", text: "" });
@@ -38,16 +37,6 @@ const HowToWork = () => {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="w-full h-full z-0 absolute top-0">
-        <div className=" md:mx-auto z-0  h-full flex justify-end items-center md:container">
-          <Image
-            alt="img"
-            className="w-44 md:hidden    dort:w-48 bas:w-56 bas:mt-10 sm:w-60"
-            src={img1}
-          />
-          {/* <Image alt='img' className='w-80 md:mt-20 xl:mt-6  lg:w-96  xl:w-96   hidden md:flex relative z-0 ' src={img2}/> */}
         </div>
       </div>
     </div>

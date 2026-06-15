@@ -1,5 +1,5 @@
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import React from "react";
 import MainImg from "../../../public/BlogsImg/blogs.jpg";
 import { useTranslations } from "next-intl";
@@ -7,7 +7,7 @@ const BlogsMain = () => {
   const t = useTranslations("Unveiling");
   return (
     <div className="relative w-full">
-      <Image
+      <ImageWithSkeleton
         alt="background"
         className=" w-full object-bottom h-[50vh] sm:h-[70vh] transition-all md:h-[85vh]   "
         width={1920}

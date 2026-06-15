@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { PoppinFont } from "@/Ui/Fonts";
 import { useTranslations } from "next-intl";
 import { BASE_API_URL } from "@/i18n/api";
@@ -65,15 +66,16 @@ const Gallery = ({ tourId }: GalleryProps) => {
                 {images.map((img) => (
                     <div
                         key={img.gallery_id}
-                        className="rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                        className="relative rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
                         onClick={() => openModal(img)}
                     >
-                        <Image
+                        <ImageWithSkeleton
                             className="w-full max-h-[500px] rounded-xl h-full object-cover"
                             alt={`Tour ${tourId}`}
                             src={`${BASE_API_URL}/${img.image.replace(/\\/g, '/')}`}
                             width={400}
                             height={300}
+                            skeletonClassName="rounded-xl"
                         />
                     </div>
                 ))}
@@ -86,11 +88,11 @@ const Gallery = ({ tourId }: GalleryProps) => {
                     onClick={closeModal}
                 >
                     <div
-                        className="relative max-w-3xl w-full mx-4"
+                        className="relative mx-4"
                         onClick={(e) => e.stopPropagation()} // предотвращаем закрытие при клике на картинку
                     >
                         <button
-                            className="absolute top-2 right-2 text-white text-3xl font-bold hover:text-gray-300 transition"
+                            className="absolute top-2 right-2 z-10 text-white text-3xl font-bold hover:text-gray-300 transition"
                             onClick={closeModal}
                         >
                             &times;
@@ -100,7 +102,7 @@ const Gallery = ({ tourId }: GalleryProps) => {
                             alt={`Tour ${tourId}`}
                             width={800}
                             height={600}
-                            className="rounded-xl object-contain max-h-[80vh] mx-auto"
+                            className="block rounded-xl object-contain h-auto w-auto max-h-[85vh] max-w-[90vw]"
                         />
                     </div>
                 </div>

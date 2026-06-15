@@ -6,6 +6,7 @@ import { PoppinFont } from "@/Ui/Fonts";
 import { getHotels, getLocalizedHotelField, type Hotel } from "@/api/getHotels";
 import { hotelsFallback } from "@/Components/Hotels/hotelsFallback";
 import HotelCard from "@/Components/Hotels/HotelCard";
+import { BarLoader } from "react-spinners";
 
 export default function HotelsPage() {
   const t = useTranslations("Hotels");
@@ -80,7 +81,9 @@ export default function HotelsPage() {
         {/* Hotels list */}
         <div className="flex flex-1 flex-col gap-4">
           {loading ? (
-            <p className="py-10 text-center text-gray-500">{t("loading")}</p>
+            <p className="flex justify-center items-center py-10">
+              <BarLoader color="#245483" />
+            </p>
           ) : filtered.length ? (
             filtered.map((hotel) => <HotelCard key={hotel.id} hotel={hotel} />)
           ) : (

@@ -6,6 +6,8 @@ import { BASE_API_URL } from "@/i18n/api";
 // empty array and the page falls back to `hotelsFallback`.
 export interface Hotel {
   id: number;
+  /** destination slug this hotel belongs to (e.g. "turkmenistan") */
+  country?: string;
   name_tk: string;
   name_en: string;
   name_ru: string;

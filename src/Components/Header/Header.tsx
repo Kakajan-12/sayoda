@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import BurgerMenu from "../../../public/burgerMenu.png";
 import Logo from "../../../public/headerIcon.svg";
 import { usePathname, useRouter } from "next/navigation";
 import HeaderDrawer from "./HeaderDrawer";
@@ -14,6 +13,7 @@ import { ComfortaFont } from "@/Ui/Fonts";
 import { useLocale, useTranslations } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { BASE_API_URL } from "@/i18n/api";
+import { RxHamburgerMenu } from "react-icons/rx";
 import {
   FaEnvelope,
   FaPhone,
@@ -211,6 +211,8 @@ export default function Header() {
                 className="sm:w-48 sm:h-20 w-36 h-16"
                 alt="logo"
                 src={Logo}
+                loading="eager"
+                priority
               />
             </Link>
 
@@ -267,11 +269,7 @@ export default function Header() {
                 onClick={() => dispatch(makeToggle())}
                 className="px-4 py-2 z-50 relative text-white rounded"
               >
-                <Image
-                  alt="burger menu"
-                  className="sm:w-8 w-6"
-                  src={BurgerMenu}
-                />
+                <RxHamburgerMenu className="w-6 h-6 text-white" />
               </button>
             </div>
           </div>

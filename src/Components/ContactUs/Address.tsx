@@ -6,7 +6,7 @@ import { QuicksandFont, PoppinFont } from "@/Ui/Fonts";
 import { useTranslations, useLocale } from "next-intl";
 import { LuMapPin, LuMail, LuPhone } from "react-icons/lu";
 import type { IconType } from "react-icons";
-
+import { BarLoader } from "react-spinners";
 // Типы
 type Location = {
   id: number;
@@ -125,7 +125,7 @@ export default function ContactPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p className="text-lg">Loading contacts...</p>
+        <BarLoader color="#245483" />
       </div>
     );
   }

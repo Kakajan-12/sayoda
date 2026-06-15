@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MontserratFont, PoppinFont } from "@/Ui/Fonts";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { IoLanguage } from "react-icons/io5";
 import Link from "next/link";
 import { BASE_API_URL } from "@/i18n/api";
@@ -60,6 +60,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
       {tours.map((tour) => {
         const title = stripHtml(getLocalized(tour, "title"));
         const duration = stripHtml(getLocalized(tour, "duration"));
+        const dayCount = Number.parseInt(duration, 10);
         const lang = stripHtml(getLocalized(tour, "lang"));
 
         return (
@@ -70,7 +71,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
           >
             <div className="relative aspect-[4/2.5] w-full overflow-hidden">
               <div className="relative h-full w-full overflow-hidden">
-                <Image
+                <ImageWithSkeleton
                   alt={title}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   src={getFixedImageUrl(tour.image)}
@@ -81,7 +82,9 @@ const TourCards: React.FC<Props> = ({ tours }) => {
                   <span
                     className={`${MontserratFont.className} absolute bottom-3 right-3 rounded-full bg-white/80 px-3 py-1 text-sm font-bold shadow-md backdrop-blur`}
                   >
-                    {duration} {t("days")}
+                    {Number.isFinite(dayCount)
+                      ? t("days", { count: dayCount })
+                      : duration}
                   </span>
                 )}
               </div>

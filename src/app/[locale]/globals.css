@@ -32,7 +32,7 @@
   @apply flex flex-col gap-2 pt-6;
 }
 .forH5 {
-  @apply text-xl font-semibold tracking-widest min-h-14;
+  @apply text-xl font-semibold tracking-widest min-h-8 lg:min-h-14;
 }
 .footerLink {
   @apply flex items-center text-lg  font-normal gap-2;
@@ -151,4 +151,29 @@ input.no-spin {
 .visa-table tbody tr:nth-child(even) {
   background-color: #fafafa;
   background-color: #dcb247;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(215, 213, 213, 0.688) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }

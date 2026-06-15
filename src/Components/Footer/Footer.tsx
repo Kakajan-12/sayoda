@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Logo from "../../../public/IMG_20250217_105552631_275 1.png";
 import Link from "next/link";
-import Arrowicon from "../../../public/Icons/Vector (28).png";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { useTranslations, useLocale } from "next-intl";
+import { SlArrowRight } from "react-icons/sl";
 import {
   FaXTwitter,
   FaTelegram,
@@ -19,7 +19,7 @@ import { BASE_API_URL } from "@/i18n/api";
 const usefulThings = [
   { id: 1, name: "About Us", href: "/about" },
   { id: 2, name: "Tours", href: "/tours" },
-  { id: 3, name: "Blogs", href: "/blogs" },
+  { id: 3, name: "Blogs", href: "/blog" },
   { id: 4, name: "Contacts", href: "/contacts" },
 ];
 
@@ -176,7 +176,7 @@ const Footer = () => {
 
   return (
     <div
-      className={`w-full py-20 bg-mainBlue ${PoppinFont.className} text-white`}
+      className={`w-full py-10 lg:py-16 bg-mainBlue ${PoppinFont.className} text-white`}
     >
       <div className="container mx-auto px-4">
         <div className="grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 items-start gap-3 sm:gap-10 lg:gap-16">
@@ -216,11 +216,11 @@ const Footer = () => {
             <h5 className="forH5">{t("usefulTitle")}</h5>
             {usefulThings.map((items, i) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
                 href={items.href}
                 key={items.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 {useful[i]}
               </Link>
             ))}
@@ -228,13 +228,13 @@ const Footer = () => {
 
           <div className="footerForCenters">
             <h5 className="forH5">{t("destinationsTitle")}</h5>
-            {locations.map((loc, i) => (
+            {locations.map((loc) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
                 href={`/tours?location=${loc.id}`}
                 key={loc.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 {locale === "ru"
                   ? loc.location_ru
                   : locale === "tk"
@@ -247,11 +247,11 @@ const Footer = () => {
             <h5 className="forH5">{t("ourTitle")}</h5>
             {visa.map((visa, i) => (
               <Link
-                className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
-                href={`/visa/${visa.id}`}
+                className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+                href={`/destinations/turkmenistan/visa/${visa.id}`}
                 key={visa.id}
               >
-                <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
                 <span
                   dangerouslySetInnerHTML={{
                     __html:
@@ -265,22 +265,22 @@ const Footer = () => {
               </Link>
             ))}
             <Link
-              className={`footerLink hover:text-mainLight hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
+              className={`footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${QuicksandFont.className}`}
               href="/hotels"
             >
-              <Image alt="icon" className="w-1.5 h-3" src={Arrowicon} />
+              <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
               {t("hotelsLink")}
             </Link>
           </div>
         </div>
-        <div className="flex items-center w-full justify-end">
+        <div className="flex items-center w-full justify-end mt-10">
           <p className="mr-2">Powered by</p>
           <Image
             src="/logo.svg"
             alt="Hebent tech"
             width={30}
             height={30}
-            className="w-5"
+            className="w-5 h-auto"
           />
           <Link
             href="https://hebent.tech"

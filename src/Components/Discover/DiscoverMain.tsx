@@ -1,7 +1,7 @@
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import React from "react";
-import mainImg from "../../../public/DiscoverImg/cover.png";
-import Image from "next/image";
+import mainImg from "../../../public/DiscoverImg/cover.webp";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { useTranslations } from "next-intl";
 
 const DiscoverMain = () => {
@@ -9,7 +9,7 @@ const DiscoverMain = () => {
   return (
     <div className="relative z-10">
       <div className="relative">
-        <Image
+        <ImageWithSkeleton
           alt="test"
           className=" w-full  object-cover  h-[60vh] md:h-[80vh] lg:h-[92vh]   "
           width={800}

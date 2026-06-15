@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { useLocale, useTranslations } from "next-intl";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { BASE_API_URL } from "@/i18n/api";
@@ -22,12 +22,16 @@ interface Props {
   hotel: Hotel;
 }
 
-const getFixedImageUrl = (path: string) =>
-  `${BASE_API_URL.replace(/\/+$/, "")}/${path
+const getFixedImageUrl = (path: string) => {
+  if (!path) return "";
+  if (/^(https?:)?\/\//.test(path) || path.startsWith("/")) return path;
+
+  return `${BASE_API_URL.replace(/\/+$/, "")}/${path
     .replace(/\\/g, "/")
     .replace(/^(\.\.\/)+/, "")
     .replace(/^\/+/, "")
     .replace(/^app\//, "")}`;
+};
 
 const HotelCard: React.FC<Props> = ({ hotel }) => {
   const locale = useLocale();
@@ -63,12 +67,13 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
       {/* Image */}
       <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-xl md:h-auto md:w-56 lg:w-64">
         {hotel.image ? (
-          <Image
+          <ImageWithSkeleton
             alt={name}
             src={getFixedImageUrl(hotel.image)}
             width={300}
             height={220}
             className="h-full w-full object-cover"
+            skeletonClassName="rounded-xl"
           />
         ) : (
           <div className="flex h-full min-h-[12rem] w-full items-center justify-center bg-mainForBackground text-mainBlue/40">
@@ -146,7 +151,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
             ))}
           </ul>
         </div>
-        <a
+        {/* <a
           href={hotel.book_url || "#"}
           target={
             hotel.book_url && hotel.book_url !== "#" ? "_blank" : undefined
@@ -155,7 +160,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
           className="rounded-md bg-mainBlue py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-mainBlue/90"
         >
           {t("bookNow")}
-        </a>
+        </a> */}
       </div>
     </div>
   );

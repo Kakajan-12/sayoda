@@ -11,7 +11,7 @@ import ReactPaginate from "react-paginate";
 import { FiFilter } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useSearchParams } from "next/navigation";
-
+import { BarLoader } from "react-spinners";
 interface Filters {
   popular: boolean | null;
   tourType: number | null;
@@ -238,7 +238,7 @@ function ToursPage() {
 
       <button
         onClick={() => dispatch(resetFilters())}
-        className="border px-4 py-2 rounded-md w-56 h-12 main-background-color text-white"
+        className="border w-full py-2 rounded-md h-12 main-background-color text-white"
       >
         {t("reset")}
       </button>
@@ -289,7 +289,9 @@ function ToursPage() {
 
       <div className="container mx-auto py-2 px-5">
         {loading ? (
-          <p>Загрузка туров...</p>
+          <p className="flex justify-center items-center py-10">
+            <BarLoader color="#245483" />
+          </p>
         ) : displayTours.length ? (
           <TourCards tours={displayTours} />
         ) : (
@@ -298,30 +300,32 @@ function ToursPage() {
       </div>
 
       {pageCount > 1 && (
-      <div className="flex justify-center my-8">
-        <ReactPaginate
-          pageCount={pageCount}
-          forcePage={pageCount > 0 ? currentPage : undefined}
-          onPageChange={handlePageClick}
-          containerClassName="flex space-x-2"
-          pageClassName="border rounded cursor-pointer"
-          pageLinkClassName="block px-3 py-1 cursor-pointer"
-          previousClassName={
-            currentPage > 0 ? "border rounded cursor-pointer" : "hidden"
-          }
-          previousLinkClassName="block px-3 py-1 cursor-pointer"
-          nextClassName={
-            currentPage < pageCount - 1 ? "border rounded cursor-pointer" : "hidden"
-          }
-          nextLinkClassName="block px-3 py-1 cursor-pointer"
-          breakClassName="px-3 py-1"
-          activeClassName="main-background-color text-white"
-          previousLabel={currentPage > 0 ? "<" : null}
-          nextLabel={currentPage < pageCount - 1 ? ">" : null}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={3}
-        />
-      </div>
+        <div className="flex justify-center my-8">
+          <ReactPaginate
+            pageCount={pageCount}
+            forcePage={pageCount > 0 ? currentPage : undefined}
+            onPageChange={handlePageClick}
+            containerClassName="flex space-x-2"
+            pageClassName="border rounded cursor-pointer"
+            pageLinkClassName="block px-3 py-1 cursor-pointer"
+            previousClassName={
+              currentPage > 0 ? "border rounded cursor-pointer" : "hidden"
+            }
+            previousLinkClassName="block px-3 py-1 cursor-pointer"
+            nextClassName={
+              currentPage < pageCount - 1
+                ? "border rounded cursor-pointer"
+                : "hidden"
+            }
+            nextLinkClassName="block px-3 py-1 cursor-pointer"
+            breakClassName="px-3 py-1"
+            activeClassName="main-background-color text-white"
+            previousLabel={currentPage > 0 ? "<" : null}
+            nextLabel={currentPage < pageCount - 1 ? ">" : null}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={3}
+          />
+        </div>
       )}
     </>
   );
