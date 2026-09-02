@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { PoppinFont } from "../../../Ui/Fonts";
 import ConatactDetail from "@/Components/UnKnown/ConatactDetail";
 import TourDetail from "@/Components/UnKnown/TourDetail";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -12,6 +12,7 @@ import { trackEvent } from "@/lib/analytics";
 
 const BookingPage = () => {
   const t = useTranslations("Booking");
+  const locale = useLocale();
   const searchParams = useSearchParams();
 
   const [formData, setFormData] = useState({
@@ -75,7 +76,14 @@ const BookingPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ ...formData, captchaText }),
+        // locale и pageUrl нужны в админке, чтобы понимать, с какой страницы
+        // и на каком языке пришла заявка.
+        body: JSON.stringify({
+          ...formData,
+          captchaText,
+          locale,
+          pageUrl: window.location.href,
+        }),
       });
 
       const data = await res.json();

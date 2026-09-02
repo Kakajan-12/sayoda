@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
@@ -9,6 +9,7 @@ import { trackEvent } from "@/lib/analytics";
 
 const ContactForm = () => {
   const t = useTranslations("ContactUs");
+  const locale = useLocale();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -53,7 +54,12 @@ const ContactForm = () => {
         method: "POST",
         credentials: "include", // обязательный параметр
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData }),
+        // Источник заявки — виден в админке рядом с самим обращением.
+        body: JSON.stringify({
+          ...formData,
+          locale,
+          pageUrl: window.location.href,
+        }),
       });
 
       const data = await res.json();
