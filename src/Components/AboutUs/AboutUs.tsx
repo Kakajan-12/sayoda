@@ -20,7 +20,7 @@ const AboutUs = () => {
       <div className="relative">
         <div className="absolute inset-0 z-0">
           <ImageWithSkeleton
-            alt="left"
+            alt="Sayoda Travel team guiding travellers in Turkmenistan"
             fill
             sizes="100vw"
             className="object-cover"
@@ -28,11 +28,13 @@ const AboutUs = () => {
           />
         </div>
         <div className="container mx-auto relative z-20 text-white px-5 pt-10 sm:pt-20 lg:pt-32 pb-16 sm:pb-24 md:pb-32 lg:pb-40 text-center">
-          <h2
+          {/* Заголовок страницы «О нас» — h1: до этого на маршруте не было
+              ни одного заголовка первого уровня. */}
+          <h1
             className={`text-2xl sm:text-3xl relative xl:text-4xl flex justify-center 2xl:text-5xl font-bold ${ComfortaFont.className}`}
           >
             <span className="z-20 relative"> {t("title")}</span>
-          </h2>
+          </h1>
           <p
             className={`font-quicksand text-sm sm:text-lg sm:px-10 lg:mt-10 lg:px-28 sm:leading-8 lg:leading-9 2xl:leading-[47px] font-normal lg:text-2xl xl:text-2xl 2xl:text-3xl leading-relaxed mt-5 `}
           >

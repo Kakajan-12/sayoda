@@ -22,6 +22,7 @@ interface Testimonial {
 
 const Testimonials = () => {
   const section = useTranslations("SectionTitle");
+  const tc = useTranslations("Common");
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +47,7 @@ const Testimonials = () => {
           <BarLoader color="#245483" />
         </p>
       ) : testimonials.length === 0 ? (
-        <p className="mt-6 text-gray-500">Отзывов пока нет</p>
+        <p className="mt-6 text-gray-500">{tc("noTestimonials")}</p>
       ) : (
         <Swiper
           modules={[Navigation, Pagination]}

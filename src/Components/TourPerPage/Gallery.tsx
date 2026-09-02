@@ -55,7 +55,9 @@ const Gallery = ({ tourId }: GalleryProps) => {
         setActiveImage(null);
     };
 
-    if (!images.length) return <p className="text-center py-10">Галерея пуста</p>;
+    // Пустую галерею на странице тура лучше не показывать вовсе, чем печатать
+    // «галерея пуста» — это мёртвый блок на продающей странице.
+    if (!images.length) return null;
 
     return (
         <div className="container mx-auto px-5 lg:py-20 py-10">

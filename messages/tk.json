@@ -1,4 +1,44 @@
 {
+  "Seo": {
+    "home": {
+      "title": "Türkmenistana syýahatlar — Derweze, Aşgabat we gadymy Merw",
+      "description": "Ygtyýarnamaly türkmen syýahatçylyk operatory. Derweze gaz kraterine, Aşgabada, Merwe we Köneürgenje toparlaýyn hem şahsy syýahatlar. Wiza goldawy we çakylyk haty."
+    },
+    "tours": {
+      "title": "Türkmenistan boýunça syýahatlar we bahalar",
+      "description": "Türkmenistan we Merkezi Aziýa boýunça toparlaýyn we şahsy syýahatlar: ugurlar, dowamlylygy we bir adam üçin bahasy."
+    },
+    "blog": {
+      "title": "Türkmenistan boýunça gollanma",
+      "description": "Syýahatçylar üçin Türkmenistan hakda makalalar: Derweze gaz krateri, gadymy Merw, Nusaý, Köw-Ata we Ýangygala."
+    },
+    "about": {
+      "title": "Sayoda Travel hakynda — Aşgabatdaky syýahatçylyk operatory",
+      "description": "Sayoda Travel — Aşgabatda ýerleşýän ygtyýarnamaly kabul ediji operator. Wiza goldawy, gidler, ulag we ýerleşdiriş."
+    },
+    "contacts": {
+      "title": "Türkmenistandaky syýahat operatory bilen habarlaşyň",
+      "description": "Sayoda Travel bilen telefon, e-poçta ýa-da WhatsApp arkaly habarlaşyň. Sowallara bir iş gününiň dowamynda jogap berýäris."
+    },
+    "hotels": {
+      "title": "Türkmenistandaky myhmanhanalar",
+      "description": "Biz bilen işleşýän myhmanhanalar: Aşgabat, Mary, Türkmenabat, Daşoguz."
+    },
+    "tourFallbackDescription": "Ygtyýarnamaly ýerli operator Sayoda Travel bilen Türkmenistan boýunça syýahat. Wiza goldawy we çakylyk haty goşulýar.",
+    "days": "{count, plural, one {# gün} other {# gün}}"
+  },
+  "Home": {
+    "h1": "Türkmenistana syýahatlar — Derweze, Aşgabat we gadymy Merw",
+    "subtitle": "Aşgabatdaky ygtyýarnamaly ýerli operator. Çakylyk haty, wiza, gidler we ulag biziň üstümizde — siz diňe syýahat ediň.",
+    "cta": "Syýahatlary we bahalary görmek"
+  },
+  "Common": {
+    "noTours": "Syýahat tapylmady",
+    "noTestimonials": "Häzirlikçe teswir ýok",
+    "emptyGallery": "Galereýa boş",
+    "loadError": "Bir näsazlyk ýüze çykdy. Sahypany täzeläň ýa-da biziň bilen habarlaşyň.",
+    "noText": "Beýany ýakynda goşular."
+  },
   "SectionTitle": {
     "popular": "Meşhur",
     "blogs": "Bloglar",
@@ -26,6 +66,7 @@
     "destinationsTitle": "Ýerler",
     "ourTitle": "Hyzmatlarymyz",
     "practicalTitle": "Praktiki maglumatlar",
+    "license": "Syýahatçylyk operatorynyň ygtyýarnamasy",
     "useful": [
       "Biz barada",
       "Syýahatlar",

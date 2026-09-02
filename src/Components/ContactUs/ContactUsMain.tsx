@@ -9,7 +9,7 @@ const ContactMain = () => {
   return (
     <div className="relative w-full">
       <ImageWithSkeleton
-        alt="test"
+        alt="Sayoda Travel office in Ashgabat, Turkmenistan"
         className="w-full object-cover h-[30vh] sm:h-[40vh] md:h-[60vh]  "
         width={1720}
         height={800}

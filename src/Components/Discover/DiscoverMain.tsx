@@ -10,7 +10,7 @@ const DiscoverMain = () => {
     <div className="relative z-10">
       <div className="relative">
         <ImageWithSkeleton
-          alt="test"
+          alt="Desert landscape of Turkmenistan on a Sayoda Travel tour"
           className=" w-full  object-cover  h-[60vh] md:h-[80vh] lg:h-[92vh]   "
           width={800}
           height={500}

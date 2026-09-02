@@ -1,18 +1,84 @@
 import React from "react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import SilkRoad from "@/Components/TourPerPage/SilkRoad";
 import AccordionTour from "@/Components/TourPerPage/AccordionTour";
 import IncludesExcludes from "@/Components/TourPerPage/IncludesExcludes";
 import Gallery from "@/Components/TourPerPage/Gallery";
 import Map from "@/Components/TourPerPage/Map";
 import BtnBooking from "@/Components/TourPerPage/BtnBooking";
-import { BASE_API_URL } from "@/i18n/api";
+import TourJsonLd from "@/Components/Seo/TourJsonLd";
+import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
+import {
+  durationDays,
+  getTour,
+  getTours,
+  localizedField,
+  mediaUrl,
+} from "@/lib/api/catalog";
+import { SITE_NAME, alternatesFor } from "@/lib/site";
+import { excerpt, plainText } from "@/lib/utils";
+import { routing } from "@/i18n/routing";
 
-async function getTourData(slug: string) {
-  const res = await fetch(`${BASE_API_URL}/api/tours/${slug}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error("Не удалось загрузить данные");
-  return res.json();
+// Литерал обязателен: конфиг сегмента разбирается статически.
+export const revalidate = 3600;
+
+/** Предрендерим все туры во всех локалях — их десятки, не тысячи. */
+export async function generateStaticParams() {
+  const tours = await getTours();
+  return routing.locales.flatMap((locale) =>
+    tours.map((tour) => ({ locale, slug: String(tour.id) })),
+  );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}): Promise<Metadata> {
+  const { slug, locale } = await params;
+  const tour = await getTour(slug);
+  if (!tour) return {};
+
+  const t = await getTranslations({ locale, namespace: "Seo" });
+  const name = plainText(localizedField(tour, "title", locale));
+  const days = durationDays(localizedField(tour, "duration", locale));
+
+  // "Ancient Treasures of Turkmenistan — 3 Days in Turkmenistan"
+  const country = plainText(localizedField(tour, "location", locale));
+  const title = [name, days ? t("days", { count: days }) : null, country]
+    .filter(Boolean)
+    .join(" — ");
+
+  const body = excerpt(localizedField(tour, "text", locale), 140);
+  const description = tour.price
+    ? `${body} From $${tour.price} per person.`
+    : body || t("tourFallbackDescription");
+
+  const image = mediaUrl(tour.image);
+  const alternates = alternatesFor(locale, `tours/${tour.id}`);
+
+  return {
+    title,
+    description,
+    alternates,
+    openGraph: {
+      type: "article",
+      siteName: SITE_NAME,
+      locale,
+      url: alternates.canonical,
+      title,
+      description,
+      images: image ? [{ url: image, alt: name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function Page({
@@ -22,22 +88,28 @@ export default async function Page({
 }) {
   const { slug, locale } = await params;
 
-  const tour = await getTourData(slug);
+  const tour = await getTour(slug);
+  if (!tour) notFound();
 
-  const tourTitle =
-    locale === "ru"
-      ? tour.title_ru
-      : locale === "en"
-        ? tour.title_en
-        : tour.title_tk;
+  const t = await getTranslations({ locale, namespace: "Header" });
+  const tourTitle = localizedField(tour, "title", locale);
 
   return (
     <div className="pb-24">
+      <TourJsonLd tour={tour} locale={locale} />
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: t("main"), path: "" },
+          { name: t("tours"), path: "tours" },
+          { name: plainText(tourTitle), path: `tours/${tour.id}` },
+        ]}
+      />
       <SilkRoad data={tour} locale={locale} />
       <AccordionTour tourId={tour.id} />
       <IncludesExcludes tourId={tour.id} />
       <Gallery tourId={tour.id} />
-      <Map data={tour} />
+      <Map data={tour} alt={`${plainText(tourTitle)} — route map`} />
       <BtnBooking tourId={tour.id} tourTitle={tourTitle} />
     </div>
   );

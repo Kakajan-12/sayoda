@@ -209,7 +209,7 @@ export default function Header() {
             <Link href="/" className="">
               <Image
                 className="sm:w-48 sm:h-20 w-36 h-16"
-                alt="logo"
+                alt="Sayoda Travel — tour operator in Turkmenistan"
                 src={Logo}
                 loading="eager"
                 priority

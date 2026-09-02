@@ -1,5 +1,5 @@
 import { QuicksandFont } from "@/Ui/Fonts";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
 interface TextsCountryProps {
@@ -13,8 +13,11 @@ interface TextsCountryProps {
 
 const TextsCountry: React.FC<TextsCountryProps> = ({ data }) => {
     const locale = useLocale();
+    const tc = useTranslations("Common");
 
-    const text = data[`text_${locale}`] || data.text_tk || "Текст отсутствует";
+    // Английский — основной язык аудитории, поэтому он идёт первым в фолбэке.
+    const text =
+        data[`text_${locale}`] || data.text_en || data.text_tk || tc("noText");
 
     return (
         <div className={`w-full container py-10 md:py-20 mx-auto px-5 ${QuicksandFont.className}`}>

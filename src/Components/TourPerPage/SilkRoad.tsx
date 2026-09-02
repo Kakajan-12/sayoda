@@ -9,6 +9,7 @@ import { MdOutlineAccessTime } from "react-icons/md";
 import { HiTranslate } from "react-icons/hi";
 import { VscTypeHierarchySub } from "react-icons/vsc";
 import { BASE_API_URL } from "@/i18n/api";
+import { plainText } from "@/lib/utils";
 
 interface TourData {
   image: string;
@@ -87,10 +88,14 @@ const SilkRoad: React.FC<SilkRoadProps> = ({ data, locale }) => {
     <div className="container mx-auto px-4 py-5 md:py-14">
       <div className="w-full flex md:flex-row flex-col md:space-x-5 lg:space-x-10 space-y-10 md:space-y-0 md:justify-between">
         <div className="flex md:w-3/5 flex-col gap-6">
-          <div
+          {/* Заголовок тура — единственный h1 страницы. Из CMS он приходит
+              обёрнутым в <p> или <h4>, поэтому выводим plain text: вложенный
+              блочный тег внутри h1 дал бы невалидную разметку. */}
+          <h1
             className={`text-xl lg:text-2xl 2xl:text-5xl leading-7 2xl:leading-[65px] font-bold ${PoppinFont.className}`}
-            dangerouslySetInnerHTML={{ __html: getFieldByLocale("title") }}
-          />
+          >
+            {plainText(String(getFieldByLocale("title")))}
+          </h1>
 
           <div
             className={`${QuicksandFont.className} hidden md:block font-normal text-xs leading-5 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}

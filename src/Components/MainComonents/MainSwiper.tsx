@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { PoppinFont } from "@/Ui/Fonts";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { BASE_API_URL } from "@/i18n/api";
 import { findDestinationByName } from "@/data/destinations";
 import { FreeMode, Navigation } from "swiper/modules";
@@ -25,13 +25,22 @@ type Slide = {
   image: string;
 };
 
-const MainSwiper = () => {
+interface MainSwiperProps {
+  /**
+   * Заголовок первого экрана. Приходит из Server Component, поэтому попадает
+   * в статический HTML — сам слайдер грузит данные уже в браузере.
+   */
+  heading?: React.ReactNode;
+}
+
+const MainSwiper = ({ heading }: MainSwiperProps) => {
   const router = useRouter();
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   const [navigatingId, setNavigatingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const locale = useLocale();
+  const tc = useTranslations("Common");
 
   useEffect(() => {
     const fetchSlides = async () => {
@@ -98,6 +107,11 @@ const MainSwiper = () => {
               className="object-cover object-center"
             />
           </div>
+
+          {/* Заголовок рисуем и в состоянии загрузки: именно этот HTML попадает
+              в статическую выдачу, слайдер подгружается уже в браузере. */}
+          {heading}
+
           <div className="absolute inset-x-0 -bottom-20 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
             <div className="max-w-7xl mx-auto grid grid-cols-2 min-[480px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -115,7 +129,7 @@ const MainSwiper = () => {
 
   if (error) {
     return (
-      <div className="text-center text-red-500 py-10">Ошибка: {error}</div>
+      <div className="text-center text-red-500 py-10">{tc("loadError")}</div>
     );
   }
 
@@ -131,6 +145,9 @@ const MainSwiper = () => {
             className="object-cover object-center"
           />
         </div>
+
+        {heading}
+
         <div className="absolute inset-x-0 bottom-0 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
           <div className="relative max-w-7xl mx-auto">
             <Swiper

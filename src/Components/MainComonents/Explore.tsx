@@ -25,7 +25,7 @@ const Explore = () => {
         <div className="relative w-full md:w-1/2  h-full  ">
           <div className="relative w-3/4 md:w-[85%] lg:w-3/4 h-1/2 pb-5 lg:pb-7 rounded-2xl ">
             <ImageWithSkeleton
-              alt="test"
+              alt="Travellers exploring Central Asia with Sayoda Travel"
               className="w-full h-full rounded-2xl object-cover "
               src={MainImg}
               skeletonClassName="rounded-2xl"
@@ -35,7 +35,7 @@ const Explore = () => {
           <div className="absolute right-10 md:right-0  lg:right-10 top-1/3 w-5/12 lg:w-2/5 md:w-3/6">
             <ImageWithSkeleton
               className="w-full h-auto rounded-2xl object-cover"
-              alt="test"
+              alt="Silk Road heritage site in Central Asia"
               src={LowerImg}
               skeletonClassName="rounded-2xl"
             />

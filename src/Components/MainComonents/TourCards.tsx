@@ -36,6 +36,7 @@ interface Props {
 const TourCards: React.FC<Props> = ({ tours }) => {
   const locale = useLocale();
   const t = useTranslations("TourPerPage");
+  const tc = useTranslations("Common");
   const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
 
   const getLocalized = (item: Tour, field: string) =>
@@ -52,7 +53,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
       .replace(/^app\//, "")}`;
 
   if (!tours || !tours.length) {
-    return <p className="text-center py-10">Нет туров</p>;
+    return <p className="text-center py-10">{tc("noTours")}</p>;
   }
 
   return (
