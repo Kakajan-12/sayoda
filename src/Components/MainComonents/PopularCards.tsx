@@ -1,70 +1,18 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { getTranslations } from "next-intl/server";
 import { PoppinFont } from "@/Ui/Fonts";
-import { useTranslations } from "next-intl";
 import TourCards from "./TourCards";
-import { BASE_API_URL } from "@/i18n/api";
-import { BarLoader } from "react-spinners";
-interface Tour {
-  id: number;
-  image: string;
-  popular: number;
-  title_tk: string;
-  title_en: string;
-  title_ru: string;
-  text_tk: string;
-  text_en: string;
-  text_ru: string;
-  destination_tk: string;
-  destination_en: string;
-  destination_ru: string;
-  duration_tk: string;
-  duration_en: string;
-  duration_ru: string;
-  lang_tk: string;
-  lang_en: string;
-  lang_ru: string;
-  price: number;
-  tour_type_id: number;
-  tour_cat_id: number;
-  location_id: number;
-  type_tk: string;
-  type_en: string;
-  type_ru: string;
-  cat_tk: string;
-  cat_en: string;
-  cat_ru: string;
-  location_tk: string;
-  location_en: string;
-  location_ru: string;
-}
+import type { Tour } from "@/lib/api/catalog";
 
-const PopularCards = () => {
-  const t = useTranslations("SectionTitle");
-  const [popularTours, setPopularTours] = useState<Tour[]>([]);
-  const [loading, setLoading] = useState(true);
+/**
+ * Блок «Популярное» на главной. Server Component: туры приходят пропсом,
+ * поэтому карточки есть в HTML. Раньше они грузились в useEffect и главная
+ * отдавалась краулерам вообще без ссылок на туры.
+ */
+export default async function PopularCards({ tours }: { tours: Tour[] }) {
+  const t = await getTranslations("SectionTitle");
 
-  useEffect(() => {
-    const fetchTours = async () => {
-      try {
-        const res = await fetch(`${BASE_API_URL}/api/tours`);
-        const data: Tour[] = await res.json();
-        setPopularTours(data.filter((tour) => tour.popular === 1));
-      } catch (err) {
-        console.error("Ошибка загрузки туров:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTours();
-  }, []);
-
-  if (loading)
-    return (
-      <div className="flex justify-center items-center py-10">
-        <BarLoader color="#245483" />
-      </div>
-    );
+  if (!tours.length) return null;
 
   return (
     <div className="container mx-auto px-5 py-10 md:py-20">
@@ -73,9 +21,7 @@ const PopularCards = () => {
       >
         {t("popular")}
       </h2>
-      <TourCards tours={popularTours} />
+      <TourCards tours={tours} />
     </div>
   );
-};
-
-export default PopularCards;
+}

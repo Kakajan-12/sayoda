@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { ComfortaFont } from "@/Ui/Fonts";
 import { BASE_API_URL } from "@/i18n/api";
-import { WindowWidth } from "@/Hooks/WindowWidth";
+import { Link } from "@/i18n/navigation";
 
 export interface Blog {
   id: number;
@@ -23,9 +23,12 @@ interface BlogCardProps {
   blog: Blog;
   /** Раскрыта ли карточка (показывать описание, дату и кнопку). */
   expanded: boolean;
-  /** Идёт ли переход на страницу этого блога. */
-  navigating: boolean;
-  onClick: () => void;
+  /**
+   * Адрес статьи. Карточка — настоящая ссылка, а не div с onClick: иначе
+   * статьи не видны краулерам, не открываются в новой вкладке и не получают
+   * внутренних ссылок с главной.
+   */
+  href: string;
   /** Доп. классы для внешней обёртки (например, ширина в сетке/слайдере). */
   className?: string;
   onHoverStart?: () => void;
@@ -47,8 +50,7 @@ const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
 const BlogCard: React.FC<BlogCardProps> = ({
   blog,
   expanded,
-  navigating,
-  onClick,
+  href,
   className = "",
   onHoverStart,
   onHoverEnd,
@@ -58,7 +60,6 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   const locale = useLocale();
   const t = useTranslations("Blogs");
-  const width = WindowWidth();
 
   const getLocalized = (item: Blog, field: string) =>
     (item[`${field}_${locale}` as keyof Blog] as string) ||
@@ -75,9 +76,15 @@ const BlogCard: React.FC<BlogCardProps> = ({
       onViewportEnter={onViewportEnter}
       onViewportLeave={onViewportLeave}
       viewport={viewport}
-      onClick={onClick}
       className={`relative overflow-hidden rounded-xl transition-all duration-300 h-[400px] md:h-[400px] lg:h-[450px] xl:h-[430px] 2xl:h-[500px] ${className}`}
     >
+      {/* Ссылка на всю площадь карточки: даёт краулерам <a href>, а человеку —
+          привычные Ctrl+клик и «открыть в новой вкладке». */}
+      <Link
+        href={href}
+        aria-label={title}
+        className="absolute inset-0 z-30 rounded-xl"
+      />
       <ImageWithSkeleton
         alt={title}
         src={getFixedImageUrl(blog.image)}
@@ -135,21 +142,12 @@ const BlogCard: React.FC<BlogCardProps> = ({
           transition={{ duration: 0.4 }}
           className="absolute z-20"
         >
-          <button
-            type="button"
-            disabled={navigating}
-            className="bg-white text-xs rounded-full w-fit font-bold px-4 py-2 lg:text-sm text-black disabled:opacity-70 disabled:cursor-wait"
-            onClick={onClick}
-          >
-            {navigating ? (
-              <span className="inline-flex items-center justify-center gap-2 px-2">
-                <span className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin" />
-                {t("learn")}
-              </span>
-            ) : (
-              t("learn")
-            )}
-          </button>
+          {/* Визуальный элемент, а не кнопка: клик обрабатывает ссылка,
+              накрывающая карточку. Вложенная кнопка внутри ссылки была бы
+              невалидной разметкой. */}
+          <span className="bg-white text-xs rounded-full w-fit font-bold px-4 py-2 lg:text-sm text-black">
+            {t("learn")}
+          </span>
         </motion.div>
       </div>
     </motion.article>

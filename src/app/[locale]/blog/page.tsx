@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import BlogsMain from "../../../Components/Blogs/BlogsMain";
 import BlogsCardsProps from "../../../Components/Blogs/BlogsCardsProps";
 import { pageMetadata } from "@/lib/metadata";
+import { getBlogs } from "@/lib/api/catalog";
 import { routing } from "@/i18n/routing";
+
+// Литерал обязателен: конфиг сегмента разбирается статически.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -18,11 +22,14 @@ export async function generateMetadata({
   return pageMetadata(locale, "blog", "blog");
 }
 
-export default function Page() {
+export default async function Page() {
+  // Статьи читаются на сервере, чтобы карточки попадали в HTML.
+  const blogs = await getBlogs();
+
   return (
     <div>
       <BlogsMain />
-      <BlogsCardsProps />
+      <BlogsCardsProps blogs={blogs} />
     </div>
   );
 }

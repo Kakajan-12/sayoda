@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { BASE_API_URL } from "@/i18n/api";
 import { WindowWidth } from "@/Hooks/WindowWidth";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
@@ -16,11 +15,9 @@ type Props = {
 };
 
 export default function DestinationSights({ keywords, emptyLabel }: Props) {
-  const router = useRouter();
   const width = WindowWidth();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [navigatingId, setNavigatingId] = useState<number | null>(null);
 
   useEffect(() => {
     fetch(`${BASE_API_URL}/api/blogs`)
@@ -44,11 +41,6 @@ export default function DestinationSights({ keywords, emptyLabel }: Props) {
     });
   }, [blogs, keywords]);
 
-  const handleClick = (id: number) => {
-    setNavigatingId(id);
-    router.push(`/blog/${id}`);
-  };
-
   if (!filtered.length) {
     return <p className="text-center py-10 text-gray-500">{emptyLabel}</p>;
   }
@@ -60,8 +52,7 @@ export default function DestinationSights({ keywords, emptyLabel }: Props) {
           key={item.id}
           blog={item}
           expanded={hoverIndex === i}
-          navigating={navigatingId === item.id}
-          onClick={() => handleClick(item.id)}
+          href={`/blog/${item.id}`}
           className="w-full"
           onHoverStart={width > 768 ? () => setHoverIndex(i) : undefined}
           onHoverEnd={width > 768 ? () => setHoverIndex(null) : undefined}

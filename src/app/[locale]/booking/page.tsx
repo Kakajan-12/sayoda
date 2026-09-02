@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
+import { trackEvent } from "@/lib/analytics";
 
 const BookingPage = () => {
   const t = useTranslations("Booking");
@@ -83,6 +84,12 @@ const BookingPage = () => {
         setError(data.error || "Failed to submit");
         loadCaptcha();
       } else {
+        // Ключевое событие воронки: без него неизвестно, сколько человек
+        // дошло до отправки заявки и сколько отвалилось на капче.
+        trackEvent("booking_submit", {
+          tour_name: formData.tour,
+          travelers: formData.travelers,
+        });
         setSuccess("Booking submitted successfully!");
         setFormData({
           firstName: "",

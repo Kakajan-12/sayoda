@@ -27,6 +27,12 @@
     "tourFallbackDescription": "Guided tour in Turkmenistan with Sayoda Travel, a licensed local operator. Visa support and letter of invitation included.",
     "days": "{count, plural, one {# Day} other {# Days}}"
   },
+  "Contact": {
+    "whatsappLabel": "Chat with us on WhatsApp",
+    "whatsappPrefill": "Hello! I'd like to ask about a tour to Turkmenistan.",
+    "whatsappTour": "Hello! I'm interested in this tour: {tour}. Could you tell me about dates and availability?",
+    "askOnWhatsapp": "Ask on WhatsApp"
+  },
   "Home": {
     "h1": "Tours to Turkmenistan — Darvaza, Ashgabat & Ancient Merv",
     "subtitle": "A licensed local operator in Ashgabat. We handle your letter of invitation, visa, guides and transport — you just travel.",

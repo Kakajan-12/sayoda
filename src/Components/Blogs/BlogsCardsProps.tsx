@@ -1,44 +1,35 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { WindowWidth } from "@/Hooks/WindowWidth";
 import { useTranslations } from "next-intl";
-import { BASE_API_URL } from "@/i18n/api";
-import { useRouter } from "next/navigation";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
-const BlogsCardsProps = () => {
-  const router = useRouter();
+/**
+ * Список статей. Данные приходят пропсом из Server Component — раньше они
+ * грузились в useEffect, и страница /blog отдавалась краулерам пустой.
+ * Клиентской осталась только пагинация и hover-раскрытие карточек.
+ */
+
+const POSTS_PER_PAGE = 8;
+
+const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-  const [navigatingBlogId, setNavigatingBlogId] = useState<number | null>(null);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 8;
 
   const width = WindowWidth();
   const t = useTranslations("SectionTitle");
 
-  useEffect(() => {
-    fetch(`${BASE_API_URL}/api/blogs`)
-      .then((res) => res.json())
-      .then((data) => setBlogs(data))
-      .catch((err) => console.error("Failed to load blogs", err));
-  }, []);
-
-  // --- Pagination logic ---
-  const totalPages = Math.ceil(blogs.length / postsPerPage);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
+  const indexOfLastPost = currentPage * POSTS_PER_PAGE;
+  const currentPosts = blogs.slice(
+    indexOfLastPost - POSTS_PER_PAGE,
+    indexOfLastPost,
+  );
 
   const changePage = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleBlogClick = (blogId: number) => {
-    setNavigatingBlogId(blogId);
-    router.push(`/blog/${blogId}`);
   };
 
   return (
@@ -57,8 +48,7 @@ const BlogsCardsProps = () => {
             key={item.id}
             blog={item}
             expanded={hoverIndex === i}
-            navigating={navigatingBlogId === item.id}
-            onClick={() => handleBlogClick(item.id)}
+            href={`/blog/${item.id}`}
             className="w-full"
             onHoverStart={width > 768 ? () => setHoverIndex(i) : undefined}
             onHoverEnd={width > 768 ? () => setHoverIndex(null) : undefined}
@@ -69,22 +59,24 @@ const BlogsCardsProps = () => {
         ))}
       </div>
 
-      {/* Pagination buttons */}
-      <div className="flex justify-center mt-8 gap-2">
-        {Array.from({ length: totalPages }, (_, idx) => (
-          <button
-            key={idx}
-            onClick={() => changePage(idx + 1)}
-            className={`px-4 py-2 rounded-md border ${
-              currentPage === idx + 1
-                ? "bg-mainBlue text-white"
-                : "bg-white text-black border-gray-300"
-            }`}
-          >
-            {idx + 1}
-          </button>
-        ))}
-      </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 gap-2">
+          {Array.from({ length: totalPages }, (_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => changePage(idx + 1)}
+              className={`px-4 py-2 rounded-md border ${
+                currentPage === idx + 1
+                  ? "bg-mainBlue text-white"
+                  : "bg-white text-black border-gray-300"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

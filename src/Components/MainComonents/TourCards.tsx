@@ -4,7 +4,9 @@ import React from "react";
 import { MontserratFont, PoppinFont } from "@/Ui/Fonts";
 import ImageWithSkeleton from "@/Ui/ImageWithSkeleton";
 import { IoLanguage } from "react-icons/io5";
-import Link from "next/link";
+// Link из i18n/navigation сам добавляет префикс локали: с обычным next/link
+// ссылка вида /tours/16 каждый раз проходила через редирект middleware.
+import { Link } from "@/i18n/navigation";
 import { BASE_API_URL } from "@/i18n/api";
 import { useLocale, useTranslations } from "next-intl";
 

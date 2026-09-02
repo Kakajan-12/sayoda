@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -9,36 +9,17 @@ import "./Blogs.css";
 import { ButtonLeftSwiper, ButtonRigthSwiper } from "@/Ui/SwiperComponents";
 import { PoppinFont } from "@/Ui/Fonts";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { WindowWidth } from "@/Hooks/WindowWidth";
-import { BASE_API_URL } from "@/i18n/api";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
-const BlogsCards = () => {
-  const router = useRouter();
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [navigatingBlogId, setNavigatingBlogId] = useState<number | null>(null);
+/**
+ * Статьи приходят пропсом из Server Component — так карточки попадают
+ * в серверный HTML. Сам компонент остаётся клиентским из-за Swiper и hover.
+ */
+const BlogsCards = ({ blogs }: { blogs: Blog[] }) => {
   const witdhs = WindowWidth();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const t = useTranslations("Blogs");
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch(`${BASE_API_URL}/api/blogs`);
-        const data: Blog[] = await res.json();
-        setBlogs(data);
-      } catch (err) {
-        console.error("Ошибка при загрузке блогов:", err);
-      }
-    };
-    fetchBlogs();
-  }, []);
-
-  const handleBlogClick = (blogId: number) => {
-    setNavigatingBlogId(blogId);
-    router.push(`/blog/${blogId}`);
-  };
 
   return (
     <div className="w-full h-auto bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
@@ -79,8 +60,7 @@ const BlogsCards = () => {
                 <BlogCard
                   blog={blog}
                   expanded={witdhs > 1025 ? hoverIndex === i : isActive}
-                  navigating={navigatingBlogId === blog.id}
-                  onClick={() => handleBlogClick(blog.id)}
+                  href={`/blog/${blog.id}`}
                   className="w-11/12 sm:w-11/12 mx-auto"
                   onHoverStart={
                     witdhs > 768 ? () => setHoverIndex(i) : undefined

@@ -12,6 +12,9 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_URL, alternatesFor } from "@/lib/site";
 import OrganizationJsonLd from "@/Components/Seo/OrganizationJsonLd";
+import Analytics from "@/Components/Seo/Analytics";
+import WhatsAppButton from "@/Components/Contact/WhatsAppButton";
+import { getContacts, whatsappHref } from "@/lib/api/contacts";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -67,17 +70,26 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  const t = await getTranslations({ locale, namespace: "Contact" });
+  const contacts = await getContacts(locale);
+  const whatsapp = whatsappHref(contacts, t("whatsappPrefill"));
+
   return (
     <html lang={locale}>
       <Providers>
         <NextIntlClientProvider>
           <BodyWrapper>
             <OrganizationJsonLd locale={locale} />
+            <Analytics />
             <Header />
             {children}
 
             <FooterImage />
             <Footer />
+            {whatsapp && (
+              <WhatsAppButton href={whatsapp} label={t("whatsappLabel")} />
+            )}
             <Script id="crisp-widget" strategy="afterInteractive">
               {`
                 window.$crisp = [];

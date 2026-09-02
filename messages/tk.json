@@ -27,6 +27,12 @@
     "tourFallbackDescription": "Ygtyýarnamaly ýerli operator Sayoda Travel bilen Türkmenistan boýunça syýahat. Wiza goldawy we çakylyk haty goşulýar.",
     "days": "{count, plural, one {# gün} other {# gün}}"
   },
+  "Contact": {
+    "whatsappLabel": "WhatsApp arkaly ýazyň",
+    "whatsappPrefill": "Salam! Türkmenistana syýahat barada soramakçy.",
+    "whatsappTour": "Salam! Şu syýahat bilen gyzyklanýaryn: {tour}. Senesi we ýer barlygy barada aýdyp bilersiňizmi?",
+    "askOnWhatsapp": "WhatsApp arkaly soraň"
+  },
   "Home": {
     "h1": "Türkmenistana syýahatlar — Derweze, Aşgabat we gadymy Merw",
     "subtitle": "Aşgabatdaky ygtyýarnamaly ýerli operator. Çakylyk haty, wiza, gidler we ulag biziň üstümizde — siz diňe syýahat ediň.",

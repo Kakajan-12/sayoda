@@ -1,5 +1,5 @@
 import { BASE_API_URL } from "@/i18n/api";
-import { CONTACT_FALLBACK } from "@/lib/site";
+import { COMPANY, CONTACT_FALLBACK } from "@/lib/site";
 import { plainText } from "@/lib/utils";
 
 /**
@@ -67,4 +67,42 @@ export async function getContacts(locale: string): Promise<SiteContacts> {
 /** Телефон в виде, пригодном для href="tel:" — без пробелов и скобок. */
 export function telHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
+
+/**
+ * Ссылка на WhatsApp с предзаполненным текстом.
+ *
+ * Приоритет источников:
+ *   1. COMPANY.whatsapp — если заказчик задал отдельный номер;
+ *   2. запись с icon="whatsapp" в админке (раздел «Ссылки») — там уже можно
+ *      сохранить готовый https://wa.me/... ;
+ *   3. основной телефон компании.
+ *
+ * Благодаря шагам 2–3 кнопка работает сразу, не дожидаясь отдельного номера.
+ */
+export function whatsappHref(
+  contacts: SiteContacts,
+  text?: string,
+): string | null {
+  const query = text ? `?text=${encodeURIComponent(text)}` : "";
+
+  if (COMPANY.whatsapp) {
+    const digits = COMPANY.whatsapp.replace(/\D/g, "");
+    if (digits) return `https://wa.me/${digits}${query}`;
+  }
+
+  const fromCms = contacts.socials.find(
+    (s) => s.icon?.toLowerCase() === "whatsapp",
+  );
+  if (fromCms?.url) {
+    // В админке может лежать как wa.me/<номер>, так и просто номер.
+    const digits = fromCms.url.replace(/\D/g, "");
+    if (/^https?:\/\//i.test(fromCms.url)) {
+      return `${fromCms.url.split("?")[0]}${query}`;
+    }
+    if (digits) return `https://wa.me/${digits}${query}`;
+  }
+
+  const digits = contacts.phone.replace(/\D/g, "");
+  return digits ? `https://wa.me/${digits}${query}` : null;
 }

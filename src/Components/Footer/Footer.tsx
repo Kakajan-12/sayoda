@@ -6,6 +6,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "@/i18n/navigation";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import SocialIcons from "./SocialIcons";
+import TrackedContactLink from "@/Components/Contact/TrackedContactLink";
 import { getContacts, telHref } from "@/lib/api/contacts";
 import { getTourLocations, getVisaEntries, localizedField } from "@/lib/api/catalog";
 import { COMPANY } from "@/lib/site";
@@ -54,26 +55,28 @@ export default async function Footer() {
 
             <h5 className="font-semibold font-poppins">
               {t("phone")}:{" "}
-              <a
+              <TrackedContactLink
                 href={telHref(contacts.phone)}
+                event="phone_click"
                 className="hover:text-mainLight hover:translate-x-1 transition-all duration-300"
               >
                 <span className={`font-normal ${QuicksandFont.className}`}>
                   {contacts.phone}
                 </span>
-              </a>
+              </TrackedContactLink>
             </h5>
 
             <h5 className="font-semibold font-poppins">
               {t("email")}:{" "}
-              <a
+              <TrackedContactLink
                 href={`mailto:${contacts.email}`}
+                event="email_click"
                 className="hover:text-mainLight hover:translate-x-1 transition-all duration-300"
               >
                 <span className={`font-normal ${QuicksandFont.className}`}>
                   {contacts.email}
                 </span>
-              </a>
+              </TrackedContactLink>
             </h5>
 
             {/* Реквизиты показываем только когда заказчик их заполнил —

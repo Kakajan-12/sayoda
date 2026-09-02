@@ -7,7 +7,11 @@ import PopularCards from "@/Components/MainComonents/PopularCards";
 import { Link } from "@/i18n/navigation";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
+import { getBlogs, getTours } from "@/lib/api/catalog";
 import { routing } from "@/i18n/routing";
+
+// Литерал обязателен: конфиг сегмента разбирается статически.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -45,6 +49,11 @@ export default async function Home({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Home" });
 
+  // Популярные туры и статьи читаем на сервере: раньше оба блока грузились
+  // в useEffect, и главная отдавалась без единой ссылки на тур или статью.
+  const [tours, blogs] = await Promise.all([getTours(), getBlogs()]);
+  const popularTours = tours.filter((tour) => tour.popular === 1);
+
   /**
    * Единственный h1 страницы. Рендерится на сервере и передаётся в клиентский
    * MainSwiper пропсом — раньше на первом экране не было ни одного заголовка,
@@ -77,8 +86,8 @@ export default async function Home({
     <div>
       <MainSwiper heading={heading} />
       <Explore />
-      <PopularCards />
-      <BlogsCards />
+      <PopularCards tours={popularTours} />
+      <BlogsCards blogs={blogs} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
 import SuccessModal from "@/Ui/SuccessModal";
+import { trackEvent } from "@/lib/analytics";
 
 const ContactForm = () => {
   const t = useTranslations("ContactUs");
@@ -61,6 +62,7 @@ const ContactForm = () => {
         setError(data.error || "Failed to send");
         loadCaptcha();
       } else {
+        trackEvent("contact_submit");
         setShowSuccessModal(true);
         setFormData({
           name: "",

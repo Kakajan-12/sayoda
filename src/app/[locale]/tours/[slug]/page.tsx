@@ -7,7 +7,8 @@ import AccordionTour from "@/Components/TourPerPage/AccordionTour";
 import IncludesExcludes from "@/Components/TourPerPage/IncludesExcludes";
 import Gallery from "@/Components/TourPerPage/Gallery";
 import Map from "@/Components/TourPerPage/Map";
-import BtnBooking from "@/Components/TourPerPage/BtnBooking";
+import TourCta from "@/Components/TourPerPage/TourCta";
+import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import TourJsonLd from "@/Components/Seo/TourJsonLd";
 import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
 import {
@@ -92,7 +93,14 @@ export default async function Page({
   if (!tour) notFound();
 
   const t = await getTranslations({ locale, namespace: "Header" });
-  const tourTitle = localizedField(tour, "title", locale);
+  const tc = await getTranslations({ locale, namespace: "Contact" });
+  const tourTitle = plainText(localizedField(tour, "title", locale));
+
+  const contacts = await getContacts(locale);
+  const whatsapp = whatsappHref(
+    contacts,
+    tc("whatsappTour", { tour: tourTitle }),
+  );
 
   return (
     <div className="pb-24">
@@ -102,15 +110,19 @@ export default async function Page({
         items={[
           { name: t("main"), path: "" },
           { name: t("tours"), path: "tours" },
-          { name: plainText(tourTitle), path: `tours/${tour.id}` },
+          { name: tourTitle, path: `tours/${tour.id}` },
         ]}
       />
       <SilkRoad data={tour} locale={locale} />
       <AccordionTour tourId={tour.id} />
       <IncludesExcludes tourId={tour.id} />
       <Gallery tourId={tour.id} />
-      <Map data={tour} alt={`${plainText(tourTitle)} — route map`} />
-      <BtnBooking tourId={tour.id} tourTitle={tourTitle} />
+      <Map data={tour} alt={`${tourTitle} — route map`} />
+      <TourCta
+        tourId={tour.id}
+        tourTitle={tourTitle}
+        whatsappHref={whatsapp}
+      />
     </div>
   );
 }

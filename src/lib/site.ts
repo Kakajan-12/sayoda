@@ -29,22 +29,25 @@ export const CONTACT_FALLBACK = {
 /**
  * Реквизиты для футера, страницы «О нас» и schema.org.
  * Заполняются заказчиком; пока пусто — блоки доверия их не выводят.
+ *
+ * Тип задан явно (а не через `as const`): иначе пустая строка сузилась бы
+ * до литерального типа `""`, и проверка `if (COMPANY.whatsapp)` давала бы
+ * `never` в ветке «значение задано».
  */
-export const COMPANY = {
-  legalName: "",
-  licenseNumber: "",
-  /** Номер для WhatsApp в международном формате без «+» и пробелов. */
-  whatsapp: "",
-  foundedYear: "",
-} as const;
-
-/** Ссылка «написать в WhatsApp» с предзаполненным текстом. */
-export function whatsappLink(text?: string): string | null {
-  const number = (COMPANY.whatsapp || "").replace(/\D/g, "");
-  if (!number) return null;
-  const query = text ? `?text=${encodeURIComponent(text)}` : "";
-  return `https://wa.me/${number}${query}`;
+export interface CompanyDetails {
+  legalName: string;
+  licenseNumber: string;
+  /** Номер для WhatsApp в международном формате, лишние символы отбрасываются. */
+  whatsapp: string;
+  foundedYear: string;
 }
+
+export const COMPANY: CompanyDetails = {
+  legalName: process.env.NEXT_PUBLIC_COMPANY_LEGAL_NAME || "",
+  licenseNumber: process.env.NEXT_PUBLIC_LICENSE_NUMBER || "",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP || "",
+  foundedYear: process.env.NEXT_PUBLIC_FOUNDED_YEAR || "",
+};
 
 /** Абсолютный URL — нужен для canonical, hreflang, Open Graph и sitemap. */
 export function absoluteUrl(path = "/"): string {
