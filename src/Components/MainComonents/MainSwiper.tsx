@@ -25,6 +25,20 @@ type Slide = {
   image: string;
 };
 
+/**
+ * Затемнение поверх карты на первом экране.
+ *
+ * Карта светлая, и белый заголовок на ней держался только за счёт тени —
+ * читалось плохо. Градиент плотнее сверху и снизу: сверху под ним лежит
+ * полупрозрачная шапка и сам заголовок, снизу — карточки направлений,
+ * а в середине карта остаётся видимой.
+ *
+ * z-10 ставит слой над изображением, но под заголовком и карточками (z-30);
+ * pointer-events-none — чтобы слой не перехватывал наведение и клики.
+ */
+const HERO_OVERLAY =
+  "pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-black/35 to-black/45";
+
 interface MainSwiperProps {
   /**
    * Заголовок первого экрана. Приходит из Server Component, поэтому попадает
@@ -108,6 +122,8 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
             />
           </div>
 
+          <div className={HERO_OVERLAY} />
+
           {/* Заголовок рисуем и в состоянии загрузки: именно этот HTML попадает
               в статическую выдачу, слайдер подгружается уже в браузере. */}
           {heading}
@@ -127,9 +143,29 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
     );
   }
 
+  // Не отдаётся список слайдов — показываем первый экран без карточек.
+  // Раньше здесь возвращалась одна строка с ошибкой, и вместе со слайдером
+  // пропадал весь баннер: заголовок h1, подзаголовок и кнопка «смотреть туры».
+  // Сбой стороннего запроса не повод лишать страницу первого экрана.
   if (error) {
     return (
-      <div className="text-center text-red-500 py-10">{tc("loadError")}</div>
+      <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
+        <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
+          <div className="absolute inset-0 overflow-hidden -top-28">
+            <ImageWithSkeleton
+              src={mainImage}
+              alt="Central Asia map"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+          </div>
+
+          <div className={HERO_OVERLAY} />
+
+          {heading}
+        </section>
+      </div>
     );
   }
 
@@ -145,6 +181,8 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
             className="object-cover object-center"
           />
         </div>
+
+        <div className={HERO_OVERLAY} />
 
         {heading}
 
