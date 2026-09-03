@@ -20,6 +20,8 @@ export interface SiteSettings {
   company_legal_name: string | null;
   license_number: string | null;
   founded_year: string | null;
+  /** Виджет Tawk.to: propertyId/widgetId. Пусто — чат не выводится. */
+  tawk_id: string | null;
 }
 
 const EMPTY_SETTINGS: SiteSettings = {
@@ -28,6 +30,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   company_legal_name: null,
   license_number: null,
   founded_year: null,
+  tawk_id: null,
 };
 
 export async function getSettings(): Promise<SiteSettings> {

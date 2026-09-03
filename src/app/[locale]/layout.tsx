@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
@@ -15,6 +14,7 @@ import OrganizationJsonLd from "@/Components/Seo/OrganizationJsonLd";
 import Analytics from "@/Components/Seo/Analytics";
 import ScrollToTop from "@/Components/Layout/ScrollToTop";
 import WhatsAppButton from "@/Components/Contact/WhatsAppButton";
+import LiveChat from "@/Components/Contact/LiveChat";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
 
@@ -100,19 +100,7 @@ export default async function RootLayout({
             {whatsapp && (
               <WhatsAppButton href={whatsapp} label={t("whatsappLabel")} />
             )}
-            <Script id="crisp-widget" strategy="afterInteractive">
-              {`
-                window.$crisp = [];
-                window.CRISP_WEBSITE_ID = "e7dbcc8b-ef2d-4ec3-a9ac-3e4ac41a7e48";
-                (function () {
-                  var d = document;
-                  var s = d.createElement("script");
-                  s.src = "https://client.crisp.chat/l.js";
-                  s.async = 1;
-                  d.getElementsByTagName("head")[0].appendChild(s);
-                })();
-              `}
-            </Script>
+            <LiveChat tawkId={settings.tawk_id} />
           </BodyWrapper>
         </NextIntlClientProvider>
       </Providers>
