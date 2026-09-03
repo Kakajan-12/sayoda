@@ -13,6 +13,7 @@ import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_URL, alternatesFor } from "@/lib/site";
 import OrganizationJsonLd from "@/Components/Seo/OrganizationJsonLd";
 import Analytics from "@/Components/Seo/Analytics";
+import ScrollToTop from "@/Components/Layout/ScrollToTop";
 import WhatsAppButton from "@/Components/Contact/WhatsAppButton";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
@@ -90,6 +91,7 @@ export default async function RootLayout({
           <BodyWrapper>
             <OrganizationJsonLd locale={locale} />
             <Analytics ga4Id={settings.ga4_id} />
+            <ScrollToTop />
             <Header />
             {children}
 

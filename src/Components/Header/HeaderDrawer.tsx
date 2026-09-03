@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import Link from "next/link";
+// См. комментарий в Header.tsx: префикс локали проставляется сразу,
+// без промежуточного редиректа.
+import { Link } from "@/i18n/navigation";
 import { navbar } from "./Header";
 import { routing } from "@/i18n/routing";
 import { usePathname, useRouter } from "next/navigation";

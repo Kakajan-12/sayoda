@@ -67,11 +67,16 @@ module.exports = {
       fontSize: {
         md: "16px",
       },
+      // Две роли вместо четырёх гарнитур (см. src/Ui/Fonts.ts).
+      // Старые утилиты оставлены как псевдонимы: font-poppins встречается
+      // в вёрстке, и менять её разом — лишний риск.
       fontFamily: {
-        comforta: ["var(--font-comforta)", "sans-serif"],
-        poppins: ["var(--font-poppins)", "latin"],
-        quicksand: ["var(--font-quicksand)", "sans-serif"],
-        montserrat: ["var(--font-montserrat)", "sans-serif"],
+        heading: ["var(--font-heading)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
+        poppins: ["var(--font-heading)", "sans-serif"],
+        comforta: ["var(--font-heading)", "sans-serif"],
+        montserrat: ["var(--font-heading)", "sans-serif"],
+        quicksand: ["var(--font-body)", "sans-serif"],
       },
     },
   },

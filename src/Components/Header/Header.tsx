@@ -2,7 +2,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+// Link из i18n/navigation сам подставляет префикс локали. С обычным next/link
+// ссылка /tours проходила через редирект middleware, и на непрогретом
+// маршруте страница открывалась не с верха, а на прежней позиции прокрутки.
+import { Link } from "@/i18n/navigation";
 import Logo from "../../../public/headerIcon.svg";
 import { usePathname, useRouter } from "next/navigation";
 import HeaderDrawer from "./HeaderDrawer";
