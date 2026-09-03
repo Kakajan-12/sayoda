@@ -25,7 +25,7 @@ const ContactDetail: React.FC<Props> = ({ onchange, formDates }) => {
 
     return (
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-x-10 xl:gap-x-16">
-            <h3 className="col-span-full lg:mb-5 text-[#BF8B30] text-lg md:text-lg lg:text-2xl">
+            <h3 className="col-span-full lg:mb-5 text-brick text-lg md:text-lg lg:text-2xl">
                 {t("contact")}
             </h3>
 

@@ -95,18 +95,20 @@ const TourCards: React.FC<Props> = ({ tours }) => {
 
             <div className="flex flex-1 flex-col gap-5 px-4 py-3">
               <h3
-                className={`${PoppinFont.className} font-semibold text-base md:text-lg leading-snug line-clamp-2 min-h-[2lh] transition-colors group-hover:text-[#245483]`}
+                className={`${PoppinFont.className} font-semibold text-base md:text-lg leading-snug line-clamp-2 min-h-[2lh] transition-colors group-hover:text-tile`}
               >
                 {title}
               </h3>
 
               <div className="mt-auto flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 text-xs md:text-sm">
+                <div className="flex items-center gap-1.5 text-xs md:text-sm text-inkMuted">
                   <IoLanguage className="h-4 w-4 shrink-0" />
                   <span className="line-clamp-1">{lang}</span>
                 </div>
+                {/* Цена — единственное место на карточке, где работает
+                    акцентный кирпичный: он должен вести взгляд к деньгам. */}
                 <span
-                  className={`${PoppinFont.className} shrink-0 text-lg font-bold`}
+                  className={`${PoppinFont.className} shrink-0 text-lg font-bold text-brick`}
                 >
                   {tour.price}$
                 </span>

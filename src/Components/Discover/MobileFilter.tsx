@@ -57,7 +57,7 @@
 //           >
 //             <div  className="px-5 container flex flex-col items-center mx-auto   w-full  pt-5 pb-20  space-y-5">
 //               <button
-//                 className={`bg-[#748B95] rounded-2xl text-white self-end text-lg xl:text-xl md:text-xs lg:text-md lg:py-3.5  xl:py-2 w-full py-2 ${QuicksandFont.className}`}
+//                 className={`bg-inkMuted rounded-2xl text-white self-end text-lg xl:text-xl md:text-xs lg:text-md lg:py-3.5  xl:py-2 w-full py-2 ${QuicksandFont.className}`}
 //               >
 //                 Search
 //               </button>

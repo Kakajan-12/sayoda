@@ -58,12 +58,12 @@ export default function IncludesExcludes({ tourId }: { tourId: number }) {
   if (loading)
     return (
       <div className="flex justify-center items-center py-10">
-        <BarLoader color="#245483" />
+        <BarLoader color="#0F5257" />
       </div>
     );
 
   return (
-    <div className="w-full bg-[#E3ECF5] py-10 lg:py-20">
+    <div className="w-full bg-tileTint py-10 lg:py-20">
       <div className="container mx-auto px-5 lg:px-32">
         <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-bold">
           {t("whats")}
@@ -74,7 +74,9 @@ export default function IncludesExcludes({ tourId }: { tourId: number }) {
             <h3 className="text-lg font-semibold lg:text-xl">{t("include")}</h3>
             {includes.map((item) => (
               <div key={item.id} className="flex items-start gap-3">
-                <IoMdCheckmarkCircleOutline className="w-5 h-5 mt-1 shrink-0 text-mainLight" />
+                {/* Галочка и крестик ниже красились одним цветом, поэтому
+                    «включено» и «не включено» визуально не различались. */}
+                <IoMdCheckmarkCircleOutline className="w-5 h-5 mt-1 shrink-0 text-tileMid" />
                 <div
                   dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }}
                 />
@@ -88,7 +90,7 @@ export default function IncludesExcludes({ tourId }: { tourId: number }) {
             </h3>
             {excludes.map((item) => (
               <div key={item.id} className="flex items-start gap-3">
-                <IoMdCloseCircleOutline className="w-5 h-5 mt-1 shrink-0 text-mainLight" />
+                <IoMdCloseCircleOutline className="w-5 h-5 mt-1 shrink-0 text-inkMuted" />
                 <div
                   dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }}
                 />

@@ -108,7 +108,7 @@ const AccordionTour: React.FC<AccordionTourProps> = ({ tourId }) => {
                           key={idx}
                           className="flex w-full items-start py-2.5 gap-3"
                         >
-                          <div className="w-[10px] min-w-[10px] mt-1 h-[10px] bg-[#C6B182] rounded-full"></div>
+                          <div className="w-[10px] min-w-[10px] mt-1 h-[10px] bg-sand rounded-full"></div>
                           <p className="text-sm lg:text-lg">{el.lii}</p>
                         </div>
                       ))}

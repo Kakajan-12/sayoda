@@ -15,7 +15,7 @@ const TourDetail: React.FC<Props> = ({ formDates, onchange, tourName }) => {
 
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-6 gap-4 lg:gap-x-10 xl:gap-x-16">
-            <h3 className="text-[#BF8B30] lg:mb-5 col-span-full text-xl md:text-xl lg:text-2xl">
+            <h3 className="text-brick lg:mb-5 col-span-full text-xl md:text-xl lg:text-2xl">
                 {t("tour")}
             </h3>
 

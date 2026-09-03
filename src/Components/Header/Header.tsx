@@ -163,7 +163,7 @@ export default function Header() {
           href={item.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-mainBlue hover:text-[#BF8B30] transition-colors"
+          className="text-mainBlue hover:text-brick transition-colors"
           aria-label={iconType}
         >
           <Icon className="w-4 h-4" />
@@ -180,7 +180,7 @@ export default function Header() {
               {email && (
                 <a
                   href={`mailto:${email}`}
-                  className="flex items-center gap-2 hover:text-[#BF8B30] transition-colors"
+                  className="flex items-center gap-2 hover:text-brick transition-colors"
                 >
                   <FaEnvelope className="w-4 h-4 shrink-0" />
                   <span>{email}</span>
@@ -189,7 +189,7 @@ export default function Header() {
               {phone && (
                 <a
                   href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-2 hover:text-[#BF8B30] transition-colors"
+                  className="flex items-center gap-2 hover:text-brick transition-colors"
                 >
                   <FaPhone className="w-4 h-4 shrink-0" />
                   <span>{phone}</span>
@@ -222,7 +222,7 @@ export default function Header() {
                 <Link
                   key={items.name}
                   className={`lg:text-sm 2xl:text-lg text-sm font-medium ${
-                    items.url === activeNav ? "text-[#BF8B30]" : "text-white"
+                    items.url === activeNav ? "text-brick" : "text-white"
                   }`}
                   href={items.url}
                 >
@@ -253,7 +253,7 @@ export default function Header() {
                           switchLanguage(lang);
                           setIsLangOpen(false);
                         }}
-                        className="px-4 py-2 hover:bg-[#BF8B30] cursor-pointer"
+                        className="px-4 py-2 hover:bg-brick cursor-pointer"
                       >
                         {lang.toUpperCase()}
                       </p>

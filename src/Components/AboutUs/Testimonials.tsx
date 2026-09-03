@@ -44,7 +44,7 @@ const Testimonials = () => {
 
       {loading ? (
         <p className="flex justify-center items-center py-10">
-          <BarLoader color="#245483" />
+          <BarLoader color="#0F5257" />
         </p>
       ) : testimonials.length === 0 ? (
         <p className="mt-6 text-gray-500">{tc("noTestimonials")}</p>
@@ -58,7 +58,7 @@ const Testimonials = () => {
           {testimonials.map((item) => (
             <SwiperSlide key={item.id}>
               <div
-                className={`w-full bg-[#EAF1F7] rounded-xl flex flex-col shadow-[#00000040] shadow-lg ${PoppinFont.className}`}
+                className={`w-full bg-tileTint rounded-xl flex flex-col shadow-[#00000040] shadow-lg ${PoppinFont.className}`}
               >
                 {/* Шапка */}
                 <div className="w-full flex items-center gap-2">

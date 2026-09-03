@@ -2,15 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * Палитра «Изразец» продублирована переменными, потому что до токенов Tailwind
+ * из обычного CSS не дотянуться. Значения обязаны совпадать с tailwind.config.js.
+ */
+:root {
+  --tile: #0f5257;
+  --tile-mid: #1b7a7e;
+  --tile-light: #2e9b9b;
+  --tile-tint: #e3f0ef;
+  --brick: #b4441f;
+  --sand: #ede3d2;
+  --paper: #fbfaf7;
+  --ink: #15201f;
+}
+
 @layer utilities {
   .border-gradient {
     border-width: 4px;
     border-style: solid;
     border-image-source: linear-gradient(
       90deg,
-      #e0ecf6 0%,
-      #215584 50.36%,
-      #dfe3ea 100%
+      var(--tile-tint) 0%,
+      var(--tile) 50.36%,
+      var(--sand) 100%
     );
     border-image-slice: 1;
     border-radius: 15px;
@@ -21,7 +36,7 @@
 }
 
 .main-background-color {
-  background-color: #215584;
+  background-color: var(--tile);
 }
 
 .destination-cards-swiper .swiper-slide {
@@ -143,14 +158,18 @@ input.no-spin {
 }
 
 .visa-table thead th {
-  background-color: #f3f4f6;
+  background-color: var(--tile);
   font-weight: 600;
-  color: #374151;
+  color: #ffffff;
 }
 
+/*
+ * Здесь стояли два background-color подряд: #fafafa и #dcb247. Побеждал второй,
+ * поэтому каждая чётная строка таблицы виз заливалась горчичным. Оставляем
+ * одну спокойную подложку из палитры.
+ */
 .visa-table tbody tr:nth-child(even) {
-  background-color: #fafafa;
-  background-color: #dcb247;
+  background-color: var(--tile-tint);
 }
 
 @keyframes skeleton-shimmer {

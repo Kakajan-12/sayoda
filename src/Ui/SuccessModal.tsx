@@ -76,7 +76,7 @@ export default function SuccessModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full rounded bg-[#073fa1] py-3 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-[#073fa1]/80"
+                className="w-full rounded bg-tile py-3 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-tile/80"
               >
                 {closeLabel}
               </button>

@@ -125,7 +125,7 @@ export default function ContactPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <BarLoader color="#245483" />
+        <BarLoader color="#0F5257" />
       </div>
     );
   }
@@ -187,8 +187,8 @@ export default function ContactPage() {
                   className={`px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md
                   ${
                     activeIndex === index
-                      ? "bg-[#4D779D] text-white"
-                      : "bg-white text-[#4D779D] hover:bg-gray-100"
+                      ? "bg-tileMid text-white"
+                      : "bg-white text-tileMid hover:bg-gray-100"
                   }
                 `}
                 >
@@ -208,12 +208,12 @@ export default function ContactPage() {
                 key={i}
                 className="bg-white flex items-start text-center gap-3"
               >
-                <Icon className="w-6 h-6 lg:w-7 lg:h-7 mt-1 shrink-0 text-[#4D779D]" />
+                <Icon className="w-6 h-6 lg:w-7 lg:h-7 mt-1 shrink-0 text-tileMid" />
                 <div className="flex flex-col items-start justify-start gap-1">
                   <p className="text-lg font-medium text-gray-800">
                     {item.title}
                   </p>
-                  <p className="text-[#4D779D] text-left">{item.detail}</p>
+                  <p className="text-tileMid text-left">{item.detail}</p>
                 </div>
               </div>
             );

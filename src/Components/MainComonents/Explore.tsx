@@ -61,7 +61,8 @@ const Explore = () => {
             {offers.map((items: string) => {
               return (
                 <div key={items} className="flex items-start space-x-2">
-                  <FiCheckCircle className="w-5 h-5 mt-0.5 text-mainLight" />
+                  {/* На белом фоне песочный цвет почти не виден — галочкам нужна бирюза. */}
+                  <FiCheckCircle className="w-5 h-5 mt-0.5 text-tileMid" />
                   <p
                     className={`${QuicksandFont.className} text-xs xl:text-sm font-normal 2xl:text-xl `}
                   >

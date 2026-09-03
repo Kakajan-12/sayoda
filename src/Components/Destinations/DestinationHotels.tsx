@@ -43,7 +43,7 @@ export default function DestinationHotels({ country }: { country: string }) {
   if (loading) {
     return (
       <p className="flex justify-center items-center py-10">
-        <BarLoader color="#245483" />
+        <BarLoader color="#0F5257" />
       </p>
     );
   }

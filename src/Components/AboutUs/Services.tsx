@@ -43,7 +43,7 @@ const Services = () => {
           {t("title")}
         </h3>
         <h2
-          className={`${MontserratFont.className} text-xl sm:text-[22px] lg:text-2xl xl:text-4xl font-bold text-[#84A4BC]`}
+          className={`${MontserratFont.className} text-xl sm:text-[22px] lg:text-2xl xl:text-4xl font-bold text-tileMid`}
         >
           {t("provide")}
         </h2>
@@ -88,7 +88,7 @@ const Services = () => {
           ))}
         </div>
         {/* ORANGEEE BACK */}
-        <div className="bg-[#CBC6A9] w-2/5 md:w-full md:h-96 lg:h-96 xl:h-52 absolute z-0 h-full  top-0"></div>
+        <div className="bg-sand w-2/5 md:w-full md:h-96 lg:h-96 xl:h-52 absolute z-0 h-full  top-0"></div>
       </div>
     </div>
   );

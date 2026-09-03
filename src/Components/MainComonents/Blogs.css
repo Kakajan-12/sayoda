@@ -14,7 +14,7 @@
   font-weight: bold;
 }
 .designedBullets{
-    background: #C4B284;
+    background: #EDE3D2;
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -24,7 +24,7 @@
     cursor: pointer;
 }
 .swiper-pagination-bullet-active {
-    background: #C4B284;
+    background: #EDE3D2;
     border-radius: 30%;
     opacity: 100%;
     width: 40px;

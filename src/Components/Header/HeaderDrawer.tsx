@@ -58,7 +58,7 @@ const HeaderDrawer: React.FC<Props> = ({ onClose }) => {
                   onClick={onClose}
                   className={`${
                       items.url === activeNav ? "text-activeColor" : "text-white"
-                  } flex gap-3 items-center w-full rounded-3xl py-3 text-xl px-2 duration-150 transition-all focus:bg-[#C4B284]`}
+                  } flex gap-3 items-center w-full rounded-3xl py-3 text-xl px-2 duration-150 transition-all focus:bg-sand`}
                   href={items.url}
               >
                 {t(items.key)}
@@ -66,7 +66,7 @@ const HeaderDrawer: React.FC<Props> = ({ onClose }) => {
           ))}
           <div
               className={`flex text-xl gap-4 items-center w-full rounded-3xl py-3 px-2 ${
-                  forLang ? "bg-[#C4B284]" : ""
+                  forLang ? "bg-sand" : ""
               }`}
           >
             {filteredlanguages.map((items) => (

@@ -121,7 +121,7 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="bg-[#E8ECF0]">
+    <div className="bg-sandLight">
       <div className="container mx-auto flex flex-col py-10 md:py-20 px-5">
         <h2
           className={`text-2xl lg:text-3xl 2xl:text-4xl leading-10 w-2/3 2xl:leading-[65px] text-mainBlue font-bold ${PoppinFont.className}`}

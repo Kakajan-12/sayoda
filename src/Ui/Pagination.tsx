@@ -26,11 +26,11 @@ const PaginationUi: React.FC<Props> = ({ onchange, page, items , itemsPerPage}) 
             },
 
             "& .MuiPaginationItem-root.Mui-selected": {
-              backgroundColor: "#245483", // Фон активной кнопки
+              backgroundColor: "#0F5257", // Фон активной кнопки
               color: "white", // Цвет текста активной кнопки
               scale: "1.3",
               "&:hover": {
-                backgroundColor: "#245483", // Убираем цвет фона при наведении
+                backgroundColor: "#0F5257", // Убираем цвет фона при наведении
                 boxShadow: "none", // Убираем возможные тени
               },
             },
@@ -55,13 +55,13 @@ const PaginationUi: React.FC<Props> = ({ onchange, page, items , itemsPerPage}) 
               },
               fontSize: "10px", // Увеличиваем шрифт
               "&:hover": {
-                backgroundColor: "#245483", // Убираем цвет фона при наведении
+                backgroundColor: "#0F5257", // Убираем цвет фона при наведении
                 boxShadow: "none", // Убираем возможные тени
               },
             },
             "& .MuiPaginationItem-previousNext": {
               backgroundColor: "transparent", // Меняем цвет фона
-              color: "#245483",
+              color: "#0F5257",
               fontSize: "2000rem !important", // Увеличиваем размер текста
               padding: "8px 16px !important", // Увеличиваем внутренние отступы для кнопок
               borderRadius: "8px", // Можно добавить скругление

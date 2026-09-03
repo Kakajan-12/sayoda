@@ -82,7 +82,7 @@ export default function HotelsCatalog() {
         <div className="flex flex-1 flex-col gap-4">
           {loading ? (
             <p className="flex justify-center items-center py-10">
-              <BarLoader color="#245483" />
+              <BarLoader color="#0F5257" />
             </p>
           ) : filtered.length ? (
             filtered.map((hotel) => <HotelCard key={hotel.id} hotel={hotel} />)

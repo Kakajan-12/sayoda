@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Logo from "../../../public/IMG_20250217_105552631_275 1.png";
+// Тот же логотип, что в шапке. Прежний PNG нёс запечённый синий фон:
+// на новом бирюзовом подвале он проступал прямоугольником.
+import Logo from "../../../public/headerIcon.svg";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "@/i18n/navigation";
@@ -24,7 +26,7 @@ import { plainText } from "@/lib/utils";
 const usefulLinks = ["/about", "/tours", "/blog", "/contacts"];
 
 const linkClass = (font: string) =>
-  `footerLink hover:text-[#BF8B30] hover:translate-x-1 transition-all duration-300 ${font}`;
+  `footerLink hover:text-brick hover:translate-x-1 transition-all duration-300 ${font}`;
 
 export default async function Footer() {
   const locale = await getLocale();
@@ -104,7 +106,7 @@ export default async function Footer() {
                 href={href}
                 key={href}
               >
-                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
+                <SlArrowRight className="w-3 h-3 text-brick" />
                 {useful[i]}
               </Link>
             ))}
@@ -118,7 +120,7 @@ export default async function Footer() {
                 href={`/tours?location=${loc.id}`}
                 key={loc.id}
               >
-                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
+                <SlArrowRight className="w-3 h-3 text-brick" />
                 {plainText(localizedField(loc, "location", locale))}
               </Link>
             ))}
@@ -132,7 +134,7 @@ export default async function Footer() {
                 href={`/destinations/turkmenistan/visa/${item.id}`}
                 key={item.id}
               >
-                <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
+                <SlArrowRight className="w-3 h-3 text-brick" />
                 {plainText(localizedField(item, "title", locale))}
               </Link>
             ))}
@@ -140,7 +142,7 @@ export default async function Footer() {
               className={linkClass(QuicksandFont.className)}
               href="/hotels"
             >
-              <SlArrowRight className="w-3 h-3 text-[#BF8B30]" />
+              <SlArrowRight className="w-3 h-3 text-brick" />
               {t("hotelsLink")}
             </Link>
           </div>

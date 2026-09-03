@@ -24,13 +24,11 @@ const chooseArray = [
 ];
 
 const WhyChoose = () => {
-  const desertColors = [
-    "bg-[#C9AE82]",
-    "bg-[#A07D4E]",
-    "bg-[#6E5234]",
-  ];
+  // Три карточки «почему мы» шли лесенкой коричневых. В палитре «Изразец»
+  // та же лесенка строится на бирюзе — от светлой к глубокой.
+  const stepColors = ["bg-tileLight", "bg-tileMid", "bg-tile"];
 
-  const backColors = (index: number) => desertColors[index] ?? desertColors[0];
+  const backColors = (index: number) => stepColors[index] ?? stepColors[0];
   const t = useTranslations("SectionTitle");
   const Why = useTranslations("Why");
   const rawTittle = Why.raw("cardtitle");
