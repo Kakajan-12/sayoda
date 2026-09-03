@@ -9,7 +9,7 @@ import SocialIcons from "./SocialIcons";
 import TrackedContactLink from "@/Components/Contact/TrackedContactLink";
 import { getContacts, telHref } from "@/lib/api/contacts";
 import { getTourLocations, getVisaEntries, localizedField } from "@/lib/api/catalog";
-import { COMPANY } from "@/lib/site";
+import { getSettings } from "@/lib/api/settings";
 import { plainText } from "@/lib/utils";
 
 /**
@@ -31,10 +31,11 @@ export default async function Footer() {
   const t = await getTranslations("Footer");
   const useful = t.raw("useful") as string[];
 
-  const [contacts, locations, visa] = await Promise.all([
+  const [contacts, locations, visa, settings] = await Promise.all([
     getContacts(locale),
     getTourLocations(),
     getVisaEntries(),
+    getSettings(),
   ]);
 
   return (
@@ -79,16 +80,16 @@ export default async function Footer() {
               </TrackedContactLink>
             </h5>
 
-            {/* Реквизиты показываем только когда заказчик их заполнил —
-                пустая строка «License:» доверия не добавляет. */}
-            {COMPANY.legalName && (
+            {/* Реквизиты показываем только когда заказчик заполнил их
+                в админке — пустая строка «License:» доверия не добавляет. */}
+            {settings.company_legal_name && (
               <p className={`text-sm ${QuicksandFont.className}`}>
-                {COMPANY.legalName}
+                {settings.company_legal_name}
               </p>
             )}
-            {COMPANY.licenseNumber && (
+            {settings.license_number && (
               <p className={`text-sm ${QuicksandFont.className}`}>
-                {t("license")}: {COMPANY.licenseNumber}
+                {t("license")}: {settings.license_number}
               </p>
             )}
 

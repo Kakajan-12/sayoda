@@ -9,6 +9,7 @@ import Gallery from "@/Components/TourPerPage/Gallery";
 import Map from "@/Components/TourPerPage/Map";
 import TourCta from "@/Components/TourPerPage/TourCta";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
+import { getSettings } from "@/lib/api/settings";
 import TourJsonLd from "@/Components/Seo/TourJsonLd";
 import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
 import {
@@ -96,10 +97,14 @@ export default async function Page({
   const tc = await getTranslations({ locale, namespace: "Contact" });
   const tourTitle = plainText(localizedField(tour, "title", locale));
 
-  const contacts = await getContacts(locale);
+  const [contacts, settings] = await Promise.all([
+    getContacts(locale),
+    getSettings(),
+  ]);
   const whatsapp = whatsappHref(
     contacts,
     tc("whatsappTour", { tour: tourTitle }),
+    settings.whatsapp,
   );
 
   return (

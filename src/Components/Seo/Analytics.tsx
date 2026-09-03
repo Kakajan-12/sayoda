@@ -1,20 +1,22 @@
 import Script from "next/script";
-import { GA4_ID, isAnalyticsEnabled } from "@/lib/analytics";
 
 /**
- * Подключение GA4. Без NEXT_PUBLIC_GA4_ID компонент ничего не рендерит,
- * поэтому на сборку и на страницы без счётчика он не влияет.
+ * Подключение GA4. Идентификатор приходит из админки — если он не задан,
+ * компонент не рендерит ничего, и на страницах без счётчика лишних запросов
+ * не появляется.
  *
  * Используем next/script напрямую, а не @next/third-parties: в проекте уже
  * так подключён Crisp, и лишняя зависимость ради двух тегов не нужна.
  */
-export default function Analytics() {
-  if (!isAnalyticsEnabled) return null;
+export default function Analytics({ ga4Id }: { ga4Id: string | null }) {
+  // Пустая строка и мусорное значение из админки не должны попадать в URL.
+  const id = (ga4Id || "").trim();
+  if (!/^G-[A-Z0-9]+$/i.test(id)) return null;
 
   return (
     <>
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${id}`}
         strategy="afterInteractive"
       />
       <Script id="ga4-init" strategy="afterInteractive">
@@ -23,7 +25,7 @@ export default function Analytics() {
           function gtag(){dataLayer.push(arguments);}
           window.gtag = gtag;
           gtag('js', new Date());
-          gtag('config', '${GA4_ID}');
+          gtag('config', '${id}');
         `}
       </Script>
     </>

@@ -1,5 +1,5 @@
 import { BASE_API_URL } from "@/i18n/api";
-import { COMPANY, CONTACT_FALLBACK } from "@/lib/site";
+import { CONTACT_FALLBACK } from "@/lib/site";
 import { plainText } from "@/lib/utils";
 
 /**
@@ -73,8 +73,8 @@ export function telHref(phone: string): string {
  * Ссылка на WhatsApp с предзаполненным текстом.
  *
  * Приоритет источников:
- *   1. COMPANY.whatsapp — если заказчик задал отдельный номер;
- *   2. запись с icon="whatsapp" в админке (раздел «Ссылки») — там уже можно
+ *   1. настройка whatsapp из админки — если задан отдельный номер;
+ *   2. запись с icon="whatsapp" в разделе «Ссылки» — там уже можно
  *      сохранить готовый https://wa.me/... ;
  *   3. основной телефон компании.
  *
@@ -83,11 +83,13 @@ export function telHref(phone: string): string {
 export function whatsappHref(
   contacts: SiteContacts,
   text?: string,
+  /** Номер из настроек админки; имеет приоритет над остальными источниками. */
+  whatsappSetting?: string | null,
 ): string | null {
   const query = text ? `?text=${encodeURIComponent(text)}` : "";
 
-  if (COMPANY.whatsapp) {
-    const digits = COMPANY.whatsapp.replace(/\D/g, "");
+  if (whatsappSetting) {
+    const digits = whatsappSetting.replace(/\D/g, "");
     if (digits) return `https://wa.me/${digits}${query}`;
   }
 

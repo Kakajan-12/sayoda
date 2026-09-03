@@ -15,6 +15,7 @@ import OrganizationJsonLd from "@/Components/Seo/OrganizationJsonLd";
 import Analytics from "@/Components/Seo/Analytics";
 import WhatsAppButton from "@/Components/Contact/WhatsAppButton";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
+import { getSettings } from "@/lib/api/settings";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -72,8 +73,15 @@ export default async function RootLayout({
   }
 
   const t = await getTranslations({ locale, namespace: "Contact" });
-  const contacts = await getContacts(locale);
-  const whatsapp = whatsappHref(contacts, t("whatsappPrefill"));
+  const [contacts, settings] = await Promise.all([
+    getContacts(locale),
+    getSettings(),
+  ]);
+  const whatsapp = whatsappHref(
+    contacts,
+    t("whatsappPrefill"),
+    settings.whatsapp,
+  );
 
   return (
     <html lang={locale}>
@@ -81,7 +89,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <BodyWrapper>
             <OrganizationJsonLd locale={locale} />
-            <Analytics />
+            <Analytics ga4Id={settings.ga4_id} />
             <Header />
             {children}
 

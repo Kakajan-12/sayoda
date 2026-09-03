@@ -1,6 +1,7 @@
 import JsonLd from "./JsonLd";
 import { getContacts } from "@/lib/api/contacts";
-import { COMPANY, SITE_NAME, absoluteUrl, localizedUrl } from "@/lib/site";
+import { getSettings } from "@/lib/api/settings";
+import { SITE_NAME, absoluteUrl, localizedUrl } from "@/lib/site";
 
 /**
  * Разметка TravelAgency для всего сайта.
@@ -14,7 +15,10 @@ export default async function OrganizationJsonLd({
 }: {
   locale: string;
 }) {
-  const contacts = await getContacts(locale);
+  const [contacts, settings] = await Promise.all([
+    getContacts(locale),
+    getSettings(),
+  ]);
 
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -39,13 +43,13 @@ export default async function OrganizationJsonLd({
     ],
   };
 
-  if (COMPANY.legalName) data.legalName = COMPANY.legalName;
-  if (COMPANY.foundedYear) data.foundingDate = COMPANY.foundedYear;
-  if (COMPANY.licenseNumber) {
+  if (settings.company_legal_name) data.legalName = settings.company_legal_name;
+  if (settings.founded_year) data.foundingDate = settings.founded_year;
+  if (settings.license_number) {
     data.hasCredential = {
       "@type": "EducationalOccupationalCredential",
       credentialCategory: "Tour operator license",
-      identifier: COMPANY.licenseNumber,
+      identifier: settings.license_number,
     };
   }
 

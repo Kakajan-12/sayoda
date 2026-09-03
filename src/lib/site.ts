@@ -27,27 +27,13 @@ export const CONTACT_FALLBACK = {
 } as const;
 
 /**
- * Реквизиты для футера, страницы «О нас» и schema.org.
- * Заполняются заказчиком; пока пусто — блоки доверия их не выводят.
+ * Реквизиты компании больше не хранятся здесь: их источник — таблица settings
+ * в админке (см. `src/lib/api/settings.ts`). Так заказчик правит юрлицо,
+ * лицензию и номер WhatsApp сам, без передеплоя на Vercel.
  *
- * Тип задан явно (а не через `as const`): иначе пустая строка сузилась бы
- * до литерального типа `""`, и проверка `if (COMPANY.whatsapp)` давала бы
- * `never` в ветке «значение задано».
+ * Незаполненные значения не выводятся вообще: пустая строка «License:»
+ * доверия не добавляет, а пустое поле в schema.org считается ошибкой.
  */
-export interface CompanyDetails {
-  legalName: string;
-  licenseNumber: string;
-  /** Номер для WhatsApp в международном формате, лишние символы отбрасываются. */
-  whatsapp: string;
-  foundedYear: string;
-}
-
-export const COMPANY: CompanyDetails = {
-  legalName: process.env.NEXT_PUBLIC_COMPANY_LEGAL_NAME || "",
-  licenseNumber: process.env.NEXT_PUBLIC_LICENSE_NUMBER || "",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP || "",
-  foundedYear: process.env.NEXT_PUBLIC_FOUNDED_YEAR || "",
-};
 
 /** Абсолютный URL — нужен для canonical, hreflang, Open Graph и sitemap. */
 export function absoluteUrl(path = "/"): string {
