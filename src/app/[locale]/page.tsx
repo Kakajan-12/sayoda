@@ -62,8 +62,13 @@ export default async function Home({
   const heading = (
     <div className="absolute inset-x-0 top-1/4 z-30 px-4 sm:px-8 lg:px-16">
       <div className="max-w-4xl mx-auto text-center">
+        {/* Межстрочное задаётся через text-<размер>/<интерлиньяж>, а не
+            отдельным leading-*. Утилиты размера в Tailwind несут собственный
+            line-height (у text-5xl это 1), и адаптивный xl:text-5xl перебивал
+            безпрефиксный leading-*: строки шли с интерлиньяжем 1.0 и слипались.
+            text-balance выравнивает длину строк при переносе. */}
         <h1
-          className={`${PoppinFont.className} text-white text-2xl sm:text-4xl xl:text-5xl font-bold leading-tight drop-shadow-lg`}
+          className={`${PoppinFont.className} text-white text-2xl/snug sm:text-4xl/snug xl:text-5xl/snug font-bold text-balance drop-shadow-lg`}
         >
           {t("h1")}
         </h1>
