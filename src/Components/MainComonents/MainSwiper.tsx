@@ -45,9 +45,15 @@ interface MainSwiperProps {
    * в статический HTML — сам слайдер грузит данные уже в браузере.
    */
   heading?: React.ReactNode;
+  /**
+   * Фон первого экрана, загруженный через админку. Пусто — остаётся картинка
+   * из вёрстки, чтобы баннер не оказался пустым до первой загрузки своей.
+   */
+  backgroundImage?: string;
 }
 
-const MainSwiper = ({ heading }: MainSwiperProps) => {
+const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
+  const heroImage = backgroundImage || mainImage;
   const router = useRouter();
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,7 +120,7 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
         <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
           <div className="absolute inset-0 overflow-hidden -top-28">
             <ImageWithSkeleton
-              src={mainImage}
+              src={heroImage}
               alt="Central Asia map"
               fill
               priority
@@ -153,7 +159,7 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
         <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
           <div className="absolute inset-0 overflow-hidden -top-28">
             <ImageWithSkeleton
-              src={mainImage}
+              src={heroImage}
               alt="Central Asia map"
               fill
               priority
@@ -174,7 +180,7 @@ const MainSwiper = ({ heading }: MainSwiperProps) => {
       <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
         <div className="absolute inset-0 overflow-hidden -top-28">
           <ImageWithSkeleton
-            src={mainImage}
+            src={heroImage}
             alt="Central Asia map"
             fill
             priority

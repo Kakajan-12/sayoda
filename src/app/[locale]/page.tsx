@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
 import { getBlogs, getTours } from "@/lib/api/catalog";
+import { bannerField, bannerImage, getBanner } from "@/lib/api/banner";
 import { routing } from "@/i18n/routing";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
@@ -51,8 +52,20 @@ export default async function Home({
 
   // Популярные туры и статьи читаем на сервере: раньше оба блока грузились
   // в useEffect, и главная отдавалась без единой ссылки на тур или статью.
-  const [tours, blogs] = await Promise.all([getTours(), getBlogs()]);
+  const [tours, blogs, banner] = await Promise.all([
+    getTours(),
+    getBlogs(),
+    getBanner(),
+  ]);
   const popularTours = tours.filter((tour) => tour.popular === 1);
+
+  // Тексты баннера приходят из админки. Значения из локализации остаются
+  // запасным вариантом: пустое поле или недоступный API не должны оставлять
+  // первый экран без заголовка.
+  const bannerTitle = bannerField(banner, "title", locale) || t("h1");
+  const bannerSubtitle = bannerField(banner, "subtitle", locale) || t("subtitle");
+  const bannerButton = bannerField(banner, "button_text", locale) || t("cta");
+  const bannerLink = banner.button_link?.trim() || "/tours";
 
   /**
    * Единственный h1 страницы. Рендерится на сервере и передаётся в клиентский
@@ -70,18 +83,18 @@ export default async function Home({
         <h1
           className={`${PoppinFont.className} text-white text-2xl/snug sm:text-4xl/snug xl:text-5xl/snug font-bold text-balance drop-shadow-lg`}
         >
-          {t("h1")}
+          {bannerTitle}
         </h1>
         <p
           className={`${QuicksandFont.className} mt-4 text-white/90 text-sm sm:text-base xl:text-lg drop-shadow-md`}
         >
-          {t("subtitle")}
+          {bannerSubtitle}
         </p>
         <Link
-          href="/tours"
+          href={bannerLink}
           className={`${PoppinFont.className} inline-block mt-6 rounded-full bg-mainBlue px-8 py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
         >
-          {t("cta")}
+          {bannerButton}
         </Link>
       </div>
     </div>
@@ -89,7 +102,7 @@ export default async function Home({
 
   return (
     <div>
-      <MainSwiper heading={heading} />
+      <MainSwiper heading={heading} backgroundImage={bannerImage(banner)} />
       <Explore />
       <PopularCards tours={popularTours} />
       <BlogsCards blogs={blogs} />
