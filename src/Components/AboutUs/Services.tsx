@@ -58,7 +58,7 @@ const Services = () => {
           {servicesImgs.map((items, i) => (
             <div
               key={i}
-              className={`   flex justify-between md:flex-col md:justify-between  items-center shadow-xl    h-auto  shadow-[#00000040] bg-white gap-x-6 px-5 dort:px-10 sm:px-5 md:px-5   py-6`}
+              className={`   flex justify-between md:flex-col md:justify-between  items-center shadow-xl    h-auto  shadow-[#00000040] bg-white gap-x-4 px-4 dort:px-6 sm:px-5 md:px-5   py-6`}
             >
               <div className=" rounded-full  flex justify-center items-center p-3 lg:p-4 bg-[#F1F0ED]">
                 <Image
@@ -68,18 +68,22 @@ const Services = () => {
                 />
               </div>
               <h3
-                className={`${PoppinFont.className} md:mt-2 hidden lg:block xl:mt-3 text-center text-[16px] lg:text-sm font-medium `}
+                className={`${PoppinFont.className} md:mt-2 hidden lg:block xl:mt-3 text-center text-[16px] lg:text-sm font-medium break-words `}
               >
                 {rawtitle[i]}
               </h3>
-              <div className="md:text-center md:mt-4 gap-3 flex flex-col  xl:mt-3 ">
+              {/* min-w-0 обязателен: у элемента флекса минимальная ширина по
+                  умолчанию равна содержимому, поэтому на телефоне текстовый
+                  блок отказывался сжиматься и вылезал за правый край карточки
+                  на 10–15px вместе со всей страницей. */}
+              <div className="min-w-0 flex-1 md:text-center md:mt-4 gap-3 flex flex-col  xl:mt-3 ">
                 <h3
-                  className={`${PoppinFont.className} md:mt-2 lg:hidden xl:mt-3  text-[16px] lg:text-xl 2xl:text-2xl font-medium `}
+                  className={`${PoppinFont.className} md:mt-2 lg:hidden xl:mt-3  text-[16px] lg:text-xl 2xl:text-2xl font-medium break-words `}
                 >
                   {rawtitle[i]}
                 </h3>
                 <p
-                  className={`${QuicksandFont.className}  text-xs xl:text-xs 2xl:text- leading-5 font-medium  `}
+                  className={`${QuicksandFont.className}  text-xs xl:text-xs 2xl:text- leading-5 font-medium break-words  `}
                 >
                   {rawtext[i]}
                 </p>

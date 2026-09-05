@@ -38,7 +38,7 @@ export default async function GeneralInformationPage({
             id={section.section_key}
             className="scroll-mt-36 mb-12"
           >
-            <h2 className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-5">
+            <h2 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-5">
               {destField(section, "title", locale)}
             </h2>
             <div

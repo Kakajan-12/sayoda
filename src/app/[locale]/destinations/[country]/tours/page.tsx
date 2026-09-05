@@ -62,7 +62,7 @@ export default async function ToursPage({
 
   return (
     <div className={ComfortaFont.className}>
-      <h2 className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-6">
         {t("tabTours")} — {destField(destination, "name", locale)}
       </h2>
 

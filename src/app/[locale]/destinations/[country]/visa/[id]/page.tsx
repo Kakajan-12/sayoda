@@ -20,7 +20,7 @@ export default async function VisaTypePage({
   return (
     <>
       <h2
-        className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-6"
+        className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-6"
         dangerouslySetInnerHTML={{ __html: title }}
       />
       <div className="rich-content" dangerouslySetInnerHTML={{ __html: text }} />
