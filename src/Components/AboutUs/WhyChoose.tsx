@@ -1,70 +1,65 @@
-import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import React from "react";
-import img1 from "../../../public/AboutImgs/ChooseUs/Minimalist_Lines_Art_2___Black_and_Beige_Lines___Digital_Download___Mid_Century_Modern___Line_Drawing_Print___Minimalist_Poster-removebg-preview 1 (1).svg";
-import img2 from "../../../public/AboutImgs/ChooseUs/Minimalist_Lines_Art_2___Black_and_Beige_Lines___Digital_Download___Mid_Century_Modern___Line_Drawing_Print___Minimalist_Poster-removebg-preview 1.svg";
-import img3 from "../../../public/AboutImgs/ChooseUs/Без_названия__5_-removebg-preview 1.svg";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-const chooseArray = [
-  {
-    img: img2,
-    title: "Seamless & Stress-Free Planning",
-    desc: "We handle all the details – from visas and accommodations to transportation and guided tours. You just focus on enjoying the adventure!",
-  },
-  {
-    img: img1,
-    title: "Authentic & Immersive Travel",
-    desc: "We go beyond the typical tourist routes, offering deep cultural experiences with local experts. From exploring ancient Silk Road cities to staying in traditional yurts, we ensure an unforgettable journey.",
-  },
-  {
-    img: img3,
-    title: "Expert Local Guides",
-    desc: "Our professional guides are locals with in-depth knowledge of history, culture, and hidden gems, making your trip both educational and inspiring.",
-  },
-];
+import { FaCalendarCheck, FaCompass, FaPeopleGroup } from "react-icons/fa6";
+import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
+
+/**
+ * «Почему выбирают нас».
+ *
+ * Было три сплошных бирюзовых блока в ряд. Проблем сразу несколько: цвет
+ * шёл лесенкой от светлой бирюзы к тёмной, из-за чего третья карточка
+ * выглядела важнее остальных без всякой причины; текст в карточках разной
+ * длины, а высота общая — под коротким оставалась дыра в треть карточки;
+ * фоновый узор не читался вовсе; а сразу под блоком идёт сплошной бирюзовый
+ * блок про визу, и вместе это было слишком много одного цвета подряд.
+ *
+ * Теперь светлые карточки одинакового веса со значком: значок даёт взгляду
+ * зацепку, а бирюза осталась акцентом, а не заливкой.
+ */
+const ICONS = [FaCalendarCheck, FaCompass, FaPeopleGroup];
 
 const WhyChoose = () => {
-  // Три карточки «почему мы» шли лесенкой коричневых. В палитре «Изразец»
-  // та же лесенка строится на бирюзе — от светлой к глубокой.
-  const stepColors = ["bg-tileLight", "bg-tileMid", "bg-tile"];
-
-  const backColors = (index: number) => stepColors[index] ?? stepColors[0];
   const t = useTranslations("SectionTitle");
-  const Why = useTranslations("Why");
-  const rawTittle = Why.raw("cardtitle");
-  const rawText = Why.raw("cardtext");
+  const why = useTranslations("Why");
+  const titles = why.raw("cardtitle") as string[];
+  const texts = why.raw("cardtext") as string[];
+
   return (
-    <div className="container mx-auto px-4 pb-10">
-      <h2
-        className={`text-2xl 2xl:text-4xl leading-9  2xl:leading-[65px] font-bold  ${PoppinFont.className}`}
-      >
-        {t("why")}?
-      </h2>
-      <div className="flex flex-col mt-8 gap-5 lg:flex-row lg:justify-center">
-        {chooseArray.map((items, i) => (
-          <div
-            key={i}
-            className={`${backColors(i)}  lg:w-96  rounded-2xl text-white relative px-8 py-6 sm:px-10 sm:py-10 md:px-7 flex flex-col gap-5 lg:gap-8 `}
-          >
-            <Image
-              alt="imgs"
-              className="w-full h-full object-cover inset-0 absolute"
-              src={items.img}
-            />
-            <i
-              className={`${PoppinFont.className} text-xl font-semibold relative lg:text-2xl z-20 `}
-            >
-              {rawTittle[i]}
-            </i>
-            <p
-              className={`${QuicksandFont.className} text-sm font-medium  relative sm:text-md lg:text-lg z-20`}
-            >
-              {rawText[i]}
-            </p>
-          </div>
-        ))}
+    <section className="w-full bg-sandLight py-10 md:py-16">
+      <div className="container mx-auto px-5">
+        <h2
+          className={`${PoppinFont.className} font-bold text-xl md:text-2xl xl:text-3xl`}
+        >
+          {t("why")}?
+        </h2>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-3 md:gap-6">
+          {titles.map((title, i) => {
+            const Icon = ICONS[i] ?? ICONS[0];
+            return (
+              <article
+                key={i}
+                className="flex flex-col gap-3 rounded-lg bg-white p-6 ring-1 ring-sand shadow-sm transition duration-300 hover:shadow-md hover:ring-tileLight"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-tileTint text-tile">
+                  <Icon className="h-6 w-6" />
+                </span>
+                <h3
+                  className={`${PoppinFont.className} text-lg/snug font-semibold text-ink md:text-xl/snug`}
+                >
+                  {title}
+                </h3>
+                <p
+                  className={`${QuicksandFont.className} text-sm/relaxed text-inkMuted md:text-base/relaxed`}
+                >
+                  {texts[i]}
+                </p>
+              </article>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
