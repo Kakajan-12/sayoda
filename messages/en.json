@@ -104,6 +104,63 @@
     "blogs": "Blogs",
     "date": "Date"
   },
+  "Trust": {
+    "licensed": "Licensed tour operator",
+    "license": "licence",
+    "since": "Operating since {year}",
+    "local": "Our own team in Ashgabat",
+    "visa": "Invitation and visa handled by us"
+  },
+  "VisaBlock": {
+    "title": "Turkmenistan visa and letter of invitation",
+    "text": "A tourist visa for Turkmenistan is not issued without a letter of invitation from a licensed local operator. We arrange the invitation ourselves: you send a passport copy and the application form, the rest is our job.",
+    "cta": "How to get a visa",
+    "steps": [
+      "Choose a tour and agree the dates with us.",
+      "Send a passport copy and the completed application form.",
+      "Receive the approved letter of invitation — usually within 2–3 weeks.",
+      "Collect the visa at the embassy or on arrival at Ashgabat airport."
+    ]
+  },
+  "Faq": {
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "q": "Do I need a visa for Turkmenistan?",
+        "a": "Yes, citizens of most countries do. A tourist visa is issued only on the basis of a letter of invitation from a licensed Turkmen operator — we arrange it for you, so there is no separate application to make."
+      },
+      {
+        "q": "How long does the invitation take?",
+        "a": "Usually 2–3 weeks from the moment we receive your passport copy and application form. It is best to start at least a month before the trip."
+      },
+      {
+        "q": "Is Turkmenistan safe to travel in?",
+        "a": "Yes. Street crime is rare, and a guide and driver accompany you along the route. Some areas require permits — we obtain those in advance."
+      },
+      {
+        "q": "What is included in the tour price?",
+        "a": "As a rule: the invitation, transport along the route, accommodation, meals per the programme, a guide and entrance fees. The exact included and excluded list is on each tour page."
+      },
+      {
+        "q": "Can I travel on my own rather than in a group?",
+        "a": "Yes. We build a private tour around your dates, pace and interests — we will send the programme and the price after a short conversation."
+      },
+      {
+        "q": "What languages do the guides speak?",
+        "a": "Russian, English and Turkmen. Other languages on request, if you let us know in advance."
+      }
+    ]
+  },
+  "HomeLead": {
+    "title": "Plan your trip",
+    "text": "Tell us where and when you would like to travel. We reply within one working day — with a programme, a price and the list of what you need for the visa.",
+    "subject": "Enquiry from the home page",
+    "phone": "Phone or WhatsApp (optional)",
+    "message": "Where and when would you like to travel?",
+    "btn": "Send enquiry",
+    "captcha": "Code from the image",
+    "refreshCaptcha": "Refresh image"
+  },
   "Filter": {
     "popular": "Popular",
     "all-tours": "All tours",

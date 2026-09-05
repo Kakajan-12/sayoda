@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import BlogsCards from "@/Components/MainComonents/BlogsCards";
 import Explore from "@/Components/MainComonents/Explore";
+import Faq from "@/Components/MainComonents/Faq";
+import HomeLeadForm from "@/Components/MainComonents/HomeLeadForm";
 import MainSwiper from "@/Components/MainComonents/MainSwiper";
 import PopularCards from "@/Components/MainComonents/PopularCards";
+import TrustStrip from "@/Components/MainComonents/TrustStrip";
+import VisaTeaser from "@/Components/MainComonents/VisaTeaser";
+import HowToWork from "@/Components/AboutUs/HowToWork";
+import Testimonials from "@/Components/AboutUs/Testimonials";
+import WhyChoose from "@/Components/AboutUs/WhyChoose";
 import { Link } from "@/i18n/navigation";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
@@ -100,12 +107,27 @@ export default async function Home({
     </div>
   );
 
+  /**
+   * Порядок блоков — это порядок разговора с туристом: чем вы занимаетесь,
+   * что можно купить, почему вам можно верить, как это устроено, что с визой,
+   * что говорят другие, ответы на страхи — и только потом форма.
+   *
+   * Раньше страница обрывалась на блоге: человек долистывал до конца и
+   * оставить заявку мог, только догадавшись уйти в «Контакты».
+   */
   return (
     <div>
       <MainSwiper heading={heading} backgroundImage={bannerImage(banner)} />
+      <TrustStrip locale={locale} />
       <Explore />
       <PopularCards tours={popularTours} />
+      <WhyChoose />
+      <HowToWork />
+      <VisaTeaser locale={locale} />
+      <Testimonials />
       <BlogsCards blogs={blogs} />
+      <Faq locale={locale} />
+      <HomeLeadForm />
     </div>
   );
 }

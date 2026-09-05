@@ -2,8 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import AboutUs from "../../../Components/AboutUs/AboutUs";
 import Services from "../../../Components/AboutUs/Services";
-import WhyChoose from "../../../Components/AboutUs/WhyChoose";
-import HowToWork from "../../../Components/AboutUs/HowToWork";
 import Testimonials from "../../../Components/AboutUs/Testimonials";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
@@ -21,13 +19,16 @@ export async function generateMetadata({
   return pageMetadata(locale, "about", "about");
 }
 
+/**
+ * «Почему мы» и «Как это работает» переехали на главную: это блоки, которые
+ * снимают возражения, а до страницы «О нас» доходит меньшинство. Здесь
+ * остаётся рассказ о компании, услуги и отзывы.
+ */
 export default function Page() {
   return (
     <section>
       <AboutUs />
       <Services />
-      <WhyChoose />
-      <HowToWork />
       <Testimonials />
     </section>
   );

@@ -104,6 +104,63 @@
     "blogs": "Blog",
     "date": "Sene"
   },
+  "Trust": {
+    "licensed": "Ygtyýarnamaly syýahatçylyk operatory",
+    "license": "ygtyýarnama",
+    "since": "{year} ýyldan bäri işleýäris",
+    "local": "Aşgabatdaky öz toparymyz",
+    "visa": "Çakylyk we wiza biziň üstümizde"
+  },
+  "VisaBlock": {
+    "title": "Türkmenistana wiza we çakylyk haty",
+    "text": "Türkmenistana syýahatçylyk wizasy ýerli ygtyýarnamaly operatoryň çakylyk haty bolmazdan berilmeýär. Çakylygy biz taýýarlaýarys: sizden pasportyň nusgasy we arza, galany biziň işimiz.",
+    "cta": "Wizany nädip almaly",
+    "steps": [
+      "Tury saýlaň we seneleri biziň bilen ylalaşyň.",
+      "Pasportyň nusgasyny we doldurylan arzany iberiň.",
+      "Tassyklanan çakylyk hatyny alyň — adatça 2–3 hepdede.",
+      "Wizany ilçihanadan ýa-da Aşgabat howa menzilinden alyň."
+    ]
+  },
+  "Faq": {
+    "title": "Köp berilýän soraglar",
+    "items": [
+      {
+        "q": "Türkmenistana wiza gerekmi?",
+        "a": "Hawa, köp ýurduň raýatlaryna gerek. Syýahatçylyk wizasy diňe ygtyýarnamaly türkmen operatorynyň çakylyk hatynyň esasynda berilýär — ony biz taýýarlaýarys, aýratyn ýüz tutmaly däl."
+      },
+      {
+        "q": "Çakylyk näçe wagtda taýýar bolýar?",
+        "a": "Adatça pasportyň nusgasyny we arzany alanymyzdan soň 2–3 hepde. Syýahatdan azyndan bir aý öň başlamak gowy."
+      },
+      {
+        "q": "Türkmenistanda syýahat etmek howpsuzmy?",
+        "a": "Hawa. Köçe jenaýatçylygy seýrek, ýol boýunça size gid we sürüji ýoldaş bolýar. Käbir sebitler üçin rugsat gerek — ony öňünden biz alýarys."
+      },
+      {
+        "q": "Turuň bahasyna näme girýär?",
+        "a": "Adatça: çakylyk, ýol boýunça ulag, ýaşaýyş, maksatnama boýunça iýmit, gid we girelge biletleri. Anyk sanaw her turuň sahypasynda görkezilen."
+      },
+      {
+        "q": "Topara goşulman, ýeke gitmek bolarmy?",
+        "a": "Hawa. Şahsy tury siziň seneleriňize, depginiňize we gyzyklanmalaryňyza görä düzýäris — maksatnamany we bahany gysga söhbetdeşlikden soň ibereris."
+      },
+      {
+        "q": "Gidler haýsy dillerde işleýär?",
+        "a": "Rus, iňlis we türkmen dillerinde. Beýleki diller — öňünden habar berseňiz, haýyş boýunça."
+      }
+    ]
+  },
+  "HomeLead": {
+    "title": "Syýahatyňyzy meýilleşdiriň",
+    "text": "Nirä we haçan gitmek isleýändigiňizi ýazyň. Bir iş gününiň dowamynda jogap berýäris — maksatnama, baha we wiza üçin gerek zatlaryň sanawy bilen.",
+    "subject": "Baş sahypadan ýüztutma",
+    "phone": "Telefon ýa-da WhatsApp (hökman däl)",
+    "message": "Nirä we haçan gitmek isleýärsiňiz?",
+    "btn": "Ýüztutma ibermek",
+    "captcha": "Suratdaky kod",
+    "refreshCaptcha": "Suraty täzelemek"
+  },
   "Filter": {
     "popular": "Meşhur",
     "all-tours": "Ähli syýahatlar",

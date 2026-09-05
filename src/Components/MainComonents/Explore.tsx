@@ -45,7 +45,9 @@ const Explore = () => {
           <h2
             className={`text-2xl lg:text-3xl  2xl:text-5xl leading-9  2xl:leading-[65px] font-bold   ${PoppinFont.className}`}
           >
-            "{t("title")}"
+            {/* Заголовок раздела, а не цитата: кавычки вокруг него стояли
+                по недосмотру и читались как чужие слова. */}
+            {t("title")}
           </h2>
           <p
             className={`${QuicksandFont.className} font-normal text-sm tracking-wide  leading-6 lg:leading-6 lg:text-sm xl:text-lg 2xl:text-xl`}

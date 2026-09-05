@@ -22,17 +22,21 @@ interface Testimonial {
 
 const Testimonials = () => {
   const section = useTranslations("SectionTitle");
-  const tc = useTranslations("Common");
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${BASE_API_URL}/api/testimonials`)
       .then((res) => res.json())
-      .then((data) => setTestimonials(data))
+      .then((data) => setTestimonials(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Failed to load testimonials", err))
       .finally(() => setLoading(false));
   }, []);
+
+  // Пустой раздел с надписью «Отзывов пока нет» вредит больше, чем его
+  // отсутствие: он прямо сообщает, что компанию никто не хвалил. Нет
+  // отзывов — нет и блока.
+  if (!loading && testimonials.length === 0) return null;
 
   return (
     <div className="container mx-auto px-5 pt-10 pb-20">
@@ -46,8 +50,6 @@ const Testimonials = () => {
         <p className="flex justify-center items-center py-10">
           <BarLoader color="#0F5257" />
         </p>
-      ) : testimonials.length === 0 ? (
-        <p className="mt-6 text-gray-500">{tc("noTestimonials")}</p>
       ) : (
         <Swiper
           modules={[Navigation, Pagination]}

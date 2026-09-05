@@ -15,7 +15,10 @@ export type FunnelEvent =
   | "tour_view"
   | "booking_start"
   | "booking_submit"
-  | "contact_submit";
+  | "contact_submit"
+  // Отдельное событие от формы на главной: она короче формы контактов и
+  // ловит другой момент — человека, который ещё не выбрал тур.
+  | "home_lead_submit";
 
 declare global {
   interface Window {
