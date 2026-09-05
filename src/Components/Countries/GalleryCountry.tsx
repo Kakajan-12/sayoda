@@ -60,7 +60,7 @@ const GalleryCountry = ({ blogId }: GalleryProps) => {
         {images.map((img) => (
           <div
             key={img.blog_gallery_id}
-            className="rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+            className="rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-700 ease-out"
             onClick={() => openModal(img)}
           >
             <ImageWithSkeleton

@@ -256,7 +256,7 @@ export default function Header() {
                           switchLanguage(lang);
                           setIsLangOpen(false);
                         }}
-                        className="px-4 py-2 hover:bg-brick cursor-pointer"
+                        className="px-4 py-2 hover:bg-brick cursor-pointer transition-colors duration-200"
                       >
                         {lang.toUpperCase()}
                       </p>

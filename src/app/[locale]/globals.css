@@ -196,3 +196,22 @@ input.no-spin {
   );
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }
+
+/*
+ * Системная настройка «уменьшить движение».
+ *
+ * Зум карточек, подъём при наведении и плавные появления кому-то мешают —
+ * от вестибулярных нарушений до простого укачивания. Браузер сообщает об
+ * этом сам, и правило гасит переходы разом, включая заданные инлайновым
+ * стилем: классами такое не перекрыть.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

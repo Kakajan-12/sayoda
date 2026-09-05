@@ -68,7 +68,7 @@ const Gallery = ({ tourId }: GalleryProps) => {
                 {images.map((img) => (
                     <div
                         key={img.gallery_id}
-                        className="relative rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                        className="relative rounded-xl shadow-md overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-700 ease-out"
                         onClick={() => openModal(img)}
                     >
                         <ImageWithSkeleton

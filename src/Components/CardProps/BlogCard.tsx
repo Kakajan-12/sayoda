@@ -112,7 +112,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             src={mediaUrl(blog.image)}
             width={256}
             height={192}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover group-hover:scale-105"
             skeletonClassName="rounded-md"
           />
         </div>
@@ -145,7 +145,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           src={mediaUrl(blog.image)}
           width={featured ? 1000 : 600}
           height={featured ? 563 : 375}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover group-hover:scale-105"
         />
       </div>
 

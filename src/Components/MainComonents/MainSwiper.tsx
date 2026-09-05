@@ -229,7 +229,7 @@ const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
                     onClick={() => handleCardClick(slide)}
                     className="group relative block w-full aspect-[3/4] rounded-2xl overflow-hidden  transition-transform duration-300 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
                   >
-                    <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
+                    <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
                       <ImageWithSkeleton
                         src={getFixedImageUrl(slide.image)}
                         alt={stripHtml(getLocalized(slide, "title"))}

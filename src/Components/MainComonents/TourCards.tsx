@@ -80,7 +80,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <ImageWithSkeleton
                 alt={title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover group-hover:scale-105"
                 src={mediaUrl(tour.image)}
                 width={480}
                 height={360}

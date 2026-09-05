@@ -30,10 +30,23 @@ export default function ImageWithSkeleton({
 }: ImageWithSkeletonProps) {
   const [loaded, setLoaded] = useState(false);
 
+  /**
+   * Переход задаётся здесь, а не классом, и перечисляет оба свойства сразу.
+   *
+   * Раньше в инлайновом стиле стояло только `opacity`, и он перебивал
+   * `transition-transform` из класса — инлайн всегда сильнее. Из-за этого
+   * зум карточек при наведении не анимировался вообще: картинка скачком
+   * меняла масштаб. Заметить это по коду было нельзя, класс выглядел
+   * рабочим.
+   *
+   * Кривая easeOutQuint: быстрый старт и мягкое торможение — зум так
+   * читается как плавное приближение, а не как рывок.
+   */
   const mergedStyle: CSSProperties = {
     ...style,
     opacity: loaded ? 1 : 0,
-    transition: "opacity 0.4s ease-in-out",
+    transition:
+      "opacity 0.4s ease-in-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
   };
 
   // Картинка могла уже оказаться в кэше до того, как React навесил onLoad —

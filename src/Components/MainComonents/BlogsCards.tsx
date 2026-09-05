@@ -42,7 +42,7 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
           </h2>
           <Link
             href="/blog"
-            className="text-sm font-semibold text-tile hover:text-tileLight md:text-base"
+            className="text-sm font-semibold text-tile transition-colors duration-200 hover:text-tileLight md:text-base"
           >
             {t("all")} →
           </Link>
