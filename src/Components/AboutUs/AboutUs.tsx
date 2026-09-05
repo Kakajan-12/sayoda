@@ -27,6 +27,10 @@ const AboutUs = () => {
             src={aboutImg}
           />
         </div>
+        {/* Затемнение поверх фотографии. Текст здесь белый, а фотография
+            светлая: на телефоне первый экран выглядел пустым белым полем —
+            заголовок «О нас» и описание были не видны совсем. */}
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/55 via-black/40 to-black/50" />
         <div className="container mx-auto relative z-20 text-white px-5 pt-10 sm:pt-20 lg:pt-32 pb-16 sm:pb-24 md:pb-32 lg:pb-40 text-center">
           {/* Заголовок страницы «О нас» — h1: до этого на маршруте не было
               ни одного заголовка первого уровня. */}
