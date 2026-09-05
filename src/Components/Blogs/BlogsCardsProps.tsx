@@ -10,17 +10,12 @@ import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
  * Клиентской осталась только пагинация: карточка больше ничего не прячет
  * за наведением, поэтому отслеживать его не нужно.
  *
- * На первой странице свежая статья показана крупно, а три следующие — рядом
- * строками: так у списка появляется начало. Со второй страницы это ни к чему,
- * там уже обычная сетка — «главной» статьи на второй странице не бывает.
+ * Карточки здесь одинаковые. Выделять одну статью крупнее — дело главной
+ * страницы, где надо зацепить взгляд; сюда человек уже пришёл читать и
+ * выбирает сам, так что ровный список ему удобнее.
  */
 
 const POSTS_PER_PAGE = 9;
-/**
- * Сколько статей рядом с крупной. Четыре подобраны по высоте: столько
- * помещается рядом с крупной карточкой без пустоты снизу.
- */
-const SIDE_POSTS = 4;
 
 const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,11 +28,6 @@ const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
     indexOfLastPost - POSTS_PER_PAGE,
     indexOfLastPost,
   );
-
-  const isFirstPage = currentPage === 1;
-  const lead = isFirstPage ? currentPosts[0] : undefined;
-  const side = isFirstPage ? currentPosts.slice(1, 1 + SIDE_POSTS) : [];
-  const grid = isFirstPage ? currentPosts.slice(1 + SIDE_POSTS) : currentPosts;
 
   const changePage = (page: number) => {
     setCurrentPage(page);
@@ -54,38 +44,16 @@ const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
         {t("blogs")}
       </h2>
 
-      {lead && (
-        <div className="grid grid-cols-1 gap-5 pt-8 lg:grid-cols-3 lg:gap-6">
-          <div className="lg:col-span-2">
-            <BlogCard blog={lead} href={`/blog/${lead.id}`} variant="featured" />
-          </div>
-          {side.length > 0 && (
-            <div className="flex flex-col gap-4">
-              {side.map((item) => (
-                <BlogCard
-                  key={item.id}
-                  blog={item}
-                  href={`/blog/${item.id}`}
-                  variant="compact"
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {grid.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-8 md:gap-6 md:py-10">
-          {grid.map((item) => (
-            <BlogCard
-              key={item.id}
-              blog={item}
-              href={`/blog/${item.id}`}
-              className="w-full"
-            />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-8 md:gap-6 md:py-10">
+        {currentPosts.map((item) => (
+          <BlogCard
+            key={item.id}
+            blog={item}
+            href={`/blog/${item.id}`}
+            className="w-full"
+          />
+        ))}
+      </div>
 
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 gap-2">

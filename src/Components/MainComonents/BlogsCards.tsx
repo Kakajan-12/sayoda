@@ -26,6 +26,9 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
   // крупной карточкой без пустоты снизу.
   const side = rest.slice(0, 4);
 
+  // Блок целиком — только на главной. В списке /blog карточки одинаковые:
+  // там человек уже пришёл читать и выбирает сам, выделять за него нечего.
+
   return (
     <div className="w-full bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
       <div className="container mx-auto px-5">
@@ -43,15 +46,17 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
           </Link>
         </div>
 
-        {/* Крупная статья занимает две колонки из трёх, спутники — третью.
+        {/* Половина под крупную статью, половина под остальные: акцент есть,
+            но одна статья не забирает под себя весь блок.
             До lg всё складывается в одну колонку. */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
-          <div className="lg:col-span-2">
-            <BlogCard blog={lead} href={`/blog/${lead.id}`} variant="featured" />
-          </div>
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
+          <BlogCard blog={lead} href={`/blog/${lead.id}`} variant="featured" />
 
           {side.length > 0 && (
-            <div className="flex flex-col gap-4">
+            // justify-between подбирает разницу высот: колонки редко сходятся
+            // ровно, и лишние пикселы лучше распределить между карточками,
+            // чем оставить дырой снизу.
+            <div className="flex flex-col justify-between gap-4">
               {side.map((blog) => (
                 <BlogCard
                   key={blog.id}

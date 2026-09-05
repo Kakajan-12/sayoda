@@ -133,13 +133,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
       href={href}
       className={`${CARD_BASE} flex h-full flex-col hover:-translate-y-1 ${className}`}
     >
-      {/* У крупной карточки высота картинки на широком экране задана явно:
-          при чистом 16/9 на две трети ширины она вырастала до ~560px, и
-          колонка спутников рядом заканчивалась намного выше — справа
-          оставалась пустая дыра. */}
       <div
         className={`relative w-full overflow-hidden ${
-          featured ? "aspect-[16/9] lg:aspect-auto lg:h-[380px]" : "aspect-[16/10]"
+          featured ? "aspect-[16/9]" : "aspect-[16/10]"
         }`}
       >
         <ImageWithSkeleton
@@ -159,7 +155,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <h3
           className={`${PoppinFont.className} font-semibold text-ink line-clamp-2 transition-colors group-hover:text-tileLight ${
             featured
-              ? "text-xl/snug md:text-2xl/snug lg:text-3xl/snug"
+              ? "text-xl/snug md:text-2xl/snug"
               : "text-base/snug md:text-lg/snug"
           }`}
         >
