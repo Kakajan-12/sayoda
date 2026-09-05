@@ -153,16 +153,20 @@ const HomeLeadForm = () => {
             className={`${field} resize-none sm:col-span-2`}
           />
 
-          <div className="flex items-center gap-3 sm:col-span-2">
+          {/* flex-wrap обязателен: картинка капчи около 190px, и вместе с
+              кнопкой обновления и полем ввода строка не помещалась на
+              телефоне — поле уезжало за правый край экрана. На узком
+              переносим ввод на вторую строку. */}
+          <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
             <div
-              className="shrink-0"
+              className="max-w-full shrink-0 overflow-hidden"
               dangerouslySetInnerHTML={{ __html: captchaImage }}
             />
             <button
               type="button"
               onClick={loadCaptcha}
               aria-label={t("refreshCaptcha")}
-              className="text-tile transition-colors hover:text-tileLight"
+              className="shrink-0 text-tile transition-colors hover:text-tileLight"
             >
               <LuRefreshCcw className="h-4 w-4" />
             </button>
@@ -172,7 +176,7 @@ const HomeLeadForm = () => {
               onChange={handleChange}
               required
               placeholder={t("captcha")}
-              className={`${field} max-w-40`}
+              className={`${field} min-w-0 flex-1 sm:max-w-40 sm:flex-none`}
             />
           </div>
 

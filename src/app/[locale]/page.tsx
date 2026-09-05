@@ -80,26 +80,34 @@ export default async function Home({
    * и ни человек, ни краулер не понимали, что здесь продают.
    */
   const heading = (
-    <div className="absolute inset-x-0 top-1/4 z-30 px-4 sm:px-8 lg:px-16">
-      <div className="max-w-4xl mx-auto text-center">
+    /*
+     * Заголовок занимает полосу между шапкой и карточками стран и центрируется
+     * в ней. Раньше блок начинался на четверти высоты и рос вниз: на узком
+     * экране заголовок переносился на четыре строки, подзаголовок на пять, и
+     * кнопка «смотреть туры» уезжала прямо на карточки. Верхний отступ — под
+     * полупрозрачную шапку, нижний — под карточки, которые наполовину
+     * свисают из секции.
+     */
+    <div className="absolute inset-x-0 top-20 bottom-28 z-30 flex items-center px-4 sm:top-24 sm:bottom-40 sm:px-8 lg:bottom-44 lg:px-16">
+      <div className="mx-auto max-w-4xl text-center">
         {/* Межстрочное задаётся через text-<размер>/<интерлиньяж>, а не
             отдельным leading-*. Утилиты размера в Tailwind несут собственный
             line-height (у text-5xl это 1), и адаптивный xl:text-5xl перебивал
             безпрефиксный leading-*: строки шли с интерлиньяжем 1.0 и слипались.
             text-balance выравнивает длину строк при переносе. */}
         <h1
-          className={`${PoppinFont.className} text-white text-2xl/snug sm:text-4xl/snug xl:text-5xl/snug font-bold text-balance drop-shadow-lg`}
+          className={`${PoppinFont.className} text-white text-xl/snug dort:text-2xl/snug sm:text-4xl/snug xl:text-5xl/snug font-bold text-balance drop-shadow-lg`}
         >
           {bannerTitle}
         </h1>
         <p
-          className={`${QuicksandFont.className} mt-4 text-white/90 text-sm sm:text-base xl:text-lg drop-shadow-md`}
+          className={`${QuicksandFont.className} mt-3 text-white/90 text-sm sm:mt-4 sm:text-base xl:text-lg drop-shadow-md`}
         >
           {bannerSubtitle}
         </p>
         <Link
           href={bannerLink}
-          className={`${PoppinFont.className} inline-block mt-6 rounded-full bg-mainBlue px-8 py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
+          className={`${PoppinFont.className} inline-block mt-5 rounded-full bg-mainBlue px-6 py-2.5 sm:mt-6 sm:px-8 sm:py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
         >
           {bannerButton}
         </Link>
