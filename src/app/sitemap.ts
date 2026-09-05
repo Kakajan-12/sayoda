@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getBlogs, getTours } from "@/lib/api/catalog";
-import { destinations } from "@/data/destinations";
+import { getDestinations } from "@/lib/api/destinations";
 import { defaultLocale, locales, localizedUrl } from "@/lib/site";
 
 export const revalidate = 3600;
@@ -22,7 +22,13 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [tours, blogs] = await Promise.all([getTours(), getBlogs()]);
+  // Страны берутся из админки: добавленная там страна должна попадать
+  // в sitemap без правки кода.
+  const [tours, blogs, destinations] = await Promise.all([
+    getTours(),
+    getBlogs(),
+    getDestinations(),
+  ]);
 
   const staticPaths: Array<[string, number]> = [
     ["", 1],

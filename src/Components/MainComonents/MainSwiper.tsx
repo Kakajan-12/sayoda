@@ -23,6 +23,10 @@ type Slide = {
   text_en: string;
   text_ru: string;
   image: string;
+  // Явная связь со страной. Пусто — работает прежнее сопоставление
+  // по названию, чтобы старые слайдеры не сломались.
+  destination_id?: number | null;
+  destination_slug?: string | null;
 };
 
 /**
@@ -102,16 +106,22 @@ const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
 
   const handleCardClick = (slide: Slide) => {
     setNavigatingId(slide.id);
+
+    // Сначала явная связь из админки. Раньше страна определялась только
+    // сравнением заголовка карточки с названиями стран, и переименование
+    // слайдера тихо меняло переход с страницы страны на страницу тура.
+    if (slide.destination_slug) {
+      router.push(`/destinations/${slide.destination_slug}`);
+      return;
+    }
+
+    // Связь не проставлена — прежнее поведение, чтобы старые слайдеры работали.
     const dest = findDestinationByName(
       stripHtml(slide.title_en),
       stripHtml(slide.title_ru),
       stripHtml(slide.title_tk),
     );
-    if (dest) {
-      router.push(`/destinations/${dest.slug}`);
-    } else {
-      router.push(`/tours/${slide.tour_id}`);
-    }
+    router.push(dest ? `/destinations/${dest.slug}` : `/tours/${slide.tour_id}`);
   };
 
   if (loading) {

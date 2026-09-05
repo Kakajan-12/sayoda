@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import { getDestination } from "@/data/destinations";
+import { getDestinationBySlug } from "@/lib/api/destinations";
 import { getVisaList } from "@/api/getVisa";
 import DestinationVisaSidebar from "@/Components/Destinations/DestinationVisaSidebar";
+
+export const revalidate = 300;
 
 export default async function DestinationVisaLayout({
   children,
@@ -11,7 +13,7 @@ export default async function DestinationVisaLayout({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
-  const destination = getDestination(country);
+  const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
 
   // Visa types come from the backend and currently describe Turkmenistan only.

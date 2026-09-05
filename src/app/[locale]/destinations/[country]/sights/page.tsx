@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
-import { getDestination, localize } from "@/data/destinations";
+import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/Ui/Fonts";
 import { getTranslations } from "next-intl/server";
 import DestinationSights from "@/Components/Destinations/DestinationSights";
 
 const stripHtml = (s: string) => s.replace(/<[^>]+>/g, "");
+
+export const revalidate = 300;
 
 export default async function SightsPage({
   params,
@@ -12,16 +14,22 @@ export default async function SightsPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
-  const destination = getDestination(country);
+  const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
   const t = await getTranslations("Destinations");
 
-  // Blogs are not country-tagged in the API, so we match strictly on the
-  // country name (en/ru/tk) and slug. Countries without their own articles
-  // (currently every country except Turkmenistan) show an empty state.
+  // У статей в базе нет привязки к стране, поэтому отбор идёт по вхождению
+  // названия страны в текст. Страны без своих статей показывают пустой блок.
+  // Это единственное оставшееся сопоставление по тексту: чтобы убрать и его,
+  // нужно поле «страна» у статьи — отдельная задача.
   const keywords = Array.from(
     new Set(
-      [destination.slug, ...Object.values(destination.name)]
+      [
+        destination.slug,
+        destField(destination, "name", "en"),
+        destField(destination, "name", "ru"),
+        destField(destination, "name", "tk"),
+      ]
         .map((value) => stripHtml(value).toLowerCase().trim())
         .filter(Boolean),
     ),
@@ -30,7 +38,7 @@ export default async function SightsPage({
   return (
     <div className={ComfortaFont.className}>
       <h2 className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-6">
-        {t("tabSights")} — {localize(destination.name, locale)}
+        {t("tabSights")} — {destField(destination, "name", locale)}
       </h2>
 
       <DestinationSights keywords={keywords} emptyLabel={t("noSights")} />

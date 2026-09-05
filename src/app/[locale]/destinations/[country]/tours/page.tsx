@@ -1,27 +1,12 @@
 import { notFound } from "next/navigation";
-import { getDestination, localize } from "@/data/destinations";
+import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/Ui/Fonts";
 import { getTranslations } from "next-intl/server";
-import { BASE_API_URL } from "@/i18n/api";
+import { getTourLocations, getTours } from "@/lib/api/catalog";
+import { plainText } from "@/lib/utils";
 import TourCards from "@/Components/MainComonents/TourCards";
 
-type TourLocation = {
-  id: number;
-  location_en?: string;
-  location_ru?: string;
-  location_tk?: string;
-};
-
-async function fetchJson<T>(url: string): Promise<T[]> {
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? (data as T[]) : [];
-  } catch {
-    return [];
-  }
-}
+export const revalidate = 300;
 
 export default async function ToursPage({
   params,
@@ -29,33 +14,48 @@ export default async function ToursPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
-  const destination = getDestination(country);
+  const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
   const t = await getTranslations("Destinations");
 
-  const [tours, locations] = await Promise.all([
-    fetchJson<{ location_id: number }>(`${BASE_API_URL}/api/tours`),
-    fetchJson<TourLocation>(`${BASE_API_URL}/api/tour-location`),
-  ]);
+  const [tours, locations] = await Promise.all([getTours(), getTourLocations()]);
 
-  // Resolve which tour-location ids belong to this country by matching the
-  // localized location names (and slug) against the destination's names.
-  const targets = [destination.slug, ...Object.values(destination.name)].map(
-    (s) => s.toLowerCase(),
+  /*
+   * Локации отбираются по явной связи destination_id.
+   *
+   * Раньше здесь сравнивались названия: локация считалась принадлежащей стране,
+   * если её название входило в название страны или наоборот. Переименование
+   * локации в админке тихо ломало подборку.
+   *
+   * Сопоставление по названию оставлено запасным путём — на случай локаций,
+   * которым связь ещё не проставили.
+   */
+  const linked = locations.filter(
+    (loc) => Number(loc.destination_id) === destination.id,
   );
-  const countryLocationIds = new Set(
-    locations
-      .filter((loc) =>
-        [loc.location_en, loc.location_ru, loc.location_tk].some((name) => {
-          const v = (name ?? "").toLowerCase().trim();
+
+  const matched = linked.length
+    ? linked
+    : locations.filter((loc) => {
+        const targets = [
+          destination.slug,
+          destField(destination, "name", "en"),
+          destField(destination, "name", "ru"),
+          destField(destination, "name", "tk"),
+        ]
+          .map((s) => s.toLowerCase())
+          .filter(Boolean);
+
+        return ["location_en", "location_ru", "location_tk"].some((key) => {
+          const value = plainText(String(loc[key] ?? "")).toLowerCase();
           return (
-            !!v && targets.some((tn) => v === tn || v.includes(tn) || tn.includes(v))
+            !!value &&
+            targets.some((tn) => value === tn || value.includes(tn) || tn.includes(value))
           );
-        }),
-      )
-      .map((loc) => Number(loc.id)),
-  );
+        });
+      });
 
+  const countryLocationIds = new Set(matched.map((loc) => Number(loc.id)));
   const countryTours = tours.filter((tour) =>
     countryLocationIds.has(Number(tour.location_id)),
   );
@@ -63,12 +63,11 @@ export default async function ToursPage({
   return (
     <div className={ComfortaFont.className}>
       <h2 className="text-2xl font-bold text-mainBlue border-b-2 border-mainBlue pb-2 mb-6">
-        {t("tabTours")} — {localize(destination.name, locale)}
+        {t("tabTours")} — {destField(destination, "name", locale)}
       </h2>
 
       {countryTours.length > 0 ? (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <TourCards tours={countryTours as any} />
+        <TourCards tours={countryTours} />
       ) : (
         <p className="text-center py-10 text-gray-500">{t("noTours")}</p>
       )}
