@@ -22,9 +22,12 @@ const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
 
   const t = useTranslations("SectionTitle");
 
-  const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
+  // Запись без слага пропускаем: ссылка на неё вела бы на /blog/undefined.
+  const published = blogs.filter((blog) => Boolean(blog.slug));
+
+  const totalPages = Math.ceil(published.length / POSTS_PER_PAGE);
   const indexOfLastPost = currentPage * POSTS_PER_PAGE;
-  const currentPosts = blogs.slice(
+  const currentPosts = published.slice(
     indexOfLastPost - POSTS_PER_PAGE,
     indexOfLastPost,
   );

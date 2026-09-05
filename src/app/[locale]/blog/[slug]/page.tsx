@@ -18,7 +18,7 @@ import { excerpt, plainText } from "@/lib/utils";
 import { routing } from "@/i18n/routing";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
-export const revalidate = 3600;
+export const revalidate = 300;
 
 
 /**

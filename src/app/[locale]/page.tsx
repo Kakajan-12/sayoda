@@ -19,7 +19,7 @@ import { bannerField, bannerImage, getBanner } from "@/lib/api/banner";
 import { routing } from "@/i18n/routing";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

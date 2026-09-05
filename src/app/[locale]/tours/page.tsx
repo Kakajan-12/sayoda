@@ -14,7 +14,7 @@ import { routing } from "@/i18n/routing";
 
 // Next разбирает конфиг сегмента статически, поэтому здесь обязателен литерал —
 // импортированную константу собрать не получится (см. CATALOG_REVALIDATE).
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

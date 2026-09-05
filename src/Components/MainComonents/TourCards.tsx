@@ -53,13 +53,16 @@ const TourCards: React.FC<Props> = ({ tours }) => {
   const t = useTranslations("TourPerPage");
   const tc = useTranslations("Common");
 
-  if (!tours || !tours.length) {
+  // Запись без слага пропускаем: ссылка на неё вела бы на /tours/undefined.
+  const published = tours.filter((tour) => Boolean(tour.slug));
+
+  if (!published.length) {
     return <p className="text-center py-10">{tc("noTours")}</p>;
   }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-      {tours.map((tour) => {
+      {published.map((tour) => {
         const title = plainText(localizedField(tour, "title", locale));
         const route = plainText(localizedField(tour, "destination", locale));
         const summary = plainText(localizedField(tour, "text", locale));

@@ -19,9 +19,11 @@ import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
   const t = await getTranslations("Blogs");
 
-  if (!blogs.length) return null;
+  // Запись без слага пропускаем: ссылка на неё вела бы на /blog/undefined.
+  const published = blogs.filter((blog) => Boolean(blog.slug));
+  if (!published.length) return null;
 
-  const [lead, ...rest] = blogs;
+  const [lead, ...rest] = published;
   // Четыре спутника подобраны по высоте: столько их помещается рядом с
   // крупной карточкой без пустоты снизу.
   const side = rest.slice(0, 4);
