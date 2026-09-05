@@ -1,72 +1,69 @@
-"use client";
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
-import "./Blogs.css";
-import { ButtonLeftSwiper, ButtonRigthSwiper } from "@/Ui/SwiperComponents";
+import { getTranslations } from "next-intl/server";
 import { PoppinFont } from "@/Ui/Fonts";
-import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
 /**
- * Статьи приходят пропсом из Server Component — так карточки попадают
- * в серверный HTML. Сам компонент остаётся клиентским из-за Swiper.
+ * Блок «Блог» на главной.
+ *
+ * Здесь была листалка. На главной она давала только минусы: видна была
+ * фактически одна страница карточек, до остальных почти никто не долистывал,
+ * а стрелки и точки добавляли шума. На десктопе четыре карточки и так
+ * помещались в ряд — то есть листалка не экономила место, а прятала статьи.
+ *
+ * Вместо неё — очерёдность: свежая статья крупно, три следующие рядом
+ * строками, и ссылка на весь раздел. Заодно блок стал серверным: swiper
+ * больше не грузится в браузер.
  */
-const BlogsCards = ({ blogs }: { blogs: Blog[] }) => {
-  const t = useTranslations("Blogs");
+export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
+  const t = await getTranslations("Blogs");
+
+  if (!blogs.length) return null;
+
+  const [lead, ...rest] = blogs;
+  // Четыре спутника подобраны по высоте: столько их помещается рядом с
+  // крупной карточкой без пустоты снизу.
+  const side = rest.slice(0, 4);
 
   return (
-    <div className="w-full h-auto bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
-      <div className="container mx-auto px-5 relative">
-        <h2
-          className={`${PoppinFont.className} md:mb-14 mb-10 font-bold text-2xl md:text-3xl xl:text-4xl`}
-        >
-          {t("blogs")}
-        </h2>
-        <Swiper
-          slidesPerView={1}
-          centeredSlides
-          loop
-          pagination={{
-            el: ".bullets",
-            clickable: true,
-            renderBullet: (index, className) =>
-              `<span class="${className} designedBullets"></span>`,
-          }}
-          spaceBetween={10}
-          breakpoints={{
-            375: { slidesPerView: 1, spaceBetween: 20 },
-            480: { slidesPerView: 2, spaceBetween: 10 },
-            1023: { slidesPerView: 3, centeredSlides: true },
-            1025: { slidesPerView: 3, centeredSlides: false },
-            1150: { slidesPerView: 4, centeredSlides: false },
-          }}
-          navigation={{ prevEl: ".minus", nextEl: ".plus" }}
-          modules={[Navigation, Pagination]}
-          className="mySwiper h-auto relative z-20 w-full"
-        >
-          {blogs.slice(0, 8).map((blog) => (
-            // h-auto нужен самому слайду: по умолчанию Swiper выравнивает
-            // слайды по высоте самого высокого, а карточки теперь разной
-            // высоты и без этого растягивалась бы только обёртка, не карточка.
-            <SwiperSlide key={blog.id} className="h-auto">
-              <BlogCard
-                blog={blog}
-                href={`/blog/${blog.id}`}
-                className="mx-auto w-11/12"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <ButtonLeftSwiper />
-        <ButtonRigthSwiper />
-        <div className="bullets mt-10 md:mt-16 flex justify-center"></div>
+    <div className="w-full bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
+      <div className="container mx-auto px-5">
+        <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3 md:mb-12">
+          <h2
+            className={`${PoppinFont.className} font-bold text-2xl md:text-3xl xl:text-4xl`}
+          >
+            {t("blogs")}
+          </h2>
+          <Link
+            href="/blog"
+            className="text-sm font-semibold text-tile hover:text-tileLight md:text-base"
+          >
+            {t("all")} →
+          </Link>
+        </div>
+
+        {/* Крупная статья занимает две колонки из трёх, спутники — третью.
+            До lg всё складывается в одну колонку. */}
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
+          <div className="lg:col-span-2">
+            <BlogCard blog={lead} href={`/blog/${lead.id}`} variant="featured" />
+          </div>
+
+          {side.length > 0 && (
+            <div className="flex flex-col gap-4">
+              {side.map((blog) => (
+                <BlogCard
+                  key={blog.id}
+                  blog={blog}
+                  href={`/blog/${blog.id}`}
+                  variant="compact"
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
-};
-
-export default BlogsCards;
+}

@@ -18,6 +18,18 @@ export interface Blog {
   date: string;
 }
 
+/**
+ * Вид карточки.
+ *
+ * `featured` — главная статья блока: крупная картинка, большой заголовок,
+ * начало текста. `compact` — строка-спутник рядом с ней: миниатюра, дата и
+ * заголовок, без текста. `default` — рядовая карточка в сетке.
+ *
+ * Три вида нужны, чтобы в блоке была очерёдность. Когда все карточки
+ * одинаковые, глазу не за что зацепиться и список читается как обои.
+ */
+export type BlogCardVariant = "default" | "featured" | "compact";
+
 interface BlogCardProps {
   blog: Blog;
   /**
@@ -26,24 +38,14 @@ interface BlogCardProps {
    * внутренних ссылок с главной.
    */
   href: string;
-  /** Доп. классы для внешней обёртки (например, ширина в сетке/слайдере). */
+  variant?: BlogCardVariant;
+  /** Доп. классы для внешней обёртки (например, ширина в сетке). */
   className?: string;
 }
 
 /**
- * Карточка статьи.
- *
- * Прежняя версия была картинкой на 400–500px с заголовком поверх неё, а дату,
- * описание и кнопку показывала только при наведении. Из-за этого:
- * читаемость заголовка зависела от того, светлая ли фотография; на телефоне
- * текст появлялся и исчезал сам по себе при прокрутке; а понять, о чём статья
- * и когда она вышла, без наведения было нельзя — то есть список статей
- * невозможно было просмотреть глазами.
- *
- * Теперь текст под картинкой и виден всегда: дата, заголовок, начало статьи.
- * Так же устроены карточки статей у Advantour и вообще принято в блогах —
- * и так же теперь выглядит карточка тура, чтобы сайт не распадался на два
- * разных по виду раздела.
+ * Поля CMS приходят как HTML, а на карточке нужен голый текст: разметка
+ * внутри line-clamp ломает обрезку по строкам.
  */
 const stripHtml = (html: string) =>
   html
@@ -55,7 +57,15 @@ const stripHtml = (html: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
-const BlogCard: React.FC<BlogCardProps> = ({ blog, href, className = "" }) => {
+const CARD_BASE =
+  "group block overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-sm transition duration-300 hover:shadow-xl hover:ring-tileLight";
+
+const BlogCard: React.FC<BlogCardProps> = ({
+  blog,
+  href,
+  variant = "default",
+  className = "",
+}) => {
   const locale = useLocale();
   const t = useTranslations("Blogs");
 
@@ -76,61 +86,109 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, href, className = "" }) => {
     dateLabel = String(blog.date).slice(0, 10);
   }
 
-  return (
-    <article
-      className={`group flex h-full flex-col overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-tileLight ${className}`}
+  // suppressHydrationWarning: набор данных ICU на сервере и в браузере может
+  // расходиться, и из-за названия месяца React ругался бы на несовпадение.
+  const dateEl = (size: string) => (
+    <time
+      dateTime={String(blog.date).slice(0, 10)}
+      suppressHydrationWarning
+      className={`font-medium uppercase tracking-wide text-inkMuted ${size}`}
     >
-      <Link href={href} className="flex h-full flex-col">
-        <div className="relative aspect-[16/10] w-full overflow-hidden">
+      {dateLabel}
+    </time>
+  );
+
+  if (variant === "compact") {
+    return (
+      <Link
+        href={href}
+        className={`${CARD_BASE} flex gap-4 p-3 hover:-translate-y-0.5 ${className}`}
+      >
+        <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-md sm:h-28 sm:w-36">
           <ImageWithSkeleton
             alt={title}
             src={mediaUrl(blog.image)}
-            width={600}
-            height={375}
+            width={256}
+            height={192}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            skeletonClassName="rounded-md"
           />
         </div>
-
-        <div className="flex flex-1 flex-col gap-2 p-4">
-          {dateLabel && (
-            // suppressHydrationWarning: набор данных ICU на сервере и в
-            // браузере может немного расходиться, и из-за названия месяца
-            // React ругался бы на несовпадение разметки.
-            <time
-              dateTime={String(blog.date).slice(0, 10)}
-              suppressHydrationWarning
-              className="text-xs font-medium uppercase tracking-wide text-inkMuted"
-            >
-              {dateLabel}
-            </time>
-          )}
-
+        <div className="flex min-w-0 flex-col justify-center gap-1">
+          {dateLabel && dateEl("text-[11px]")}
           <h3
-            className={`${PoppinFont.className} text-base/snug md:text-lg/snug font-semibold text-ink line-clamp-2 transition-colors group-hover:text-tileLight`}
+            className={`${PoppinFont.className} text-sm/snug sm:text-base/snug font-semibold text-ink line-clamp-3 transition-colors group-hover:text-tileLight`}
           >
             {title}
           </h3>
-
-          {summary && (
-            <p className="text-sm/relaxed text-inkMuted line-clamp-3">
-              {summary}
-            </p>
-          )}
-
-          {/* mt-auto держит ссылку у нижнего края: заголовки разной длины,
-              и без этого «узнать больше» прыгало бы по высоте в ряду. */}
-          <span className="mt-auto flex items-center gap-1.5 pt-2 text-sm font-semibold text-tile">
-            {t("learn")}
-            <span
-              aria-hidden
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            >
-              →
-            </span>
-          </span>
         </div>
       </Link>
-    </article>
+    );
+  }
+
+  const featured = variant === "featured";
+
+  return (
+    <Link
+      href={href}
+      className={`${CARD_BASE} flex h-full flex-col hover:-translate-y-1 ${className}`}
+    >
+      {/* У крупной карточки высота картинки на широком экране задана явно:
+          при чистом 16/9 на две трети ширины она вырастала до ~560px, и
+          колонка спутников рядом заканчивалась намного выше — справа
+          оставалась пустая дыра. */}
+      <div
+        className={`relative w-full overflow-hidden ${
+          featured ? "aspect-[16/9] lg:aspect-auto lg:h-[380px]" : "aspect-[16/10]"
+        }`}
+      >
+        <ImageWithSkeleton
+          alt={title}
+          src={mediaUrl(blog.image)}
+          width={featured ? 1000 : 600}
+          height={featured ? 563 : 375}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+
+      <div
+        className={`flex flex-1 flex-col gap-2 ${featured ? "p-5 md:p-6" : "p-4"}`}
+      >
+        {dateLabel && dateEl("text-xs")}
+
+        <h3
+          className={`${PoppinFont.className} font-semibold text-ink line-clamp-2 transition-colors group-hover:text-tileLight ${
+            featured
+              ? "text-xl/snug md:text-2xl/snug lg:text-3xl/snug"
+              : "text-base/snug md:text-lg/snug"
+          }`}
+        >
+          {title}
+        </h3>
+
+        {summary && (
+          <p
+            className={`text-inkMuted line-clamp-3 ${
+              featured ? "text-sm/relaxed md:text-base/relaxed" : "text-sm/relaxed"
+            }`}
+          >
+            {summary}
+          </p>
+        )}
+
+        {/* mt-auto держит ссылку у нижнего края: заголовки разной длины,
+            и без этого «узнать больше» прыгало бы по высоте в ряду. */}
+        <span className="mt-auto flex items-center gap-1.5 pt-3 text-sm font-semibold text-tile">
+          {t("learn")}
+          <span
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </span>
+      </div>
+    </Link>
   );
 };
 
