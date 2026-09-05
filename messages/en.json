@@ -109,7 +109,8 @@
     "license": "licence",
     "since": "Operating since {year}",
     "local": "Our own team in Ashgabat",
-    "visa": "Invitation and visa handled by us"
+    "visa": "Invitation and visa handled by us",
+    "guides": "Guides in Russian, English and Turkmen"
   },
   "VisaBlock": {
     "title": "Turkmenistan visa and letter of invitation",

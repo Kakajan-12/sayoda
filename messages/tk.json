@@ -109,7 +109,8 @@
     "license": "ygtyýarnama",
     "since": "{year} ýyldan bäri işleýäris",
     "local": "Aşgabatdaky öz toparymyz",
-    "visa": "Çakylyk we wiza biziň üstümizde"
+    "visa": "Çakylyk we wiza biziň üstümizde",
+    "guides": "Rus, iňlis we türkmen dillerinde gidler"
   },
   "VisaBlock": {
     "title": "Türkmenistana wiza we çakylyk haty",
