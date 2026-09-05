@@ -49,7 +49,7 @@ const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
           <BlogCard
             key={item.id}
             blog={item}
-            href={`/blog/${item.id}`}
+            href={`/blog/${item.slug}`}
             className="w-full"
           />
         ))}

@@ -27,10 +27,21 @@ import { routing } from "@/i18n/routing";
 export const revalidate = 3600;
 
 /** Предрендерим все туры во всех локалях — их десятки, не тысячи. */
+
+/**
+ * Числовой адрес — это старый /tours/16. Отдаём 404, а не страницу: иначе
+ * один и тот же тур жил бы по двум адресам, и поисковик считал бы это
+ * дублем. Редиректа нет намеренно — ссылки на числовые адреса никуда
+ * не отправлялись.
+ */
+const isNumericId = (value: string) => /^\d+$/.test(value);
+
 export async function generateStaticParams() {
   const tours = await getTours();
+  // Запись без слага пропускаем: она не должна ронять сборку целиком.
+  const withSlug = tours.filter((tour) => Boolean(tour.slug));
   return routing.locales.flatMap((locale) =>
-    tours.map((tour) => ({ locale, slug: String(tour.id) })),
+    withSlug.map((tour) => ({ locale, slug: tour.slug })),
   );
 }
 
@@ -40,6 +51,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
   const { slug, locale } = await params;
+  if (isNumericId(slug)) return {};
   const tour = await getTour(slug);
   if (!tour) return {};
 
@@ -59,7 +71,7 @@ export async function generateMetadata({
     : body || t("tourFallbackDescription");
 
   const image = mediaUrl(tour.image);
-  const alternates = alternatesFor(locale, `tours/${tour.id}`);
+  const alternates = alternatesFor(locale, `tours/${tour.slug}`);
 
   return {
     title,
@@ -90,6 +102,7 @@ export default async function Page({
 }) {
   const { slug, locale } = await params;
 
+  if (isNumericId(slug)) notFound();
   const tour = await getTour(slug);
   if (!tour) notFound();
 
@@ -115,7 +128,7 @@ export default async function Page({
         items={[
           { name: t("main"), path: "" },
           { name: t("tours"), path: "tours" },
-          { name: tourTitle, path: `tours/${tour.id}` },
+          { name: tourTitle, path: `tours/${tour.slug}` },
         ]}
       />
       <SilkRoad data={tour} locale={locale} />

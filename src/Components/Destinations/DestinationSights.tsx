@@ -48,7 +48,7 @@ export default function DestinationSights({ keywords, emptyLabel }: Props) {
         <BlogCard
           key={item.id}
           blog={item}
-          href={`/blog/${item.id}`}
+          href={`/blog/${item.slug}`}
           className="w-full"
         />
       ))}

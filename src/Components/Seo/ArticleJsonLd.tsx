@@ -11,7 +11,7 @@ export default function ArticleJsonLd({
   blog: Blog;
   locale: string;
 }) {
-  const url = localizedUrl(locale, `blog/${blog.id}`);
+  const url = localizedUrl(locale, `blog/${blog.slug}`);
   const image = mediaUrl(blog.image);
 
   const data: Record<string, unknown> = {

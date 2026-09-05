@@ -50,9 +50,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticPaths.map(([path, priority]) => entry(path, { priority })),
     ...destinationPaths,
-    ...tours.map((t) => entry(`tours/${t.id}`, { priority: 0.8 })),
-    ...blogs.map((b) =>
-      entry(`blog/${b.id}`, {
+    ...tours
+      .filter((t) => Boolean(t.slug))
+      .map((t) => entry(`tours/${t.slug}`, { priority: 0.8 })),
+    ...blogs
+      .filter((b) => Boolean(b.slug))
+      .map((b) =>
+      entry(`blog/${b.slug}`, {
         priority: 0.6,
         lastModified: b.date ? new Date(b.date) : undefined,
       }),

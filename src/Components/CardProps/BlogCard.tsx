@@ -8,6 +8,8 @@ import { localizedField, mediaUrl } from "@/lib/api/catalog";
 
 export interface Blog {
   id: number;
+  /** Адрес статьи. Заполнен у всех записей миграцией 007. */
+  slug: string;
   image: string;
   title_tk: string;
   title_en: string;

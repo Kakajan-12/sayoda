@@ -21,7 +21,7 @@ export default function TourJsonLd({
 }) {
   const name = plainText(localizedField(tour, "title", locale));
   const days = durationDays(localizedField(tour, "duration", locale));
-  const url = localizedUrl(locale, `tours/${tour.id}`);
+  const url = localizedUrl(locale, `tours/${tour.slug}`);
 
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",

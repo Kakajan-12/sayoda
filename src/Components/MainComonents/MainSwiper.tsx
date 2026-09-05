@@ -27,6 +27,8 @@ type Slide = {
   // по названию, чтобы старые слайдеры не сломались.
   destination_id?: number | null;
   destination_slug?: string | null;
+  /** Слаг тура: адреса туров теперь строятся по нему, а не по id. */
+  tour_slug?: string | null;
 };
 
 /**
@@ -121,7 +123,9 @@ const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
       stripHtml(slide.title_ru),
       stripHtml(slide.title_tk),
     );
-    router.push(dest ? `/destinations/${dest.slug}` : `/tours/${slide.tour_id}`);
+    router.push(
+      dest ? `/destinations/${dest.slug}` : `/tours/${slide.tour_slug ?? ""}`,
+    );
   };
 
   if (loading) {

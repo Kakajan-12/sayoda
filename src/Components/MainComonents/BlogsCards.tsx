@@ -50,7 +50,7 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
             но одна статья не забирает под себя весь блок.
             До lg всё складывается в одну колонку. */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-          <BlogCard blog={lead} href={`/blog/${lead.id}`} variant="featured" />
+          <BlogCard blog={lead} href={`/blog/${lead.slug}`} variant="featured" />
 
           {side.length > 0 && (
             // justify-between подбирает разницу высот: колонки редко сходятся
@@ -61,7 +61,7 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
                 <BlogCard
                   key={blog.id}
                   blog={blog}
-                  href={`/blog/${blog.id}`}
+                  href={`/blog/${blog.slug}`}
                   variant="compact"
                 />
               ))}

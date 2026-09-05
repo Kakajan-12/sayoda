@@ -17,6 +17,8 @@ export const CATALOG_REVALIDATE = 3600;
 
 export interface Tour {
   id: number;
+  /** Адрес страницы. Заполнен у всех записей миграцией 007. */
+  slug: string;
   image: string;
   popular: number;
   title_tk: string;
@@ -52,6 +54,8 @@ export interface Tour {
 
 export interface Blog {
   id: number;
+  /** Адрес страницы. Заполнен у всех записей миграцией 007. */
+  slug: string;
   image: string;
   title_tk: string;
   title_en: string;
@@ -109,12 +113,14 @@ export interface VisaEntry {
 
 export const getVisaEntries = () => getJson<VisaEntry[]>("/api/visa", []);
 
-export async function getTour(id: string | number): Promise<Tour | null> {
-  return getJson<Tour | null>(`/api/tours/${id}`, null);
+/** Принимает слаг (сайт) или числовой id — бэкенд различает их сам. */
+export async function getTour(key: string | number): Promise<Tour | null> {
+  return getJson<Tour | null>(`/api/tours/${key}`, null);
 }
 
-export async function getBlog(id: string | number): Promise<Blog | null> {
-  const data = await getJson<Blog | Blog[] | null>(`/api/blogs/${id}`, null);
+/** Принимает слаг (сайт) или числовой id — бэкенд различает их сам. */
+export async function getBlog(key: string | number): Promise<Blog | null> {
+  const data = await getJson<Blog | Blog[] | null>(`/api/blogs/${key}`, null);
   // Эндпоинт блога иногда отдаёт массив из одной записи, иногда объект.
   return Array.isArray(data) ? (data[0] ?? null) : data;
 }

@@ -20,26 +20,38 @@ import { routing } from "@/i18n/routing";
 // Литерал обязателен: конфиг сегмента разбирается статически.
 export const revalidate = 3600;
 
+
+/**
+ * Числовой адрес — это старый /tours/16. Отдаём 404, а не страницу: иначе
+ * один и тот же тур жил бы по двум адресам, и поисковик считал бы это
+ * дублем. Редиректа нет намеренно — ссылки на числовые адреса никуда
+ * не отправлялись.
+ */
+const isNumericId = (value: string) => /^\d+$/.test(value);
+
 export async function generateStaticParams() {
   const blogs = await getBlogs();
+  // Запись без слага пропускаем: она не должна ронять сборку целиком.
+  const withSlug = blogs.filter((blog) => Boolean(blog.slug));
   return routing.locales.flatMap((locale) =>
-    blogs.map((blog) => ({ locale, id: String(blog.id) })),
+    withSlug.map((blog) => ({ locale, slug: blog.slug })),
   );
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const { id, locale } = await params;
-  const blog = await getBlog(id);
+  const { slug, locale } = await params;
+  if (isNumericId(slug)) return {};
+  const blog = await getBlog(slug);
   if (!blog) return {};
 
   const title = plainText(localizedField(blog, "title", locale));
   const description = excerpt(localizedField(blog, "text", locale));
   const image = mediaUrl(blog.image);
-  const alternates = alternatesFor(locale, `blog/${blog.id}`);
+  const alternates = alternatesFor(locale, `blog/${blog.slug}`);
 
   return {
     title,
@@ -69,11 +81,12 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const { id, locale } = await params;
+  const { slug, locale } = await params;
 
-  const blog = await getBlog(id);
+  if (isNumericId(slug)) notFound();
+  const blog = await getBlog(slug);
   if (!blog) notFound();
 
   const nav = await getTranslations({ locale, namespace: "Header" });
@@ -88,7 +101,7 @@ export default async function Page({
           { name: nav("blog"), path: "blog" },
           {
             name: plainText(localizedField(blog, "title", locale)),
-            path: `blog/${blog.id}`,
+            path: `blog/${blog.slug}`,
           },
         ]}
       />

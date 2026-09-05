@@ -71,7 +71,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
         return (
           <Link
             key={tour.id}
-            href={tour.id ? `/tours/${tour.id}` : "#"}
+            href={tour.slug ? `/tours/${tour.slug}` : "#"}
             className="group flex flex-col overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-tileLight"
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden">
