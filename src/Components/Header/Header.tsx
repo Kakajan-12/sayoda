@@ -132,6 +132,19 @@ export default function Header() {
 
   const activeNav = location.replace(`/${uselocale}`, "") || "/";
 
+  /**
+   * Пункт подсвечивается и на вложенных страницах раздела.
+   *
+   * Сравнение шло точным равенством, поэтому на странице тура
+   * (/tours/6-day-classic-tour-of-turkmenistan) пункт «Туры» не подсвечивался
+   * вовсе — человек терял понимание, в каком разделе находится. «Главная»
+   * остаётся точным совпадением: иначе она была бы активна всегда.
+   */
+  const isActiveNav = (url: string) =>
+    url === "/"
+      ? activeNav === "/"
+      : activeNav === url || activeNav.startsWith(`${url}/`);
+
   const renderMessengerIcons = () =>
     messengers.map((item) => {
       const iconType = item.icon?.toLowerCase();
@@ -221,17 +234,34 @@ export default function Header() {
 
             {/* NAVBAR FOR DESKTOP */}
             <div className="hidden md:flex items-center lg:gap-x-12 gap-x-6">
-              {navbar.map((items) => (
-                <Link
-                  key={items.name}
-                  className={`lg:text-sm 2xl:text-lg text-sm font-medium ${
-                    items.url === activeNav ? "text-brick" : "text-white"
-                  }`}
-                  href={items.url}
-                >
-                  {t(items.key)}
-                </Link>
-              ))}
+              {/*
+                Активный раздел помечен белой полоской под пунктом, а не
+                цветом текста: кирпичный на бирюзовой шапке читался хуже
+                белого и спорил с кнопками действия, за которыми этот цвет
+                закреплён. Полоска рисуется псевдоэлементом и растёт из
+                левого края — при наведении она так же выезжает, поэтому
+                активное и наводимое состояния выглядят одним приёмом.
+              */}
+              {navbar.map((items) => {
+                const active = isActiveNav(items.url);
+                return (
+                  <Link
+                    key={items.name}
+                    aria-current={active ? "page" : undefined}
+                    className={`relative lg:text-sm 2xl:text-lg text-sm font-medium text-white
+                      after:absolute after:-bottom-1.5 after:left-0 after:right-0 after:h-0.5
+                      after:origin-left after:rounded-full after:bg-white
+                      after:transition-transform after:duration-300 after:ease-out ${
+                        active
+                          ? "after:scale-x-100"
+                          : "after:scale-x-0 hover:after:scale-x-100"
+                      }`}
+                    href={items.url}
+                  >
+                    {t(items.key)}
+                  </Link>
+                );
+              })}
 
               {/* LANGUAGE SWITCH */}
               <div
