@@ -1,23 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
-import { WindowWidth } from "@/Hooks/WindowWidth";
 import { useTranslations } from "next-intl";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
 /**
  * Список статей. Данные приходят пропсом из Server Component — раньше они
  * грузились в useEffect, и страница /blog отдавалась краулерам пустой.
- * Клиентской осталась только пагинация и hover-раскрытие карточек.
+ * Клиентской осталась только пагинация: карточка больше ничего не прячет
+ * за наведением, поэтому отслеживать его не нужно.
  */
 
-const POSTS_PER_PAGE = 8;
+const POSTS_PER_PAGE = 9;
 
 const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const width = WindowWidth();
   const t = useTranslations("SectionTitle");
 
   const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
@@ -42,19 +40,13 @@ const BlogsCardsProps = ({ blogs }: { blogs: Blog[] }) => {
         {t("blogs")}
       </h2>
 
-      <div className="grid grid-cols-1 bas:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 py-10 sm:gap-7">
-        {currentPosts.map((item, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-10 md:gap-6">
+        {currentPosts.map((item) => (
           <BlogCard
             key={item.id}
             blog={item}
-            expanded={hoverIndex === i}
             href={`/blog/${item.id}`}
             className="w-full"
-            onHoverStart={width > 768 ? () => setHoverIndex(i) : undefined}
-            onHoverEnd={width > 768 ? () => setHoverIndex(null) : undefined}
-            onViewportEnter={width < 768 ? () => setHoverIndex(i) : undefined}
-            onViewportLeave={width < 768 ? () => setHoverIndex(null) : undefined}
-            viewport={{ once: false, margin: "-50% 0px -50% 0px" }}
           />
         ))}
       </div>

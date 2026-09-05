@@ -87,7 +87,18 @@ export const getTourCategories = () =>
 export const getTourLocations = () =>
   getJson<TaxonomyItem[]>("/api/tour-location", []);
 
-export const getBlogs = () => getJson<Blog[]>("/api/blogs", []);
+/**
+ * API отдаёт статьи в порядке id, а не по дате: в списке статья от 7 августа
+ * стояла между двумя от 23-го. Для блога свежесть — главный признак, поэтому
+ * сортируем сами; на бэкенде порядок менять не стали, чтобы не задеть админку,
+ * которая опирается на тот же список.
+ */
+export const getBlogs = async () => {
+  const blogs = await getJson<Blog[]>("/api/blogs", []);
+  return [...blogs].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+};
 
 export interface VisaEntry {
   id: number;

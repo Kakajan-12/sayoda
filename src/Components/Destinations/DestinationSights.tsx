@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { BASE_API_URL } from "@/i18n/api";
-import { WindowWidth } from "@/Hooks/WindowWidth";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
 const stripHtml = (html: string) => (html || "").replace(/<[^>]+>/g, "");
@@ -15,9 +14,7 @@ type Props = {
 };
 
 export default function DestinationSights({ keywords, emptyLabel }: Props) {
-  const width = WindowWidth();
   const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetch(`${BASE_API_URL}/api/blogs`)
@@ -46,19 +43,13 @@ export default function DestinationSights({ keywords, emptyLabel }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-1 bas:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-7">
-      {filtered.map((item, i) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+      {filtered.map((item) => (
         <BlogCard
           key={item.id}
           blog={item}
-          expanded={hoverIndex === i}
           href={`/blog/${item.id}`}
           className="w-full"
-          onHoverStart={width > 768 ? () => setHoverIndex(i) : undefined}
-          onHoverEnd={width > 768 ? () => setHoverIndex(null) : undefined}
-          onViewportEnter={width < 768 ? () => setHoverIndex(i) : undefined}
-          onViewportLeave={width < 768 ? () => setHoverIndex(null) : undefined}
-          viewport={{ once: false, margin: "-50% 0px -50% 0px" }}
         />
       ))}
     </div>

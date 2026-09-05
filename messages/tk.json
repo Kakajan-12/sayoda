@@ -125,6 +125,7 @@
   },
   "TourPerPage": {
     "from": "Başlangyç bahasy",
+    "perPerson": "adam başyna",
     "available": "Elýeterli",
     "category": "Kategoriýa",
     "notes": "Wajyp bellikler",

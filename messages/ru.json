@@ -108,6 +108,7 @@
   },
   "TourPerPage": {
     "from": "От",
+    "perPerson": "за человека",
     "available": "Доступно",
     "category": "Категория",
     "notes": "Важные примечания",

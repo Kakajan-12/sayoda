@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -9,16 +9,13 @@ import "./Blogs.css";
 import { ButtonLeftSwiper, ButtonRigthSwiper } from "@/Ui/SwiperComponents";
 import { PoppinFont } from "@/Ui/Fonts";
 import { useTranslations } from "next-intl";
-import { WindowWidth } from "@/Hooks/WindowWidth";
 import BlogCard, { Blog } from "@/Components/CardProps/BlogCard";
 
 /**
  * Статьи приходят пропсом из Server Component — так карточки попадают
- * в серверный HTML. Сам компонент остаётся клиентским из-за Swiper и hover.
+ * в серверный HTML. Сам компонент остаётся клиентским из-за Swiper.
  */
 const BlogsCards = ({ blogs }: { blogs: Blog[] }) => {
-  const witdhs = WindowWidth();
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const t = useTranslations("Blogs");
 
   return (
@@ -51,25 +48,16 @@ const BlogsCards = ({ blogs }: { blogs: Blog[] }) => {
           modules={[Navigation, Pagination]}
           className="mySwiper h-auto relative z-20 w-full"
         >
-          {blogs.slice(0, 8).map((blog, i) => (
-            <SwiperSlide
-              key={blog.id}
-              className="flex justify-center items-center"
-            >
-              {({ isActive }) => (
-                <BlogCard
-                  blog={blog}
-                  expanded={witdhs > 1025 ? hoverIndex === i : isActive}
-                  href={`/blog/${blog.id}`}
-                  className="w-11/12 sm:w-11/12 mx-auto"
-                  onHoverStart={
-                    witdhs > 768 ? () => setHoverIndex(i) : undefined
-                  }
-                  onHoverEnd={
-                    witdhs > 768 ? () => setHoverIndex(null) : undefined
-                  }
-                />
-              )}
+          {blogs.slice(0, 8).map((blog) => (
+            // h-auto нужен самому слайду: по умолчанию Swiper выравнивает
+            // слайды по высоте самого высокого, а карточки теперь разной
+            // высоты и без этого растягивалась бы только обёртка, не карточка.
+            <SwiperSlide key={blog.id} className="h-auto">
+              <BlogCard
+                blog={blog}
+                href={`/blog/${blog.id}`}
+                className="mx-auto w-11/12"
+              />
             </SwiperSlide>
           ))}
         </Swiper>

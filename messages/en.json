@@ -125,6 +125,7 @@
   },
   "TourPerPage": {
     "from": "From",
+    "perPerson": "per person",
     "available": "Available",
     "category": "Category",
     "notes": "Important Notes",
