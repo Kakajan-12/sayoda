@@ -117,7 +117,9 @@ export default function Header() {
    * Поэтому при прокрутке фон становится сплошным.
    */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    // Порог в один пиксель: полоса контактов должна схлопнуться сразу,
+    // иначе при малой прокрутке она успевала показаться обрезанной.
+    const onScroll = () => setScrolled(window.scrollY > 0);
     onScroll(); // страницу могли открыть уже прокрученной — по якорю или из истории
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -205,15 +207,30 @@ export default function Header() {
     });
 
   return (
-    <header className={`contents ${ComfortaFont.className}`}>
+    /*
+      Шапка целиком прилипает к верху одним блоком.
+      Раньше полоса контактов и меню прилипали по отдельности, обе к top-0:
+      они наезжали друг на друга, и белая полоса просвечивала сквозь
+      полупрозрачное меню. Когда полосу отпустили в поток, стало хуже —
+      остановив прокрутку на полпути, можно было поймать её обрезанной
+      пополам: половинки букв над меню.
+    */
+    <header
+      className={`sticky top-0 z-40 ${ComfortaFont.className} ${
+        scrolled ? "shadow-md" : ""
+      }`}
+    >
       {/*
-        Полоса с почтой и телефоном уезжает вверх при прокрутке, а не липнет.
-        Раньше она тоже стояла sticky top-0 — обе полосы оказывались в одной
-        точке, и белая просвечивала сквозь полупрозрачную шапку: под меню
-        читались размытые контакты. Прижимать её и незачем: контакты
-        продублированы в подвале, а на первом экране она видна и так.
+        Полоса схлопывается целиком, а не уезжает: высота и прозрачность
+        меняются вместе, поэтому промежуточного состояния с обрезанным
+        текстом не остаётся. Контакты при этом никуда не деваются — они
+        есть в подвале и в кнопке WhatsApp.
       */}
-      <div className="hidden md:block bg-white">
+      <div
+        className={`hidden overflow-hidden bg-white transition-all duration-300 md:block ${
+          scrolled ? "max-h-0 opacity-0" : "max-h-20 opacity-100"
+        }`}
+      >
         <div className="container mx-auto sm:px-2 py-2">
           <div className="flex justify-between items-center text-sm text-mainBlue/85">
             <div className="flex items-center gap-6">
@@ -242,11 +259,14 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {/*
+        Фон сплошной при прокрутке: над обычным контентом сквозь стекло
+        проступали картинки и строки текста, и меню читалось поверх каши.
+        На первом экране под шапкой лежит картинка — там стекло уместно.
+      */}
       <div
-        className={`sticky top-0 z-40 transition-colors duration-300 ${
-          scrolled
-            ? "bg-mainBlue shadow-md"
-            : "bg-mainBlue/85 backdrop-blur-sm"
+        className={`transition-colors duration-300 ${
+          scrolled ? "bg-mainBlue" : "bg-mainBlue/85 backdrop-blur-sm"
         }`}
       >
         <div className="container mx-auto sm:pr-5 lg:pr-10">
