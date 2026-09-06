@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
-import { ComfortaFont } from "@/Ui/Fonts";
+import { ComfortaFont } from "@/components/ui/Fonts";
 import { getTranslations } from "next-intl/server";
-import DestinationHotels from "@/Components/Destinations/DestinationHotels";
+import DestinationHotels from "@/components/destinations/DestinationHotels";
 
 export const revalidate = 300;
 

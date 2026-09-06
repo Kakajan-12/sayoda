@@ -2,16 +2,16 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import SilkRoad from "@/Components/TourPerPage/SilkRoad";
-import AccordionTour from "@/Components/TourPerPage/AccordionTour";
-import IncludesExcludes from "@/Components/TourPerPage/IncludesExcludes";
-import Gallery from "@/Components/TourPerPage/Gallery";
-import Map from "@/Components/TourPerPage/Map";
-import TourCta from "@/Components/TourPerPage/TourCta";
+import SilkRoad from "@/components/tours/SilkRoad";
+import AccordionTour from "@/components/tours/AccordionTour";
+import IncludesExcludes from "@/components/tours/IncludesExcludes";
+import Gallery from "@/components/tours/Gallery";
+import Map from "@/components/tours/Map";
+import TourCta from "@/components/tours/TourCta";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
-import TourJsonLd from "@/Components/Seo/TourJsonLd";
-import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
+import TourJsonLd from "@/components/seo/TourJsonLd";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   durationDays,
   getTour,

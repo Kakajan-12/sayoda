@@ -2,11 +2,11 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import MainCountries from "../../../../Components/Countries/MainCountries";
-import TextsCountry from "../../../../Components/Countries/TextsCountry";
-import GalleryCountry from "../../../../Components/Countries/GalleryCountry";
-import ArticleJsonLd from "@/Components/Seo/ArticleJsonLd";
-import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
+import MainCountries from "@/components/blog/ArticleHero";
+import TextsCountry from "@/components/blog/ArticleBody";
+import GalleryCountry from "@/components/blog/ArticleGallery";
+import ArticleJsonLd from "@/components/seo/ArticleJsonLd";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   getBlog,
   getBlogs,

@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-import ContactMain from "../../../Components/ContactUs/ContactUsMain";
-import ContactForm from "../../../Components/ContactUs/ContactForm";
-import LocationSwitcher from "../../../Components/ContactUs/Address";
+import ContactMain from "@/components/contacts/ContactsHero";
+import ContactForm from "@/components/contacts/ContactForm";
+import LocationSwitcher from "@/components/contacts/Address";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
 

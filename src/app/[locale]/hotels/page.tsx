@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import HotelsCatalog from "@/Components/Hotels/HotelsCatalog";
+import HotelsCatalog from "@/components/hotels/HotelsCatalog";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
 

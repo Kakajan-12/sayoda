@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
-import { ComfortaFont } from "@/Ui/Fonts";
+import { ComfortaFont } from "@/components/ui/Fonts";
 import { getTranslations } from "next-intl/server";
 import { getTourLocations, getTours } from "@/lib/api/catalog";
 import { plainText } from "@/lib/utils";
-import TourCards from "@/Components/MainComonents/TourCards";
+import TourCards from "@/components/home/TourCards";
 
 export const revalidate = 300;
 

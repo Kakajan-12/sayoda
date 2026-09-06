@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
-import { PoppinFont } from "@/Ui/Fonts";
-import DestinationTabs from "@/Components/Destinations/DestinationTabs";
+import { PoppinFont } from "@/components/ui/Fonts";
+import DestinationTabs from "@/components/destinations/DestinationTabs";
 
 export const revalidate = 300;
 

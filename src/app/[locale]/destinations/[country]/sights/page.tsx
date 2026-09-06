@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
-import { ComfortaFont } from "@/Ui/Fonts";
+import { ComfortaFont } from "@/components/ui/Fonts";
 import { getTranslations } from "next-intl/server";
-import DestinationSights from "@/Components/Destinations/DestinationSights";
+import DestinationSights from "@/components/destinations/DestinationSights";
 
 const stripHtml = (s: string) => s.replace(/<[^>]+>/g, "");
 

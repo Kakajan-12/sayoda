@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-import AboutUs from "../../../Components/AboutUs/AboutUs";
-import Services from "../../../Components/AboutUs/Services";
-import Testimonials from "../../../Components/AboutUs/Testimonials";
+import AboutUs from "@/components/about/AboutHero";
+import Services from "@/components/about/Services";
+import Testimonials from "@/components/about/Testimonials";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
 

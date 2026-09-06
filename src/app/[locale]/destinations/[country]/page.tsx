@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
-import { ComfortaFont } from "@/Ui/Fonts";
-import GeneralInfoSidebar from "@/Components/Destinations/GeneralInfoSidebar";
+import { ComfortaFont } from "@/components/ui/Fonts";
+import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
 
 export const revalidate = 300;
 

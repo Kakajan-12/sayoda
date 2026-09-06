@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { PoppinFont, ComfortaFont } from "@/Ui/Fonts";
+import { PoppinFont, ComfortaFont } from "@/components/ui/Fonts";
 
 export default function NotFound() {
   const t = useTranslations("NotFound");

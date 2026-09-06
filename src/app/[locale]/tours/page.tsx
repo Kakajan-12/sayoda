@@ -1,9 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import DiscoverMain from "@/Components/Discover/DiscoverMain";
-import ToursCatalog from "@/Components/Tours/ToursCatalog";
-import BreadcrumbJsonLd from "@/Components/Seo/BreadcrumbJsonLd";
+import DiscoverMain from "@/components/destinations/DiscoverMain";
+import ToursCatalog from "@/components/tours/ToursCatalog";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   getTourCategories,
   getTourLocations,

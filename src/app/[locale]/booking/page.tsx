@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { PoppinFont } from "../../../Ui/Fonts";
-import ConatactDetail from "@/Components/UnKnown/ConatactDetail";
-import TourDetail from "@/Components/UnKnown/TourDetail";
+import { PoppinFont } from "@/components/ui/Fonts";
+import ConatactDetail from "@/components/contacts/ContactDetail";
+import TourDetail from "@/components/tours/TourDetail";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { BASE_API_URL } from "@/i18n/api";

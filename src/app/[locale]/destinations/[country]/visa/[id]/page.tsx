@@ -1,4 +1,4 @@
-import { getLocalizedVisaField, getVisaById } from "@/api/getVisa";
+import { getLocalizedVisaField, getVisaById } from "@/lib/api/visa";
 import { notFound } from "next/navigation";
 
 export default async function VisaTypePage({

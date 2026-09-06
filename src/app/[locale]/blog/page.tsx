@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
-import BlogsMain from "../../../Components/Blogs/BlogsMain";
-import BlogsCardsProps from "../../../Components/Blogs/BlogsCardsProps";
+import BlogsMain from "@/components/blog/BlogsHero";
+import BlogsCardsProps from "@/components/blog/BlogsList";
 import { pageMetadata } from "@/lib/metadata";
 import { getBlogs } from "@/lib/api/catalog";
 import { routing } from "@/i18n/routing";

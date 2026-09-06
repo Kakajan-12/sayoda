@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDestinationBySlug } from "@/lib/api/destinations";
-import { getVisaList } from "@/api/getVisa";
-import DestinationVisaSidebar from "@/Components/Destinations/DestinationVisaSidebar";
+import { getVisaList } from "@/lib/api/visa";
+import DestinationVisaSidebar from "@/components/destinations/DestinationVisaSidebar";
 
 export const revalidate = 300;
 

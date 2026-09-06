@@ -1,4 +1,4 @@
-import EmbassiesAbroadTable from "@/Components/Visa/EmbassiesAbroadTable";
+import EmbassiesAbroadTable from "@/components/destinations/EmbassiesAbroadTable";
 import { notFound } from "next/navigation";
 
 export default async function Page({
