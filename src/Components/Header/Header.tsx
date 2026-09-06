@@ -189,7 +189,14 @@ export default function Header() {
 
   return (
     <header className={`contents ${ComfortaFont.className}`}>
-      <div className="hidden md:block bg-white sticky top-0 z-30">
+      {/*
+        Полоса с почтой и телефоном уезжает вверх при прокрутке, а не липнет.
+        Раньше она тоже стояла sticky top-0 — обе полосы оказывались в одной
+        точке, и белая просвечивала сквозь полупрозрачную шапку: под меню
+        читались размытые контакты. Прижимать её и незачем: контакты
+        продублированы в подвале, а на первом экране она видна и так.
+      */}
+      <div className="hidden md:block bg-white">
         <div className="container mx-auto sm:px-2 py-2">
           <div className="flex justify-between items-center text-sm text-mainBlue/85">
             <div className="flex items-center gap-6">
