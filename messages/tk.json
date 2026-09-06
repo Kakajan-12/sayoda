@@ -124,33 +124,7 @@
     ]
   },
   "Faq": {
-    "title": "Köp berilýän soraglar",
-    "items": [
-      {
-        "q": "Türkmenistana wiza gerekmi?",
-        "a": "Hawa, köp ýurduň raýatlaryna gerek. Syýahatçylyk wizasy diňe ygtyýarnamaly türkmen operatorynyň çakylyk hatynyň esasynda berilýär — ony biz taýýarlaýarys, aýratyn ýüz tutmaly däl."
-      },
-      {
-        "q": "Çakylyk näçe wagtda taýýar bolýar?",
-        "a": "Adatça pasportyň nusgasyny we arzany alanymyzdan soň 2–3 hepde. Syýahatdan azyndan bir aý öň başlamak gowy."
-      },
-      {
-        "q": "Türkmenistanda syýahat etmek howpsuzmy?",
-        "a": "Hawa. Köçe jenaýatçylygy seýrek, ýol boýunça size gid we sürüji ýoldaş bolýar. Käbir sebitler üçin rugsat gerek — ony öňünden biz alýarys."
-      },
-      {
-        "q": "Turuň bahasyna näme girýär?",
-        "a": "Adatça: çakylyk, ýol boýunça ulag, ýaşaýyş, maksatnama boýunça iýmit, gid we girelge biletleri. Anyk sanaw her turuň sahypasynda görkezilen."
-      },
-      {
-        "q": "Topara goşulman, ýeke gitmek bolarmy?",
-        "a": "Hawa. Şahsy tury siziň seneleriňize, depginiňize we gyzyklanmalaryňyza görä düzýäris — maksatnamany we bahany gysga söhbetdeşlikden soň ibereris."
-      },
-      {
-        "q": "Gidler haýsy dillerde işleýär?",
-        "a": "Rus, iňlis we türkmen dillerinde. Beýleki diller — öňünden habar berseňiz, haýyş boýunça."
-      }
-    ]
+    "title": "Köp berilýän soraglar"
   },
   "HomeLead": {
     "title": "Syýahatyňyzy meýilleşdiriň",

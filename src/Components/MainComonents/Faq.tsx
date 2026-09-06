@@ -1,32 +1,42 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
 import { PoppinFont, QuicksandFont } from "@/Ui/Fonts";
-
-interface FaqItem {
-  q: string;
-  a: string;
-}
+import { faqField, getFaq } from "@/lib/api/faq";
 
 /**
  * Частые вопросы.
  *
- * Два дела сразу: снимает возражения, из-за которых человек уходит не написав
- * (виза, безопасность, сроки, что входит в цену), и даёт разметку FAQPage —
- * такие вопросы поиск показывает прямо в выдаче.
+ * Два дела сразу: снимают возражения, из-за которых человек уходит не
+ * написав (виза, безопасность, сроки, что входит в цену), и дают разметку
+ * FAQPage — такие вопросы поиск показывает прямо в выдаче.
+ *
+ * Вопросы приходят из админки. Пустой список — блок не выводится вовсе:
+ * заголовок «Частые вопросы» без вопросов выглядит как сломанная страница.
  *
  * Раскрытие сделано на <details>, а не на состоянии React: работает без
  * JavaScript, доступно с клавиатуры и не требует клиентского компонента.
  */
 export default async function Faq({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: "Faq" });
-  const items = t.raw("items") as FaqItem[];
+  const [t, items] = await Promise.all([
+    getTranslations({ locale, namespace: "Faq" }),
+    getFaq(),
+  ]);
 
-  if (!Array.isArray(items) || !items.length) return null;
+  // Вопрос без текста пропускаем: пустая строка в списке читается как сбой.
+  const visible = items
+    .map((item) => ({
+      id: item.id,
+      q: faqField(item, "question", locale),
+      a: faqField(item, "answer", locale),
+    }))
+    .filter((item) => item.q);
+
+  if (!visible.length) return null;
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
+    mainEntity: visible.map((item) => ({
       "@type": "Question",
       name: item.q,
       acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -49,9 +59,9 @@ export default async function Faq({ locale }: { locale: string }) {
       <div
         className={`${QuicksandFont.className} mx-auto flex max-w-3xl flex-col gap-3`}
       >
-        {items.map((item, i) => (
+        {visible.map((item) => (
           <details
-            key={i}
+            key={item.id}
             className="group rounded-lg border border-sand bg-white px-5 py-4 open:shadow-sm"
           >
             <summary
@@ -67,9 +77,11 @@ export default async function Faq({ locale }: { locale: string }) {
                 +
               </span>
             </summary>
-            <p className="mt-3 text-sm/relaxed text-inkMuted md:text-base/relaxed">
-              {item.a}
-            </p>
+            {item.a && (
+              <p className="mt-3 text-sm/relaxed text-inkMuted md:text-base/relaxed">
+                {item.a}
+              </p>
+            )}
           </details>
         ))}
       </div>
