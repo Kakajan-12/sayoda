@@ -74,6 +74,7 @@ export default function Header() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [messengers, setMessengers] = useState<Messenger[]>([]);
+  const [scrolled, setScrolled] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -104,6 +105,22 @@ export default function Header() {
     };
 
     fetchContacts();
+  }, []);
+
+  /**
+   * Прокручена ли страница.
+   *
+   * От этого зависит фон шапки. На первом экране под ней лежит картинка,
+   * и полупрозрачность с размытием там уместна — шапка не отрезает верх
+   * фотографии. Но как только начинается обычный контент, сквозь тот же
+   * фон проступают картинки и строки текста, и меню читается поверх каши.
+   * Поэтому при прокрутке фон становится сплошным.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll(); // страницу могли открыть уже прокрученной — по якорю или из истории
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -225,7 +242,13 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="bg-mainBlue/85 backdrop-blur-sm sticky top-0 z-40">
+      <div
+        className={`sticky top-0 z-40 transition-colors duration-300 ${
+          scrolled
+            ? "bg-mainBlue shadow-md"
+            : "bg-mainBlue/85 backdrop-blur-sm"
+        }`}
+      >
         <div className="container mx-auto sm:pr-5 lg:pr-10">
           <div className="flex justify-between items-center relative py-2">
             {/* LOGO */}
