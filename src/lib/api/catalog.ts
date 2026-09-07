@@ -340,14 +340,30 @@ export function localizedField(
   );
 }
 
-/** Приводит путь к картинке из CMS к абсолютному URL. */
-export function mediaUrl(path: string | null | undefined): string {
+/**
+ * Приводит путь к картинке из CMS к виду «uploads/файл».
+ *
+ * В базе лежат три разных написания одного и того же файла, и все три
+ * настоящие. Multer отдаёт абсолютный путь внутри контейнера
+ * («/app/uploads/x.webp»), часть старых записей хранит относительный
+ * («uploads/x.webp»), а часть — с «../». Приводим к одному виду здесь, а
+ * не в каждом месте вывода: пропущенная где-то одна нормализация даёт
+ * битую картинку, которую видно только на живой странице.
+ */
+export function normalizeMediaPath(path: string | null | undefined): string {
   if (!path) return "";
-  return `${BASE_API_URL.replace(/\/+$/, "")}/${String(path)
+  return String(path)
     .replace(/\\/g, "/")
     .replace(/^(\.\.\/)+/, "")
     .replace(/^\/+/, "")
-    .replace(/^app\//, "")}`;
+    .replace(/^app\//, "");
+}
+
+/** Приводит путь к картинке из CMS к абсолютному URL. */
+export function mediaUrl(path: string | null | undefined): string {
+  const clean = normalizeMediaPath(path);
+  if (!clean) return "";
+  return `${BASE_API_URL.replace(/\/+$/, "")}/${clean}`;
 }
 
 /** Вытаскивает число дней из поля duration (в базе там и "3", и "<p>11</p>"). */

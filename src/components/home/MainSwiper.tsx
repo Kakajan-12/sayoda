@@ -1,35 +1,50 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import { PoppinFont } from "@/components/ui/Fonts";
-import { useLocale, useTranslations } from "next-intl";
-import { BASE_API_URL } from "@/i18n/api";
-import { findDestinationByName } from "@/data/destinations";
+import { Link } from "@/i18n/navigation";
 import { FreeMode, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import mainImage from "../../../public/main3.jpg";
 
-type Slide = {
-  id: number;
-  tour_id: number;
-  title_tk: string;
-  title_en: string;
-  title_ru: string;
-  text_tk: string;
-  text_en: string;
-  text_ru: string;
+/**
+ * Первый экран главной: карта, заголовок и лента карточек стран.
+ *
+ * Карточки строятся из направлений. Раньше они жили отдельной сущностью
+ * «Карточки на главной»: те же пять стран, заведённые второй раз, со своим
+ * названием, своей картинкой и своим текстом, который на экран не попадал
+ * вовсе. Вели они всё равно на страницу направления — все пять были к нему
+ * привязаны. Переименование страны в направлениях на главную не доезжало.
+ *
+ * Данные приходят пропсом с сервера, а карточка стала обычной ссылкой
+ * вместо кнопки с router.push. Из-за этого пропали разом: запрос из
+ * браузера, состояния загрузки и ошибки, спиннер на карточке и подбор
+ * страны сравнением названий. И главное — пять ссылок на страницы стран
+ * теперь лежат в HTML главной, а не появляются после гидрации.
+ */
+
+export interface HeroCard {
+  slug: string;
+  title: string;
   image: string;
-  // Явная связь со страной. Пусто — работает прежнее сопоставление
-  // по названию, чтобы старые слайдеры не сломались.
-  destination_id?: number | null;
-  destination_slug?: string | null;
-  /** Слаг тура: адреса туров теперь строятся по нему, а не по id. */
-  tour_slug?: string | null;
-};
+}
+
+interface MainSwiperProps {
+  /** Карточки стран, уже отсортированные и локализованные на сервере. */
+  cards: HeroCard[];
+  /**
+   * Заголовок первого экрана. Приходит из Server Component, поэтому попадает
+   * в статический HTML.
+   */
+  heading?: React.ReactNode;
+  /**
+   * Фон первого экрана, загруженный через админку. Пусто — остаётся картинка
+   * из вёрстки, чтобы баннер не оказался пустым до первой загрузки своей.
+   */
+  backgroundImage?: string;
+}
 
 /**
  * Затемнение поверх карты на первом экране.
@@ -45,149 +60,8 @@ type Slide = {
 const HERO_OVERLAY =
   "pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-black/35 to-black/45";
 
-interface MainSwiperProps {
-  /**
-   * Заголовок первого экрана. Приходит из Server Component, поэтому попадает
-   * в статический HTML — сам слайдер грузит данные уже в браузере.
-   */
-  heading?: React.ReactNode;
-  /**
-   * Фон первого экрана, загруженный через админку. Пусто — остаётся картинка
-   * из вёрстки, чтобы баннер не оказался пустым до первой загрузки своей.
-   */
-  backgroundImage?: string;
-}
-
-const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
+const MainSwiper = ({ cards, heading, backgroundImage }: MainSwiperProps) => {
   const heroImage = backgroundImage || mainImage;
-  const router = useRouter();
-  const [slides, setSlides] = useState<Slide[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [navigatingId, setNavigatingId] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const locale = useLocale();
-  const tc = useTranslations("Common");
-
-  useEffect(() => {
-    const fetchSlides = async () => {
-      try {
-        const response = await fetch(`${BASE_API_URL}/api/sliders`);
-        if (!response.ok)
-          throw new Error(`Ошибка загрузки: ${response.status}`);
-        const data = await response.json();
-        setSlides(data);
-      } catch (err: unknown) {
-        setError(err instanceof Error ? err.message : "Неизвестная ошибка");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSlides();
-  }, []);
-
-  const getLocalized = (slide: Slide, field: "title" | "text") => {
-    if (locale === "ru") return slide[`${field}_ru`];
-    if (locale === "tk") return slide[`${field}_tk`];
-    return slide[`${field}_en`] || slide[`${field}_tk`];
-  };
-
-  const getFixedImageUrl = (path: string) => {
-    if (!path) return "";
-    return (
-      BASE_API_URL.replace(/\/+$/, "") +
-      "/" +
-      path
-        .replace(/\\/g, "/")
-        .replace(/^(\.\.\/)+/, "")
-        .replace(/^\/+/, "")
-        .replace(/^app\//, "")
-    );
-  };
-
-  const stripHtml = (html: string) => html.replace(/<[^>]+>/g, "");
-
-  const handleCardClick = (slide: Slide) => {
-    setNavigatingId(slide.id);
-
-    // Сначала явная связь из админки. Раньше страна определялась только
-    // сравнением заголовка карточки с названиями стран, и переименование
-    // слайдера тихо меняло переход с страницы страны на страницу тура.
-    if (slide.destination_slug) {
-      router.push(`/destinations/${slide.destination_slug}`);
-      return;
-    }
-
-    // Связь не проставлена — прежнее поведение, чтобы старые слайдеры работали.
-    const dest = findDestinationByName(
-      stripHtml(slide.title_en),
-      stripHtml(slide.title_ru),
-      stripHtml(slide.title_tk),
-    );
-    router.push(
-      dest ? `/destinations/${dest.slug}` : `/tours/${slide.tour_slug ?? ""}`,
-    );
-  };
-
-  if (loading) {
-    return (
-      <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
-        <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
-          <div className="absolute inset-0 overflow-hidden -top-28">
-            <ImageWithSkeleton
-              src={heroImage}
-              alt="Central Asia map"
-              fill
-              priority
-              className="object-cover object-center"
-            />
-          </div>
-
-          <div className={HERO_OVERLAY} />
-
-          {/* Заголовок рисуем и в состоянии загрузки: именно этот HTML попадает
-              в статическую выдачу, слайдер подгружается уже в браузере. */}
-          {heading}
-
-          <div className="absolute inset-x-0 -bottom-20 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
-            <div className="max-w-7xl mx-auto grid grid-cols-2 min-[480px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-[3/4] rounded-2xl bg-gray-200/70 animate-pulse"
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  // Не отдаётся список слайдов — показываем первый экран без карточек.
-  // Раньше здесь возвращалась одна строка с ошибкой, и вместе со слайдером
-  // пропадал весь баннер: заголовок h1, подзаголовок и кнопка «смотреть туры».
-  // Сбой стороннего запроса не повод лишать страницу первого экрана.
-  if (error) {
-    return (
-      <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
-        <section className="relative w-full h-[70vh] md:h-[75vh] lg:h-[100vh] bg-mainLight">
-          <div className="absolute inset-0 overflow-hidden -top-28">
-            <ImageWithSkeleton
-              src={heroImage}
-              alt="Central Asia map"
-              fill
-              priority
-              className="object-cover object-center"
-            />
-          </div>
-
-          <div className={HERO_OVERLAY} />
-
-          {heading}
-        </section>
-      </div>
-    );
-  }
 
   return (
     <div className="relative z-20 pb-28 sm:pb-36 lg:pb-44">
@@ -206,60 +80,56 @@ const MainSwiper = ({ heading, backgroundImage }: MainSwiperProps) => {
 
         {heading}
 
-        <div className="absolute inset-x-0 bottom-0 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
-          <div className="relative max-w-7xl mx-auto">
-            <Swiper
-              modules={[FreeMode, Navigation]}
-              watchOverflow
-              slidesPerView={1.8}
-              spaceBetween={12}
-              freeMode
-              breakpoints={{
-                480: { slidesPerView: 2.8, spaceBetween: 16 },
-                768: { slidesPerView: 3.8, spaceBetween: 20 },
-                1024: { slidesPerView: 5, spaceBetween: 24 },
-              }}
-              className="destination-cards-swiper"
-            >
-              {slides.map((slide) => (
-                <SwiperSlide key={slide.id}>
-                  <button
-                    type="button"
-                    disabled={navigatingId === slide.id}
-                    onClick={() => handleCardClick(slide)}
-                    className="group relative block w-full aspect-[3/4] rounded-2xl overflow-hidden  transition-transform duration-300 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
-                  >
-                    <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
-                      <ImageWithSkeleton
-                        src={getFixedImageUrl(slide.image)}
-                        alt={stripHtml(getLocalized(slide, "title"))}
-                        width={400}
-                        height={533}
-                        sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
-                        className="h-full w-full object-cover"
-                        skeletonClassName="rounded-2xl"
-                      />
-                    </div>
-
-                    <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-black/55 to-transparent" />
-
-                    <h2
-                      className={`${PoppinFont.className} absolute top-4 left-4 right-4 text-white text-sm sm:text-base lg:text-lg font-semibold text-left leading-tight drop-shadow-md`}
+        {cards.length > 0 && (
+          <div className="absolute inset-x-0 bottom-0 z-30 translate-y-1/2 px-4 sm:px-8 lg:px-16">
+            <div className="relative max-w-7xl mx-auto">
+              <Swiper
+                modules={[FreeMode, Navigation]}
+                watchOverflow
+                slidesPerView={1.8}
+                spaceBetween={12}
+                freeMode
+                breakpoints={{
+                  480: { slidesPerView: 2.8, spaceBetween: 16 },
+                  768: { slidesPerView: 3.8, spaceBetween: 20 },
+                  1024: { slidesPerView: 5, spaceBetween: 24 },
+                }}
+                className="destination-cards-swiper"
+              >
+                {cards.map((card) => (
+                  <SwiperSlide key={card.slug}>
+                    <Link
+                      href={`/destinations/${card.slug}`}
+                      className="group relative block w-full aspect-[3/4] overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
-                      {stripHtml(getLocalized(slide, "title"))}
-                    </h2>
-
-                    {navigatingId === slide.id && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                        <span className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                        <ImageWithSkeleton
+                          src={card.image}
+                          alt={card.title}
+                          width={400}
+                          height={533}
+                          sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
+                          className="h-full w-full object-cover"
+                          skeletonClassName="rounded-2xl"
+                        />
                       </div>
-                    )}
-                  </button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+
+                      <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-black/55 to-transparent" />
+
+                      {/* h2, а не h1: единственный h1 страницы — заголовок
+                          первого экрана, он приходит пропсом сверху. */}
+                      <h2
+                        className={`${PoppinFont.className} absolute top-4 left-4 right-4 text-left text-sm font-semibold leading-tight text-white drop-shadow-md sm:text-base lg:text-lg`}
+                      >
+                        {card.title}
+                      </h2>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );

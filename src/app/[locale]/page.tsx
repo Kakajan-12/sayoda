@@ -16,6 +16,8 @@ import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
 import { getBlogs, getTours } from "@/lib/api/catalog";
 import { bannerField, bannerImage, getBanner } from "@/lib/api/banner";
+import { destField, destImage, getDestinations } from "@/lib/api/destinations";
+import { plainText } from "@/lib/utils";
 import { routing } from "@/i18n/routing";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
@@ -59,12 +61,33 @@ export default async function Home({
 
   // Популярные туры и статьи читаем на сервере: раньше оба блока грузились
   // в useEffect, и главная отдавалась без единой ссылки на тур или статью.
-  const [tours, blogs, banner] = await Promise.all([
+  const [tours, blogs, banner, destinations] = await Promise.all([
     getTours(),
     getBlogs(),
     getBanner(),
+    getDestinations(),
   ]);
   const popularTours = tours.filter((tour) => tour.popular === 1);
+
+  /*
+   * Карточки стран на первом экране собираются из направлений.
+   *
+   * Раньше это была отдельная сущность «Карточки на главной»: те же пять
+   * стран, заведённые второй раз, со своим названием и своей картинкой.
+   * Название теперь одно на страну, а порядок задаёт sort_order направления —
+   * бэкенд уже отдаёт список отсортированным.
+   *
+   * Плитка вертикальная, шапка страны горизонтальная, поэтому картинка
+   * у карточки своя. Если её не загрузили — подставляем шапку: неудачный
+   * кадр лучше дыры на месте карточки.
+   */
+  const heroCards = destinations
+    .map((destination) => ({
+      slug: destination.slug,
+      title: plainText(destField(destination, "name", locale)),
+      image: destImage(destination.card_image || destination.hero_image),
+    }))
+    .filter((card) => card.slug && card.image);
 
   // Тексты баннера приходят из админки. Значения из локализации остаются
   // запасным вариантом: пустое поле или недоступный API не должны оставлять
@@ -125,7 +148,11 @@ export default async function Home({
    */
   return (
     <div>
-      <MainSwiper heading={heading} backgroundImage={bannerImage(banner)} />
+      <MainSwiper
+        cards={heroCards}
+        heading={heading}
+        backgroundImage={bannerImage(banner)}
+      />
       <TrustStrip locale={locale} />
       <Explore />
       <PopularCards tours={popularTours} />
