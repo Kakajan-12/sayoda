@@ -270,6 +270,45 @@ export const getExcludes = (tourId: number) =>
 export const getTourGallery = (tourId: number) =>
   getJson<TourPhoto[]>(`/api/tour-gallery/tour/${tourId}`, []);
 
+/** Пункт «главного о туре» — короткая строка «ради чего ехать». */
+export interface TourHighlight {
+  id: number;
+  tour_id: number;
+  sort_order: number;
+  text_tk: string;
+  text_en: string;
+  text_ru: string;
+}
+
+/** Состояние заезда. Другие значения бэкенд не принимает. */
+export type DepartureStatus = "open" | "sold_out" | "closed";
+
+/** Дата заезда группового тура. */
+export interface Departure {
+  id: number;
+  tour_id: number;
+  /** Всегда «ГГГГ-ММ-ДД»: бэкенд форматирует дату сам, объектов Date тут нет. */
+  start_date: string;
+  /** Не заполнена — сайт считает её из длительности тура. */
+  end_date: string | null;
+  /** Не заполнена — действует цена тура. */
+  price: number | null;
+  /** Не заполнено — места не считаем. Ноль означает, что мест нет. */
+  seats_left: number | null;
+  status: DepartureStatus;
+}
+
+export const getHighlights = (tourId: number) =>
+  getJson<TourHighlight[]>(`/api/highlights/tour/${tourId}`, []);
+
+/**
+ * Заезды одного тура. Прошедшие даты отсеивает бэкенд по дате сервера —
+ * считать «сегодня» здесь нельзя: страница закэширована, и её «сегодня»
+ * может быть вчерашним.
+ */
+export const getDepartures = (tourId: number) =>
+  getJson<Departure[]>(`/api/departures/tour/${tourId}`, []);
+
 /** Локализованное поле CMS с фолбэком на английский, затем на туркменский. */
 export function localizedField(
   item: object | null | undefined,

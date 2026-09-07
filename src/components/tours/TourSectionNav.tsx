@@ -19,12 +19,14 @@ export default async function TourSectionNav({
   locale,
   hasItinerary,
   hasIncluded,
+  hasDepartures,
   hasGallery,
   hasMap,
 }: {
   locale: string;
   hasItinerary: boolean;
   hasIncluded: boolean;
+  hasDepartures: boolean;
   hasGallery: boolean;
   hasMap: boolean;
 }) {
@@ -34,6 +36,7 @@ export default async function TourSectionNav({
   const links = [
     hasItinerary && { href: "#itinerary", label: t("itinerary") },
     hasIncluded && { href: "#included", label: tp("include") },
+    hasDepartures && { href: "#departures", label: tp("dates") },
     hasGallery && { href: "#gallery", label: t("gallery") },
     hasMap && { href: "#map", label: t("map") },
   ].filter(Boolean) as { href: string; label: string }[];

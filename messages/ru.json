@@ -56,7 +56,8 @@
     "why": "Почему выбирают нас",
     "how": "Как это работает",
     "testimonial": "Отзывы",
-    "similar": "Похожие туры"
+    "similar": "Похожие туры",
+    "highlights": "Главное о туре"
   },
   "Header": {
     "main": "Главная",
@@ -163,7 +164,13 @@
     "lang": "Языки",
     "day": "День",
     "overview": "Обзор",
-    "routeOnMap": "Маршрут на карте"
+    "routeOnMap": "Маршрут на карте",
+    "seatsLeft": "{count, plural, one {осталось # место} few {осталось # места} many {осталось # мест} other {осталось # мест}}",
+    "seatsAvailable": "Есть места",
+    "soldOut": "Мест нет",
+    "closedForBooking": "Набор закрыт",
+    "departureDate": "Дата заезда",
+    "chooseDeparture": "Выберите дату заезда, и мы подтвердим наличие мест"
   },
   "Include": [
     "Включено",

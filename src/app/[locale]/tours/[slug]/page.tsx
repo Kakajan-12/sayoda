@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import TourHero from "@/components/tours/TourHero";
+import TourHighlights from "@/components/tours/TourHighlights";
+import TourDepartures from "@/components/tours/TourDepartures";
 import TourSectionNav from "@/components/tours/TourSectionNav";
 import TourItinerary from "@/components/tours/TourItinerary";
 import TourBookingCard from "@/components/tours/TourBookingCard";
@@ -18,7 +20,9 @@ import TourJsonLd from "@/components/seo/TourJsonLd";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   durationDays,
+  getDepartures,
   getExcludes,
+  getHighlights,
   getIncludes,
   getItinerary,
   getTour,
@@ -124,15 +128,25 @@ export default async function Page({
    * запросами из браузера каждого посетителя. Всё уходит одной пачкой:
    * запросы независимы, и выстраивать их в очередь незачем.
    */
-  const [contacts, settings, itinerary, includes, excludes, photos] =
-    await Promise.all([
-      getContacts(locale),
-      getSettings(),
-      getItinerary(tour.id),
-      getIncludes(tour.id),
-      getExcludes(tour.id),
-      getTourGallery(tour.id),
-    ]);
+  const [
+    contacts,
+    settings,
+    itinerary,
+    includes,
+    excludes,
+    photos,
+    highlights,
+    departures,
+  ] = await Promise.all([
+    getContacts(locale),
+    getSettings(),
+    getItinerary(tour.id),
+    getIncludes(tour.id),
+    getExcludes(tour.id),
+    getTourGallery(tour.id),
+    getHighlights(tour.id),
+    getDepartures(tour.id),
+  ]);
 
   const whatsapp = whatsappHref(
     contacts,
@@ -157,10 +171,13 @@ export default async function Page({
 
       <TourHero tour={tour} locale={locale} />
 
+      <TourHighlights items={highlights} locale={locale} />
+
       <TourSectionNav
         locale={locale}
         hasItinerary={itinerary.length > 0}
         hasIncluded={includes.length > 0 || excludes.length > 0}
+        hasDepartures={departures.length > 0}
         hasGallery={photos.length > 0}
         hasMap={Boolean(tour.map)}
       />
@@ -218,6 +235,17 @@ export default async function Page({
           locale={locale}
         />
       </div>
+
+      {/* Расписание идёт следом за составом цены: к этому месту человек уже
+          знает, что входит в поездку, и вопрос у него один — когда ехать. */}
+      <TourDepartures
+        departures={departures}
+        tourId={tour.id}
+        tourTitle={tourTitle}
+        tourPrice={tour.price}
+        days={days}
+        locale={locale}
+      />
 
       <Gallery images={photos} tourTitle={tourTitle} />
 

@@ -12,6 +12,7 @@ interface Props {
 
 const TourDetail: React.FC<Props> = ({ formDates, onchange, tourName }) => {
     const t = useTranslations("Booking");
+    const tp = useTranslations("TourPerPage");
 
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-6 gap-4 lg:gap-x-10 xl:gap-x-16">
@@ -39,6 +40,26 @@ const TourDetail: React.FC<Props> = ({ formDates, onchange, tourName }) => {
                     className="InputBorders w-full text-sm lg:text-sm border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 no-spin"
                 />
             </div>
+
+            {/*
+                Дата заезда.
+
+                Приходит из расписания на странице тура и остаётся
+                редактируемой: человек мог открыть форму по одной дате, а
+                передумать. Поле подписано явно — placeholder у input типа
+                date браузеры не показывают, и без подписи это был бы
+                безымянный календарь посреди формы.
+            */}
+            <label className="col-span-full md:col-span-2 flex flex-col gap-1.5 text-sm text-inkMuted">
+                {tp("departureDate")}
+                <input
+                    name="departureDate"
+                    value={formDates.departureDate}
+                    onChange={onchange}
+                    type="date"
+                    className="InputBorders w-full text-sm lg:text-sm border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </label>
 
             {/* Комментарий */}
             <textarea
