@@ -4,9 +4,11 @@ import { useState } from "react";
 import { PoppinFont } from "@/components/ui/Fonts";
 import {
   applyConsentClass,
+  clearThirdPartyStorage,
   CONSENT_EVENT,
   CONSENT_KEY,
   consentPayload,
+  readConsent,
 } from "@/lib/consent";
 
 /**
@@ -28,6 +30,9 @@ export default function ConsentReset({
   const [done, setDone] = useState(false);
 
   const reset = () => {
+    // Было ли что убирать: если согласия не было, ничего и не грузилось.
+    const wasGranted = readConsent() === "granted";
+
     try {
       window.localStorage.removeItem(CONSENT_KEY);
     } catch {
@@ -45,6 +50,18 @@ export default function ConsentReset({
 
     // detail без значения — баннер поймёт это как «выбор не сделан»
     window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: null }));
+
+    /*
+     * Если чат и счётчик уже были загружены, убрать их размонтированием
+     * нельзя: Tawk дорисовывает свои узлы в body в обход React. Чистим
+     * следы и перезагружаем страницу — баннер появится на ней сразу.
+     */
+    if (wasGranted) {
+      clearThirdPartyStorage();
+      window.location.reload();
+      return;
+    }
+
     setDone(true);
   };
 
