@@ -3,9 +3,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ReactPaginate from "react-paginate";
-import { FiFilter } from "react-icons/fi";
+import { FiChevronDown, FiFilter } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import TourCards from "@/components/home/TourCards";
+import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import type { Tour, TaxonomyItem } from "@/lib/api/catalog";
 
 /**
@@ -21,6 +22,48 @@ import type { Tour, TaxonomyItem } from "@/lib/api/catalog";
  */
 
 const ITEMS_PER_PAGE = 8;
+
+/**
+ * Поля берут оформление у формы заявки на главной: те же border-sand,
+ * rounded-lg и подсветка фокуса. Раньше здесь стояли голые `border rounded-md`
+ * с системной стрелкой — на фоне остального сайта это выглядело чужим.
+ *
+ * appearance-none убирает нативную стрелку, вместо неё рисуется своя, иначе
+ * в каждом браузере она своя и по-разному выпирает.
+ */
+const selectClass = `${QuicksandFont.className} w-full appearance-none rounded-lg border border-sand bg-white px-4 py-2.5 pr-10 text-sm text-ink outline-none transition focus:border-tileLight`;
+
+function SelectField({
+  label,
+  value,
+  onChange,
+  children,
+}: {
+  label: string;
+  value: string | number;
+  onChange: (value: string) => void;
+  children: React.ReactNode;
+}) {
+  // w-full — для колонки в модалке на телефоне; flex-1 с min-w-0 — для строки
+  // на десктопе: поля делят ширину поровну и не распирают контейнер длинным
+  // названием локации.
+  return (
+    <div className="relative w-full lg:min-w-0 lg:flex-1">
+      <select
+        aria-label={label}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={selectClass}
+      >
+        {children}
+      </select>
+      <FiChevronDown
+        aria-hidden
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-inkMuted"
+      />
+    </div>
+  );
+}
 
 interface Filters {
   popular: boolean | null;
@@ -96,6 +139,8 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
     [tours, filters],
   );
 
+  const isFiltered = Object.values(filters).some((value) => value !== null);
+
   const offset = currentPage * ITEMS_PER_PAGE;
   const displayTours = filtered.slice(offset, offset + ITEMS_PER_PAGE);
   const pageCount = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -105,27 +150,30 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
     filtersRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  /*
+   * Размеры задаются через gap и flex-1, а не через space-x/space-y и
+   * фиксированную w-56. Прежняя разметка меняла направление на lg, а отступы —
+   * на md, поэтому между 768 и 1024 пикселями поля стояли столбиком с нулевым
+   * зазором и лишним отступом слева. Поля теперь делят ширину поровну, и строка
+   * держится ровно независимо от длины перевода.
+   */
   const filterForm = (
-    <div className="flex flex-col lg:flex-row justify-between items-center w-full space-y-4 md:space-y-0 md:space-x-4">
-      <select
-        aria-label={t("all-tours")}
+    <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
+      <SelectField
+        label={t("all-tours")}
         value={filters.popular === null ? "" : filters.popular ? "1" : "0"}
-        onChange={(e) =>
-          set("popular", e.target.value === "" ? null : e.target.value === "1")
+        onChange={(value) =>
+          set("popular", value === "" ? null : value === "1")
         }
-        className="border p-2 rounded-md w-56 h-12"
       >
         <option value="">{t("all-tours")}</option>
         <option value="1">{t("popular")}</option>
-      </select>
+      </SelectField>
 
-      <select
-        aria-label={t("all-types")}
+      <SelectField
+        label={t("all-types")}
         value={filters.tourType ?? ""}
-        onChange={(e) =>
-          set("tourType", e.target.value ? Number(e.target.value) : null)
-        }
-        className="border p-2 rounded-md w-56 h-12"
+        onChange={(value) => set("tourType", value ? Number(value) : null)}
       >
         <option value="">{t("all-types")}</option>
         {tourTypes.map((type) => (
@@ -133,15 +181,12 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
             {type.label}
           </option>
         ))}
-      </select>
+      </SelectField>
 
-      <select
-        aria-label={t("all-categories")}
+      <SelectField
+        label={t("all-categories")}
         value={filters.category ?? ""}
-        onChange={(e) =>
-          set("category", e.target.value ? Number(e.target.value) : null)
-        }
-        className="border p-2 rounded-md w-56 h-12"
+        onChange={(value) => set("category", value ? Number(value) : null)}
       >
         <option value="">{t("all-categories")}</option>
         {categories.map((cat) => (
@@ -149,15 +194,12 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
             {cat[`cat_${locale}`] ?? cat.cat_en}
           </option>
         ))}
-      </select>
+      </SelectField>
 
-      <select
-        aria-label={t("all-locations")}
+      <SelectField
+        label={t("all-locations")}
         value={filters.location ?? ""}
-        onChange={(e) =>
-          set("location", e.target.value ? Number(e.target.value) : null)
-        }
-        className="border p-2 rounded-md w-56 h-12"
+        onChange={(value) => set("location", value ? Number(value) : null)}
       >
         <option value="">{t("all-locations")}</option>
         {locations.map((loc) => (
@@ -165,12 +207,21 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
             {loc[`location_${locale}`] ?? loc.location_en}
           </option>
         ))}
-      </select>
+      </SelectField>
 
+      {/*
+       * Сброс — действие второстепенное, поэтому контурная кнопка, а не
+       * заливка. Раньше стояло w-full: в строке это разворачивало её на всю
+       * свободную ширину, и кнопка получалась крупнее всех полей вместе.
+       * shrink-0 держит её по размеру текста, а в колонке (модалка на телефоне)
+       * она растягивается сама.
+       * Пока ничего не выбрано, сбрасывать нечего — кнопка неактивна.
+       */}
       <button
         type="button"
         onClick={() => setFilters(EMPTY_FILTERS)}
-        className="border w-full py-2 rounded-md h-12 main-background-color text-white"
+        disabled={!isFiltered}
+        className={`${PoppinFont.className} shrink-0 rounded-full border border-tile px-6 py-2.5 text-sm text-tile transition-colors hover:bg-tile hover:text-white disabled:cursor-default disabled:border-sand disabled:text-inkMuted disabled:hover:bg-transparent disabled:hover:text-inkMuted`}
       >
         {t("reset")}
       </button>
@@ -180,8 +231,13 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
   return (
     <>
       <div ref={filtersRef} className="scroll-mt-24">
+        {/*
+         * Панель висит над нижним краем баннера. py-10 делали её выше, чем сама
+         * строка полей, из-за чего карточка выглядела пустой коробкой;
+         * достаточно ровных отступов вокруг одной строки.
+         */}
         <div className="hidden lg:flex container mx-auto px-5 justify-center -mt-16 z-20 relative mb-10">
-          <div className="flex justify-center w-full max-w-[1200px] space-x-4 bg-white shadow rounded py-10 px-5">
+          <div className="w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand">
             {filterForm}
           </div>
         </div>
@@ -203,17 +259,21 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
           <div className="bg-white w-11/12 p-6 rounded-lg relative">
             <button
               type="button"
-              aria-label={t("reset")}
-              className="absolute top-3 right-3 text-gray-500"
+              // Крестик закрывает окно, а озвучивался как «Сбросить фильтры» —
+              // для читающих с экрана это была противоположная по смыслу команда.
+              aria-label={t("close")}
+              className="absolute top-3 right-3 text-inkMuted transition-colors hover:text-ink"
               onClick={() => setMobileFilterOpen(false)}
             >
               <IoClose size={28} />
             </button>
-            <h2 className="text-lg font-bold mb-4">{t("filter")}</h2>
+            <h2 className={`${PoppinFont.className} mb-4 text-lg font-bold text-ink`}>
+              {t("filter")}
+            </h2>
             {filterForm}
             <button
               type="button"
-              className="mt-4 w-full py-2 rounded bg-mainBlue text-white"
+              className={`${PoppinFont.className} mt-5 w-full rounded-full bg-tile py-2.5 text-sm text-white transition-colors hover:bg-tileDark`}
               onClick={() => setMobileFilterOpen(false)}
             >
               {t("search")}
