@@ -91,8 +91,97 @@ async function getJson<T>(path: string, fallback: T): Promise<T> {
 
 export const getTours = () => getJson<Tour[]>("/api/tours", []);
 
+/** Страница списка: сами записи и сколько их всего с учётом отбора. */
+export interface Page<T> {
+  items: T[];
+  total: number;
+}
+
+/** Сколько карточек на странице каталога и блога. */
+export const PER_PAGE = 12;
+
+export interface ToursQuery {
+  page?: number;
+  perPage?: number;
+  /** Идентификаторы из соответствующих справочников. */
+  type?: number | null;
+  cat?: number | null;
+  destination?: number | null;
+  popular?: boolean | null;
+}
+
+function toQuery(params: Record<string, string | number | undefined | null>) {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === null || value === "") continue;
+    search.set(key, String(value));
+  }
+  const query = search.toString();
+  return query ? `?${query}` : "";
+}
+
+/**
+ * Запрашивает одну страницу списка.
+ *
+ * Общее число приходит заголовком X-Total-Count, а не в теле: так форма
+ * ответа осталась массивом и страницы, читающие список целиком, не
+ * пришлось переписывать.
+ *
+ * Если заголовка нет — считаем, что пришло всё. Такое бывает, когда
+ * бэкенд ещё старой версии: список покажется, просто без разбивки.
+ */
+async function getPage<T>(path: string): Promise<Page<T>> {
+  try {
+    const res = await fetch(`${BASE_API_URL}${path}`, {
+      next: { revalidate: CATALOG_REVALIDATE },
+    });
+    if (!res.ok) return { items: [], total: 0 };
+    const items = (await res.json()) as T[];
+    const header = res.headers.get("X-Total-Count");
+    const total = header === null ? items.length : Number(header);
+    return { items, total: Number.isFinite(total) ? total : items.length };
+  } catch {
+    return { items: [], total: 0 };
+  }
+}
+
+export function getToursPage({
+  page = 1,
+  perPage = PER_PAGE,
+  type,
+  cat,
+  destination,
+  popular,
+}: ToursQuery = {}): Promise<Page<Tour>> {
+  return getPage<Tour>(
+    `/api/tours${toQuery({
+      page,
+      limit: perPage,
+      type,
+      cat,
+      destination,
+      // popular хранится числом: true → 1, а false означает «не отбирать»
+      popular: popular ? 1 : undefined,
+    })}`,
+  );
+}
+
+export function getBlogsPage(page = 1, perPage = PER_PAGE): Promise<Page<Blog>> {
+  return getPage<Blog>(`/api/blogs${toQuery({ page, limit: perPage })}`);
+}
+
 export const getTourCategories = () =>
   getJson<TaxonomyItem[]>("/api/tour-category", []);
+
+/**
+ * Типы туров отдельным справочником.
+ *
+ * Раньше список собирался из самих туров. При постраничной выдаче так
+ * нельзя: браузер видит двенадцать записей и построил бы фильтр из тех
+ * типов, что случайно попали на первую страницу.
+ */
+export const getTourTypes = () =>
+  getJson<TaxonomyItem[]>("/api/tour-types", []);
 
 export const getTourLocations = () =>
   getJson<TaxonomyItem[]>("/api/tour-location", []);
