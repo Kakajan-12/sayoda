@@ -148,7 +148,20 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="flex items-center w-full justify-end mt-10">
+        {/* Ссылка на политику обязана быть доступна с любой страницы:
+            в баннере согласия она есть, но человек может вернуться к
+            вопросу позже, когда баннера уже нет. */}
+        <div className="mt-10 border-t border-white/15 pt-5">
+          <Link
+            className={linkClass(QuicksandFont.className)}
+            href="/privacy"
+          >
+            <SlArrowRight className="w-3 h-3 text-brick" />
+            {t("privacyLink")}
+          </Link>
+        </div>
+
+        <div className="flex items-center w-full justify-end mt-6">
           <p className="mr-2">Powered by</p>
           <Image
             src="/logo.svg"
