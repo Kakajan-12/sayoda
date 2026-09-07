@@ -1,104 +1,99 @@
-"use client";
+import React from "react";
+import { getTranslations } from "next-intl/server";
+import { IoMdCheckmarkCircleOutline, IoMdCloseCircleOutline } from "react-icons/io";
+import { PoppinFont } from "@/components/ui/Fonts";
+import { localizedField, type TourListItem } from "@/lib/api/catalog";
 
-import { useEffect, useState } from "react";
-import { BASE_API_URL } from "@/i18n/api";
-import { useTranslations, useLocale } from "next-intl";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import { BarLoader } from "react-spinners";
-interface Item {
-  id: number;
-  text_en: string;
-  text_ru: string;
-  text_tk: string;
-}
+/**
+ * Состав цены тура: что входит и что оплачивается отдельно.
+ *
+ * Серверный компонент. Раньше оба списка запрашивались из браузера, а до
+ * ответа на месте секции крутилась полоса загрузки — в серверном HTML не
+ * было ни заголовка, ни строк. Для туриста это первый вопрос после цены,
+ * и оба сайта-референса печатают эти списки прямо в разметке.
+ */
+function List({
+  title,
+  items,
+  locale,
+  variant,
+}: {
+  title: string;
+  items: TourListItem[];
+  locale: string;
+  variant: "include" | "exclude";
+}) {
+  if (!items.length) return null;
 
-export default function IncludesExcludes({ tourId }: { tourId: number }) {
-  const t = useTranslations("TourPerPage");
-  const locale = useLocale();
-  const [includes, setIncludes] = useState<Item[]>([]);
-  const [excludes, setExcludes] = useState<Item[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [incRes, excRes] = await Promise.all([
-          fetch(`${BASE_API_URL}/api/includes/tour/${tourId}`),
-          fetch(`${BASE_API_URL}/api/excludes/tour/${tourId}`),
-        ]);
-
-        const incData = await incRes.json();
-        const excData = await excRes.json();
-
-        setIncludes(incData);
-        setExcludes(excData);
-      } catch (error) {
-        console.error("Ошибка загрузки includes/excludes", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [tourId]);
-
-  const getLocalizedText = (item: Item) => {
-    switch (locale) {
-      case "tk":
-        return item.text_tk;
-      case "ru":
-        return item.text_ru;
-      case "en":
-      default:
-        return item.text_en;
-    }
-  };
-
-  if (loading)
-    return (
-      <div className="flex justify-center items-center py-10">
-        <BarLoader color="#0F5257" />
-      </div>
-    );
+  const included = variant === "include";
+  // Галочка и крестик когда-то красились одним цветом, и списки визуально
+  // не различались — цвет здесь несёт смысл, а не украшает.
+  const Icon = included ? IoMdCheckmarkCircleOutline : IoMdCloseCircleOutline;
 
   return (
-    <div className="w-full bg-tileTint py-10 lg:py-20">
-      <div className="container mx-auto px-5 lg:px-32">
-        <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-bold">
+    <div className="flex flex-1 flex-col gap-4 rounded-xl bg-white px-5 py-7 ring-1 ring-sand">
+      <h3 className="text-lg font-semibold text-tile lg:text-xl">{title}</h3>
+      <ul className="flex flex-col gap-3">
+        {items.map((item) => (
+          <li key={item.id} className="flex items-start gap-3">
+            <Icon
+              aria-hidden
+              className={`mt-0.5 h-5 w-5 shrink-0 ${included ? "text-tileMid" : "text-inkMuted"}`}
+            />
+            <div
+              className="cms-text text-sm/relaxed lg:text-base/relaxed"
+              dangerouslySetInnerHTML={{
+                __html: localizedField(item, "text", locale),
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default async function IncludesExcludes({
+  includes,
+  excludes,
+  locale,
+}: {
+  includes: TourListItem[];
+  excludes: TourListItem[];
+  locale: string;
+}) {
+  // Секция целиком без данных — мёртвый блок с двумя пустыми карточками.
+  if (!includes.length && !excludes.length) return null;
+
+  const t = await getTranslations({ locale, namespace: "TourPerPage" });
+
+  return (
+    <section id="included" className="w-full scroll-mt-24 bg-tileTint py-12 lg:py-20">
+      <div className="container mx-auto px-4">
+        <h2
+          className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl 2xl:text-4xl`}
+        >
           {t("whats")}
         </h2>
 
-        <div className="flex flex-col mt-10 gap-y-12 md:gap-x-10 sm:flex-row sm:justify-between">
-          <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
-            <h3 className="text-lg font-semibold lg:text-xl">{t("include")}</h3>
-            {includes.map((item) => (
-              <div key={item.id} className="flex items-start gap-3">
-                {/* Галочка и крестик ниже красились одним цветом, поэтому
-                    «включено» и «не включено» визуально не различались. */}
-                <IoMdCheckmarkCircleOutline className="w-5 h-5 mt-1 shrink-0 text-tileMid" />
-                <div
-                  dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-5 md:w-1/2 bg-white px-5 py-7 rounded-xl">
-            <h3 className="text-lg font-semibold lg:text-xl">
-              {t("notincluded")}
-            </h3>
-            {excludes.map((item) => (
-              <div key={item.id} className="flex items-start gap-3">
-                <IoMdCloseCircleOutline className="w-5 h-5 mt-1 shrink-0 text-inkMuted" />
-                <div
-                  dangerouslySetInnerHTML={{ __html: getLocalizedText(item) }}
-                />
-              </div>
-            ))}
-          </div>
+        {/* gap задаёт расстояние в обе стороны сразу: раньше горизонтальный
+            зазор появлялся только с 768px, и между 640 и 768 карточки
+            смыкались, как только текст в них становился длиннее. */}
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start">
+          <List
+            title={t("include")}
+            items={includes}
+            locale={locale}
+            variant="include"
+          />
+          <List
+            title={t("notincluded")}
+            items={excludes}
+            locale={locale}
+            variant="exclude"
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

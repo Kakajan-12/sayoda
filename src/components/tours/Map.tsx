@@ -1,43 +1,53 @@
-import { PoppinFont } from '@/components/ui/Fonts';
-import { useTranslations, useLocale } from 'next-intl';
-import React from 'react';
-import ImageWithSkeleton from '@/components/ui/ImageWithSkeleton';
-import {BASE_API_URL} from "@/i18n/api";
+import React from "react";
+import { getTranslations } from "next-intl/server";
+import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
+import { PoppinFont } from "@/components/ui/Fonts";
+import { mediaUrl } from "@/lib/api/catalog";
 
 interface MapProps {
-  data: {
-    map?: string | null;
-  };
+  data: { map?: string | null };
   /** Осмысленный alt — обычно название тура. */
   alt?: string;
+  locale: string;
 }
 
-const Map: React.FC<MapProps> = ({ data, alt }) => {
-  const t = useTranslations("SectionTitle");
-
-  // У части туров карта не загружена — без этой проверки .replace падал на null.
+/**
+ * Карта маршрута.
+ *
+ * У части туров карта не загружена — без этой проверки .replace падал на null.
+ */
+export default async function Map({ data, alt, locale }: MapProps) {
   if (!data?.map) return null;
 
+  const t = await getTranslations({ locale, namespace: "SectionTitle" });
+  const tp = await getTranslations({ locale, namespace: "TourPerPage" });
+
   return (
-      <div className='container mx-auto px-4 pt-10 pb-24'>
-        <h2 className={`text-2xl 2xl:text-4xl leading-9 2xl:leading-[65px] font-bold ${PoppinFont.className}`}>
-          {t("map")}
-        </h2>
+    <section id="map" className="container mx-auto scroll-mt-24 px-4 py-12 lg:py-20">
+      <h2
+        className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl 2xl:text-4xl`}
+      >
+        {t("map")}
+      </h2>
 
-        <div className="relative w-full flex justify-center rounded-xl mt-10">
-          {/*<div dangerouslySetInnerHTML={{ __html: data.map }} />*/}
-            <ImageWithSkeleton
-                src={`${BASE_API_URL}/${data.map.replace(/\\/g, "/")}`}
-                alt={alt || "Tour route map"}
-                width={400}
-                height={300}
-                className="w-full h-full object-cover"
-                skeletonClassName="rounded-xl"
-            />
-
-        </div>
+      <div className="relative mt-8 overflow-hidden rounded-xl bg-white ring-1 ring-sand">
+        {/*
+          object-contain и авто-высота вместо прежних object-cover с
+          жёсткими 400×300: карта маршрута принудительно кадрировалась под
+          формат 4:3 и теряла края — ровно те, где начало и конец пути.
+          Ширину и высоту задаём щедро, чтобы next/image не сжал исходник;
+          реальные пропорции держит сама картинка.
+        */}
+        <ImageWithSkeleton
+          src={mediaUrl(data.map)}
+          alt={alt || tp("routeOnMap")}
+          width={1600}
+          height={1000}
+          sizes="(max-width: 1280px) 100vw, 1280px"
+          className="h-auto w-full object-contain"
+          skeletonClassName="rounded-xl"
+        />
       </div>
+    </section>
   );
-};
-
-export default Map;
+}
