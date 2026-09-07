@@ -12,6 +12,8 @@ import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_URL, alternatesFor } from "@/lib/site";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 import Analytics from "@/components/seo/Analytics";
+import ConsentDefaults from "@/components/seo/ConsentDefaults";
+import ConsentBanner from "@/components/layout/ConsentBanner";
 import ViewTracker from "@/components/seo/ViewTracker";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import WhatsAppButton from "@/components/contacts/WhatsAppButton";
@@ -91,6 +93,10 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <BodyWrapper>
             <OrganizationJsonLd locale={locale} />
+            {/* Строго до Analytics: значения по умолчанию должны быть
+                выставлены раньше, чем загрузится gtag.js, иначе Google
+                успеет поставить куки до того, как узнает про отказ. */}
+            <ConsentDefaults />
             <Analytics ga4Id={settings.ga4_id} />
             {/* Свой счётчик посещаемости — цифры для дашборда админки.
                 Работает независимо от GA4: тот включается, только когда в
@@ -106,6 +112,7 @@ export default async function RootLayout({
               <WhatsAppButton href={whatsapp} label={t("whatsappLabel")} />
             )}
             <LiveChat tawkId={settings.tawk_id} />
+            <ConsentBanner />
           </BodyWrapper>
         </NextIntlClientProvider>
       </Providers>

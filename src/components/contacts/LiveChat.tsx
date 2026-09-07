@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Script from "next/script";
+import { CONSENT_EVENT, readConsent } from "@/lib/consent";
 
 /**
  * Виджет живого чата Tawk.to.
@@ -39,10 +43,29 @@ export function normalizeTawkId(raw: string | null | undefined): string | null {
 }
 
 export default function LiveChat({ tawkId }: { tawkId: string | null }) {
+  /*
+   * Чат ставит свои куки, поэтому грузится только после согласия.
+   * Отказавшемуся посетителю виджет не появится — это осознанная плата
+   * за соблюдение требований: канал заявок остаётся в виде формы,
+   * WhatsApp и телефона, они куки не ставят.
+   */
+  const [allowed, setAllowed] = useState(false);
+
+  useEffect(() => {
+    setAllowed(readConsent() === "granted");
+
+    // Согласие может прийти уже после отрисовки страницы — тогда чат
+    // должен появиться сразу, без перезагрузки.
+    const onChange = (e: Event) =>
+      setAllowed((e as CustomEvent).detail === "granted");
+    window.addEventListener(CONSENT_EVENT, onChange);
+    return () => window.removeEventListener(CONSENT_EVENT, onChange);
+  }, []);
+
   // Значение подставляется в адрес стороннего скрипта, поэтому в src попадает
   // только разобранная пара идентификаторов, а не сырая строка из базы.
   const id = normalizeTawkId(tawkId);
-  if (!id) return null;
+  if (!id || !allowed) return null;
 
   return (
     <Script id="tawk-widget" strategy="afterInteractive">

@@ -96,7 +96,8 @@
       "When to go",
       "What currency to bring"
     ],
-    "hotelsLink": "Hotels"
+    "hotelsLink": "Hotels",
+    "privacyLink": "Privacy policy"
   },
   "Blogs": {
     "learn": "Learn more",
@@ -320,5 +321,40 @@
     "viewTour": "View Tour",
     "noTours": "No tours available for this destination yet.",
     "noSights": "No articles available yet."
+  },
+  "Consent": {
+    "title": "Cookie consent",
+    "text": "We use cookies for visit statistics and for the chat. Neither is loaded without your consent.",
+    "more": "Read more",
+    "accept": "Accept",
+    "decline": "Decline",
+    "change": "Cookie settings"
+  },
+  "Privacy": {
+    "title": "Privacy policy",
+    "intro": "This page explains what data sayodatravel.com collects, why it is needed and what you can do about it.",
+    "controllerTitle": "Who processes the data",
+    "controllerText": "The data is processed by the tour operator {company}. For any question about your data, write to {email}.",
+    "controllerNoLicense": "Company details are published on the contacts page.",
+    "licenseLine": "Tour operator licence No. {license}.",
+    "dataTitle": "What we collect",
+    "dataForms": "From the enquiry form — your name, phone, email and message. We need them to reply and prepare a tour offer. The basis is your own request: without them we cannot answer.",
+    "dataAnalytics": "Anonymous visit statistics — which pages are opened, in which language and which site you came from. It shows us what is easy to find on the site and what is not.",
+    "dataChat": "Your chat messages, if you use the chat. They are read by the operator answering your questions.",
+    "cookiesTitle": "Cookies",
+    "cookiesGa": "Google Analytics 4 — behaviour statistics. It sets cookies and sends data to Google. Loaded only after your consent.",
+    "cookiesTawk": "Tawk.to — the live chat. It sets cookies so your conversation survives moving between pages. Loaded only after your consent.",
+    "cookiesOwn": "Our own visit counter always works, but it sets no cookies and writes nothing to your device. It does not store your IP address: the database keeps an irreversible fingerprint based in part on the current date, so your visits cannot be linked across different days.",
+    "sharingTitle": "Who receives the data",
+    "sharingText": "Statistics go to Google (with your consent) and chat messages to Tawk.to. Enquiries from the site are shared with nobody: they stay with us and are used only to answer you.",
+    "retentionTitle": "How long data is kept",
+    "retentionText": "Enquiries are kept while they are needed to work with you and to confirm what was agreed. Visit records are anonymous from the start and are kept in aggregate. Retention inside Google and Tawk.to follows their own rules.",
+    "rightsTitle": "Your rights",
+    "rightsText": "You can request a copy of your data, its correction or deletion, and withdraw cookie consent at any time. Write to us and we will respond.",
+    "changeTitle": "Change your cookie choice",
+    "changeText": "Your choice is saved in this browser. Press to choose again.",
+    "changeButton": "Change my choice",
+    "changeDone": "Done — pick an option in the banner at the bottom.",
+    "notice": "If you are unsure what happens to your data, just write to us and we will explain in plain words."
   }
 }

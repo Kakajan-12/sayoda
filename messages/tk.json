@@ -96,7 +96,8 @@
       "Haýsy wagt bararlyk",
       "Haryt pullaryny näme getirmeli"
     ],
-    "hotelsLink": "Myhmanhanalar"
+    "hotelsLink": "Myhmanhanalar",
+    "privacyLink": "Gizlinlik syýasaty"
   },
   "Blogs": {
     "learn": "Giňişleýin",
@@ -317,5 +318,40 @@
     "viewTour": "Doly görmek",
     "noTours": "Bu ugur boýunça häzirlikçe syýahat ýok.",
     "noSights": "Häzirlikçe makala ýok."
+  },
+  "Consent": {
+    "title": "Cookie faýllaryna razylyk",
+    "text": "Biz cookie faýllaryny gelýänleriň statistikasy we söhbetdeşlik üçin ulanýarys. Siziň razylygyňyz bolmasa, olaryň hiç biri işledilmeýär.",
+    "more": "Giňişleýin",
+    "accept": "Kabul etmek",
+    "decline": "Ret etmek",
+    "change": "Cookie sazlamalary"
+  },
+  "Privacy": {
+    "title": "Gizlinlik syýasaty",
+    "intro": "Bu sahypada sayodatravel.com haýsy maglumatlary ýygnaýandygy, olaryň näme üçin gerekdigi we siziň olar bilen näme edip biljekdigiňiz düşündirilýär.",
+    "controllerTitle": "Maglumatlary kim işleýär",
+    "controllerText": "Maglumatlar {company} tur operatory tarapyndan işlenilýär. Maglumatlaryňyz baradaky islendik sorag boýunça {email} salgysyna ýazyň.",
+    "controllerNoLicense": "Kompaniýanyň rekwizitleri habarlaşmak sahypasynda çap edilýär.",
+    "licenseLine": "Tur operatorlyk işi üçin ygtyýarnama № {license}.",
+    "dataTitle": "Haýsy maglumatlary ýygnaýarys",
+    "dataForms": "Ýüztutma formasyndan — adyňyz, telefonyňyz, e-poçtaňyz we hatyňyz. Olar size jogap bermek we tur teklibini taýýarlamak üçin gerek. Esas — siziň öz ýüztutmaňyz: olarsyz jogap berip bolmaýar.",
+    "dataAnalytics": "Şahsyýeti görkezmeýän gelim statistikasy — haýsy sahypalaryň açylýandygy, haýsy dilde we haýsy saýtdan gelendigiňiz. Ol saýtda nämäni tapmagyň aňsatdygyny görkezýär.",
+    "dataChat": "Söhbetdeşligi ulansaňyz, ýazyşmaňyz. Ony soraglara jogap berýän operator görýär.",
+    "cookiesTitle": "Cookie faýllary",
+    "cookiesGa": "Google Analytics 4 — saýtdaky hereketleriň statistikasy. Cookie goýýar we maglumatlary Google-a geçirýär. Diňe siziň razylygyňyzdan soň işledilýär.",
+    "cookiesTawk": "Tawk.to — operator bilen söhbetdeşlik. Sahypalaryň arasynda geçeniňizde ýazyşmany ýitirmezlik üçin cookie goýýar. Diňe siziň razylygyňyzdan soň işledilýär.",
+    "cookiesOwn": "Öz gelim hasaplaýjymyz hemişe işleýär, ýöne cookie goýmaýar we enjamyňyza hiç zat ýazmaýar. Ol IP salgyňyzy saklamaýar: binýatda şu günki senä esaslanýan yzyna öwrülmeýän yz saklanýar, şonuň üçin dürli günlerdäki gelimleriňizi baglanyşdyryp bolmaýar.",
+    "sharingTitle": "Maglumatlar kime berilýär",
+    "sharingText": "Statistika Google-a (siziň razylygyňyz bilen), söhbetdeşlik bolsa Tawk.to hyzmatyna geçýär. Saýtdan gelen ýüztutmalar hiç kime berilmeýär: olar bizde saklanýar we diňe size jogap bermek üçin ulanylýar.",
+    "retentionTitle": "Maglumatlar näçe wagt saklanýar",
+    "retentionText": "Ýüztutmalar siziň bilen işlemek we ylalaşylanlary tassyklamak üçin gerek bolan wagtynda saklanýar. Gelim ýazgylary başdan şahsyýetsiz we jemleýji görnüşde saklanýar. Google we Tawk.to-daky saklanyş möhletleri olaryň öz düzgünleri boýunça kesgitlenýär.",
+    "rightsTitle": "Siziň hukuklaryňyz",
+    "rightsText": "Maglumatlaryňyzyň nusgasyny, düzedilmegini ýa-da pozulmagyny soramaga, şeýle hem cookie razylygyny islendik pursatda yzyna almaga hakyňyz bar. Bize ýazyň, jogap bereris.",
+    "changeTitle": "Cookie boýunça çözgüdi üýtgetmek",
+    "changeText": "Saýlawyňyz şu brauzerde saklandy. Täzeden saýlamak üçin basyň.",
+    "changeButton": "Çözgüdi üýtgetmek",
+    "changeDone": "Taýýar — sahypanyň aşagyndaky banerden saýlaň.",
+    "notice": "Maglumatlaryňyz bilen näme bolýandygyna şübhelenseňiz, bize ýazyň — düşnükli dilde düşündireris."
   }
 }
