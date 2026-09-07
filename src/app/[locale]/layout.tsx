@@ -12,6 +12,7 @@ import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_URL, alternatesFor } from "@/lib/site";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 import Analytics from "@/components/seo/Analytics";
+import ViewTracker from "@/components/seo/ViewTracker";
 import ScrollToTop from "@/components/layout/ScrollToTop";
 import WhatsAppButton from "@/components/contacts/WhatsAppButton";
 import LiveChat from "@/components/contacts/LiveChat";
@@ -91,6 +92,10 @@ export default async function RootLayout({
           <BodyWrapper>
             <OrganizationJsonLd locale={locale} />
             <Analytics ga4Id={settings.ga4_id} />
+            {/* Свой счётчик посещаемости — цифры для дашборда админки.
+                Работает независимо от GA4: тот включается, только когда в
+                настройках заполнен идентификатор. */}
+            <ViewTracker />
             <ScrollToTop />
             <Header />
             {children}
