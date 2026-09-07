@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import { getTranslations } from "next-intl/server";
-import { getTourLocations, getTours } from "@/lib/api/catalog";
-import { plainText } from "@/lib/utils";
+import { getTours } from "@/lib/api/catalog";
 import TourCards from "@/components/home/TourCards";
 
 export const revalidate = 300;
@@ -18,46 +17,22 @@ export default async function ToursPage({
   if (!destination) notFound();
   const t = await getTranslations("Destinations");
 
-  const [tours, locations] = await Promise.all([getTours(), getTourLocations()]);
+  const tours = await getTours();
 
   /*
-   * Локации отбираются по явной связи destination_id.
+   * Тур привязан к направлению напрямую: локации туров и направления
+   * объединены в одну сущность.
    *
-   * Раньше здесь сравнивались названия: локация считалась принадлежащей стране,
-   * если её название входило в название страны или наоборот. Переименование
-   * локации в админке тихо ломало подборку.
+   * Раньше связь шла через промежуточную таблицу локаций, а до неё —
+   * вообще сравнением названий, из-за чего переименование в админке тихо
+   * ломало подборку. Сейчас достаточно одного сравнения идентификаторов.
    *
-   * Сопоставление по названию оставлено запасным путём — на случай локаций,
-   * которым связь ещё не проставили.
+   * Поле называется location_id по историческим причинам: API отдаёт под
+   * этим именем идентификатор направления, чтобы не ломать уже выложенный
+   * фронтенд.
    */
-  const linked = locations.filter(
-    (loc) => Number(loc.destination_id) === destination.id,
-  );
-
-  const matched = linked.length
-    ? linked
-    : locations.filter((loc) => {
-        const targets = [
-          destination.slug,
-          destField(destination, "name", "en"),
-          destField(destination, "name", "ru"),
-          destField(destination, "name", "tk"),
-        ]
-          .map((s) => s.toLowerCase())
-          .filter(Boolean);
-
-        return ["location_en", "location_ru", "location_tk"].some((key) => {
-          const value = plainText(String(loc[key] ?? "")).toLowerCase();
-          return (
-            !!value &&
-            targets.some((tn) => value === tn || value.includes(tn) || tn.includes(value))
-          );
-        });
-      });
-
-  const countryLocationIds = new Set(matched.map((loc) => Number(loc.id)));
-  const countryTours = tours.filter((tour) =>
-    countryLocationIds.has(Number(tour.location_id)),
+  const countryTours = tours.filter(
+    (tour) => Number(tour.location_id) === destination.id,
   );
 
   return (
