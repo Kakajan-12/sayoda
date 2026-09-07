@@ -220,6 +220,56 @@ export async function getBlog(key: string | number): Promise<Blog | null> {
   return Array.isArray(data) ? (data[0] ?? null) : data;
 }
 
+/** День программы тура. */
+export interface ItineraryDay {
+  id: number;
+  tour_id: number;
+  title_tk: string;
+  title_en: string;
+  title_ru: string;
+  text_tk: string;
+  text_en: string;
+  text_ru: string;
+  /** Подпункты дня, если заполнены в CMS. */
+  li?: { lii: string }[];
+}
+
+/** Строка списка «включено» или «не включено». */
+export interface TourListItem {
+  id: number;
+  text_tk: string;
+  text_en: string;
+  text_ru: string;
+}
+
+/** Фотография в галерее тура. */
+export interface TourPhoto {
+  gallery_id: number;
+  tour_id: number;
+  image: string;
+}
+
+/**
+ * Программа, состав цены и галерея тура.
+ *
+ * Раньше эти три блока грузились из браузера после гидрации, и в серверном
+ * HTML страницы тура их не было вовсе: поисковик видел заголовок «Маршрут
+ * тура» и пустоту под ним, а посетитель — полосу загрузки. Между тем это
+ * и есть то, по чему тур выбирают. Данные забираются на сервере тем же
+ * ISR-кэшем, что и сам тур, поэтому лишних запросов из браузера больше нет.
+ */
+export const getItinerary = (tourId: number) =>
+  getJson<ItineraryDay[]>(`/api/itinerary?tourId=${tourId}`, []);
+
+export const getIncludes = (tourId: number) =>
+  getJson<TourListItem[]>(`/api/includes/tour/${tourId}`, []);
+
+export const getExcludes = (tourId: number) =>
+  getJson<TourListItem[]>(`/api/excludes/tour/${tourId}`, []);
+
+export const getTourGallery = (tourId: number) =>
+  getJson<TourPhoto[]>(`/api/tour-gallery/tour/${tourId}`, []);
+
 /** Локализованное поле CMS с фолбэком на английский, затем на туркменский. */
 export function localizedField(
   item: object | null | undefined,

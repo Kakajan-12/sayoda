@@ -43,7 +43,8 @@
     "noTestimonials": "Häzirlikçe teswir ýok",
     "emptyGallery": "Galereýa boş",
     "loadError": "Bir näsazlyk ýüze çykdy. Sahypany täzeläň ýa-da biziň bilen habarlaşyň.",
-    "noText": "Beýany ýakynda goşular."
+    "noText": "Beýany ýakynda goşular.",
+    "close": "Ýap"
   },
   "SectionTitle": {
     "popular": "Meşhur syýahatlar",
@@ -54,7 +55,8 @@
     "map": "Karta",
     "why": "Näme üçin bizi saýlaýalar",
     "how": "Bu nähili işleýär",
-    "testimonial": "Teswirler"
+    "testimonial": "Teswirler",
+    "similar": "Meňzeş turlar"
   },
   "Header": {
     "main": "Baş sahypa",
@@ -175,7 +177,10 @@
     "whats": "Nämeler girýär we girmeýär?",
     "price": "Bahasy",
     "days": "{count} gün",
-    "lang": "Diller"
+    "lang": "Diller",
+    "day": "Gün",
+    "overview": "Syn",
+    "routeOnMap": "Kartada ugur"
   },
   "Include": [
     "Goşuldy",

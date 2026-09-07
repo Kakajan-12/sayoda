@@ -43,7 +43,8 @@
     "noTestimonials": "No reviews yet",
     "emptyGallery": "The gallery is empty",
     "loadError": "Something went wrong. Please refresh the page or contact us directly.",
-    "noText": "Description coming soon."
+    "noText": "Description coming soon.",
+    "close": "Close"
   },
   "SectionTitle": {
     "popular": "Popular tours",
@@ -54,7 +55,8 @@
     "map": "Map",
     "why": "Why Choose Us",
     "how": "How We Work",
-    "testimonial": "Testimonials"
+    "testimonial": "Testimonials",
+    "similar": "Similar tours"
   },
   "Header": {
     "main": "Main",
@@ -174,7 +176,10 @@
     "whats": "What’s Included & Excluded?",
     "price": "Price",
     "days": "{count, plural, one {# day} other {# days}}",
-    "lang": "Lang"
+    "lang": "Lang",
+    "day": "Day",
+    "overview": "Overview",
+    "routeOnMap": "Route on the map"
   },
   "Include": [
     "Included",
