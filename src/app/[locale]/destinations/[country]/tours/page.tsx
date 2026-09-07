@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import { getTranslations } from "next-intl/server";
-import { getTours } from "@/lib/api/catalog";
+import { getToursPage } from "@/lib/api/catalog";
 import TourCards from "@/components/home/TourCards";
 
 export const revalidate = 300;
@@ -17,23 +17,21 @@ export default async function ToursPage({
   if (!destination) notFound();
   const t = await getTranslations("Destinations");
 
-  const tours = await getTours();
-
   /*
-   * Тур привязан к направлению напрямую: локации туров и направления
-   * объединены в одну сущность.
+   * Отбор идёт на стороне сервера: раньше сюда приезжал весь каталог, и
+   * страница страны отбрасывала из него всё чужое уже у себя. При сотне
+   * туров это лишняя работа на каждый заход ради нескольких карточек.
    *
-   * Раньше связь шла через промежуточную таблицу локаций, а до неё —
-   * вообще сравнением названий, из-за чего переименование в админке тихо
-   * ломало подборку. Сейчас достаточно одного сравнения идентификаторов.
+   * Локации туров и направления объединены, поэтому связь прямая —
+   * промежуточного сопоставления больше нет.
    *
-   * Поле называется location_id по историческим причинам: API отдаёт под
-   * этим именем идентификатор направления, чтобы не ломать уже выложенный
-   * фронтенд.
+   * perPage с запасом: туров у одной страны немного, и разбивать их на
+   * страницы внутри вкладки незачем — человек уже сузил выбор до страны.
    */
-  const countryTours = tours.filter(
-    (tour) => Number(tour.location_id) === destination.id,
-  );
+  const { items: countryTours } = await getToursPage({
+    destination: destination.id,
+    perPage: 100,
+  });
 
   return (
     <div className={ComfortaFont.className}>
