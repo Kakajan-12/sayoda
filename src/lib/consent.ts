@@ -16,6 +16,20 @@ export const CONSENT_KEY = "sayoda_cookie_consent";
 /** Событие для компонентов, которые должны отреагировать без перезагрузки. */
 export const CONSENT_EVENT = "sayoda-consent-change";
 
+/**
+ * Класс на <html>, когда согласие есть.
+ *
+ * Нужен, чтобы кнопка WhatsApp встала на своё место сразу, а не переехала
+ * после гидратации. Значение известно из localStorage ещё при разборе
+ * разметки, и класс проставляется тем же встроенным скриптом, что и
+ * настройки Consent Mode, — то есть до первой отрисовки.
+ */
+export const CONSENT_CLASS = "cookies-ok";
+
+export function applyConsentClass(granted: boolean) {
+  document.documentElement.classList.toggle(CONSENT_CLASS, granted);
+}
+
 export type ConsentValue = "granted" | "denied";
 
 /** null — выбор ещё не сделан, показываем баннер. */
@@ -47,6 +61,7 @@ export function writeConsent(value: ConsentValue) {
     gtag("consent", "update", consentPayload(value));
   }
 
+  applyConsentClass(value === "granted");
   window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
 }
 

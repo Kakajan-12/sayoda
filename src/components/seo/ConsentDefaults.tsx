@@ -1,4 +1,4 @@
-import { CONSENT_KEY } from "@/lib/consent";
+import { CONSENT_CLASS, CONSENT_KEY } from "@/lib/consent";
 
 /**
  * Consent Mode v2: значения по умолчанию.
@@ -32,6 +32,9 @@ export default function ConsentDefaults() {
     });
     try {
       if (localStorage.getItem('${CONSENT_KEY}') === 'granted') {
+        // Класс ставится здесь, а не в компоненте: кнопка WhatsApp должна
+        // сразу оказаться в нужном углу, а не переехать после гидратации.
+        document.documentElement.classList.add('${CONSENT_CLASS}');
         gtag('consent', 'update', {
           ad_storage: 'granted',
           ad_user_data: 'granted',

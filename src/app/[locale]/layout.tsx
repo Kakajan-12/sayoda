@@ -20,6 +20,7 @@ import WhatsAppButton from "@/components/contacts/WhatsAppButton";
 import LiveChat from "@/components/contacts/LiveChat";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
+import { normalizeTawkId } from "@/lib/tawk";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -109,7 +110,13 @@ export default async function RootLayout({
             <FooterImage />
             <Footer />
             {whatsapp && (
-              <WhatsAppButton href={whatsapp} label={t("whatsappLabel")} />
+              /* hasChat решает, в каком углу висеть кнопке: справа она
+                 занимает место чата, слева уступает ему. */
+              <WhatsAppButton
+                href={whatsapp}
+                label={t("whatsappLabel")}
+                hasChat={normalizeTawkId(settings.tawk_id) !== null}
+              />
             )}
             <LiveChat tawkId={settings.tawk_id} />
             <ConsentBanner />

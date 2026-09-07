@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Script from "next/script";
 import { CONSENT_EVENT, readConsent } from "@/lib/consent";
+import { normalizeTawkId } from "@/lib/tawk";
 
 /**
  * Виджет живого чата Tawk.to.
@@ -16,31 +17,6 @@ import { CONSENT_EVENT, readConsent } from "@/lib/consent";
  * диалогов и глубине истории. Платно только снятие подписи «Powered by
  * tawk.to» с виджета и ИИ-ответы — ни то, ни другое для работы не требуется.
  */
-
-/** Пара идентификаторов в адресе вставки: propertyId/widgetId. */
-const ID_PAIR = /([A-Za-z0-9]{6,})\/([A-Za-z0-9]{3,})/;
-
-/**
- * Приводит то, что вставили в админку, к виду propertyId/widgetId.
- *
- * В поле попадает что угодно: голая пара, ссылка на код вставки, ссылка
- * на прямой чат или целиком фрагмент <script>. Разбираем все эти формы,
- * потому что заставлять заказчика вырезать нужный кусок руками — верный
- * способ получить неработающий чат без единого сообщения об ошибке.
- *
- * Возвращает null, если пары не видно. Частый случай — вставленный вместо
- * кода виджета API-ключ из Admin → Property Settings: это 40 символов
- * без слэша, и работать он не может.
- */
-export function normalizeTawkId(raw: string | null | undefined): string | null {
-  const value = (raw || "").trim();
-  if (!value) return null;
-
-  const match = value.match(ID_PAIR);
-  if (!match) return null;
-
-  return `${match[1]}/${match[2]}`;
-}
 
 export default function LiveChat({ tawkId }: { tawkId: string | null }) {
   /*

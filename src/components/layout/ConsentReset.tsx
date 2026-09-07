@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { PoppinFont } from "@/components/ui/Fonts";
-import { CONSENT_EVENT, CONSENT_KEY, consentPayload } from "@/lib/consent";
+import {
+  applyConsentClass,
+  CONSENT_EVENT,
+  CONSENT_KEY,
+  consentPayload,
+} from "@/lib/consent";
 
 /**
  * Сброс решения по cookie.
@@ -33,6 +38,10 @@ export default function ConsentReset({
     if (typeof gtag === "function") {
       gtag("consent", "update", consentPayload("denied"));
     }
+
+    // Снимаем класс: чат исчезнет, и кнопка WhatsApp должна вернуться
+    // на его место справа.
+    applyConsentClass(false);
 
     // detail без значения — баннер поймёт это как «выбор не сделан»
     window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: null }));
