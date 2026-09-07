@@ -3,10 +3,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ReactPaginate from "react-paginate";
-import { FiChevronDown, FiFilter } from "react-icons/fi";
+import { FiFilter } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import TourCards from "@/components/home/TourCards";
-import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
+import Dropdown from "@/components/ui/Dropdown";
+import { PoppinFont } from "@/components/ui/Fonts";
 import type { Tour, TaxonomyItem } from "@/lib/api/catalog";
 
 /**
@@ -22,48 +23,6 @@ import type { Tour, TaxonomyItem } from "@/lib/api/catalog";
  */
 
 const ITEMS_PER_PAGE = 8;
-
-/**
- * Поля берут оформление у формы заявки на главной: те же border-sand,
- * rounded-lg и подсветка фокуса. Раньше здесь стояли голые `border rounded-md`
- * с системной стрелкой — на фоне остального сайта это выглядело чужим.
- *
- * appearance-none убирает нативную стрелку, вместо неё рисуется своя, иначе
- * в каждом браузере она своя и по-разному выпирает.
- */
-const selectClass = `${QuicksandFont.className} w-full appearance-none rounded-lg border border-sand bg-white px-4 py-2.5 pr-10 text-sm text-ink outline-none transition focus:border-tileLight`;
-
-function SelectField({
-  label,
-  value,
-  onChange,
-  children,
-}: {
-  label: string;
-  value: string | number;
-  onChange: (value: string) => void;
-  children: React.ReactNode;
-}) {
-  // w-full — для колонки в модалке на телефоне; flex-1 с min-w-0 — для строки
-  // на десктопе: поля делят ширину поровну и не распирают контейнер длинным
-  // названием локации.
-  return (
-    <div className="relative w-full lg:min-w-0 lg:flex-1">
-      <select
-        aria-label={label}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={selectClass}
-      >
-        {children}
-      </select>
-      <FiChevronDown
-        aria-hidden
-        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-inkMuted"
-      />
-    </div>
-  );
-}
 
 interface Filters {
   popular: boolean | null;
@@ -95,7 +54,9 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
   const [isMobileFilterOpen, setMobileFilterOpen] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
 
-  // Ссылки вида /tours?location=2 ведут из футера и с карточек направлений.
+  // Ссылки вида /tours?location=2 больше нигде на сайте не ставятся: из
+  // подвала страны теперь ведут на страницу направления. Разбор параметра
+  // оставлен для ссылок, которые уже могли где-то разойтись.
   useEffect(() => {
     const value = new URLSearchParams(window.location.search).get("location");
     if (value !== null && value !== "") {
@@ -159,55 +120,56 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
    */
   const filterForm = (
     <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
-      <SelectField
+      <Dropdown
         label={t("all-tours")}
         value={filters.popular === null ? "" : filters.popular ? "1" : "0"}
+        options={[
+          { value: "", label: t("all-tours") },
+          { value: "1", label: t("popular") },
+        ]}
         onChange={(value) =>
           set("popular", value === "" ? null : value === "1")
         }
-      >
-        <option value="">{t("all-tours")}</option>
-        <option value="1">{t("popular")}</option>
-      </SelectField>
+      />
 
-      <SelectField
+      <Dropdown
         label={t("all-types")}
-        value={filters.tourType ?? ""}
+        value={String(filters.tourType ?? "")}
+        options={[
+          { value: "", label: t("all-types") },
+          ...tourTypes.map((type) => ({
+            value: String(type.id),
+            label: type.label,
+          })),
+        ]}
         onChange={(value) => set("tourType", value ? Number(value) : null)}
-      >
-        <option value="">{t("all-types")}</option>
-        {tourTypes.map((type) => (
-          <option key={type.id} value={type.id}>
-            {type.label}
-          </option>
-        ))}
-      </SelectField>
+      />
 
-      <SelectField
+      <Dropdown
         label={t("all-categories")}
-        value={filters.category ?? ""}
+        value={String(filters.category ?? "")}
+        options={[
+          { value: "", label: t("all-categories") },
+          ...categories.map((cat) => ({
+            value: String(cat.id),
+            label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
+          })),
+        ]}
         onChange={(value) => set("category", value ? Number(value) : null)}
-      >
-        <option value="">{t("all-categories")}</option>
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat[`cat_${locale}`] ?? cat.cat_en}
-          </option>
-        ))}
-      </SelectField>
+      />
 
-      <SelectField
+      <Dropdown
         label={t("all-locations")}
-        value={filters.location ?? ""}
+        value={String(filters.location ?? "")}
+        options={[
+          { value: "", label: t("all-locations") },
+          ...locations.map((loc) => ({
+            value: String(loc.id),
+            label: String(loc[`location_${locale}`] ?? loc.location_en ?? ""),
+          })),
+        ]}
         onChange={(value) => set("location", value ? Number(value) : null)}
-      >
-        <option value="">{t("all-locations")}</option>
-        {locations.map((loc) => (
-          <option key={loc.id} value={loc.id}>
-            {loc[`location_${locale}`] ?? loc.location_en}
-          </option>
-        ))}
-      </SelectField>
+      />
 
       {/*
        * Сброс — действие второстепенное, поэтому контурная кнопка, а не
