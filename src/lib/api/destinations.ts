@@ -1,4 +1,5 @@
 import { BASE_API_URL } from "@/i18n/api";
+import { normalizeMediaPath } from "@/lib/api/catalog";
 import {
   destinations as staticDestinations,
   type Destination as StaticDestination,
@@ -41,6 +42,15 @@ export interface Destination {
   id: number;
   slug: string;
   hero_image: string | null;
+  /**
+   * Вертикальная плитка для первого экрана главной.
+   *
+   * Отдельная от hero_image по делу: шапка страницы страны горизонтальная
+   * 3:2, а плитка 3:4 — обрезать одну в другую без потерь нельзя. Пусто —
+   * на главной покажется шапка, пусть и с неудачным кадром: лучше так, чем
+   * дыра на месте карточки.
+   */
+  card_image?: string | null;
   name_tk: string | null;
   name_en: string | null;
   name_ru: string | null;
@@ -62,6 +72,8 @@ function fromStatic(d: StaticDestination, index: number): Destination {
     id: -(index + 1), // отрицательные id, чтобы не спутать с настоящими
     slug: d.slug,
     hero_image: d.heroImage,
+    // В статическом файле своей плитки нет — на главной подставится шапка.
+    card_image: null,
     name_tk: d.name.tk, name_en: d.name.en, name_ru: d.name.ru,
     hero_title_tk: d.heroTitle.tk, hero_title_en: d.heroTitle.en, hero_title_ru: d.heroTitle.ru,
     intro_tk: d.intro.tk, intro_en: d.intro.en, intro_ru: d.intro.ru,
@@ -135,8 +147,24 @@ export function destField(
  */
 export function destImage(src: string | null | undefined): string {
   if (!src) return "";
+
+  /*
+   * Загруженный файл узнаём по «uploads» в пути, а не по отсутствию
+   * ведущего слэша.
+   *
+   * Раньше проверка была «начинается со слэша — значит статика фронтенда».
+   * Multer же отдаёт абсолютный путь внутри контейнера, вида
+   * «/app/uploads/страна.webp», и такой путь уходил на страницу как есть —
+   * то есть картинка, загруженная в админке, просто не находилась.
+   * Старые записи это не задевало: они лежат относительными.
+   */
+  const normalized = normalizeMediaPath(src);
+  if (normalized.startsWith("uploads/")) {
+    return `${BASE_API_URL.replace(/\/+$/, "")}/${normalized}`;
+  }
+
+  // Пути, перенесённые из статики, лежат в public фронтенда.
   if (src.startsWith("/")) return src;
-  return `${BASE_API_URL.replace(/\/+$/, "")}/${src
-    .replace(/\\/g, "/")
-    .replace(/^\/+/, "")}`;
+
+  return `${BASE_API_URL.replace(/\/+$/, "")}/${normalized}`;
 }
