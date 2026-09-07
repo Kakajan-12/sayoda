@@ -56,7 +56,8 @@
     "why": "Näme üçin bizi saýlaýalar",
     "how": "Bu nähili işleýär",
     "testimonial": "Teswirler",
-    "similar": "Meňzeş turlar"
+    "similar": "Meňzeş turlar",
+    "highlights": "Turuň esasy artykmaçlyklary"
   },
   "Header": {
     "main": "Baş sahypa",
@@ -180,7 +181,13 @@
     "lang": "Diller",
     "day": "Gün",
     "overview": "Syn",
-    "routeOnMap": "Kartada ugur"
+    "routeOnMap": "Kartada ugur",
+    "seatsLeft": "{count, plural, one {# ýer galdy} other {# ýer galdy}}",
+    "seatsAvailable": "Ýerler bar",
+    "soldOut": "Ýer galmady",
+    "closedForBooking": "Ýazylyşyk ýapyk",
+    "departureDate": "Ugramak senesi",
+    "chooseDeparture": "Ugramak senesini saýlaň, biz ýerleriň barlygyny tassyklarys"
   },
   "Include": [
     "Goşuldy",

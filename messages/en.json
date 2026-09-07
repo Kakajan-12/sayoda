@@ -56,7 +56,8 @@
     "why": "Why Choose Us",
     "how": "How We Work",
     "testimonial": "Testimonials",
-    "similar": "Similar tours"
+    "similar": "Similar tours",
+    "highlights": "Tour highlights"
   },
   "Header": {
     "main": "Main",
@@ -179,7 +180,13 @@
     "lang": "Lang",
     "day": "Day",
     "overview": "Overview",
-    "routeOnMap": "Route on the map"
+    "routeOnMap": "Route on the map",
+    "seatsLeft": "{count, plural, one {# seat left} other {# seats left}}",
+    "seatsAvailable": "Places available",
+    "soldOut": "Sold out",
+    "closedForBooking": "Booking closed",
+    "departureDate": "Departure date",
+    "chooseDeparture": "Pick a departure date and we will confirm availability"
   },
   "Include": [
     "Included",

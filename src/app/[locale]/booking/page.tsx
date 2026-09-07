@@ -24,6 +24,7 @@ const BookingPage = () => {
     phone: "",
     tour: "",
     travelers: "",
+    departureDate: "",
     message: "",
   });
 
@@ -33,10 +34,18 @@ const BookingPage = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Подставляем tourTitle из url
+  // Подставляем название тура и выбранный заезд из адреса
   useEffect(() => {
     const tourTitle = searchParams.get("tourTitle") || "";
-    setFormData((prev) => ({ ...prev, tour: tourTitle }));
+    /*
+     * Дату берём только в формате «ГГГГ-ММ-ДД». Значение приходит из
+     * адресной строки, а input[type=date] на любое другое молча покажет
+     * пустое поле — человек решил бы, что дата выбрана, и отправил заявку
+     * без неё. Пусть уж лучше поле честно пустует и его заполнят руками.
+     */
+    const raw = searchParams.get("date") || "";
+    const departureDate = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : "";
+    setFormData((prev) => ({ ...prev, tour: tourTitle, departureDate }));
   }, [searchParams]);
 
   // Загрузка CAPTCHA
@@ -97,6 +106,9 @@ const BookingPage = () => {
         trackEvent("booking_submit", {
           tour_name: formData.tour,
           travelers: formData.travelers,
+          // Видно, сколько заявок приходит с конкретного заезда, а сколько
+          // просто «на тур»: без этого не понять, окупается ли расписание.
+          departure_date: formData.departureDate || undefined,
         });
         setSuccess("Booking submitted successfully!");
         setFormData({
@@ -106,6 +118,7 @@ const BookingPage = () => {
           phone: "",
           travelers: "",
           tour: "",
+          departureDate: "",
           message: "",
           gender: "",
           location: "",
