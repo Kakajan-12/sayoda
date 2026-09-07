@@ -247,7 +247,7 @@ export default async function Page({
         locale={locale}
       />
 
-      <Gallery images={photos} tourTitle={tourTitle} />
+      <Gallery images={photos} tourTitle={tourTitle} locale={locale} />
 
       <Map data={tour} alt={`${tourTitle} — ${tp("routeOnMap")}`} locale={locale} />
 

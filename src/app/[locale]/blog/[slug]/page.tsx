@@ -4,11 +4,12 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import MainCountries from "@/components/blog/ArticleHero";
 import TextsCountry from "@/components/blog/ArticleBody";
-import GalleryCountry from "@/components/blog/ArticleGallery";
+import ArticleGallery from "@/components/blog/ArticleGallery";
 import ArticleJsonLd from "@/components/seo/ArticleJsonLd";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   getBlog,
+  getBlogGallery,
   getBlogs,
   localizedField,
   mediaUrl,
@@ -90,6 +91,9 @@ export default async function Page({
   if (!blog) notFound();
 
   const nav = await getTranslations({ locale, namespace: "Header" });
+  const blogTitle = plainText(localizedField(blog, "title", locale));
+  // Снимки берём на сервере: из браузера они в HTML статьи не попадали.
+  const photos = await getBlogGallery(blog.id);
 
   return (
     <div>
@@ -99,15 +103,12 @@ export default async function Page({
         items={[
           { name: nav("main"), path: "" },
           { name: nav("blog"), path: "blog" },
-          {
-            name: plainText(localizedField(blog, "title", locale)),
-            path: `blog/${blog.slug}`,
-          },
+          { name: blogTitle, path: `blog/${blog.slug}` },
         ]}
       />
       <MainCountries data={blog} />
       <TextsCountry data={blog} />
-      <GalleryCountry blogId={blog.id} />
+      <ArticleGallery images={photos} title={blogTitle} />
     </div>
   );
 }
