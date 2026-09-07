@@ -10,8 +10,9 @@ import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import SocialIcons from "./SocialIcons";
 import TrackedContactLink from "@/components/contacts/TrackedContactLink";
 import { getContacts, telHref } from "@/lib/api/contacts";
-import { getTourLocations, getVisaEntries, localizedField } from "@/lib/api/catalog";
+import { getVisaEntries, localizedField } from "@/lib/api/catalog";
 import { getSettings } from "@/lib/api/settings";
+import { destField, getDestinations } from "@/lib/api/destinations";
 import { plainText } from "@/lib/utils";
 
 /**
@@ -33,9 +34,9 @@ export default async function Footer() {
   const t = await getTranslations("Footer");
   const useful = t.raw("useful") as string[];
 
-  const [contacts, locations, visa, settings] = await Promise.all([
+  const [contacts, destinations, visa, settings] = await Promise.all([
     getContacts(locale),
-    getTourLocations(),
+    getDestinations(),
     getVisaEntries(),
     getSettings(),
   ]);
@@ -114,14 +115,17 @@ export default async function Footer() {
 
           <div className="footerForCenters">
             <h5 className="forH5">{t("destinationsTitle")}</h5>
-            {locations.map((loc) => (
+            {/* Ведём на страницу страны, а не на отфильтрованный список
+                туров: заголовок блока обещает направление, и человек ждёт
+                рассказ о стране, а не выборку из каталога. */}
+            {destinations.map((dest) => (
               <Link
                 className={linkClass(QuicksandFont.className)}
-                href={`/tours?location=${loc.id}`}
-                key={loc.id}
+                href={`/destinations/${dest.slug}`}
+                key={dest.slug}
               >
                 <SlArrowRight className="w-3 h-3 text-brick" />
-                {plainText(localizedField(loc, "location", locale))}
+                {plainText(destField(dest, "name", locale))}
               </Link>
             ))}
           </div>

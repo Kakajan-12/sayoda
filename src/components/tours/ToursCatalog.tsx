@@ -54,7 +54,9 @@ export default function ToursCatalog({ tours, categories, locations }: Props) {
   const [isMobileFilterOpen, setMobileFilterOpen] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
 
-  // Ссылки вида /tours?location=2 ведут из футера и с карточек направлений.
+  // Ссылки вида /tours?location=2 больше нигде на сайте не ставятся: из
+  // подвала страны теперь ведут на страницу направления. Разбор параметра
+  // оставлен для ссылок, которые уже могли где-то разойтись.
   useEffect(() => {
     const value = new URLSearchParams(window.location.search).get("location");
     if (value !== null && value !== "") {
