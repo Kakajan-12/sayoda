@@ -44,7 +44,13 @@
     "emptyGallery": "Galereýa boş",
     "loadError": "Bir näsazlyk ýüze çykdy. Sahypany täzeläň ýa-da biziň bilen habarlaşyň.",
     "noText": "Beýany ýakynda goşular.",
-    "close": "Ýap"
+    "close": "Ýap",
+    "prev": "Öňki",
+    "next": "Indiki",
+    "zoomIn": "Ulaltmak",
+    "zoomOut": "Kiçeltmek",
+    "fullscreen": "Doly ekran",
+    "exitFullscreen": "Doly ekrandan çykmak"
   },
   "SectionTitle": {
     "popular": "Meşhur syýahatlar",

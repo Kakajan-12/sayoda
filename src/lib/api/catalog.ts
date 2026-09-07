@@ -270,6 +270,20 @@ export const getExcludes = (tourId: number) =>
 export const getTourGallery = (tourId: number) =>
   getJson<TourPhoto[]>(`/api/tour-gallery/tour/${tourId}`, []);
 
+/** Фотография в галерее статьи. */
+export interface BlogPhoto {
+  blog_gallery_id: number;
+  blog_id: number;
+  image: string;
+}
+
+/**
+ * Снимки статьи. Забираются на сервере по той же причине, что и снимки
+ * тура: из браузера они не попадали в HTML вовсе.
+ */
+export const getBlogGallery = (blogId: number) =>
+  getJson<BlogPhoto[]>(`/api/blog-gallery/blog/${blogId}`, []);
+
 /** Пункт «главного о туре» — короткая строка «ради чего ехать». */
 export interface TourHighlight {
   id: number;

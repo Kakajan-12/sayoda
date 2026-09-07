@@ -44,7 +44,13 @@
     "emptyGallery": "The gallery is empty",
     "loadError": "Something went wrong. Please refresh the page or contact us directly.",
     "noText": "Description coming soon.",
-    "close": "Close"
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fullscreen": "Enter fullscreen",
+    "exitFullscreen": "Exit fullscreen"
   },
   "SectionTitle": {
     "popular": "Popular tours",
