@@ -17,9 +17,39 @@ import { useTranslations } from "next-intl";
  * помечены звёздочкой, а остальные подписаны как необязательные.
  */
 
-/** Общий вид поля: та же рамка, отступы и фокус во всей форме. */
-const inputClass =
-  "w-full rounded-lg border border-sand bg-white px-3.5 py-2.5 text-ink outline-none transition placeholder:text-inkMuted/60 focus:border-tileLight";
+/*
+ * Общая коробка для всех полей.
+ *
+ * Высота задана явно, а не выведена из отступов: список и поле даты
+ * браузер рисует своей высотой, и рядом с обычным полем они оказывались
+ * то выше, то ниже на несколько пикселей — строка формы выглядела рваной.
+ */
+const controlBase =
+  "w-full h-12 rounded-lg border border-sand bg-white px-3.5 text-ink outline-none transition focus:border-tileLight";
+
+export const inputClass = `${controlBase} placeholder:text-inkMuted/60`;
+
+/*
+ * Список.
+ *
+ * Своя стрелка вместо системной задана классом .select-control в
+ * globals.css: в произвольном значении Tailwind кавычки внутри адреса
+ * картинки ломают разбор, и правило молча не попадает в сборку. Здесь
+ * оставлено только место справа, чтобы длинное название страны не
+ * залезало под стрелку.
+ *
+ * Сам список остаётся нативным намеренно: в нём 250 стран, и родной
+ * элемент даёт поиск набором с клавиатуры, а на телефоне — привычное
+ * колесо выбора. Свой список всё это пришлось бы писать заново.
+ */
+export const selectClass = `${controlBase} select-control cursor-pointer pr-11`;
+
+/** Поле даты. Значок календаря перекрашен в globals.css. */
+export const dateClass = `${controlBase} cursor-pointer`;
+
+/** Многострочное поле: высота своя, всё остальное как у прочих. */
+export const textareaClass =
+  "w-full rounded-lg border border-sand bg-white px-3.5 py-3 text-ink outline-none transition placeholder:text-inkMuted/60 focus:border-tileLight resize-none";
 
 export function Field({
   label,
@@ -74,5 +104,3 @@ export function Section({
     </section>
   );
 }
-
-export { inputClass };

@@ -6,7 +6,14 @@ import { useSearchParams } from "next/navigation";
 import { LuRefreshCcw } from "react-icons/lu";
 import countries from "world-countries";
 import { PoppinFont } from "@/components/ui/Fonts";
-import { Field, Section, inputClass } from "@/components/contacts/BookingFields";
+import {
+  Field,
+  Section,
+  dateClass,
+  inputClass,
+  selectClass,
+  textareaClass,
+} from "@/components/contacts/BookingFields";
 import { BASE_API_URL } from "@/i18n/api";
 import { trackEvent } from "@/lib/analytics";
 
@@ -249,7 +256,7 @@ const BookingPage = () => {
                 type="date"
                 value={formData.departureDate}
                 onChange={(e) => set("departureDate", e.target.value)}
-                className={inputClass}
+                className={dateClass}
               />
             </Field>
 
@@ -278,7 +285,7 @@ const BookingPage = () => {
                 name="location"
                 value={formData.location}
                 onChange={(e) => set("location", e.target.value)}
-                className={inputClass}
+                className={selectClass}
               >
                 <option value="">—</option>
                 {countryList.map((c) => (
@@ -301,7 +308,7 @@ const BookingPage = () => {
                 rows={5}
                 value={formData.message}
                 onChange={(e) => set("message", e.target.value)}
-                className={`${inputClass} resize-none`}
+                className={textareaClass}
               />
             </Field>
           </Section>
