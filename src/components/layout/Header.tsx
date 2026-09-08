@@ -18,6 +18,7 @@ import { routing } from "@/i18n/routing";
 import { BASE_API_URL } from "@/i18n/api";
 import { RxHamburgerMenu } from "react-icons/rx";
 import {
+  FaChevronDown,
   FaEnvelope,
   FaPhone,
   FaXTwitter,
@@ -27,6 +28,12 @@ import {
 } from "react-icons/fa6";
 import { GrInstagram } from "react-icons/gr";
 import { FiFacebook } from "react-icons/fi";
+
+/** Страна для выпадающего списка. Готовится на сервере, чтобы ссылки попали в HTML. */
+export interface HeaderCountry {
+  slug: string;
+  name: string;
+}
 
 interface Messenger {
   id: number;
@@ -62,7 +69,7 @@ export const navbar = [
   },
 ];
 
-export default function Header() {
+export default function Header({ countries = [] }: { countries?: HeaderCountry[] }) {
   const location = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -71,11 +78,13 @@ export default function Header() {
   const uselocale = useLocale();
   const currentLocale = location.split("/")[1];
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isCountriesOpen, setIsCountriesOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [messengers, setMessengers] = useState<Messenger[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
+  const countriesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -127,15 +136,35 @@ export default function Header() {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (langRef.current && !langRef.current.contains(target)) {
         setIsLangOpen(false);
       }
+      if (countriesRef.current && !countriesRef.current.contains(target)) {
+        setIsCountriesOpen(false);
+      }
+    }
+    // Escape закрывает список: без этого выйти из него с клавиатуры
+    // было бы нечем.
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      setIsLangOpen(false);
+      setIsCountriesOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  // Переход по ссылке список не закрывает сам: адрес меняется без
+  // перезагрузки, и он остался бы висеть поверх новой страницы.
+  useEffect(() => {
+    setIsCountriesOpen(false);
+    setIsLangOpen(false);
+  }, [location]);
 
   const switchLanguage = (newLocale: string) => {
     const newPath = location.replace(
@@ -150,6 +179,9 @@ export default function Header() {
     .map((lang) => (lang === "tk" ? "tm" : lang));
 
   const activeNav = location.replace(`/${uselocale}`, "") || "/";
+
+  // Пункт подсвечен на всех страницах страны, включая визы и отели.
+  const isDestinationsActive = activeNav.startsWith("/destinations");
 
   /**
    * Пункт подсвечивается и на вложенных страницах раздела.
@@ -313,6 +345,66 @@ export default function Header() {
                 );
               })}
 
+              {/*
+                Страны выпадающим списком. В шапке их не было вовсе —
+                попасть на страницу страны можно было только из подвала
+                или с плитки на главной.
+
+                Кнопка, а не div с onClick, как у переключателя языка
+                рядом: список должен открываться с клавиатуры, а не
+                только мышью.
+              */}
+              {countries.length > 0 && (
+                <div className="relative" ref={countriesRef}>
+                  <button
+                    type="button"
+                    aria-haspopup="true"
+                    aria-expanded={isCountriesOpen}
+                    onClick={() => setIsCountriesOpen((prev) => !prev)}
+                    className={`relative flex items-center gap-1.5 lg:text-sm 2xl:text-lg text-sm font-medium text-white
+                      after:absolute after:-bottom-1.5 after:left-0 after:right-0 after:h-0.5
+                      after:origin-left after:rounded-full after:bg-white
+                      after:transition-transform after:duration-300 after:ease-out ${
+                        isDestinationsActive
+                          ? "after:scale-x-100"
+                          : "after:scale-x-0 hover:after:scale-x-100"
+                      }`}
+                  >
+                    {t("destinations")}
+                    <FaChevronDown
+                      aria-hidden
+                      className={`h-3 w-3 transition-transform duration-300 ${
+                        isCountriesOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/*
+                    Список всегда есть в разметке и прячется классом, а не
+                    вырезается условием: иначе пяти ссылок на страницы стран
+                    не было бы в HTML ни одной страницы сайта — на сервере
+                    список закрыт. display:none убирает их и из порядка
+                    обхода клавиатурой, так что закрытый список в фокус
+                    не попадает.
+                  */}
+                  <div
+                    className={`absolute left-0 top-full z-50 mt-3 min-w-52 overflow-hidden rounded-lg bg-mainBlue py-1 shadow-lg ring-1 ring-white/15 ${
+                      isCountriesOpen ? "" : "hidden"
+                    }`}
+                  >
+                    {countries.map((country) => (
+                      <Link
+                        key={country.slug}
+                        href={`/destinations/${country.slug}`}
+                        className="block whitespace-nowrap px-4 py-2.5 text-sm text-white transition-colors hover:bg-white/10"
+                      >
+                        {country.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* LANGUAGE SWITCH */}
               <div
                 className="hidden md:flex text-sm lg:text-lg font-normal text-white relative cursor-pointer select-none"
@@ -365,6 +457,7 @@ export default function Header() {
           <HeaderDrawer
             isOpen={forVisibility}
             onClose={() => dispatch(makeFalse())}
+            countries={countries}
           />
         )}
       </AnimatePresence>
