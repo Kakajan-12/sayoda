@@ -1,84 +1,113 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { PoppinFont } from "@/components/ui/Fonts";
-import ConatactDetail from "@/components/contacts/ContactDetail";
-import TourDetail from "@/components/tours/TourDetail";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { BASE_API_URL } from "@/i18n/api";
 import { LuRefreshCcw } from "react-icons/lu";
+import countries from "world-countries";
+import { PoppinFont } from "@/components/ui/Fonts";
+import { Field, Section, inputClass } from "@/components/contacts/BookingFields";
+import { BASE_API_URL } from "@/i18n/api";
 import { trackEvent } from "@/lib/analytics";
+
+/**
+ * Заявка на тур.
+ *
+ * Форма была сплошным полотном из одиннадцати полей без подписей: только
+ * placeholder внутри, который исчезал, стоило начать печатать. Обязательным
+ * было ровно одно поле — капча, — но выглядели все одинаково, поэтому
+ * читалась она как одиннадцать обязательных вопросов.
+ *
+ * Для сравнения: у advantour, на который равняется заказчик, в форме
+ * заявки пять полей, из них обязательны имя, фамилия, почта и сообщение.
+ *
+ * Здесь поля разделены на два блока — как с вами связаться и о поездке, —
+ * у каждого своя подпись, обязательные помечены звёздочкой, необязательные
+ * названы необязательными. Сам тур не поле ввода, а карточка сверху: его
+ * всё равно нельзя было менять.
+ */
+
+const EMPTY_FORM = {
+  gender: "Mr.",
+  firstName: "",
+  lastName: "",
+  location: "",
+  email: "",
+  phone: "",
+  tour: "",
+  travelers: "",
+  departureDate: "",
+  message: "",
+};
 
 const BookingPage = () => {
   const t = useTranslations("Booking");
+  const tp = useTranslations("TourPerPage");
   const locale = useLocale();
   const searchParams = useSearchParams();
 
-  const [formData, setFormData] = useState({
-    gender: "",
-    firstName: "",
-    lastName: "",
-    location: "",
-    email: "",
-    phone: "",
-    tour: "",
-    travelers: "",
-    departureDate: "",
-    message: "",
-  });
-
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [captchaText, setCaptchaText] = useState("");
   const [captchaImage, setCaptchaImage] = useState("");
   const [sending, setSending] = useState(false);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Подставляем название тура и выбранный заезд из адреса
-  useEffect(() => {
-    const tourTitle = searchParams.get("tourTitle") || "";
-    /*
-     * Дату берём только в формате «ГГГГ-ММ-ДД». Значение приходит из
-     * адресной строки, а input[type=date] на любое другое молча покажет
-     * пустое поле — человек решил бы, что дата выбрана, и отправил заявку
-     * без неё. Пусть уж лучше поле честно пустует и его заполнят руками.
-     */
-    const raw = searchParams.get("date") || "";
-    const departureDate = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : "";
-    setFormData((prev) => ({ ...prev, tour: tourTitle, departureDate }));
-  }, [searchParams]);
+  /** Страны для выбора гражданства, по алфавиту. */
+  const countryList = React.useMemo(
+    () =>
+      countries
+        .map((c) => ({ code: c.cca2, name: c.name.common }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    [],
+  );
 
-  // Загрузка CAPTCHA
-  const loadCaptcha = async () => {
+  /*
+   * Тур и дату читаем прямо при отрисовке, а не в эффекте после неё.
+   *
+   * Через эффект карточка выбранного тура появлялась мигом позже самой
+   * страницы: человек успевал увидеть форму без неё и не понять, к какому
+   * туру оставляет заявку.
+   *
+   * Дату принимаем только в формате «ГГГГ-ММ-ДД»: значение приходит из
+   * адресной строки, а input[type=date] на любое другое молча покажет
+   * пустое поле — человек решил бы, что дата выбрана, и отправил заявку
+   * без неё.
+   */
+  const tourTitle = searchParams.get("tourTitle") || "";
+  const rawDate = searchParams.get("date") || "";
+  const initialDate = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : "";
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, tour: tourTitle, departureDate: initialDate }));
+  }, [tourTitle, initialDate]);
+
+  const loadCaptcha = useCallback(async () => {
     try {
       const res = await fetch(`${BASE_API_URL}/captcha`, {
         method: "GET",
         credentials: "include",
       });
-      const svg = await res.text();
-      setCaptchaImage(svg);
-    } catch (err) {
-      console.error("Failed to load captcha", err);
+      setCaptchaImage(await res.text());
+    } catch {
+      // Картинку не показали — человек увидит пустое место и сможет
+      // обновить её кнопкой рядом.
+      setCaptchaImage("");
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadCaptcha();
-  }, []);
+  }, [loadCaptcha]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const set = (name: string, value: string) =>
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
     setError(null);
-    setSuccess(null);
+    setSuccess(false);
 
     try {
       const res = await fetch(`${BASE_API_URL}/send-tour`, {
@@ -98,36 +127,30 @@ const BookingPage = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Failed to submit");
+        setError(data.error || t("errorMsg"));
         loadCaptcha();
-      } else {
-        // Ключевое событие воронки: без него неизвестно, сколько человек
-        // дошло до отправки заявки и сколько отвалилось на капче.
-        trackEvent("booking_submit", {
-          tour_name: formData.tour,
-          travelers: formData.travelers,
-          // Видно, сколько заявок приходит с конкретного заезда, а сколько
-          // просто «на тур»: без этого не понять, окупается ли расписание.
-          departure_date: formData.departureDate || undefined,
-        });
-        setSuccess("Booking submitted successfully!");
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          travelers: "",
-          tour: "",
-          departureDate: "",
-          message: "",
-          gender: "",
-          location: "",
-        });
-        setCaptchaText("");
-        loadCaptcha();
+        return;
       }
-    } catch (err) {
-      setError("Server error");
+
+      // Ключевое событие воронки: без него неизвестно, сколько человек
+      // дошло до отправки заявки и сколько отвалилось на капче.
+      trackEvent("booking_submit", {
+        tour_name: formData.tour,
+        travelers: formData.travelers,
+        departure_date: formData.departureDate || undefined,
+      });
+
+      setSuccess(true);
+      // Тур и дату оставляем: если человек отправит вторую заявку, они те же.
+      setFormData((prev) => ({
+        ...EMPTY_FORM,
+        tour: prev.tour,
+        departureDate: prev.departureDate,
+      }));
+      setCaptchaText("");
+      loadCaptcha();
+    } catch {
+      setError(t("errorMsg"));
     } finally {
       setSending(false);
     }
@@ -135,53 +158,203 @@ const BookingPage = () => {
 
   return (
     <div className="bg-sandLight">
-      <div className="container mx-auto flex flex-col py-10 md:py-20 px-5">
-        <h2
-          className={`text-2xl lg:text-3xl 2xl:text-4xl leading-10 w-2/3 2xl:leading-[65px] text-mainBlue font-bold ${PoppinFont.className}`}
+      <div className="container mx-auto max-w-4xl px-4 py-10 md:py-16">
+        <h1
+          className={`${PoppinFont.className} text-2xl font-bold text-balance text-tile sm:text-3xl lg:text-4xl`}
         >
           {t("title")}
-        </h2>
+        </h1>
+        <p className="mt-3 text-inkMuted">{t("subtitle")}</p>
+
+        {/* Выбранный тур — карточка, а не поле ввода: менять его в форме
+            всё равно было нельзя, а поле только занимало место наравне
+            с теми, что нужно заполнять. */}
+        {tourTitle && (
+          <div className="mt-6 rounded-xl bg-tileTint px-5 py-4">
+            <p className="text-xs uppercase tracking-wide text-tile/70">
+              {t("yourTour")}
+            </p>
+            <p className={`${PoppinFont.className} mt-1 font-semibold text-tile`}>
+              {tourTitle}
+            </p>
+            {initialDate && (
+              <p className="mt-1 text-sm text-tile/80">
+                {tp("departureDate")}: {initialDate}
+              </p>
+            )}
+          </div>
+        )}
+
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col gap-10 mt-5 pt-5 mds:px-12"
+          className="mt-6 space-y-6 rounded-xl bg-white p-5 shadow-sm ring-1 ring-sand sm:p-8"
         >
-          <ConatactDetail formDates={formData} onchange={handleChange} />
-          <TourDetail
-            formDates={formData}
-            onchange={handleChange}
-            tourName={formData.tour}
-          />
+          <Section title={t("contact")}>
+            <Field label={t("Iname")} htmlFor="firstName" required>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                autoComplete="given-name"
+                required
+                value={formData.firstName}
+                onChange={(e) => set("firstName", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
 
-          {/* CAPTCHA */}
-          <div className="flex col-span-full items-center flex-col gap-1.5">
-            <div className="flex items-center justify-center gap-2">
-              <div dangerouslySetInnerHTML={{ __html: captchaImage }} />
-              <button
-                type="button"
-                onClick={loadCaptcha}
-                className="text-sm text-mainBlue underline flex items-center gap-2 hover:text-mainLight transition-colors"
+            <Field label={t("Isurname")} htmlFor="lastName" optional>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                autoComplete="family-name"
+                value={formData.lastName}
+                onChange={(e) => set("lastName", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+
+            <Field label={t("Iemail")} htmlFor="email" required>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={formData.email}
+                onChange={(e) => set("email", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+
+            <Field label={t("Iphone")} htmlFor="phone" optional>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                value={formData.phone}
+                onChange={(e) => set("phone", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+          </Section>
+
+          <Section title={t("sectionTrip")}>
+            <Field label={tp("departureDate")} htmlFor="departureDate" optional>
+              <input
+                id="departureDate"
+                name="departureDate"
+                type="date"
+                value={formData.departureDate}
+                onChange={(e) => set("departureDate", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+
+            <Field label={t("Itravelers")} htmlFor="travelers" optional>
+              <input
+                id="travelers"
+                name="travelers"
+                type="number"
+                min={1}
+                value={formData.travelers}
+                onChange={(e) => set("travelers", e.target.value)}
+                className={`${inputClass} no-spin`}
+              />
+            </Field>
+
+            {/* Гражданство спрашиваем здесь, а не в переписке: от него
+                зависит визовое приглашение, которое оператор готовит сам. */}
+            <Field
+              label={t("Icountry")}
+              htmlFor="location"
+              optional
+              className="sm:col-span-2"
+            >
+              <select
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={(e) => set("location", e.target.value)}
+                className={inputClass}
               >
-                <LuRefreshCcw className="w-4 h-4" />
-              </button>
-            </div>
-            <input
-              name="captchaText"
-              value={captchaText}
-              onChange={(e) => setCaptchaText(e.target.value)}
-              className="border md:text-sm text-xs py-2 px-3 rounded-sm max-w-50"
-              required
-            />
+                <option value="">—</option>
+                {countryList.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field
+              label={t("Icomment")}
+              htmlFor="message"
+              optional
+              className="sm:col-span-2"
+            >
+              <textarea
+                id="message"
+                name="message"
+                rows={5}
+                value={formData.message}
+                onChange={(e) => set("message", e.target.value)}
+                className={`${inputClass} resize-none`}
+              />
+            </Field>
+          </Section>
+
+          <Section title={t("captcha")}>
+            <Field label={t("captchaHint")} htmlFor="captchaText" required>
+              <div className="flex items-center gap-3">
+                <div
+                  className="shrink-0 rounded-lg bg-sandLight px-2 py-1 ring-1 ring-sand"
+                  dangerouslySetInnerHTML={{ __html: captchaImage }}
+                />
+                <button
+                  type="button"
+                  onClick={loadCaptcha}
+                  aria-label={t("refreshCaptcha")}
+                  className="shrink-0 rounded-lg p-2 text-tile transition-colors hover:bg-tileTint"
+                >
+                  <LuRefreshCcw className="h-4 w-4" />
+                </button>
+                <input
+                  id="captchaText"
+                  name="captchaText"
+                  type="text"
+                  required
+                  value={captchaText}
+                  onChange={(e) => setCaptchaText(e.target.value)}
+                  className={`${inputClass} max-w-40`}
+                />
+              </div>
+            </Field>
+          </Section>
+
+          <div className="flex flex-col gap-3 border-t border-sand pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-inkMuted">{t("requiredNote")}</p>
+            <button
+              type="submit"
+              disabled={sending}
+              className={`${PoppinFont.className} shrink-0 rounded-xl bg-brick px-8 py-3 font-semibold text-white transition hover:bg-brickDark disabled:cursor-wait disabled:opacity-70`}
+            >
+              {sending ? "…" : t("send")}
+            </button>
           </div>
 
-          <button
-            type="submit"
-            disabled={sending}
-            className={`bg-mainBlue py-2.5 px-10 w-full md:max-w-[300px] self-center text-white rounded-md ${PoppinFont.className}`}
-          >
-            {sending ? "..." : t("send")}
-          </button>
-          {success && <p className="text-green-600 mt-2">{success}</p>}
-          {error && <p className="text-red-600 mt-2">{error}</p>}
+          {success && (
+            <p className="rounded-lg bg-tileTint px-4 py-3 text-sm text-tile">
+              {t("successMsg")}
+            </p>
+          )}
+          {error && (
+            <p className="rounded-lg bg-brick/10 px-4 py-3 text-sm text-brick">
+              {error}
+            </p>
+          )}
         </form>
       </div>
     </div>

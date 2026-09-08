@@ -308,7 +308,17 @@
     "Icountry": "Citizenship",
     "Iphone": "Phone (+code)",
     "Itravelers": "Travelers",
-    "Icomment": "Comments and additional information"
+    "Icomment": "Comments and additional information",
+    "subtitle": "Fill in the form — we reply within one working day and send the programme with prices.",
+    "yourTour": "Selected tour",
+    "sectionTrip": "About the trip",
+    "optional": "optional",
+    "requiredNote": "The starred fields are how we reply to you — the rest helps us quote more precisely.",
+    "captcha": "Verification",
+    "captchaHint": "Type the characters from the image",
+    "successMsg": "Your request has been sent. We will reply within one working day.",
+    "errorMsg": "The request could not be sent. Please try again or message us on WhatsApp.",
+    "refreshCaptcha": "Refresh the image"
   },
   "NotFound": {
     "title": "Page not found",
