@@ -192,7 +192,9 @@
     "soldOut": "Sold out",
     "closedForBooking": "Booking closed",
     "departureDate": "Departure date",
-    "chooseDeparture": "Pick a departure date and we will confirm availability"
+    "chooseDeparture": "Pick a departure date and we will confirm availability",
+    "showMap": "Show the map",
+    "showMapNote": "The map will load from Google"
   },
   "Include": [
     "Included",

@@ -44,6 +44,11 @@ export interface Tour {
   lang_ru: string;
   price: number;
   map?: string;
+  /**
+   * Встроенная карта Google My Maps: маршрут рисуют вручную и вставляют
+   * ссылкой. Пусто — на странице остаётся картинка из поля map.
+   */
+  map_embed?: string | null;
   tour_type_id: number;
   tour_cat_id: number;
   location_id: number;
