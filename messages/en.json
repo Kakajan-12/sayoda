@@ -364,7 +364,7 @@
     "cookiesTitle": "Cookies",
     "cookiesGa": "Google Analytics 4 — behaviour statistics. It sets cookies and sends data to Google. Loaded only after your consent.",
     "cookiesTawk": "Tawk.to — the live chat. It sets cookies so your conversation survives moving between pages. Loaded only after your consent.",
-    "cookiesOwn": "Our own visit counter always works, but it sets no cookies and writes nothing to your device. It does not store your IP address: the database keeps an irreversible fingerprint based in part on the current date, so your visits cannot be linked across different days.",
+    "cookiesOwn": "Our own visit counter always works, but it sets no cookies and writes nothing to your device. It does not store your IP address: the database keeps an irreversible fingerprint based in part on the current date, so your visits cannot be linked across different days. The address is used only to work out the country — a two-letter code is stored instead of the address, and the address itself is kept nowhere afterwards.",
     "sharingTitle": "Who receives the data",
     "sharingText": "Statistics go to Google (with your consent) and chat messages to Tawk.to. Enquiries from the site are shared with nobody: they stay with us and are used only to answer you.",
     "retentionTitle": "How long data is kept",
