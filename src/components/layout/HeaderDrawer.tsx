@@ -5,7 +5,7 @@ import { useState } from "react";
 // См. комментарий в Header.tsx: префикс локали проставляется сразу,
 // без промежуточного редиректа.
 import { Link } from "@/i18n/navigation";
-import { navbar } from "./Header";
+import { navbar, type HeaderCountry } from "./Header";
 import { routing } from "@/i18n/routing";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -13,9 +13,10 @@ import { useLocale, useTranslations } from "next-intl";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  countries?: HeaderCountry[];
 }
 
-const HeaderDrawer: React.FC<Props> = ({ onClose }) => {
+const HeaderDrawer: React.FC<Props> = ({ onClose, countries = [] }) => {
   const [forLang, setForLang] = useState(false);
   const t = useTranslations("Header");
   const location = usePathname();
@@ -66,6 +67,32 @@ const HeaderDrawer: React.FC<Props> = ({ onClose }) => {
                 {t(items.key)}
               </Link>
           ))}
+          {/*
+            Страны списком, а не выпадающим списком: в меню на весь экран
+            прятать пять пунктов за ещё одно нажатие незачем — места хватает.
+          */}
+          {countries.length > 0 && (
+              <div className="w-full">
+                <p className="px-2 pt-4 pb-1 text-sm uppercase tracking-wide text-white/60">
+                  {t("destinations")}
+                </p>
+                {countries.map((country) => (
+                    <Link
+                        key={country.slug}
+                        onClick={onClose}
+                        href={`/destinations/${country.slug}`}
+                        className={`${
+                            activeNav.startsWith(`/destinations/${country.slug}`)
+                                ? "text-activeColor"
+                                : "text-white"
+                        } flex w-full items-center gap-3 rounded-3xl px-2 py-2.5 text-lg transition-all duration-150 focus:bg-sand`}
+                    >
+                      {country.name}
+                    </Link>
+                ))}
+              </div>
+          )}
+
           <div
               className={`flex text-xl gap-4 items-center w-full rounded-3xl py-3 px-2 ${
                   forLang ? "bg-sand" : ""

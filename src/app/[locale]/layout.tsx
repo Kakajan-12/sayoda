@@ -20,6 +20,8 @@ import WhatsAppButton from "@/components/contacts/WhatsAppButton";
 import LiveChat from "@/components/contacts/LiveChat";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
+import { destField, getDestinations } from "@/lib/api/destinations";
+import { plainText } from "@/lib/utils";
 import { normalizeTawkId } from "@/lib/tawk";
 
 export function generateStaticParams() {
@@ -78,10 +80,26 @@ export default async function RootLayout({
   }
 
   const t = await getTranslations({ locale, namespace: "Contact" });
-  const [contacts, settings] = await Promise.all([
+  const [contacts, settings, destinations] = await Promise.all([
     getContacts(locale),
     getSettings(),
+    getDestinations(),
   ]);
+
+  /*
+   * Страны для выпадающего списка в шапке.
+   *
+   * Готовим здесь, а не в самой шапке: она клиентская, и запрос из
+   * браузера означал бы, что пяти ссылок на страницы стран нет в HTML
+   * ни одной страницы сайта. Заодно в шапку уходит только нужное —
+   * адрес и название, а не вся страна с разделами и картинками.
+   */
+  const countries = destinations
+    .map((destination) => ({
+      slug: destination.slug,
+      name: plainText(destField(destination, "name", locale)),
+    }))
+    .filter((country) => country.slug && country.name);
   const whatsapp = whatsappHref(
     contacts,
     t("whatsappPrefill"),
@@ -104,7 +122,7 @@ export default async function RootLayout({
                 настройках заполнен идентификатор. */}
             <ViewTracker />
             <ScrollToTop />
-            <Header />
+            <Header countries={countries} />
             {children}
 
             <FooterImage />
