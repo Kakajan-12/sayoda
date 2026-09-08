@@ -6,11 +6,9 @@ import {
   FaBuilding,
   FaCircleInfo,
   FaGlobe,
-  FaPassport,
   FaRoute,
 } from "react-icons/fa6";
 import { ComfortaFont } from "@/components/ui/Fonts";
-import { stripHtml, type VisaItem } from "@/lib/api/visa";
 
 type SidebarItem = {
   href: string;
@@ -21,15 +19,9 @@ type SidebarItem = {
 
 type Props = {
   country: string;
-  visaList: VisaItem[];
-  locale: string;
 };
 
-export default function DestinationVisaSidebar({
-  country,
-  visaList,
-  locale,
-}: Props) {
+export default function DestinationVisaSidebar({ country }: Props) {
   const pathname = usePathname();
   const t = useTranslations("Visa");
   const td = useTranslations("Destinations");
@@ -48,22 +40,6 @@ export default function DestinationVisaSidebar({
 
   // The detailed visa types, embassies and border data are Turkmenistan-specific.
   if (isTurkmenistan) {
-    visaList.forEach((visa) => {
-      const href = `${base}/${visa.id}`;
-      const title =
-        locale === "ru"
-          ? visa.title_ru
-          : locale === "tk"
-            ? visa.title_tk
-            : visa.title_en;
-      items.push({
-        href,
-        label: stripHtml(title) || t("turkmenVisa"),
-        icon: <FaPassport className="w-4 h-4 shrink-0" />,
-        isActive: (path) => path === href,
-      });
-    });
-
     items.push(
       {
         href: `${base}/embassies-in-turkmenistan`,
