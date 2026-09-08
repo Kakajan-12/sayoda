@@ -179,7 +179,7 @@ export default async function Page({
         hasIncluded={includes.length > 0 || excludes.length > 0}
         hasDepartures={departures.length > 0}
         hasGallery={photos.length > 0}
-        hasMap={Boolean(tour.map)}
+        hasMap={Boolean(tour.map || tour.map_embed)}
       />
 
       {/*

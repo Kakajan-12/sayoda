@@ -193,7 +193,9 @@
     "soldOut": "Ýer galmady",
     "closedForBooking": "Ýazylyşyk ýapyk",
     "departureDate": "Ugramak senesi",
-    "chooseDeparture": "Ugramak senesini saýlaň, biz ýerleriň barlygyny tassyklarys"
+    "chooseDeparture": "Ugramak senesini saýlaň, biz ýerleriň barlygyny tassyklarys",
+    "showMap": "Kartany görkez",
+    "showMapNote": "Karta Google serwerinden ýüklener"
   },
   "Include": [
     "Goşuldy",
