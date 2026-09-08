@@ -10,7 +10,7 @@ import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import SocialIcons from "./SocialIcons";
 import TrackedContactLink from "@/components/contacts/TrackedContactLink";
 import { getContacts, telHref } from "@/lib/api/contacts";
-import { getVisaEntries, localizedField } from "@/lib/api/catalog";
+import { localizedField } from "@/lib/api/catalog";
 import { getSettings } from "@/lib/api/settings";
 import { destField, getDestinations } from "@/lib/api/destinations";
 import { plainText } from "@/lib/utils";
@@ -34,10 +34,9 @@ export default async function Footer() {
   const t = await getTranslations("Footer");
   const useful = t.raw("useful") as string[];
 
-  const [contacts, destinations, visa, settings] = await Promise.all([
+  const [contacts, destinations, settings] = await Promise.all([
     getContacts(locale),
     getDestinations(),
-    getVisaEntries(),
     getSettings(),
   ]);
 
@@ -132,16 +131,6 @@ export default async function Footer() {
 
           <div className="footerForCenters">
             <h5 className="forH5">{t("ourTitle")}</h5>
-            {visa.map((item) => (
-              <Link
-                className={linkClass(QuicksandFont.className)}
-                href={`/destinations/turkmenistan/visa/${item.id}`}
-                key={item.id}
-              >
-                <SlArrowRight className="w-3 h-3 text-brick" />
-                {plainText(localizedField(item, "title", locale))}
-              </Link>
-            ))}
             <Link
               className={linkClass(QuicksandFont.className)}
               href="/hotels"

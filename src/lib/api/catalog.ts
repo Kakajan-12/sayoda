@@ -204,15 +204,6 @@ export const getBlogs = async () => {
   );
 };
 
-export interface VisaEntry {
-  id: number;
-  title_tk: string;
-  title_en: string;
-  title_ru: string;
-}
-
-export const getVisaEntries = () => getJson<VisaEntry[]>("/api/visa", []);
-
 /** Принимает слаг (сайт) или числовой id — бэкенд различает их сам. */
 export async function getTour(key: string | number): Promise<Tour | null> {
   return getJson<Tour | null>(`/api/tours/${key}`, null);

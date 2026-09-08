@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getDestinationBySlug } from "@/lib/api/destinations";
-import { getVisaList } from "@/lib/api/visa";
 import DestinationVisaSidebar from "@/components/destinations/DestinationVisaSidebar";
 
 export const revalidate = 300;
@@ -16,18 +15,10 @@ export default async function DestinationVisaLayout({
   const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
 
-  // Visa types come from the backend and currently describe Turkmenistan only.
-  const visaList =
-    country === "turkmenistan" ? await getVisaList() : [];
-
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
       <div className="w-full lg:w-72 shrink-0">
-        <DestinationVisaSidebar
-          country={country}
-          visaList={visaList}
-          locale={locale}
-        />
+        <DestinationVisaSidebar country={country} />
       </div>
       <main className="flex-1 min-w-0 w-full">{children}</main>
     </div>
