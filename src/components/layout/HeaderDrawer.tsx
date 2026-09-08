@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 // См. комментарий в Header.tsx: префикс локали проставляется сразу,
 // без промежуточного редиректа.
 import { Link } from "@/i18n/navigation";
@@ -38,6 +38,32 @@ const HeaderDrawer: React.FC<Props> = ({ onClose, countries = [] }) => {
 
   const activeNav = location.replace(`/${uselocale}`, "") || "/";
 
+  /*
+   * Страны списком, а не выпадающим списком: в меню на весь экран прятать
+   * пять пунктов за ещё одно нажатие незачем — места хватает.
+   */
+  const countriesBlock = countries.length > 0 && (
+      <div className="w-full">
+        <p className="px-2 pt-4 pb-1 text-sm uppercase tracking-wide text-white/60">
+          {t("destinations")}
+        </p>
+        {countries.map((country) => (
+            <Link
+                key={country.slug}
+                onClick={onClose}
+                href={`/destinations/${country.slug}`}
+                className={`${
+                    activeNav.startsWith(`/destinations/${country.slug}`)
+                        ? "text-activeColor"
+                        : "text-white"
+                } flex w-full items-center gap-3 rounded-3xl px-2 py-2.5 text-lg transition-all duration-150 focus:bg-sand`}
+            >
+              {country.name}
+            </Link>
+        ))}
+      </div>
+  );
+
   return (
       <motion.div
           initial={{ y: "-100%" }}
@@ -55,44 +81,31 @@ const HeaderDrawer: React.FC<Props> = ({ onClose, countries = [] }) => {
         </button>
 
         <div className="container mx-auto flex flex-col gap-3 items-start px-5 pt-16 pb-20">
-          {navbar.map((items) => (
-              <Link
-                  key={items.url}
-                  onClick={onClose}
-                  className={`${
-                      items.url === activeNav ? "text-activeColor" : "text-white"
-                  } flex gap-3 items-center w-full rounded-3xl py-3 text-xl px-2 duration-150 transition-all focus:bg-sand`}
-                  href={items.url}
-              >
-                {t(items.key)}
-              </Link>
-          ))}
-          {/*
-            Страны списком, а не выпадающим списком: в меню на весь экран
-            прятать пять пунктов за ещё одно нажатие незачем — места хватает.
-          */}
-          {countries.length > 0 && (
-              <div className="w-full">
-                <p className="px-2 pt-4 pb-1 text-sm uppercase tracking-wide text-white/60">
-                  {t("destinations")}
-                </p>
-                {countries.map((country) => (
-                    <Link
-                        key={country.slug}
-                        onClick={onClose}
-                        href={`/destinations/${country.slug}`}
-                        className={`${
-                            activeNav.startsWith(`/destinations/${country.slug}`)
-                                ? "text-activeColor"
-                                : "text-white"
-                        } flex w-full items-center gap-3 rounded-3xl px-2 py-2.5 text-lg transition-all duration-150 focus:bg-sand`}
-                    >
-                      {country.name}
-                    </Link>
-                ))}
-              </div>
-          )}
+          {navbar.map((items) => {
+            const link = (
+                <Link
+                    key={items.url}
+                    onClick={onClose}
+                    className={`${
+                        items.url === activeNav ? "text-activeColor" : "text-white"
+                    } flex gap-3 items-center w-full rounded-3xl py-3 text-xl px-2 duration-150 transition-all focus:bg-sand`}
+                    href={items.url}
+                >
+                  {t(items.key)}
+                </Link>
+            );
 
+            // Направления идут сразу за «Турами» — тот же порядок, что
+            // и в шапке на большом экране.
+            return items.key === "tours" ? (
+                <Fragment key={items.url}>
+                  {link}
+                  {countriesBlock}
+                </Fragment>
+            ) : (
+                link
+            );
+          })}
           <div
               className={`flex text-xl gap-4 items-center w-full rounded-3xl py-3 px-2 ${
                   forLang ? "bg-sand" : ""

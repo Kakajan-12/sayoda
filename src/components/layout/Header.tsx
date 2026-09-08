@@ -183,6 +183,63 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
   // Пункт подсвечен на всех страницах страны, включая визы и отели.
   const isDestinationsActive = activeNav.startsWith("/destinations");
 
+  /*
+   * Страны выпадающим списком. В шапке их не было вовсе — попасть на
+   * страницу страны можно было только из подвала или с плитки на главной.
+   *
+   * Кнопка, а не div с onClick, как у переключателя языка рядом: список
+   * должен открываться с клавиатуры, а не только мышью.
+   */
+  const countriesMenu = countries.length > 0 && (
+    <div className="relative" ref={countriesRef}>
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={isCountriesOpen}
+        onClick={() => setIsCountriesOpen((prev) => !prev)}
+        className={`relative flex items-center gap-1.5 lg:text-sm 2xl:text-lg text-sm font-medium text-white
+          after:absolute after:-bottom-1.5 after:left-0 after:right-0 after:h-0.5
+          after:origin-left after:rounded-full after:bg-white
+          after:transition-transform after:duration-300 after:ease-out ${
+            isDestinationsActive
+              ? "after:scale-x-100"
+              : "after:scale-x-0 hover:after:scale-x-100"
+          }`}
+      >
+        {t("destinations")}
+        <FaChevronDown
+          aria-hidden
+          className={`h-3 w-3 transition-transform duration-300 ${
+            isCountriesOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {/*
+        Список всегда есть в разметке и прячется классом, а не вырезается
+        условием: иначе пяти ссылок на страницы стран не было бы в HTML
+        ни одной страницы сайта — на сервере список закрыт. display:none
+        убирает их и из порядка обхода клавиатурой, так что закрытый
+        список в фокус не попадает.
+      */}
+      <div
+        className={`absolute left-0 top-full z-50 mt-3 min-w-52 overflow-hidden rounded-lg bg-mainBlue py-1 shadow-lg ring-1 ring-white/15 ${
+          isCountriesOpen ? "" : "hidden"
+        }`}
+      >
+        {countries.map((country) => (
+          <Link
+            key={country.slug}
+            href={`/destinations/${country.slug}`}
+            className="block whitespace-nowrap px-4 py-2.5 text-sm text-white transition-colors hover:bg-white/10"
+          >
+            {country.name}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+
   /**
    * Пункт подсвечивается и на вложенных страницах раздела.
    *
@@ -326,7 +383,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
               */}
               {navbar.map((items) => {
                 const active = isActiveNav(items.url);
-                return (
+                const link = (
                   <Link
                     key={items.name}
                     aria-current={active ? "page" : undefined}
@@ -343,67 +400,18 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
                     {t(items.key)}
                   </Link>
                 );
+
+                // Направления стоят сразу за «Турами»: это соседние по
+                // смыслу разделы, и разносить их по краям меню незачем.
+                return items.key === "tours" ? (
+                  <React.Fragment key={items.name}>
+                    {link}
+                    {countriesMenu}
+                  </React.Fragment>
+                ) : (
+                  link
+                );
               })}
-
-              {/*
-                Страны выпадающим списком. В шапке их не было вовсе —
-                попасть на страницу страны можно было только из подвала
-                или с плитки на главной.
-
-                Кнопка, а не div с onClick, как у переключателя языка
-                рядом: список должен открываться с клавиатуры, а не
-                только мышью.
-              */}
-              {countries.length > 0 && (
-                <div className="relative" ref={countriesRef}>
-                  <button
-                    type="button"
-                    aria-haspopup="true"
-                    aria-expanded={isCountriesOpen}
-                    onClick={() => setIsCountriesOpen((prev) => !prev)}
-                    className={`relative flex items-center gap-1.5 lg:text-sm 2xl:text-lg text-sm font-medium text-white
-                      after:absolute after:-bottom-1.5 after:left-0 after:right-0 after:h-0.5
-                      after:origin-left after:rounded-full after:bg-white
-                      after:transition-transform after:duration-300 after:ease-out ${
-                        isDestinationsActive
-                          ? "after:scale-x-100"
-                          : "after:scale-x-0 hover:after:scale-x-100"
-                      }`}
-                  >
-                    {t("destinations")}
-                    <FaChevronDown
-                      aria-hidden
-                      className={`h-3 w-3 transition-transform duration-300 ${
-                        isCountriesOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-
-                  {/*
-                    Список всегда есть в разметке и прячется классом, а не
-                    вырезается условием: иначе пяти ссылок на страницы стран
-                    не было бы в HTML ни одной страницы сайта — на сервере
-                    список закрыт. display:none убирает их и из порядка
-                    обхода клавиатурой, так что закрытый список в фокус
-                    не попадает.
-                  */}
-                  <div
-                    className={`absolute left-0 top-full z-50 mt-3 min-w-52 overflow-hidden rounded-lg bg-mainBlue py-1 shadow-lg ring-1 ring-white/15 ${
-                      isCountriesOpen ? "" : "hidden"
-                    }`}
-                  >
-                    {countries.map((country) => (
-                      <Link
-                        key={country.slug}
-                        href={`/destinations/${country.slug}`}
-                        className="block whitespace-nowrap px-4 py-2.5 text-sm text-white transition-colors hover:bg-white/10"
-                      >
-                        {country.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* LANGUAGE SWITCH */}
               <div
