@@ -87,6 +87,36 @@ export default function DateField({
   const wrapRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
+  /*
+   * Куда раскрывать календарь — вниз или вверх.
+   *
+   * Поле даты стоит в середине длинной формы, и внизу страницы под ним
+   * места нет: панель уходила за край экрана вместе с последними
+   * неделями месяца и кнопкой «Очистить». Догадаться, что там что-то
+   * есть, было нельзя, а прокрутка с открытой панелью загоняла её под
+   * липкую шапку сайта.
+   *
+   * Решаем в момент открытия, а не правилом CSS: до открытия неизвестно,
+   * где окажется поле, — человек мог прокрутить страницу куда угодно.
+   */
+  const [above, setAbove] = useState(false);
+
+  /** Высота панели с запасом: шапка месяца, шесть недель и «Очистить». */
+  const PANEL_HEIGHT = 390;
+
+  const toggle = () => {
+    if (!open) {
+      const rect = triggerRef.current?.getBoundingClientRect();
+      if (rect) {
+        const roomBelow = window.innerHeight - rect.bottom;
+        // Вверх раскрываем только если внизу не помещается И сверху
+        // места действительно больше: иначе панель упрётся в шапку.
+        setAbove(roomBelow < PANEL_HEIGHT && rect.top > roomBelow);
+      }
+    }
+    setOpen((v) => !v);
+  };
+
   const selected = useMemo(() => fromISO(value), [value]);
   const today = useMemo(() => startOfDay(new Date()), []);
 
@@ -191,7 +221,7 @@ export default function DateField({
         id={id}
         ref={triggerRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggle}
         aria-haspopup="dialog"
         aria-expanded={open}
         className={`${className} flex items-center justify-between gap-2 text-left`}
@@ -209,7 +239,9 @@ export default function DateField({
           role="dialog"
           aria-label={t("dateDialog")}
           aria-modal="false"
-          className="absolute left-0 top-full z-20 mt-2 w-[19rem] max-w-[calc(100vw-2rem)] rounded-xl border border-sand bg-white p-3 shadow-lg"
+          className={`absolute left-0 z-20 w-[19rem] max-w-[calc(100vw-2rem)] rounded-xl border border-sand bg-white p-3 shadow-lg ${
+            above ? "bottom-full mb-2" : "top-full mt-2"
+          }`}
         >
           <div className="mb-2 flex items-center justify-between">
             <button
