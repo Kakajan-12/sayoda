@@ -24,7 +24,20 @@ import { plainText } from "@/lib/utils";
  * части здесь нет: всё, кроме иконок соцсетей, — статическая разметка.
  */
 
-const usefulLinks = ["/about", "/tours", "/blog", "/contacts"];
+/*
+ * Две колонки ссылок разведены по смыслу, а не по остаточному принципу.
+ *
+ * «Наши услуги» держались на двух пунктах — визе и отелях. Визовый раздел
+ * убран (у каждого направления свой), и колонка осталась с одной ссылкой:
+ * заголовок во всю ширину ради одной строки под ним. При этом «Туры» —
+ * главное, что здесь продают, — лежали в соседних «Полезных ссылках»
+ * вперемешку с «О нас» и «Блогом».
+ *
+ * Теперь слева то, что рассказывает о компании, справа то, что она
+ * предлагает. Повторов между колонками нет.
+ */
+const usefulLinks = ["/about", "/blog", "/contacts"];
+const serviceLinks = ["/tours", "/hotels", "/booking"];
 
 const linkClass = (font: string) =>
   `footerLink hover:text-brick hover:translate-x-1 transition-all duration-300 ${font}`;
@@ -33,6 +46,7 @@ export default async function Footer() {
   const locale = await getLocale();
   const t = await getTranslations("Footer");
   const useful = t.raw("useful") as string[];
+  const services = t.raw("our") as string[];
 
   const [contacts, destinations, settings] = await Promise.all([
     getContacts(locale),
@@ -131,13 +145,16 @@ export default async function Footer() {
 
           <div className="footerForCenters">
             <h5 className="forH5">{t("ourTitle")}</h5>
-            <Link
-              className={linkClass(QuicksandFont.className)}
-              href="/hotels"
-            >
-              <SlArrowRight className="w-3 h-3 text-brick" />
-              {t("hotelsLink")}
-            </Link>
+            {serviceLinks.map((href, i) => (
+              <Link
+                className={linkClass(QuicksandFont.className)}
+                href={href}
+                key={href}
+              >
+                <SlArrowRight className="w-3 h-3 text-brick" />
+                {services[i]}
+              </Link>
+            ))}
           </div>
         </div>
 

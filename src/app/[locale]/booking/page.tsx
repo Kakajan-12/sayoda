@@ -4,14 +4,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { LuRefreshCcw } from "react-icons/lu";
-import countries from "world-countries";
 import { PoppinFont } from "@/components/ui/Fonts";
 import {
   Field,
   Section,
   dateClass,
   inputClass,
-  selectClass,
   textareaClass,
 } from "@/components/contacts/BookingFields";
 import { BASE_API_URL } from "@/i18n/api";
@@ -32,13 +30,23 @@ import { trackEvent } from "@/lib/analytics";
  * у каждого своя подпись, обязательные помечены звёздочкой, необязательные
  * названы необязательными. Сам тур не поле ввода, а карточка сверху: его
  * всё равно нельзя было менять.
+ *
+ * Два поля убраны совсем:
+ *
+ * «Mr./Mrs.» никогда не показывалось — оно жило только в этом объекте и
+ * уходило на сервер вечным «Mr.», подставляя в письмо обращение, которого
+ * человек не выбирал.
+ *
+ * Гражданство было списком на 250 стран — самым тяжёлым, что есть на
+ * странице, — и при этом необязательным. Для приглашения оно нужно, но
+ * не в момент первого письма: оператор всё равно отвечает лично и
+ * спрашивает паспортные данные. Оба столбца в базе остались, старые
+ * заявки их сохранили, в админке они выводятся по условию.
  */
 
 const EMPTY_FORM = {
-  gender: "Mr.",
   firstName: "",
   lastName: "",
-  location: "",
   email: "",
   phone: "",
   tour: "",
@@ -59,15 +67,6 @@ const BookingPage = () => {
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  /** Страны для выбора гражданства, по алфавиту. */
-  const countryList = React.useMemo(
-    () =>
-      countries
-        .map((c) => ({ code: c.cca2, name: c.name.common }))
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    [],
-  );
 
   /*
    * Тур и дату читаем прямо при отрисовке, а не в эффекте после неё.
@@ -270,30 +269,6 @@ const BookingPage = () => {
                 onChange={(e) => set("travelers", e.target.value)}
                 className={`${inputClass} no-spin`}
               />
-            </Field>
-
-            {/* Гражданство спрашиваем здесь, а не в переписке: от него
-                зависит визовое приглашение, которое оператор готовит сам. */}
-            <Field
-              label={t("Icountry")}
-              htmlFor="location"
-              optional
-              className="sm:col-span-2"
-            >
-              <select
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={(e) => set("location", e.target.value)}
-                className={selectClass}
-              >
-                <option value="">—</option>
-                {countryList.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
             </Field>
 
             <Field

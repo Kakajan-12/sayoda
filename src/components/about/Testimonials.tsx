@@ -86,8 +86,12 @@ const Testimonials = () => {
 
                 {/* Текст */}
                 <div className="px-7 md:px-10 py-5">
+                  {/* whitespace-pre-line: отзыв больше не набирают в
+                      редакторе, он приходит обычным текстом, и разбивка на
+                      абзацы в нём — настоящие переводы строк, а не <p>.
+                      Без этого правила текст склеивался бы в сплошной кусок. */}
                   <p
-                    className={`xl:text-lg text-sm xl:leading-8 leading-6 ${QuicksandFont.className}`}
+                    className={`xl:text-lg text-sm xl:leading-8 leading-6 whitespace-pre-line ${QuicksandFont.className}`}
                     dangerouslySetInnerHTML={{ __html: item.text }}
                   />
                 </div>

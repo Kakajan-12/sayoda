@@ -80,32 +80,17 @@
     "usefulTitle": "Useful Links",
     "destinationsTitle": "Destinations",
     "ourTitle": "Our Services",
-    "practicalTitle": "Practical Information",
     "license": "Tour operator license",
     "useful": [
       "About Us",
-      "Tours",
       "Blogs",
       "Contact us"
     ],
-    "destinations": [
-      "Turkmenistan",
-      "Uzbekistan",
-      "Tajikistan",
-      "Kyrgyzstan",
-      "Kazakhstan",
-      "Pakistan"
-    ],
     "our": [
-      "Turkmen Visa",
-      "Hotels"
+      "Tours",
+      "Hotels",
+      "Request a tour"
     ],
-    "practical": [
-      "How to get to Turkmenistan",
-      "When to go",
-      "What currency to bring"
-    ],
-    "hotelsLink": "Hotels",
     "privacyLink": "Privacy policy"
   },
   "Blogs": {

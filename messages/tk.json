@@ -80,32 +80,17 @@
     "usefulTitle": "Peýdaly baglanyşyklar",
     "destinationsTitle": "Ýerler",
     "ourTitle": "Hyzmatlarymyz",
-    "practicalTitle": "Praktiki maglumatlar",
     "license": "Syýahatçylyk operatorynyň ygtyýarnamasy",
     "useful": [
       "Biz barada",
-      "Syýahatlar",
       "Bloglar",
       "Kontaktlar"
     ],
-    "destinations": [
-      "Türkmenistan",
-      "Özbegistan",
-      "Tajikistan",
-      "Kyrgyzstan",
-      "Gazagystan",
-      "Paýkistan"
-    ],
     "our": [
-      "Türkmen wiza",
-      "Myhmanhanalar"
+      "Syýahatlar",
+      "Myhmanhanalar",
+      "Sargyt goýmak"
     ],
-    "practical": [
-      "Türkmenistana nädip barmaly",
-      "Haýsy wagt bararlyk",
-      "Haryt pullaryny näme getirmeli"
-    ],
-    "hotelsLink": "Myhmanhanalar",
     "privacyLink": "Gizlinlik syýasaty"
   },
   "Blogs": {
