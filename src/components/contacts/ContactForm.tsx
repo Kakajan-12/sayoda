@@ -1,9 +1,9 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BASE_API_URL } from "@/i18n/api";
-import { LuRefreshCcw } from "react-icons/lu";
+import BotTrap from "@/components/contacts/BotTrap";
 import SuccessModal from "@/components/ui/SuccessModal";
 import { trackEvent } from "@/lib/analytics";
 
@@ -16,26 +16,13 @@ const ContactForm = () => {
     email: "",
     subject: "",
     message: "",
-    captchaText: "",
+    // Поле-ловушка вместо капчи: человек его не видит, см. BotTrap.
+    website: "",
   });
 
-  const [captchaImage, setCaptchaImage] = useState("");
   const [sending, setSending] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const loadCaptcha = async () => {
-    const res = await fetch(`${BASE_API_URL}/captcha`, {
-      method: "GET",
-      credentials: "include",
-    });
-    const svg = await res.text();
-    setCaptchaImage(svg);
-  };
-
-  useEffect(() => {
-    loadCaptcha();
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -66,7 +53,6 @@ const ContactForm = () => {
 
       if (!res.ok) {
         setError(data.error || "Failed to send");
-        loadCaptcha();
       } else {
         trackEvent("contact_submit");
         setShowSuccessModal(true);
@@ -75,9 +61,8 @@ const ContactForm = () => {
           email: "",
           subject: "",
           message: "",
-          captchaText: "",
+          website: "",
         });
-        loadCaptcha();
       }
     } catch (err) {
       setError("Server error");
@@ -91,7 +76,7 @@ const ContactForm = () => {
       <div className="container mx-auto px-5">
         <form
           onSubmit={handleSubmit}
-          className="px-5 w-full bg-gray-100 rounded grid gap-y-7 py-10 md:gap-x-5 grid-cols-1 md:grid-cols-2"
+          className="relative px-5 w-full bg-gray-100 rounded grid gap-y-7 py-10 md:gap-x-5 grid-cols-1 md:grid-cols-2"
         >
           <input
             name="name"
@@ -128,25 +113,10 @@ const ContactForm = () => {
             placeholder={t("Imessage")}
             required
           />
-          <div className="flex col-span-full items-center flex-col gap-1.5 justify-center">
-            <div className="flex items-center justify-center gap-2">
-              <div dangerouslySetInnerHTML={{ __html: captchaImage }} />
-              <button
-                type="button"
-                onClick={loadCaptcha}
-                className="text-sm text-mainBlue flex items-center gap-2 hover:text-mainLight transition-colors"
-              >
-                <LuRefreshCcw className="w-4 h-4" />
-              </button>
-            </div>
-            <input
-              name="captchaText"
-              value={formData.captchaText}
-              onChange={handleChange}
-              className="border md:text-sm text-xs py-2 px-3 rounded-md max-w-50"
-              required
-            />
-          </div>
+          <BotTrap
+            value={formData.website}
+            onChange={(v) => setFormData((prev) => ({ ...prev, website: v }))}
+          />
 
           <button
             type="submit"

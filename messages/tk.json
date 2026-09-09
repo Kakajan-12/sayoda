@@ -80,32 +80,17 @@
     "usefulTitle": "Peýdaly baglanyşyklar",
     "destinationsTitle": "Ýerler",
     "ourTitle": "Hyzmatlarymyz",
-    "practicalTitle": "Praktiki maglumatlar",
     "license": "Syýahatçylyk operatorynyň ygtyýarnamasy",
     "useful": [
       "Biz barada",
-      "Syýahatlar",
       "Bloglar",
       "Kontaktlar"
     ],
-    "destinations": [
-      "Türkmenistan",
-      "Özbegistan",
-      "Tajikistan",
-      "Kyrgyzstan",
-      "Gazagystan",
-      "Paýkistan"
-    ],
     "our": [
-      "Türkmen wiza",
-      "Myhmanhanalar"
+      "Syýahatlar",
+      "Myhmanhanalar",
+      "Sargyt goýmak"
     ],
-    "practical": [
-      "Türkmenistana nädip barmaly",
-      "Haýsy wagt bararlyk",
-      "Haryt pullaryny näme getirmeli"
-    ],
-    "hotelsLink": "Myhmanhanalar",
     "privacyLink": "Gizlinlik syýasaty"
   },
   "Blogs": {
@@ -142,9 +127,7 @@
     "subject": "Baş sahypadan ýüztutma",
     "phone": "Telefon ýa-da WhatsApp (hökman däl)",
     "message": "Nirä we haçan gitmek isleýärsiňiz?",
-    "btn": "Ýüztutma ibermek",
-    "captcha": "Suratdaky kod",
-    "refreshCaptcha": "Suraty täzelemek"
+    "btn": "Ýüztutma ibermek"
   },
   "Filter": {
     "popular": "Meşhur",
@@ -311,11 +294,8 @@
     "sectionTrip": "Syýahat barada",
     "optional": "hökman däl",
     "requiredNote": "Ýyldyzly meýdanlar arkaly size jogap berýäris — galanlary bahany takyk hasaplamaga kömek edýär.",
-    "captcha": "Barlag",
-    "captchaHint": "Suratdaky belgileri ýazyň",
     "successMsg": "Arzaňyz iberildi. Bir iş gününiň dowamynda jogap bereris.",
-    "errorMsg": "Arzany ibermek başartmady. Gaýtadan synanyşyň ýa-da WhatsApp arkaly ýazyň.",
-    "refreshCaptcha": "Suraty täzele"
+    "errorMsg": "Arzany ibermek başartmady. Gaýtadan synanyşyň ýa-da WhatsApp arkaly ýazyň."
   },
   "NotFound": {
     "title": "Sahypa tapylmady",

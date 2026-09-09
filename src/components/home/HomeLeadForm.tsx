@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { LuRefreshCcw } from "react-icons/lu";
+import BotTrap from "@/components/contacts/BotTrap";
 import { BASE_API_URL } from "@/i18n/api";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import SuccessModal from "@/components/ui/SuccessModal";
@@ -25,29 +25,12 @@ const HomeLeadForm = () => {
   const tc = useTranslations("ContactUs");
   const locale = useLocale();
 
-  const empty = { name: "", email: "", phone: "", message: "", captchaText: "" };
+  // website — поле-ловушка вместо капчи: человек его не видит, см. BotTrap.
+  const empty = { name: "", email: "", phone: "", message: "", website: "" };
   const [formData, setFormData] = useState(empty);
-  const [captchaImage, setCaptchaImage] = useState("");
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const loadCaptcha = useCallback(async () => {
-    try {
-      const res = await fetch(`${BASE_API_URL}/captcha`, {
-        method: "GET",
-        credentials: "include",
-      });
-      setCaptchaImage(await res.text());
-    } catch {
-      // Молча: без картинки форма всё равно отправится и получит понятный
-      // отказ от сервера, а красная ошибка до первого действия пугает.
-    }
-  }, []);
-
-  useEffect(() => {
-    loadCaptcha();
-  }, [loadCaptcha]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -64,7 +47,7 @@ const HomeLeadForm = () => {
     try {
       const res = await fetch(`${BASE_API_URL}/send`, {
         method: "POST",
-        credentials: "include", // капча живёт в сессии
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
@@ -80,12 +63,10 @@ const HomeLeadForm = () => {
 
       if (!res.ok) {
         setError(data.error || tc("successTitle"));
-        loadCaptcha();
       } else {
         trackEvent("home_lead_submit");
         setDone(true);
         setFormData(empty);
-        loadCaptcha();
       }
     } catch {
       setError("Server error");
@@ -115,7 +96,7 @@ const HomeLeadForm = () => {
 
         <form
           onSubmit={handleSubmit}
-          className={`${QuicksandFont.className} grid grid-cols-1 gap-4 rounded-lg bg-white p-5 shadow-sm ring-1 ring-sand sm:grid-cols-2 md:p-6`}
+          className={`${QuicksandFont.className} relative grid grid-cols-1 gap-4 rounded-lg bg-white p-5 shadow-sm ring-1 ring-sand sm:grid-cols-2 md:p-6`}
         >
           <input
             name="name"
@@ -153,32 +134,10 @@ const HomeLeadForm = () => {
             className={`${field} resize-none sm:col-span-2`}
           />
 
-          {/* flex-wrap обязателен: картинка капчи около 190px, и вместе с
-              кнопкой обновления и полем ввода строка не помещалась на
-              телефоне — поле уезжало за правый край экрана. На узком
-              переносим ввод на вторую строку. */}
-          <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
-            <div
-              className="max-w-full shrink-0 overflow-hidden"
-              dangerouslySetInnerHTML={{ __html: captchaImage }}
-            />
-            <button
-              type="button"
-              onClick={loadCaptcha}
-              aria-label={t("refreshCaptcha")}
-              className="shrink-0 text-tile transition-colors hover:text-tileLight"
-            >
-              <LuRefreshCcw className="h-4 w-4" />
-            </button>
-            <input
-              name="captchaText"
-              value={formData.captchaText}
-              onChange={handleChange}
-              required
-              placeholder={t("captcha")}
-              className={`${field} min-w-0 flex-1 sm:max-w-40 sm:flex-none`}
-            />
-          </div>
+          <BotTrap
+            value={formData.website}
+            onChange={(v) => setFormData((prev) => ({ ...prev, website: v }))}
+          />
 
           <button
             type="submit"
