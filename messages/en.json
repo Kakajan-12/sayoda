@@ -127,9 +127,7 @@
     "subject": "Enquiry from the home page",
     "phone": "Phone or WhatsApp (optional)",
     "message": "Where and when would you like to travel?",
-    "btn": "Send enquiry",
-    "captcha": "Code from the image",
-    "refreshCaptcha": "Refresh image"
+    "btn": "Send enquiry"
   },
   "Filter": {
     "popular": "Popular",
@@ -299,11 +297,8 @@
     "sectionTrip": "About the trip",
     "optional": "optional",
     "requiredNote": "The starred fields are how we reply to you — the rest helps us quote more precisely.",
-    "captcha": "Verification",
-    "captchaHint": "Type the characters from the image",
     "successMsg": "Your request has been sent. We will reply within one working day.",
-    "errorMsg": "The request could not be sent. Please try again or message us on WhatsApp.",
-    "refreshCaptcha": "Refresh the image"
+    "errorMsg": "The request could not be sent. Please try again or message us on WhatsApp."
   },
   "NotFound": {
     "title": "Page not found",

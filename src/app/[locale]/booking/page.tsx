@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { LuRefreshCcw } from "react-icons/lu";
+import BotTrap from "@/components/contacts/BotTrap";
 import { PoppinFont } from "@/components/ui/Fonts";
 import {
   Field,
@@ -19,9 +19,9 @@ import { trackEvent } from "@/lib/analytics";
  * Заявка на тур.
  *
  * Форма была сплошным полотном из одиннадцати полей без подписей: только
- * placeholder внутри, который исчезал, стоило начать печатать. Обязательным
- * было ровно одно поле — капча, — но выглядели все одинаково, поэтому
- * читалась она как одиннадцать обязательных вопросов.
+ * placeholder внутри, который исчезал, стоило начать печатать. Выглядели
+ * все одинаково, поэтому читалась она как одиннадцать обязательных
+ * вопросов.
  *
  * Для сравнения: у advantour, на который равняется заказчик, в форме
  * заявки пять полей, из них обязательны имя, фамилия, почта и сообщение.
@@ -45,6 +45,8 @@ import { trackEvent } from "@/lib/analytics";
  */
 
 const EMPTY_FORM = {
+  // Поле-ловушка: человек его не видит и не заполняет, см. BotTrap.
+  website: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -62,8 +64,6 @@ const BookingPage = () => {
   const searchParams = useSearchParams();
 
   const [formData, setFormData] = useState(EMPTY_FORM);
-  const [captchaText, setCaptchaText] = useState("");
-  const [captchaImage, setCaptchaImage] = useState("");
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,24 +88,6 @@ const BookingPage = () => {
     setFormData((prev) => ({ ...prev, tour: tourTitle, departureDate: initialDate }));
   }, [tourTitle, initialDate]);
 
-  const loadCaptcha = useCallback(async () => {
-    try {
-      const res = await fetch(`${BASE_API_URL}/captcha`, {
-        method: "GET",
-        credentials: "include",
-      });
-      setCaptchaImage(await res.text());
-    } catch {
-      // Картинку не показали — человек увидит пустое место и сможет
-      // обновить её кнопкой рядом.
-      setCaptchaImage("");
-    }
-  }, []);
-
-  useEffect(() => {
-    loadCaptcha();
-  }, [loadCaptcha]);
-
   const set = (name: string, value: string) =>
     setFormData((prev) => ({ ...prev, [name]: value }));
 
@@ -124,7 +106,6 @@ const BookingPage = () => {
         // и на каком языке пришла заявка.
         body: JSON.stringify({
           ...formData,
-          captchaText,
           locale,
           pageUrl: window.location.href,
         }),
@@ -134,12 +115,11 @@ const BookingPage = () => {
 
       if (!res.ok) {
         setError(data.error || t("errorMsg"));
-        loadCaptcha();
         return;
       }
 
       // Ключевое событие воронки: без него неизвестно, сколько человек
-      // дошло до отправки заявки и сколько отвалилось на капче.
+      // дошло до отправки заявки.
       trackEvent("booking_submit", {
         tour_name: formData.tour,
         travelers: formData.travelers,
@@ -153,8 +133,6 @@ const BookingPage = () => {
         tour: prev.tour,
         departureDate: prev.departureDate,
       }));
-      setCaptchaText("");
-      loadCaptcha();
     } catch {
       setError(t("errorMsg"));
     } finally {
@@ -193,7 +171,7 @@ const BookingPage = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-6 space-y-6 rounded-xl bg-white p-5 shadow-sm ring-1 ring-sand sm:p-8"
+          className="relative mt-6 space-y-6 rounded-xl bg-white p-5 shadow-sm ring-1 ring-sand sm:p-8"
         >
           <Section title={t("contact")}>
             <Field label={t("Iname")} htmlFor="firstName" required>
@@ -288,33 +266,7 @@ const BookingPage = () => {
             </Field>
           </Section>
 
-          <Section title={t("captcha")}>
-            <Field label={t("captchaHint")} htmlFor="captchaText" required>
-              <div className="flex items-center gap-3">
-                <div
-                  className="shrink-0 rounded-lg bg-sandLight px-2 py-1 ring-1 ring-sand"
-                  dangerouslySetInnerHTML={{ __html: captchaImage }}
-                />
-                <button
-                  type="button"
-                  onClick={loadCaptcha}
-                  aria-label={t("refreshCaptcha")}
-                  className="shrink-0 rounded-lg p-2 text-tile transition-colors hover:bg-tileTint"
-                >
-                  <LuRefreshCcw className="h-4 w-4" />
-                </button>
-                <input
-                  id="captchaText"
-                  name="captchaText"
-                  type="text"
-                  required
-                  value={captchaText}
-                  onChange={(e) => setCaptchaText(e.target.value)}
-                  className={`${inputClass} max-w-40`}
-                />
-              </div>
-            </Field>
-          </Section>
+          <BotTrap value={formData.website} onChange={(v) => set("website", v)} />
 
           <div className="flex flex-col gap-3 border-t border-sand pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-inkMuted">{t("requiredNote")}</p>
