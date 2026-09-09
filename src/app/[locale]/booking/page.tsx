@@ -233,6 +233,11 @@ const BookingPage = () => {
                 type="date"
                 value={formData.departureDate}
                 onChange={(e) => set("departureDate", e.target.value)}
+                /* Из CSS не видно, выбрана дата или нет: браузер и в пустом
+                   поле пишет «mm/dd/yyyy». Без этой отметки подсказка
+                   выглядела бы как уже введённое значение — единственное
+                   заполненное поле на всей форме. */
+                data-empty={!formData.departureDate}
                 className={dateClass}
               />
             </Field>
