@@ -102,7 +102,6 @@ const BookingPage = () => {
       const res = await fetch(`${BASE_API_URL}/send-tour`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         // locale и pageUrl нужны в админке, чтобы понимать, с какой страницы
         // и на каком языке пришла заявка.
         body: JSON.stringify({
