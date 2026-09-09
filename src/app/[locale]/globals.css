@@ -198,6 +198,59 @@ input.no-spin {
 }
 
 /*
+ * Список в формах: своя стрелка вместо системной.
+ *
+ * Системную браузер рисует своим цветом и размером, из-за чего список
+ * выбивался из остальных полей.
+ *
+ * Картинка задана здесь, а не классом Tailwind: в произвольном значении
+ * вида bg-[url("data:image/svg+xml,…")] кавычки внутри адреса ломают
+ * разбор — правило молча не попадало в собранный CSS, и стрелка
+ * не появлялась вовсе. Проверено на сборке.
+ */
+.select-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Цвет стрелки — #5D6B6A, тот же, что у подписей полей */
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%235D6B6A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 7.5 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.1rem;
+}
+
+/*
+ * Значок календаря в поле даты.
+ *
+ * Браузер рисует его собственным чёрным цветом и своим размером — рядом
+ * со стрелкой списка, перекрашенной в цвет подписей, он выглядел чужим.
+ * Классами это не задать: значок живёт в теневом дереве поля, добраться
+ * до него можно только псевдоэлементом.
+ *
+ * Перекрашиваем фильтром, а не цветом: у значка нет свойства fill,
+ * которым можно управлять снаружи.
+ */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.55;
+  /* #5D6B6A — тот же приглушённый цвет, что у подписей и стрелки списка */
+  filter: invert(41%) sepia(8%) saturate(560%) hue-rotate(131deg) brightness(94%) contrast(88%);
+  transition: opacity 0.15s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/*
+ * Пустое поле даты в Safari показывает подпись серее остальных полей.
+ * Выравниваем, чтобы незаполненная дата не выглядела отключённой.
+ */
+input[type="date"] {
+  color-scheme: light;
+}
+
+/*
  * Текст, пришедший из редактора CMS.
  *
  * Tailwind сбрасывает отступы абзацев и маркеры списков, а редактор отдаёт

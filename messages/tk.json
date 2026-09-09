@@ -305,7 +305,17 @@
     "Icountry": "Raýatlygy",
     "Iphone": "Telefon (+kod)",
     "Itravelers": "Syýahatçylar",
-    "Icomment": "Teswirler we goşmaça maglumat"
+    "Icomment": "Teswirler we goşmaça maglumat",
+    "subtitle": "Formany dolduryň — bir iş gününiň dowamynda jogap berip, maksatnamany bahalary bilen ibereris.",
+    "yourTour": "Saýlanan syýahat",
+    "sectionTrip": "Syýahat barada",
+    "optional": "hökman däl",
+    "requiredNote": "Ýyldyzly meýdanlar arkaly size jogap berýäris — galanlary bahany takyk hasaplamaga kömek edýär.",
+    "captcha": "Barlag",
+    "captchaHint": "Suratdaky belgileri ýazyň",
+    "successMsg": "Arzaňyz iberildi. Bir iş gününiň dowamynda jogap bereris.",
+    "errorMsg": "Arzany ibermek başartmady. Gaýtadan synanyşyň ýa-da WhatsApp arkaly ýazyň.",
+    "refreshCaptcha": "Suraty täzele"
   },
   "NotFound": {
     "title": "Sahypa tapylmady",

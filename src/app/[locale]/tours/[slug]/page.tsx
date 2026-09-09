@@ -12,7 +12,6 @@ import IncludesExcludes from "@/components/tours/IncludesExcludes";
 import Gallery from "@/components/tours/Gallery";
 import Map from "@/components/tours/Map";
 import RelatedTours from "@/components/tours/RelatedTours";
-import TourCta from "@/components/tours/TourCta";
 import { PoppinFont } from "@/components/ui/Fonts";
 import { getContacts, whatsappHref } from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
@@ -251,15 +250,14 @@ export default async function Page({
 
       <Map data={tour} alt={`${tourTitle} — ${tp("routeOnMap")}`} locale={locale} />
 
+      {/*
+        Пары кнопок внизу страницы больше нет: те же «Бронировать» и
+        «Спросить в WhatsApp» стоят в карточке рядом с программой, а она
+        едет вместе с прокруткой и видна всё время. Внизу они только
+        повторялись — и после блока похожих туров, где человек уже
+        смотрит на другие предложения.
+      */}
       <RelatedTours tour={tour} locale={locale} />
-
-      <div className="mt-14">
-        <TourCta
-          tourId={tour.id}
-          tourTitle={tourTitle}
-          whatsappHref={whatsapp}
-        />
-      </div>
     </div>
   );
 }
