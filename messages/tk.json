@@ -295,7 +295,12 @@
     "optional": "hökman däl",
     "requiredNote": "Ýyldyzly meýdanlar arkaly size jogap berýäris — galanlary bahany takyk hasaplamaga kömek edýär.",
     "successMsg": "Arzaňyz iberildi. Bir iş gününiň dowamynda jogap bereris.",
-    "errorMsg": "Arzany ibermek başartmady. Gaýtadan synanyşyň ýa-da WhatsApp arkaly ýazyň."
+    "errorMsg": "Arzany ibermek başartmady. Gaýtadan synanyşyň ýa-da WhatsApp arkaly ýazyň.",
+    "datePlaceholder": "Senäni saýlaň",
+    "dateClear": "Arassala",
+    "datePrevMonth": "Öňki aý",
+    "dateNextMonth": "Indiki aý",
+    "dateDialog": "Ugramak senesini saýlaň"
   },
   "NotFound": {
     "title": "Sahypa tapylmady",

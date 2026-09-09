@@ -44,7 +44,13 @@ export const inputClass = `${controlBase} placeholder:text-inkMuted/60`;
  */
 export const selectClass = `${controlBase} select-control cursor-pointer pr-11`;
 
-/** Поле даты. Значок календаря перекрашен в globals.css. */
+/*
+ * Поле даты.
+ *
+ * Достаётся не полю ввода, а кнопке: родной input[type=date] заменён
+ * своим календарём — см. DateField. Оболочка та же, что у остальных
+ * полей, чтобы в ряду они стояли одинаково.
+ */
 export const dateClass = `${controlBase} cursor-pointer`;
 
 /** Многострочное поле: высота своя, всё остальное как у прочих. */

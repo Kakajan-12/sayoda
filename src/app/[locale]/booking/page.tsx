@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import BotTrap from "@/components/contacts/BotTrap";
+import DateField from "@/components/contacts/DateField";
 import { PoppinFont } from "@/components/ui/Fonts";
 import {
   Field,
@@ -76,9 +77,9 @@ const BookingPage = () => {
    * туру оставляет заявку.
    *
    * Дату принимаем только в формате «ГГГГ-ММ-ДД»: значение приходит из
-   * адресной строки, а input[type=date] на любое другое молча покажет
-   * пустое поле — человек решил бы, что дата выбрана, и отправил заявку
-   * без неё.
+   * адресной строки, то есть подставить туда можно что угодно. На всё
+   * остальное поле показало бы подсказку «выберите дату» — человек решил
+   * бы, что дата уже выбрана, и отправил заявку без неё.
    */
   const tourTitle = searchParams.get("tourTitle") || "";
   const rawDate = searchParams.get("date") || "";
@@ -227,17 +228,10 @@ const BookingPage = () => {
 
           <Section title={t("sectionTrip")}>
             <Field label={tp("departureDate")} htmlFor="departureDate" optional>
-              <input
+              <DateField
                 id="departureDate"
-                name="departureDate"
-                type="date"
                 value={formData.departureDate}
-                onChange={(e) => set("departureDate", e.target.value)}
-                /* Из CSS не видно, выбрана дата или нет: браузер и в пустом
-                   поле пишет «mm/dd/yyyy». Без этой отметки подсказка
-                   выглядела бы как уже введённое значение — единственное
-                   заполненное поле на всей форме. */
-                data-empty={!formData.departureDate}
+                onChange={(v) => set("departureDate", v)}
                 className={dateClass}
               />
             </Field>

@@ -298,7 +298,12 @@
     "optional": "optional",
     "requiredNote": "The starred fields are how we reply to you — the rest helps us quote more precisely.",
     "successMsg": "Your request has been sent. We will reply within one working day.",
-    "errorMsg": "The request could not be sent. Please try again or message us on WhatsApp."
+    "errorMsg": "The request could not be sent. Please try again or message us on WhatsApp.",
+    "datePlaceholder": "Pick a date",
+    "dateClear": "Clear",
+    "datePrevMonth": "Previous month",
+    "dateNextMonth": "Next month",
+    "dateDialog": "Choose a departure date"
   },
   "NotFound": {
     "title": "Page not found",
