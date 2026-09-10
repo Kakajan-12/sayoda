@@ -59,7 +59,7 @@
     "includnesses": "What's Included & Excluded?",
     "gallery": "Gallery",
     "map": "Map",
-    "why": "Why Choose Us",
+    "why": "Why book with Sayoda Travel",
     "how": "How We Work",
     "testimonial": "Testimonials",
     "similar": "Similar tours",
@@ -206,14 +206,24 @@
   },
   "Why": {
     "cardtitle": [
-      "Seamless & Stress-Free Planning",
-      "Authentic & Immersive Travel",
-      "Expert Local Guides"
+      "Licensed local operator",
+      "We arrange your invitation",
+      "Private and group tours",
+      "Local guides and drivers",
+      "Hotels we check ourselves",
+      "Answers on WhatsApp",
+      "The route is adjusted to you",
+      "No hidden costs"
     ],
     "cardtext": [
-      "We handle all the details – from visas and accommodations to transportation and guided tours. You just focus on enjoying the adventure!",
-      "We go beyond the typical tourist routes, offering deep cultural experiences with local experts. From exploring ancient Silk Road cities to staying in traditional yurts, we ensure an unforgettable journey.",
-      "Our professional guides are locals with in-depth knowledge of history, culture, and hidden gems, making your trip both educational and inspiring."
+      "Our own licence and an office in Ashgabat — we are not a reseller working through intermediaries.",
+      "A Turkmen visa is not issued without a Letter of Invitation. We prepare and submit it for you.",
+      "Join a scheduled departure or travel with your own group, at your own pace.",
+      "Turkmen guides who know the history, and drivers who know the roads.",
+      "We choose and inspect the hotels ourselves instead of picking them from a catalogue.",
+      "Write to us and a person in Ashgabat replies — in English or Russian.",
+      "Dates, hotels, pace, extra stops: any programme can be rebuilt around you.",
+      "What is included and what is not is listed in full on every tour page."
     ]
   },
   "Work": {
