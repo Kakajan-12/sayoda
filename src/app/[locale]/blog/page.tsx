@@ -5,7 +5,7 @@ import BlogsMain from "@/components/blog/BlogsHero";
 import BlogsList from "@/components/blog/BlogsList";
 import PageLinks from "@/components/ui/PageLinks";
 import { pageMetadata } from "@/lib/metadata";
-import BlogCategoryFilter from "@/components/blog/BlogCategoryFilter";
+import BlogToolbar from "@/components/blog/BlogToolbar";
 import { PER_PAGE, getBlogCategories, getBlogsPage } from "@/lib/api/catalog";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
@@ -37,6 +37,12 @@ const readCategory = (search: Search) => {
   return /^\d+$/.test(raw ?? "") ? String(raw) : "";
 };
 
+/** Поисковый запрос из адреса. Длину режем: строка приходит извне. */
+const readQuery = (search: Search) => {
+  const raw = Array.isArray(search.q) ? search.q[0] : search.q;
+  return String(raw ?? "").trim().slice(0, 100);
+};
+
 export async function generateMetadata({
   params,
   searchParams,
@@ -48,7 +54,16 @@ export async function generateMetadata({
   const search = await searchParams;
   const page = readPage(search);
   const category = readCategory(search);
+  const q = readQuery(search);
   const base = await pageMetadata(locale, "blog", "blog");
+
+  /*
+   * Выдачу по словам из индекса убираем: это не раздел сайта, а ответ на
+   * разовый запрос. С каждым новым словом получается новый адрес, и
+   * поисковик набил бы индекс почти пустыми страницами. Категории при
+   * этом индексируются: их набор конечный и осмысленный.
+   */
+  if (q) return { ...base, robots: { index: false, follow: true } };
 
   if (page === 1 && !category) return base;
 
@@ -84,41 +99,45 @@ export default async function Page({
   const search = await searchParams;
   const page = readPage(search);
   const category = readCategory(search);
+  const q = readQuery(search);
 
   // Сервер отдаёт только нужную страницу и только выбранную категорию:
   // раньше сюда приезжали все статьи целиком, а браузер показывал девять.
   // Счётчик страниц сервер считает тем же отбором, поэтому пагинация не
   // обещает страниц, которых в выборке нет.
   const [{ items, total }, categories] = await Promise.all([
-    getBlogsPage(page, PER_PAGE, { category }),
+    getBlogsPage(page, PER_PAGE, { category, q }),
     getBlogCategories(),
   ]);
   const pageCount = Math.max(1, Math.ceil(total / PER_PAGE));
   const t = await getTranslations("SectionTitle");
-  const tb = await getTranslations("Blog");
 
   return (
     <div>
       <BlogsMain />
 
-      <div className="container mx-auto px-5">
-        <BlogCategoryFilter
-          categories={categories}
-          active={category}
-          locale={locale}
-          allLabel={tb("allCategories")}
-        />
-        {items.length === 0 && (
-          <p className="py-10 text-center text-inkMuted">{tb("nothingFound")}</p>
-        )}
-      </div>
+      {/*
+        Панель стоит вплотную к списку, а не в пустоте между шапкой и
+        заголовком: раньше кнопки категорий висели выше раздела, к
+        которому относятся, и было непонятно, к чему они.
+      */}
+      <BlogToolbar
+        categories={categories}
+        activeCategory={category}
+        query={q}
+        total={total}
+        locale={locale}
+      />
 
-      <BlogsList blogs={items} />
+      {/* Заголовок «Блоги» скрыт: сверху уже есть h1 в шапке, а между ним
+          и карточками теперь стоит панель — третья подпись подряд лишняя. */}
+      <BlogsList blogs={items} withHeading={false} />
+
       <PageLinks
         page={page}
         pageCount={pageCount}
         basePath="/blog"
-        params={{ category: category || undefined }}
+        params={{ category: category || undefined, q: q || undefined }}
         label={t("blogs")}
       />
     </div>

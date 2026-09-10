@@ -414,7 +414,11 @@
   },
   "Blog": {
     "allCategories": "Ähli makalalar",
-    "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň."
+    "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň.",
+    "searchPlaceholder": "Makalalar boýunça gözleg",
+    "searchLabel": "Tapmak",
+    "foundCount": "Tapyldy: {count}",
+    "resetFilters": "Arassala"
   },
   "Search": {
     "title": "Gözleg",

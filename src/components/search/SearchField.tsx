@@ -23,10 +23,20 @@ export default function SearchField({
   initial = "",
   placeholder,
   label,
+  basePath = "/search",
+  keep = {},
 }: {
   initial?: string;
   placeholder: string;
   label: string;
+  /** Куда уходит запрос: страница поиска или список блога. */
+  basePath?: string;
+  /**
+   * Что сохранить в адресе рядом с запросом — например выбранную
+   * категорию. Без этого поиск внутри категории сбрасывал бы её,
+   * и человек не понимал бы, почему список вдруг стал шире.
+   */
+  keep?: Record<string, string | undefined>;
 }) {
   const router = useRouter();
   const [value, setValue] = useState(initial);
@@ -34,9 +44,19 @@ export default function SearchField({
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const q = value.trim();
-    // Пустой запрос просто открывает страницу поиска без результатов —
+
+    const params = new URLSearchParams();
+    for (const [key, val] of Object.entries(keep)) {
+      if (val) params.set(key, val);
+    }
+    // Пустой запрос просто открывает страницу без отбора по словам —
     // сообщение «ничего не найдено» на пустое поле сбивает с толку.
-    router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
+    if (q) params.set("q", q);
+
+    // Номер страницы не переносим: новый запрос — новый список, и седьмая
+    // страница прежней выдачи в нём почти наверняка пуста.
+    const query = params.toString();
+    router.push(query ? `${basePath}?${query}` : basePath);
   };
 
   return (

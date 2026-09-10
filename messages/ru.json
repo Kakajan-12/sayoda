@@ -410,7 +410,11 @@
   },
   "Blog": {
     "allCategories": "Все статьи",
-    "nothingFound": "Ничего не нашлось. Попробуйте другую категорию."
+    "nothingFound": "Ничего не нашлось. Попробуйте другую категорию.",
+    "searchPlaceholder": "Поиск по статьям",
+    "searchLabel": "Найти",
+    "foundCount": "Найдено: {count}",
+    "resetFilters": "Сбросить"
   },
   "Search": {
     "title": "Поиск",

@@ -417,7 +417,11 @@
   },
   "Blog": {
     "allCategories": "All articles",
-    "nothingFound": "Nothing found. Try another category."
+    "nothingFound": "Nothing found. Try another category.",
+    "searchPlaceholder": "Search articles",
+    "searchLabel": "Search",
+    "foundCount": "Found: {count}",
+    "resetFilters": "Reset"
   },
   "Search": {
     "title": "Search",
