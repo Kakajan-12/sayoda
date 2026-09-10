@@ -25,7 +25,11 @@
       "description": "Hotels we work with across Turkmenistan — Ashgabat, Mary, Turkmenabat and Dashoguz. Included in our tour packages or bookable separately."
     },
     "tourFallbackDescription": "Guided tour in Turkmenistan with Sayoda Travel, a licensed local operator. Visa support and letter of invitation included.",
-    "days": "{count, plural, one {# Day} other {# Days}}"
+    "days": "{count, plural, one {# Day} other {# Days}}",
+    "search": {
+      "title": "Search",
+      "description": "Search tours and articles about Turkmenistan and Central Asia."
+    }
   },
   "Contact": {
     "whatsappLabel": "Chat with us on WhatsApp",
@@ -99,7 +103,8 @@
     "about": "About Us",
     "blog": "Blog",
     "contact": "Contact Us",
-    "destinations": "Destinations"
+    "destinations": "Destinations",
+    "search": "Search"
   },
   "Footer": {
     "location": "Address",
@@ -413,5 +418,11 @@
   "Blog": {
     "allCategories": "All articles",
     "nothingFound": "Nothing found. Try another category."
+  },
+  "Search": {
+    "title": "Search",
+    "placeholder": "A tour, a place or an article",
+    "found": "Found {count} for “{query}”",
+    "nothing": "Nothing found for “{query}”. Try a shorter word."
   }
 }

@@ -25,7 +25,11 @@
       "description": "Biz bilen işleşýän myhmanhanalar: Aşgabat, Mary, Türkmenabat, Daşoguz."
     },
     "tourFallbackDescription": "Ygtyýarnamaly ýerli operator Sayoda Travel bilen Türkmenistan boýunça syýahat. Wiza goldawy we çakylyk haty goşulýar.",
-    "days": "{count, plural, one {# gün} other {# gün}}"
+    "days": "{count, plural, one {# gün} other {# gün}}",
+    "search": {
+      "title": "Gözleg",
+      "description": "Türkmenistan we Merkezi Aziýa hakynda syýahatlar we makalalar boýunça gözleg."
+    }
   },
   "Contact": {
     "whatsappLabel": "WhatsApp arkaly ýazyň",
@@ -99,7 +103,8 @@
     "about": "Biz Barada",
     "blog": "Blog",
     "contact": "Kontakt",
-    "destinations": "Ugurlar"
+    "destinations": "Ugurlar",
+    "search": "Gözleg"
   },
   "Footer": {
     "location": "Adres",
@@ -410,5 +415,11 @@
   "Blog": {
     "allCategories": "Ähli makalalar",
     "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň."
+  },
+  "Search": {
+    "title": "Gözleg",
+    "placeholder": "Syýahat, ýer ýa-da makala",
+    "found": "«{query}» boýunça tapyldy: {count}",
+    "nothing": "«{query}» boýunça hiç zat tapylmady. Gysgaraq söz synanyşyň."
   }
 }

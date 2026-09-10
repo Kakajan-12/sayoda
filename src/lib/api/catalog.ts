@@ -113,6 +113,8 @@ export interface ToursQuery {
   cat?: number | null;
   destination?: number | null;
   popular?: boolean | null;
+  /** Поиск по словам: заголовки, тексты и города на всех трёх языках. */
+  q?: string;
 }
 
 function toQuery(params: Record<string, string | number | undefined | null>) {
@@ -157,6 +159,7 @@ export function getToursPage({
   cat,
   destination,
   popular,
+  q,
 }: ToursQuery = {}): Promise<Page<Tour>> {
   return getPage<Tour>(
     `/api/tours${toQuery({
@@ -167,6 +170,7 @@ export function getToursPage({
       destination,
       // popular хранится числом: true → 1, а false означает «не отбирать»
       popular: popular ? 1 : undefined,
+      q,
     })}`,
   );
 }
