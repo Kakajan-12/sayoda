@@ -409,5 +409,9 @@
     "changeButton": "Change my choice",
     "changeDone": "Done — pick an option in the banner at the bottom.",
     "notice": "If you are unsure what happens to your data, just write to us and we will explain in plain words."
+  },
+  "Blog": {
+    "allCategories": "All articles",
+    "nothingFound": "Nothing found. Try another category."
   }
 }

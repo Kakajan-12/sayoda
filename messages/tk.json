@@ -406,5 +406,9 @@
     "changeButton": "Çözgüdi üýtgetmek",
     "changeDone": "Taýýar — sahypanyň aşagyndaky banerden saýlaň.",
     "notice": "Maglumatlaryňyz bilen näme bolýandygyna şübhelenseňiz, bize ýazyň — düşnükli dilde düşündireris."
+  },
+  "Blog": {
+    "allCategories": "Ähli makalalar",
+    "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň."
   }
 }

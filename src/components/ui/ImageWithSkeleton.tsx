@@ -30,6 +30,26 @@ export default function ImageWithSkeleton({
 }: ImageWithSkeletonProps) {
   const [loaded, setLoaded] = useState(false);
 
+  /*
+   * Нет адреса — показываем только заглушку.
+   *
+   * next/image на пустом src бросает исключение, а бросает он его при
+   * отрисовке списка: одна запись без картинки роняла бы всю страницу
+   * каталога в 500. Пустая рамка на месте одной карточки — куда меньшая
+   * беда, чем недоступный раздел.
+   *
+   * Проверка стоит до всех хуков ниже по коду намеренно не ставится:
+   * useState уже вызван, порядок хуков не меняется.
+   */
+  if (!props.src) {
+    return (
+      <Skeleton
+        aria-hidden
+        className={cn("absolute inset-0 h-full w-full rounded-none", skeletonClassName)}
+      />
+    );
+  }
+
   /**
    * Переход задаётся здесь, а не классом, и перечисляет оба свойства сразу.
    *

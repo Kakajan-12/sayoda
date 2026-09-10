@@ -171,9 +171,32 @@ export function getToursPage({
   );
 }
 
-export function getBlogsPage(page = 1, perPage = PER_PAGE): Promise<Page<Blog>> {
-  return getPage<Blog>(`/api/blogs${toQuery({ page, limit: perPage })}`);
+/**
+ * Одна страница списка статей.
+ *
+ * Отбор по категории и поиск уходят на сервер вместе с номером страницы:
+ * иначе счётчик страниц считался бы по всему блогу, а список — по
+ * отобранному, и пагинация обещала бы страницы, которых нет.
+ */
+export function getBlogsPage(
+  page = 1,
+  perPage = PER_PAGE,
+  filters: { category?: string; q?: string } = {},
+): Promise<Page<Blog>> {
+  return getPage<Blog>(
+    `/api/blogs${toQuery({ page, limit: perPage, category: filters.category, q: filters.q })}`,
+  );
 }
+
+/**
+ * Категории статей для фильтра.
+ *
+ * Отдельным справочником, а не из самих статей: при постраничной выдаче
+ * браузер видит двенадцать записей и построил бы фильтр из тех категорий,
+ * что случайно попали на первую страницу.
+ */
+export const getBlogCategories = () =>
+  getJson<TaxonomyItem[]>("/api/blog-category", []);
 
 export const getTourCategories = () =>
   getJson<TaxonomyItem[]>("/api/tour-category", []);
@@ -348,7 +371,24 @@ export function localizedField(
  */
 export function normalizeMediaPath(path: string | null | undefined): string {
   if (!path) return "";
-  return String(path)
+
+  /*
+   * Строки «undefined» и «null» считаем пустотой.
+   *
+   * Это не выдумка на всякий случай: в базе такое уже лежало. Форма
+   * админки складывает значения в FormData, а FormData приводит к строке
+   * что угодно — отсутствующее поле превращается в «undefined» и уезжает
+   * в колонку с путём к файлу.
+   *
+   * Такая строка непустая, поэтому проходила дальше и давала адрес
+   * вида api.sayodatravel.com/undefined. Next на нём падает, а падает он
+   * при отрисовке списка — то есть одна испорченная запись роняла всю
+   * страницу блога в 500, а не просто оставалась без картинки.
+   */
+  const raw = String(path).trim();
+  if (raw === "undefined" || raw === "null") return "";
+
+  return raw
     .replace(/\\/g, "/")
     .replace(/^(\.\.\/)+/, "")
     .replace(/^\/+/, "")
