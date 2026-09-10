@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { LuSearch } from "react-icons/lu";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 // Link из i18n/navigation сам подставляет префикс локали. С обычным next/link
@@ -412,6 +413,20 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
                   link
                 );
               })}
+
+              {/*
+                Поиск значком, а не полем ввода в шапке: поле заняло бы
+                место, которого в этом меню нет, и на планшете начало бы
+                выдавливать пункты. Значок ведёт на страницу поиска, где
+                поле во всю ширину.
+              */}
+              <Link
+                href="/search"
+                aria-label={t("search")}
+                className="hidden md:flex items-center text-white transition-opacity hover:opacity-80"
+              >
+                <LuSearch className="h-5 w-5" />
+              </Link>
 
               {/* LANGUAGE SWITCH */}
               <div
