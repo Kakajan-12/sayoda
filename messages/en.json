@@ -36,7 +36,35 @@
   "Home": {
     "h1": "Tours to Turkmenistan — Darvaza, Ashgabat & Ancient Merv",
     "subtitle": "A licensed local operator in Ashgabat. We handle your letter of invitation, visa, guides and transport — you just travel.",
-    "cta": "See tours & prices"
+    "cta": "See tours & prices",
+    "ctaPlan": "Plan my trip",
+    "priceTitle": "How much does a trip to Turkmenistan cost?",
+    "priceLead": "Prices below are the lowest for each length of trip. Every tour page shows its own price and what it covers.",
+    "priceFrom": "from",
+    "priceShort": "3 days",
+    "priceMid": "4–5 days",
+    "priceLong": "6 days and longer",
+    "pricePerPerson": "per person",
+    "priceIncluded": "Usually included",
+    "priceExcluded": "Not included",
+    "priceNote": "The exact list is on the page of every tour.",
+    "priceCta": "See all tours and prices",
+    "priceIncludedItems": [
+      "Letter of Invitation, registration and permits",
+      "Hotels along the route, tents where the programme requires",
+      "Guide for the whole route",
+      "Transport and transfers, airport to airport",
+      "Domestic flights where the programme includes them",
+      "Full board: breakfast, lunch and dinner",
+      "Entrance tickets to museums and monuments"
+    ],
+    "priceExcludedItems": [
+      "International flights",
+      "Visa fee and migration tax",
+      "Travel insurance",
+      "Single room supplement",
+      "Personal expenses and tips"
+    ]
   },
   "Common": {
     "noTours": "No tours found",

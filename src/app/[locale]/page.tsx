@@ -6,6 +6,7 @@ import Faq from "@/components/home/Faq";
 import HomeLeadForm from "@/components/home/HomeLeadForm";
 import MainSwiper from "@/components/home/MainSwiper";
 import PopularCards from "@/components/home/PopularCards";
+import PriceGuide from "@/components/home/PriceGuide";
 import TrustStrip from "@/components/home/TrustStrip";
 import VisaTeaser from "@/components/home/VisaTeaser";
 import HowToWork from "@/components/about/HowToWork";
@@ -128,12 +129,30 @@ export default async function Home({
         >
           {bannerSubtitle}
         </p>
-        <Link
-          href={bannerLink}
-          className={`${PoppinFont.className} inline-block mt-5 rounded-full bg-mainBlue px-6 py-2.5 sm:mt-6 sm:px-8 sm:py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
-        >
-          {bannerButton}
-        </Link>
+        {/*
+          Две кнопки вместо одной.
+          Раньше с первого экрана можно было уйти только в каталог. Человек,
+          который уже понял, что хочет ехать, но хочет обсудить даты и состав
+          группы, кликать ему было некуда: форма заявки лежит в самом низу
+          страницы, и до неё нужно было догадаться долистать.
+
+          Вторая кнопка ведёт прямо в заявку. Она обведённая, а не залитая:
+          главное действие остаётся одно, иначе обе перестают быть главными.
+        */}
+        <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:mt-6 sm:flex-row">
+          <Link
+            href={bannerLink}
+            className={`${PoppinFont.className} inline-block rounded-full bg-mainBlue px-6 py-2.5 sm:px-8 sm:py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
+          >
+            {bannerButton}
+          </Link>
+          <Link
+            href="/booking"
+            className={`${PoppinFont.className} inline-block rounded-full border-2 border-white/80 px-6 py-2.5 sm:px-8 sm:py-3 text-white text-sm sm:text-base backdrop-blur-sm transition-colors hover:bg-white/15`}
+          >
+            {t("ctaPlan")}
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -156,6 +175,9 @@ export default async function Home({
       <TrustStrip locale={locale} />
       <Explore />
       <PopularCards tours={popularTours} />
+      {/* Сразу после каталога: человек увидел несколько цен и хочет понять
+          общий порядок сумм, прежде чем открывать туры по одному. */}
+      <PriceGuide tours={tours} locale={locale} />
       <WhyChoose />
       <HowToWork />
       <VisaTeaser locale={locale} />

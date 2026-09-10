@@ -36,7 +36,35 @@
   "Home": {
     "h1": "Türkmenistana syýahatlar — Derweze, Aşgabat we gadymy Merw",
     "subtitle": "Aşgabatdaky ygtyýarnamaly ýerli operator. Çakylyk haty, wiza, gidler we ulag biziň üstümizde — siz diňe syýahat ediň.",
-    "cta": "Syýahatlary we bahalary görmek"
+    "cta": "Syýahatlary we bahalary görmek",
+    "ctaPlan": "Syýahaty meýilleşdirmek",
+    "priceTitle": "Türkmenistana syýahat näçe durýar?",
+    "priceLead": "Aşakda her dowamlylyk üçin iň pes baha görkezilen. Her syýahatyň öz bahasy we düzümi bar, olar öz sahypasynda ýazylan.",
+    "priceFrom": "başlap",
+    "priceShort": "3 gün",
+    "priceMid": "4–5 gün",
+    "priceLong": "6 gün we ondan köp",
+    "pricePerPerson": "bir adam üçin",
+    "priceIncluded": "Adatça girýär",
+    "priceExcluded": "Girmeýär",
+    "priceNote": "Takyk sanaw her syýahatyň sahypasynda.",
+    "priceCta": "Ähli syýahatlary we bahalary görmek",
+    "priceIncludedItems": [
+      "Çakylyk haty, hasaba alyş we rugsatlar",
+      "Ugur boýunça myhmanhanalar, maksatnama talap edýän ýerlerde çadyrlar",
+      "Ähli ugur boýunça gid",
+      "Ulag we transferler — howa menzilinden howa menziline",
+      "Maksatnamada bar bolsa içerki uçuşlar",
+      "Doly iýmit: ertirlik, günortanlyk we agşamlyk",
+      "Muzeýlere we ýadygärliklere giriş biletleri"
+    ],
+    "priceExcludedItems": [
+      "Halkara uçuşlar",
+      "Wiza tölegi we migrasiýa salgydy",
+      "Ätiýaçlandyryş",
+      "Bir orunlyk otag üçin goşmaça töleg",
+      "Şahsy çykdajylar we çaýpul"
+    ]
   },
   "Common": {
     "noTours": "Syýahat tapylmady",
