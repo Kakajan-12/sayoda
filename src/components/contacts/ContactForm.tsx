@@ -39,7 +39,6 @@ const ContactForm = () => {
     try {
       const res = await fetch(`${BASE_API_URL}/send`, {
         method: "POST",
-        credentials: "include", // обязательный параметр
         headers: { "Content-Type": "application/json" },
         // Источник заявки — виден в админке рядом с самим обращением.
         body: JSON.stringify({
