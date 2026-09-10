@@ -36,7 +36,35 @@
   "Home": {
     "h1": "Türkmenistana syýahatlar — Derweze, Aşgabat we gadymy Merw",
     "subtitle": "Aşgabatdaky ygtyýarnamaly ýerli operator. Çakylyk haty, wiza, gidler we ulag biziň üstümizde — siz diňe syýahat ediň.",
-    "cta": "Syýahatlary we bahalary görmek"
+    "cta": "Syýahatlary we bahalary görmek",
+    "ctaPlan": "Syýahaty meýilleşdirmek",
+    "priceTitle": "Türkmenistana syýahat näçe durýar?",
+    "priceLead": "Aşakda her dowamlylyk üçin iň pes baha görkezilen. Her syýahatyň öz bahasy we düzümi bar, olar öz sahypasynda ýazylan.",
+    "priceFrom": "başlap",
+    "priceShort": "3 gün",
+    "priceMid": "4–5 gün",
+    "priceLong": "6 gün we ondan köp",
+    "pricePerPerson": "bir adam üçin",
+    "priceIncluded": "Adatça girýär",
+    "priceExcluded": "Girmeýär",
+    "priceNote": "Takyk sanaw her syýahatyň sahypasynda.",
+    "priceCta": "Ähli syýahatlary we bahalary görmek",
+    "priceIncludedItems": [
+      "Çakylyk haty, hasaba alyş we rugsatlar",
+      "Ugur boýunça myhmanhanalar, maksatnama talap edýän ýerlerde çadyrlar",
+      "Ähli ugur boýunça gid",
+      "Ulag we transferler — howa menzilinden howa menziline",
+      "Maksatnamada bar bolsa içerki uçuşlar",
+      "Doly iýmit: ertirlik, günortanlyk we agşamlyk",
+      "Muzeýlere we ýadygärliklere giriş biletleri"
+    ],
+    "priceExcludedItems": [
+      "Halkara uçuşlar",
+      "Wiza tölegi we migrasiýa salgydy",
+      "Ätiýaçlandyryş",
+      "Bir orunlyk otag üçin goşmaça töleg",
+      "Şahsy çykdajylar we çaýpul"
+    ]
   },
   "Common": {
     "noTours": "Syýahat tapylmady",
@@ -59,7 +87,7 @@
     "includnesses": "Näme goşuldy we näme goşulmaýar?",
     "gallery": "Galereýa",
     "map": "Karta",
-    "why": "Näme üçin bizi saýlaýalar",
+    "why": "Näme üçin Sayoda Travel",
     "how": "Bu nähili işleýär",
     "testimonial": "Teswirler",
     "similar": "Meňzeş turlar",
@@ -207,14 +235,24 @@
   },
   "Why": {
     "cardtitle": [
-      "Durnukly we aladasyz syýahaty meýillişdirmek",
-      "Autentik we çuňňur syýahatlar",
-      "Ökde ýerli gidlar"
+      "Ygtyýarnamaly ýerli operator",
+      "Çakylyk hatyny özümiz taýýarlaýarys",
+      "Toparlaýyn we şahsy syýahatlar",
+      "Ýerli gidler we sürüjiler",
+      "Özümiz barlaýan myhmanhanalar",
+      "WhatsApp arkaly jogap",
+      "Ugur size görä düzülýär",
+      "Gizlin tölegler ýok"
     ],
     "cardtext": [
-      "Biz wizadan, ýerleşjek transportyňyza we ekskursion syýahatlaryňyza çenli ähli aladalaryňyzy ýerine ýetirýäris. Size bolsa diňe syýahatdan lezzet almak galýar!",
-      "Biz adaty syýahat ýollaryndan daşarda, ýerli hünärmenler bilen çuňňur medeni tejribeler teklip edýäris. Ýüpek ýolyndaky gadymy şäherleri öwrenmekden başlap, adaty yurtda ýaşamaga çenli – biz size unudylmajak syýahaty üpjün ederis.",
-      "Biziň professional gidlarymyz – bu taryhy, medeniýeti we syrly ýerleri giňişleýin bilýän ýerli ýaşaýjylardyr, bu bolsa siziň syýahatyňyzy has gyzykly we höweslendiriji edýär."
+      "Öz ygtyýarnamamyz we Aşgabatdaky edaramyz bar — biz araçy däl.",
+      "Çakylyk haty bolmasa türkmen wizasy berilmeýär. Ony biz taýýarlap tabşyrýarys.",
+      "Taýýar tapgyra goşulyp bilersiňiz ýa-da öz toparyňyz bilen öz depginiňizde gidip bilersiňiz.",
+      "Taryhy bilýän türkmen gidleri we ýollary bilýän sürüjiler.",
+      "Myhmanhanalary katalogdan almaýarys — özümiz saýlap, barlap görýäris.",
+      "Ýazyň — Aşgabatdan adam jogap berer, rus ýa-da iňlis dilinde.",
+      "Seneler, myhmanhanalar, depgin, goşmaça duralgalar: islendik maksatnama size görä üýtgedilýär.",
+      "Baha nämeleriň girýändigi we girmeýändigi her syýahatyň sahypasynda doly ýazylan."
     ]
   },
   "Work": {
