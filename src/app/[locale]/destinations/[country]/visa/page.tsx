@@ -58,13 +58,13 @@ export default async function VisaPage({
     <div className="flex flex-col items-start gap-8 lg:flex-row">
       {/* Меню из одного пункта ничего не даёт — оно только отнимает колонку. */}
       {links.length > 1 && (
-        <div className="w-full shrink-0 lg:sticky lg:top-40 lg:w-72">
+        <div className="w-full shrink-0 lg:sticky lg:top-[172px] lg:w-72">
           <GeneralInfoSidebar links={links} />
         </div>
       )}
 
       <article className={`w-full min-w-0 flex-1 ${ComfortaFont.className}`}>
-        <section id="visa" className="mb-12 scroll-mt-44">
+        <section id="visa" className="mb-12 scroll-mt-[180px]">
           <h2 className={heading}>
             {td("tabVisa")} — {destField(destination, "name", locale)}
           </h2>
@@ -80,7 +80,7 @@ export default async function VisaPage({
           <>
             <section
               id="embassies-in-turkmenistan"
-              className="mb-12 scroll-mt-44"
+              className="mb-12 scroll-mt-[180px]"
             >
               <h2 className={heading}>{t("embassiesIn")}</h2>
               <p className="leading-relaxed text-gray-700">
@@ -89,11 +89,11 @@ export default async function VisaPage({
             </section>
 
             {/* Свой заголовок таблица печатает сама. */}
-            <section id="embassies-abroad" className="mb-12 scroll-mt-44">
+            <section id="embassies-abroad" className="mb-12 scroll-mt-[180px]">
               <EmbassiesAbroadTable locale={locale} />
             </section>
 
-            <section id="crossing-borders" className="mb-12 scroll-mt-44">
+            <section id="crossing-borders" className="mb-12 scroll-mt-[180px]">
               <h2 className={heading}>{t("crossingBorders")}</h2>
               <p className="leading-relaxed text-gray-700">
                 {t("crossingBordersText")}

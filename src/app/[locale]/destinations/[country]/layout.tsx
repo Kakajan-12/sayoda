@@ -56,12 +56,16 @@ export default async function DestinationLayout({
           пропадали совсем, и чтобы перейти в соседний раздел, приходилось
           отматывать обратно к началу.
 
-          Отступ повторяет высоту шапки: 96 пикселей от sm и выше, 80 на узких
+          Отступ — высота шапки плюс восемь пикселей просвета, чтобы панель не
+          упиралась в неё вплотную: 96 + 8 от sm и выше, 80 + 8 на узких
           экранах, где логотип мельче (h-20 против h-16 плюс padding).
+
+          Дальше этот просвет повторяется: боковые меню встают на 172 (104 + 60
+          панели + 8), по этой же линии считается и подсветка разделов.
 
           z-30 — ниже шапки (z-40), выше содержимого.
         */}
-        <div className="sticky top-20 z-30 -mt-14 mb-8 sm:top-24 md:-mt-16">
+        <div className="sticky top-[88px] z-30 -mt-14 mb-8 sm:top-[104px] md:-mt-16">
           <DestinationTabs slug={destination.slug} />
         </div>
 
@@ -70,7 +74,7 @@ export default async function DestinationLayout({
           Он стоит здесь, а не на самой панели: у прилипшего элемента
           scrollIntoView считает, что он уже на месте, и не двигает страницу.
         */}
-        <main id={CONTENT_ANCHOR} className="min-w-0 scroll-mt-44">
+        <main id={CONTENT_ANCHOR} className="min-w-0 scroll-mt-[180px]">
           {children}
         </main>
       </div>
