@@ -3,6 +3,7 @@
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ComfortaFont } from "@/components/ui/Fonts";
+import useTabScroll, { TABS_ANCHOR } from "./useTabScroll";
 
 type Props = {
   slug: string;
@@ -11,6 +12,7 @@ type Props = {
 export default function DestinationTabs({ slug }: Props) {
   const pathname = usePathname();
   const t = useTranslations("Destinations");
+  const onNavigate = useTabScroll();
   const base = `/destinations/${slug}`;
 
   const tabs = [
@@ -23,7 +25,8 @@ export default function DestinationTabs({ slug }: Props) {
 
   return (
     <nav
-      className={`w-full overflow-x-auto bg-white shadow-md rounded-xl ${ComfortaFont.className}`}
+      id={TABS_ANCHOR}
+      className={`w-full scroll-mt-32 overflow-x-auto bg-white shadow-md rounded-xl ${ComfortaFont.className}`}
     >
       <div className="flex min-w-max md:min-w-0 md:justify-between">
         {tabs.map((tab) => {
@@ -34,6 +37,8 @@ export default function DestinationTabs({ slug }: Props) {
             <Link
               key={tab.href}
               href={tab.href}
+              scroll={false}
+              onClick={() => onNavigate(tab.href)}
               className={`flex-1 whitespace-nowrap text-center px-5 py-4 text-sm md:text-base font-semibold border-b-4 transition-colors ${
                 active
                   ? "border-mainBlue text-white bg-mainBlue"

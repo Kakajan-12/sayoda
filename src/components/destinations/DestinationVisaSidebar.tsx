@@ -9,6 +9,7 @@ import {
   FaRoute,
 } from "react-icons/fa6";
 import { ComfortaFont } from "@/components/ui/Fonts";
+import useTabScroll from "./useTabScroll";
 
 type SidebarItem = {
   href: string;
@@ -25,6 +26,7 @@ export default function DestinationVisaSidebar({ country }: Props) {
   const pathname = usePathname();
   const t = useTranslations("Visa");
   const td = useTranslations("Destinations");
+  const onNavigate = useTabScroll();
   const base = `/destinations/${country}/visa`;
   const isTurkmenistan = country === "turkmenistan";
 
@@ -74,6 +76,8 @@ export default function DestinationVisaSidebar({ country }: Props) {
             <Link
               key={item.href}
               href={item.href}
+              scroll={false}
+              onClick={() => onNavigate(item.href)}
               className={`flex items-center gap-3 px-5 py-4 text-sm md:text-base border-l-4 transition-colors ${
                 active
                   ? "border-mainBlue text-mainBlue bg-mainForBackground font-semibold"

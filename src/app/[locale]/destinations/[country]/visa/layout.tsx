@@ -16,7 +16,7 @@ export default async function DestinationVisaLayout({
   if (!destination) notFound();
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start">
+    <div className="flex flex-col items-start gap-8 lg:flex-row">
       <div className="w-full lg:w-72 shrink-0">
         <DestinationVisaSidebar country={country} />
       </div>
