@@ -3,7 +3,7 @@
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ComfortaFont } from "@/components/ui/Fonts";
-import useTabScroll, { TABS_ANCHOR } from "./useTabScroll";
+import useTabScroll from "./useTabScroll";
 
 type Props = {
   slug: string;
@@ -25,8 +25,7 @@ export default function DestinationTabs({ slug }: Props) {
 
   return (
     <nav
-      id={TABS_ANCHOR}
-      className={`w-full scroll-mt-32 overflow-x-auto bg-white shadow-md rounded-xl ${ComfortaFont.className}`}
+      className={`w-full overflow-x-auto bg-white shadow-md rounded-xl ${ComfortaFont.className}`}
     >
       <div className="flex min-w-max md:min-w-0 md:justify-between">
         {tabs.map((tab) => {

@@ -5,10 +5,10 @@ import { usePathname } from "@/i18n/navigation";
 import { keepScrollOnNextNavigation } from "@/lib/keepScroll";
 
 /**
- * Метка на панели вкладок страны. Нужна на один случай — когда браузер сам
- * обрезал прокрутку, см. ниже.
+ * Метка на области содержимого под вкладками. Нужна на один случай — когда
+ * браузер сам обрезал прокрутку, см. ниже.
  */
-export const TABS_ANCHOR = "destination-tabs";
+export const CONTENT_ANCHOR = "destination-content";
 
 /**
  * Переключение вкладки не двигает экран.
@@ -35,10 +35,10 @@ export const TABS_ANCHOR = "destination-tabs";
  * страница вообще позволяет прокрутить, и оказался бы в подвале. Тогда остаться
  * на месте уже невозможно, и вместо подвала подводим к вкладкам.
  *
- * Отступ под липкую шапку задаёт scroll-mt-32 на самой панели: scrollIntoView
- * учитывает scroll-margin-top. Цель ищется по id, а не через ref: на неё
- * ссылаются из двух разных мест дерева — из верхних вкладок и из бокового меню
- * виз, которое лежит уровнем ниже.
+ * Целью служит область содержимого, а не сама панель вкладок: панель липкая, а
+ * у прилипшего элемента scrollIntoView считает, что он уже на месте, и не
+ * двигает страницу вовсе. Отступ под шапку и панель задаёт scroll-mt-44 на
+ * самой цели — scrollIntoView учитывает scroll-margin-top.
  *
  * @returns обработчик для onClick ссылки — принимает её адрес и событие.
  */
@@ -60,7 +60,7 @@ export default function useTabScroll() {
     // Прокрутка уцелела — экран стоит там же, где стоял. Не трогаем.
     if (window.scrollY >= click.from) return;
 
-    document.getElementById(TABS_ANCHOR)?.scrollIntoView();
+    document.getElementById(CONTENT_ANCHOR)?.scrollIntoView();
   }, [pathname]);
 
   return (href: string, event: React.MouseEvent) => {

@@ -40,11 +40,12 @@ export type SidebarLink = {
 };
 
 /**
- * Линия, по которой считается, что раздел дошёл до верха: чуть ниже липкой
- * шапки. По ней же встаёт раздел после нажатия в меню, поэтому подсветка
- * всегда совпадает с тем, что человек видит на экране.
+ * Линия, по которой считается, что раздел дошёл до верха. Ниже неё начинается
+ * то, что действительно видно: шапка занимает 96 пикселей, прилипшая панель
+ * вкладок — ещё 60, остальное запас. По этой же линии встаёт раздел после
+ * нажатия в меню, поэтому подсветка всегда совпадает с тем, что на экране.
  */
-const HEADER_OFFSET = 140;
+const HEADER_OFFSET = 176;
 
 export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) {
   const [active, setActive] = useState(links[0]?.id ?? "");
@@ -77,7 +78,7 @@ export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) 
         // все следующие тем более ниже.
         //
         // Допуск в пиксель — из-за дробных координат. Прокрутка по нажатию
-        // ставит раздел ровно на линию, но попасть может в 140.5, и тогда
+        // ставит раздел ровно на линию, но попасть может в 176.5, и тогда
         // строгое сравнение сочло бы, что он до неё не дошёл.
         if (el.getBoundingClientRect().top > HEADER_OFFSET + 1) break;
         current = link.id;
@@ -144,7 +145,7 @@ export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) 
 
   return (
     <aside
-      className={`w-full lg:sticky lg:top-32 bg-white shadow-md rounded-lg overflow-hidden ${ComfortaFont.className}`}
+      className={`w-full bg-white shadow-md rounded-lg overflow-hidden ${ComfortaFont.className}`}
     >
       <nav className="flex flex-col">
         {links.map((link) => {

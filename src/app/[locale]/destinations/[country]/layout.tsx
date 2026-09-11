@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
 import { PoppinFont } from "@/components/ui/Fonts";
 import DestinationTabs from "@/components/destinations/DestinationTabs";
+import { CONTENT_ANCHOR } from "@/components/destinations/useTabScroll";
 
 export const revalidate = 300;
 
@@ -45,10 +46,33 @@ export default async function DestinationLayout({
 
       {/* TABS + CONTENT */}
       <div className="container mx-auto px-5 py-8 md:py-10">
-        <div className="-mt-14 md:-mt-16 relative z-10 mb-8">
+        {/*
+          Панель вкладок липкая.
+
+          Пока каждое переключение отматывало страницу наверх, она всегда была
+          на виду. Теперь экран остаётся на месте, и непристёгнутая панель
+          уезжала под шапку: на отметке 588 она стояла на 84 пикселях, а шапка
+          занимает первые 96 — верх обрезался, а ниже по странице вкладки
+          пропадали совсем, и чтобы перейти в соседний раздел, приходилось
+          отматывать обратно к началу.
+
+          Отступ повторяет высоту шапки: 96 пикселей от sm и выше, 80 на узких
+          экранах, где логотип мельче (h-20 против h-16 плюс padding).
+
+          z-30 — ниже шапки (z-40), выше содержимого.
+        */}
+        <div className="sticky top-20 z-30 -mt-14 mb-8 sm:top-24 md:-mt-16">
           <DestinationTabs slug={destination.slug} />
         </div>
-        <main className="min-w-0">{children}</main>
+
+        {/*
+          Якорь на случай, когда прокрутку обрезал браузер, см. useTabScroll.
+          Он стоит здесь, а не на самой панели: у прилипшего элемента
+          scrollIntoView считает, что он уже на месте, и не двигает страницу.
+        */}
+        <main id={CONTENT_ANCHOR} className="min-w-0 scroll-mt-44">
+          {children}
+        </main>
       </div>
     </div>
   );

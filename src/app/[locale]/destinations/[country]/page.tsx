@@ -23,7 +23,7 @@ export default async function GeneralInformationPage({
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
-      <div className="w-full lg:w-72 shrink-0 sticky top-32">
+      <div className="w-full shrink-0 lg:sticky lg:top-40 lg:w-72">
         <GeneralInfoSidebar links={links} />
       </div>
 
@@ -36,7 +36,7 @@ export default async function GeneralInformationPage({
           <section
             key={section.id}
             id={section.section_key}
-            className="scroll-mt-36 mb-12"
+            className="mb-12 scroll-mt-44"
           >
             <h2 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-5">
               {destField(section, "title", locale)}
