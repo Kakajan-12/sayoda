@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import {
   FaBinoculars,
+  FaBuilding,
+  FaCircleInfo,
   FaCloudSun,
+  FaGlobe,
   FaPlane,
+  FaRoute,
   FaShieldHalved,
   FaCalendarDays,
   FaStar,
@@ -22,6 +26,11 @@ const iconMap: Record<string, React.ReactNode> = {
   traditions: <FaStar className="w-4 h-4 shrink-0" />,
   cuisine: <FaBowlFood className="w-4 h-4 shrink-0" />,
   flora: <FaLeaf className="w-4 h-4 shrink-0" />,
+  // Визовый раздел: разделы там заданы не из базы, а в самой странице.
+  visa: <FaCircleInfo className="w-4 h-4 shrink-0" />,
+  embassy: <FaBuilding className="w-4 h-4 shrink-0" />,
+  globe: <FaGlobe className="w-4 h-4 shrink-0" />,
+  border: <FaRoute className="w-4 h-4 shrink-0" />,
 };
 
 export type SidebarLink = {

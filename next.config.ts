@@ -56,6 +56,29 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
 
+  /**
+   * Визовый раздел был четырьмя страницами, стал одной с якорями. Старые
+   * адреса уже разошлись по ссылкам и попали в выдачу, поэтому вместо 404
+   * уводим их на соответствующий кусок новой страницы.
+   *
+   * Переадресация постоянная: адреса поменялись насовсем, и поисковику надо
+   * передать вес на новый. Якорь браузер подставляет сам — до сервера он
+   * не доходит, но в заголовке Location работает.
+   */
+  async redirects() {
+    const sections = [
+      "embassies-in-turkmenistan",
+      "embassies-abroad",
+      "crossing-borders",
+    ];
+
+    return sections.map((section) => ({
+      source: `/:locale/destinations/:country/visa/${section}`,
+      destination: `/:locale/destinations/:country/visa#${section}`,
+      permanent: true,
+    }));
+  },
+
   images: {
     // `unoptimized: true` отключало оптимизацию целиком: картинки отдавались
     // в исходном весе (в public лежит PNG на 11.5 МБ), без WebP/AVIF и без
