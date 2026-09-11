@@ -38,7 +38,7 @@ export default function DestinationTabs({ slug }: Props) {
               key={tab.href}
               href={tab.href}
               scroll={false}
-              onClick={() => onNavigate(tab.href)}
+              onClick={(event) => onNavigate(tab.href, event)}
               className={`flex-1 whitespace-nowrap text-center px-5 py-4 text-sm md:text-base font-semibold border-b-4 transition-colors ${
                 active
                   ? "border-mainBlue text-white bg-mainBlue"

@@ -77,7 +77,7 @@ export default function DestinationVisaSidebar({ country }: Props) {
               key={item.href}
               href={item.href}
               scroll={false}
-              onClick={() => onNavigate(item.href)}
+              onClick={(event) => onNavigate(item.href, event)}
               className={`flex items-center gap-3 px-5 py-4 text-sm md:text-base border-l-4 transition-colors ${
                 active
                   ? "border-mainBlue text-mainBlue bg-mainForBackground font-semibold"
