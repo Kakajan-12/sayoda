@@ -138,17 +138,25 @@ export default async function Home({
 
           Вторая кнопка ведёт прямо в заявку. Она обведённая, а не залитая:
           главное действие остаётся одно, иначе обе перестают быть главными.
+
+          У залитой рамка тоже есть, только прозрачная. Без неё кнопки выходили
+          разной высоты: отступы одинаковые, но рамка обведённой добавляла свою
+          толщину сверху и снизу — 48 пикселей против 51.
+
+          На узком экране кнопки встают в столбик, и там ширина по содержимому
+          давала рваный край: 253 пикселя против 230. Поэтому до sm обе тянутся
+          на всю ширину с ограничением, а в строке снова считаются по тексту.
         */}
         <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:mt-6 sm:flex-row">
           <Link
             href={bannerLink}
-            className={`${PoppinFont.className} inline-block rounded-full bg-mainBlue px-6 py-2.5 sm:px-8 sm:py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
+            className={`${PoppinFont.className} inline-block w-full max-w-xs rounded-full border-2 border-transparent bg-mainBlue px-6 py-2.5 sm:w-auto sm:max-w-none sm:px-8 sm:py-3 text-white text-sm sm:text-base hover:bg-mainBlue/85 transition-colors`}
           >
             {bannerButton}
           </Link>
           <Link
             href="/booking"
-            className={`${PoppinFont.className} inline-block rounded-full border-2 border-white/80 px-6 py-2.5 sm:px-8 sm:py-3 text-white text-sm sm:text-base backdrop-blur-sm transition-colors hover:bg-white/15`}
+            className={`${PoppinFont.className} inline-block w-full max-w-xs rounded-full border-2 border-white/80 px-6 py-2.5 sm:w-auto sm:max-w-none sm:px-8 sm:py-3 text-white text-sm sm:text-base backdrop-blur-sm transition-colors hover:bg-white/15`}
           >
             {t("ctaPlan")}
           </Link>
