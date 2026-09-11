@@ -95,7 +95,8 @@
     "how": "Bu nähili işleýär",
     "testimonial": "Teswirler",
     "similar": "Meňzeş turlar",
-    "highlights": "Turuň esasy artykmaçlyklary"
+    "highlights": "Turuň esasy artykmaçlyklary",
+    "tours": "Syýahatlar"
   },
   "Header": {
     "main": "Baş sahypa",
@@ -414,12 +415,18 @@
   },
   "Blog": {
     "allCategories": "Ähli makalalar",
-    "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň."
+    "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň.",
+    "searchPlaceholder": "Makalalar boýunça gözleg",
+    "searchLabel": "Tapmak",
+    "foundCount": "Tapyldy: {count}",
+    "resetFilters": "Arassala"
   },
   "Search": {
     "title": "Gözleg",
     "placeholder": "Syýahat, ýer ýa-da makala",
     "found": "«{query}» boýunça tapyldy: {count}",
-    "nothing": "«{query}» boýunça hiç zat tapylmady. Gysgaraq söz synanyşyň."
+    "nothing": "«{query}» boýunça hiç zat tapylmady. Gysgaraq söz synanyşyň.",
+    "allTours": "Tapylan ähli syýahatlar",
+    "allBlogs": "Tapylan ähli makalalar"
   }
 }

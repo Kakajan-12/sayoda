@@ -5,6 +5,7 @@ import { Fragment, useState } from "react";
 // См. комментарий в Header.tsx: префикс локали проставляется сразу,
 // без промежуточного редиректа.
 import { Link } from "@/i18n/navigation";
+import { LuSearch } from "react-icons/lu";
 import { navbar, type HeaderCountry } from "./Header";
 import { routing } from "@/i18n/routing";
 import { usePathname, useRouter } from "next/navigation";
@@ -106,6 +107,25 @@ const HeaderDrawer: React.FC<Props> = ({ onClose, countries = [] }) => {
                 link
             );
           })}
+          {/*
+              Поиск в мобильном меню.
+
+              В шапке на большом экране он стоит значком, но значок скрыт
+              классом hidden md:flex — на телефоне до поиска по сайту не
+              было хода вовсе. Здесь он обычным пунктом со значком: в
+              списке из семи строк лупа без подписи читалась бы хуже слова.
+          */}
+          <Link
+              onClick={onClose}
+              href="/search"
+              className={`${
+                  activeNav === "/search" ? "text-activeColor" : "text-white"
+              } flex gap-3 items-center w-full rounded-3xl py-3 text-xl px-2 duration-150 transition-all focus:bg-sand`}
+          >
+            <LuSearch className="h-5 w-5" />
+            {t("search")}
+          </Link>
+
           <div
               className={`flex text-xl gap-4 items-center w-full rounded-3xl py-3 px-2 ${
                   forLang ? "bg-sand" : ""
