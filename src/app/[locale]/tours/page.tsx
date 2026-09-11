@@ -95,6 +95,14 @@ export default async function ToursPage({
     cat: one(search.cat),
     destination: one(search.destination),
     popular: one(search.popular),
+    /*
+     * Запрос из поиска по сайту. Каталог принимает его наравне с
+     * фильтрами, чтобы ссылка «показать все туры» со страницы поиска
+     * вела в каталог с тем же отбором, а не сбрасывала его.
+     *
+     * Длину режем: значение приходит из адреса.
+     */
+    q: one(search.q).slice(0, 100),
   };
   const page = Math.max(1, Number.parseInt(one(search.page), 10) || 1);
 
@@ -111,6 +119,7 @@ export default async function ToursPage({
       cat: asId(values.cat),
       destination: asId(values.destination),
       popular: values.popular === "1",
+      q: values.q,
     }),
     getTourTypes(),
     getTourCategories(),

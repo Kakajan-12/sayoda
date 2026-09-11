@@ -95,7 +95,8 @@
     "how": "How We Work",
     "testimonial": "Testimonials",
     "similar": "Similar tours",
-    "highlights": "Tour highlights"
+    "highlights": "Tour highlights",
+    "tours": "Tours"
   },
   "Header": {
     "main": "Home",
@@ -427,6 +428,8 @@
     "title": "Search",
     "placeholder": "A tour, a place or an article",
     "found": "Found {count} for “{query}”",
-    "nothing": "Nothing found for “{query}”. Try a shorter word."
+    "nothing": "Nothing found for “{query}”. Try a shorter word.",
+    "allTours": "All tours found",
+    "allBlogs": "All articles found"
   }
 }
