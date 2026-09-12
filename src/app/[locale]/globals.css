@@ -39,8 +39,50 @@
   background-color: var(--tile);
 }
 
+/*
+ * Плитки стран на первом экране.
+ *
+ * Ширину слайдов Swiper проставляет инлайном, когда отработает его скрипт.
+ * До этого действует его же базовый стиль .swiper-slide { width: 100% },
+ * и карточка внутри — block w-full aspect-[3/4] — растягивается на весь
+ * контейнер: замерено 1280 на 1707 пикселей вместо 237 на 316. На быстрой
+ * сети это мелькает незаметно, на медленной посетитель успевает увидеть одну
+ * плитку во весь экран, а когда скрипт доезжает — всё скачком перестраивается.
+ *
+ * Поэтому те же размеры задаются обычным CSS, который приходит со страницей.
+ * Формула повторяет расчёт Swiper: ширина = (контейнер − зазор × (N − 1)) / N,
+ * где N — slidesPerView, а зазор — spaceBetween из настроек MainSwiper. Сверено
+ * с тем, что он проставляет сам: при 1280 и N = 5 выходит 236.8 пикселя — ровно
+ * его значение. Когда скрипт отработает, инлайновые стили перекроют эти, но
+ * числа совпадут, и ничего не сдвинется.
+ *
+ * Брейкпоинты повторяют breakpoints у MainSwiper: менять надо в обоих местах.
+ */
 .destination-cards-swiper .swiper-slide {
   height: auto;
+  width: calc((100% - 12px * 0.8) / 1.8);
+  margin-right: 12px;
+}
+
+@media (min-width: 480px) {
+  .destination-cards-swiper .swiper-slide {
+    width: calc((100% - 16px * 1.8) / 2.8);
+    margin-right: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .destination-cards-swiper .swiper-slide {
+    width: calc((100% - 20px * 2.8) / 3.8);
+    margin-right: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .destination-cards-swiper .swiper-slide {
+    width: calc((100% - 24px * 4) / 5);
+    margin-right: 24px;
+  }
 }
 
 .footerForCenters {

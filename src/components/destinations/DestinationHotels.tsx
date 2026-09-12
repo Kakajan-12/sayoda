@@ -55,7 +55,7 @@ export default function DestinationHotels({ country }: { country: string }) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row">
       {/* City filter */}
-      <aside className="h-fit w-full shrink-0 rounded-2xl border border-gray-200 bg-white p-2 lg:sticky lg:top-32 lg:w-56 lg:self-start">
+      <aside className="h-fit w-full shrink-0 rounded-2xl border border-gray-200 bg-white p-2 lg:sticky lg:top-[172px] lg:w-56 lg:self-start">
         <ul className="flex flex-row flex-wrap gap-1 lg:flex-col">
           <li className="lg:w-full">
             <button

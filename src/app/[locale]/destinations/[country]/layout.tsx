@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
 import { PoppinFont } from "@/components/ui/Fonts";
 import DestinationTabs from "@/components/destinations/DestinationTabs";
+import { CONTENT_ANCHOR } from "@/components/destinations/useTabScroll";
 
 export const revalidate = 300;
 
@@ -45,10 +46,22 @@ export default async function DestinationLayout({
 
       {/* TABS + CONTENT */}
       <div className="container mx-auto px-5 py-8 md:py-10">
-        <div className="-mt-14 md:-mt-16 relative z-10 mb-8">
-          <DestinationTabs slug={destination.slug} />
-        </div>
-        <main className="min-w-0">{children}</main>
+        {/*
+          Панель вкладок липкая — она сама держит свою обёртку и отступы, см.
+          DestinationTabs. От неё отсчитывается всё, что ниже: боковые меню
+          встают на 172 (104 панели + 60 её высоты + 8 просвета), по этой же
+          линии считается подсветка разделов и якоря.
+        */}
+        <DestinationTabs slug={destination.slug} />
+
+        {/*
+          Якорь на случай, когда прокрутку обрезал браузер, см. useTabScroll.
+          Он стоит здесь, а не на самой панели: у прилипшего элемента
+          scrollIntoView считает, что он уже на месте, и не двигает страницу.
+        */}
+        <main id={CONTENT_ANCHOR} className="min-w-0 scroll-mt-[180px]">
+          {children}
+        </main>
       </div>
     </div>
   );

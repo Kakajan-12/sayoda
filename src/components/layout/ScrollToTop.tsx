@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { takeKeepScroll } from "@/lib/keepScroll";
 
 /**
  * Прокрутка в начало страницы при переходе.
@@ -28,10 +29,18 @@ export default function ScrollToTop() {
   }, []);
 
   useEffect(() => {
+    // Отметку забираем всегда, даже когда прокручивать не пришлось: иначе она
+    // осталась бы висеть и погасила бы прокрутку у следующего перехода.
+    const keepScroll = takeKeepScroll();
+
     if (cameFromHistory.current) {
       cameFromHistory.current = false;
       return;
     }
+
+    // Переключение вкладок направления: меняется только содержимое под ними,
+    // экран остаётся на месте. См. lib/keepScroll.
+    if (keepScroll) return;
     // Ссылка с якорем ведёт к конкретному блоку — перебивать её нельзя.
     if (window.location.hash) return;
 
