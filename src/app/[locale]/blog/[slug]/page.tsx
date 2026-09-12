@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import MainCountries from "@/components/blog/ArticleHero";
 import TextsCountry from "@/components/blog/ArticleBody";
 import ArticleGallery from "@/components/blog/ArticleGallery";
@@ -85,6 +85,7 @@ export default async function Page({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
+  setRequestLocale(locale);
 
   if (isNumericId(slug)) notFound();
   const blog = await getBlog(slug);

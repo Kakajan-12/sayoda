@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import DiscoverMain from "@/components/destinations/DiscoverMain";
 import ToursFilters from "@/components/tours/ToursFilters";
 import TourCards from "@/components/home/TourCards";
@@ -88,6 +88,7 @@ export default async function ToursPage({
   searchParams: Promise<Search>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const search = await searchParams;
 
   const values = {

@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import BlogsMain from "@/components/blog/BlogsHero";
 import BlogsList from "@/components/blog/BlogsList";
 import PageLinks from "@/components/ui/PageLinks";
@@ -96,6 +96,7 @@ export default async function Page({
   searchParams: Promise<Search>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const search = await searchParams;
   const page = readPage(search);
   const category = readCategory(search);

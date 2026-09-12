@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import DestinationHotels from "@/components/destinations/DestinationHotels";
 
 export const revalidate = 300;
@@ -12,6 +12,7 @@ export default async function HotelsPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
+  setRequestLocale(locale);
   const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
   const t = await getTranslations("Destinations");

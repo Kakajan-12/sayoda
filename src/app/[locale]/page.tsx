@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import BlogsCards from "@/components/home/BlogsCards";
 import Explore from "@/components/home/Explore";
 import Faq from "@/components/home/Faq";
@@ -58,6 +58,7 @@ export default async function Home({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });
 
   // Популярные туры и статьи читаем на сервере: раньше оба блока грузились

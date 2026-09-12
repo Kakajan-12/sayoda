@@ -5,6 +5,7 @@ import Services from "@/components/about/Services";
 import Testimonials from "@/components/about/Testimonials";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -24,7 +25,16 @@ export async function generateMetadata({
  * снимают возражения, а до страницы «О нас» доходит меньшинство. Здесь
  * остаётся рассказ о компании, услуги и отзывы.
  */
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  // Иначе next-intl в дочерних компонентах полезет за языком в заголовки,
+  // и страница снова станет динамической. См. корневой макет локали.
+  setRequestLocale(locale);
+
   return (
     <section>
       <AboutUs />

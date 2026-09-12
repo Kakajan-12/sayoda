@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import BotTrap from "@/components/contacts/BotTrap";
@@ -293,4 +293,43 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage;
+/**
+ * Заголовок и подзаголовок, пока форма ждёт адрес страницы.
+ *
+ * Переводы здесь есть, поэтому в статическом HTML остаётся осмысленный текст,
+ * а не пустая страница: человек сразу видит, куда попал, и h1 остаётся в
+ * разметке для поисковика.
+ */
+function BookingFallback() {
+  const t = useTranslations("Booking");
+
+  return (
+    <div className="bg-sandLight">
+      <div className="container mx-auto max-w-4xl px-4 py-10 md:py-16">
+        <h1
+          className={`${PoppinFont.className} text-2xl font-bold text-balance text-tile sm:text-3xl lg:text-4xl`}
+        >
+          {t("title")}
+        </h1>
+        <p className="mt-3 text-inkMuted">{t("subtitle")}</p>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Граница Suspense обязательна из-за useSearchParams: этот хук откладывает
+ * отрисовку до момента, когда известен адрес, и без границы страница не
+ * поддаётся предрендеру — сборка падает с missing-suspense-with-csr-bailout.
+ *
+ * Раньше это не всплывало, потому что весь сайт рендерился динамически и
+ * предрендера просто не было. Как только вернулось статическое построение,
+ * ограничение проявилось.
+ */
+export default function Page() {
+  return (
+    <Suspense fallback={<BookingFallback />}>
+      <BookingPage />
+    </Suspense>
+  );
+}

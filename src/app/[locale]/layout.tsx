@@ -6,7 +6,7 @@ import FooterImage from "@/components/layout/FooterImage";
 import Providers from "@/store/Provider";
 import BodyWrapper from "@/store/BodyProvider";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SITE_NAME, SITE_URL, alternatesFor } from "@/lib/site";
@@ -78,6 +78,26 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  /*
+   * Без этой строки весь сайт рендерился заново на каждый запрос.
+   *
+   * next-intl в серверных компонентах выясняет язык из заголовка, который
+   * проставляет middleware, а чтение заголовков переводит страницу в
+   * динамический рендер — и уже неважно, что в ней стоит revalidate. Так и
+   * было: боевой сайт отдавал Cache-Control: no-store и X-Vercel-Cache: MISS
+   * на каждой странице, то есть каждый посетитель запускал полный рендер и
+   * свежие запросы к API на сервере.
+   *
+   * setRequestLocale кладёт язык в кэш запроса заранее, и до заголовков дело
+   * не доходит. Библиотека сама указывает на этот приём в тексте ошибки
+   * DYNAMIC_SERVER_USAGE.
+   *
+   * Вызов нужен в каждом макете и на каждой странице, которые должны
+   * отдаваться из кэша: кэш живёт в пределах одного запроса, и родительский
+   * вызов дочерним не засчитывается.
+   */
+  setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "Contact" });
   const [contacts, settings, destinations] = await Promise.all([

@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchField from "@/components/search/SearchField";
 import TourCards from "@/components/home/TourCards";
 import BlogCard from "@/components/blog/BlogCard";
@@ -73,6 +73,7 @@ export default async function Page({
   searchParams: Promise<Search>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const q = readQuery(await searchParams);
   const t = await getTranslations("Search");
   const section = await getTranslations("SectionTitle");
