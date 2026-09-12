@@ -51,16 +51,16 @@ export const navbar = [
     img: "/IconMenu/maps_9570867.png",
   },
   {
-    key: "about",
-    url: "/about",
-    name: "About Us",
-    img: "/IconMenu/maps_9570867.png",
-  },
-  {
     key: "blog",
     url: "/blog",
     name: "Blog",
     img: "/IconMenu/feedback_11910958.png",
+  },
+  {
+    key: "about",
+    url: "/about",
+    name: "About Us",
+    img: "/IconMenu/maps_9570867.png",
   },
   {
     key: "contact",
