@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
@@ -26,6 +26,7 @@ export default async function VisaPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
+  setRequestLocale(locale);
   const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
 

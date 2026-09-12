@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getToursPage } from "@/lib/api/catalog";
 import TourCards from "@/components/home/TourCards";
 
@@ -13,6 +13,7 @@ export default async function ToursPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
+  setRequestLocale(locale);
   const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
   const t = await getTranslations("Destinations");

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import ConsentReset from "@/components/layout/ConsentReset";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
@@ -48,6 +48,7 @@ export default async function PrivacyPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Privacy" });
   const nav = await getTranslations({ locale, namespace: "Header" });
 

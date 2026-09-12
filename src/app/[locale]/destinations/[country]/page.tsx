@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
+import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 300;
 
@@ -11,6 +12,7 @@ export default async function GeneralInformationPage({
   params: Promise<{ locale: string; country: string }>;
 }) {
   const { locale, country } = await params;
+  setRequestLocale(locale);
   const destination = await getDestinationBySlug(country);
   if (!destination) notFound();
 

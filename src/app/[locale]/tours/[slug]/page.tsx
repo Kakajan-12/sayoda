@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import TourHero from "@/components/tours/TourHero";
 import TourHighlights from "@/components/tours/TourHighlights";
 import TourDepartures from "@/components/tours/TourDepartures";
@@ -112,6 +112,7 @@ export default async function Page({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
+  setRequestLocale(locale);
 
   if (isNumericId(slug)) notFound();
   const tour = await getTour(slug);
