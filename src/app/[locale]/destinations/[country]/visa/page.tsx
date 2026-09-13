@@ -4,6 +4,8 @@ import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
 import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
 import EmbassiesAbroadTable from "@/components/destinations/EmbassiesAbroadTable";
+import Faq from "@/components/home/Faq";
+import { getFaq } from "@/lib/api/faq";
 
 export const revalidate = 300;
 
@@ -32,8 +34,14 @@ export default async function VisaPage({
 
   const t = await getTranslations({ locale, namespace: "Visa" });
   const td = await getTranslations({ locale, namespace: "Destinations" });
+  const tf = await getTranslations({ locale, namespace: "Faq" });
 
   const isTurkmenistan = country === "turkmenistan";
+
+  // Вопросы приходят из админки и могут кончиться. Пункт меню, ведущий в
+  // пустоту, хуже отсутствующего, поэтому спрашиваем заранее — запрос тот
+  // же, что делает сам блок, и внутри одного рендера он не повторяется.
+  const hasFaq = isTurkmenistan && (await getFaq()).length > 0;
 
   // Ключи совпадают с прежними адресами подстраниц: по ним же настроены
   // переадресации со старых ссылок, см. next.config.
@@ -50,6 +58,7 @@ export default async function VisaPage({
           { id: "crossing-borders", icon: "border", label: t("crossingBorders") },
         ]
       : []),
+    ...(hasFaq ? [{ id: "faq", icon: "faq", label: tf("title") }] : []),
   ];
 
   const heading =
@@ -99,6 +108,18 @@ export default async function VisaPage({
               <p className="leading-relaxed text-gray-700">
                 {t("crossingBordersText")}
               </p>
+            </section>
+
+            {/* Вопросы в базе — про визу, приглашение и организацию тура,
+                то есть ровно про эту страницу. Здесь же и разметка FAQPage:
+                на главной она была не по теме и уводила выдачу не туда. */}
+            <section id="faq" className="mb-12 scroll-mt-[180px]">
+              <Faq
+                locale={locale}
+                jsonLd
+                className=""
+                headingClassName={heading}
+              />
             </section>
           </>
         )}

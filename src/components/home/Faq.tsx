@@ -15,15 +15,35 @@ import { faqField, getFaq } from "@/lib/api/faq";
  *
  * Раскрытие сделано на <details>, а не на состоянии React: работает без
  * JavaScript, доступно с клавиатуры и не требует клиентского компонента.
+ *
+ * Блок стоит на двух страницах, но размечен только на одной. Все вопросы
+ * в базе — про визу, приглашение и организацию тура, поэтому развёрнутый
+ * список с FAQPage живёт на визовой странице, а главная показывает первые
+ * несколько без разметки. Одинаковый FAQPage на двух адресах поиск считает
+ * дублем и обычно не показывает ни один из них.
  */
-export default async function Faq({ locale }: { locale: string }) {
+export default async function Faq({
+  locale,
+  limit,
+  jsonLd = false,
+  className = "container mx-auto px-5 py-10 md:py-16",
+  headingClassName = `${PoppinFont.className} mb-8 font-bold text-xl md:text-2xl xl:text-3xl`,
+}: {
+  locale: string;
+  /** Сколько вопросов показать. Без значения — все. */
+  limit?: number;
+  /** Выводить ли разметку FAQPage. Только на одной странице сайта. */
+  jsonLd?: boolean;
+  className?: string;
+  headingClassName?: string;
+}) {
   const [t, items] = await Promise.all([
     getTranslations({ locale, namespace: "Faq" }),
     getFaq(),
   ]);
 
   // Вопрос без текста пропускаем: пустая строка в списке читается как сбой.
-  const visible = items
+  const all = items
     .map((item) => ({
       id: item.id,
       q: faqField(item, "question", locale),
@@ -31,9 +51,13 @@ export default async function Faq({ locale }: { locale: string }) {
     }))
     .filter((item) => item.q);
 
+  const visible = limit ? all.slice(0, limit) : all;
+
   if (!visible.length) return null;
 
-  const jsonLd = {
+  // Размечаем ровно то, что видно на странице: обещать поиску ответ,
+  // которого на этом адресе нет, — прямое нарушение его же правил.
+  const data = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: visible.map((item) => ({
@@ -44,17 +68,15 @@ export default async function Faq({ locale }: { locale: string }) {
   };
 
   return (
-    <div className="container mx-auto px-5 py-10 md:py-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className={className}>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      )}
 
-      <h2
-        className={`${PoppinFont.className} mb-8 font-bold text-xl md:text-2xl xl:text-3xl`}
-      >
-        {t("title")}
-      </h2>
+      <h2 className={headingClassName}>{t("title")}</h2>
 
       <div
         className={`${QuicksandFont.className} mx-auto flex max-w-3xl flex-col gap-3`}

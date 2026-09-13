@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import BlogsMain from "@/components/blog/BlogsHero";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import BlogsList from "@/components/blog/BlogsList";
 import PageLinks from "@/components/ui/PageLinks";
 import { pageMetadata } from "@/lib/metadata";
@@ -112,9 +113,19 @@ export default async function Page({
   ]);
   const pageCount = Math.max(1, Math.ceil(total / PER_PAGE));
   const t = await getTranslations("SectionTitle");
+  const nav = await getTranslations({ locale, namespace: "Header" });
 
   return (
     <div>
+      {/* Крошки были у отдельной статьи, но не у самого списка — цепочка
+          обрывалась на середине. Берём то же название, что в меню. */}
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: nav("main"), path: "" },
+          { name: nav("blog"), path: "blog" },
+        ]}
+      />
       <BlogsMain />
 
       {/*

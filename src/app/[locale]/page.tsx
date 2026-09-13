@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import BlogsCards from "@/components/home/BlogsCards";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import Explore from "@/components/home/Explore";
 import Faq from "@/components/home/Faq";
 import HomeLeadForm from "@/components/home/HomeLeadForm";
@@ -60,6 +61,7 @@ export default async function Home({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });
+  const nav = await getTranslations({ locale, namespace: "Header" });
 
   // Популярные туры и статьи читаем на сервере: раньше оба блока грузились
   // в useEffect, и главная отдавалась без единой ссылки на тур или статью.
@@ -176,6 +178,13 @@ export default async function Home({
    */
   return (
     <div>
+      {/* Крошки из одного звена выглядят избыточно, но именно их отсутствия
+          не хватало Search Console: по главной он писал «URL has no
+          enhancements», хотя на страницах туров разметка была. */}
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[{ name: nav("main"), path: "" }]}
+      />
       <MainSwiper
         cards={heroCards}
         heading={heading}
@@ -192,7 +201,9 @@ export default async function Home({
       <VisaTeaser locale={locale} />
       <Testimonials />
       <BlogsCards blogs={blogs} />
-      <Faq locale={locale} />
+      {/* Четыре вопроса без разметки. Полный список с FAQPage — на визовой
+          странице: там он по теме, и поиск видит его в одном месте. */}
+      <Faq locale={locale} limit={4} />
       <HomeLeadForm />
     </div>
   );

@@ -15,6 +15,7 @@ import {
   FaStar,
   FaBowlFood,
   FaLeaf,
+  FaCircleQuestion,
 } from "react-icons/fa6";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -31,6 +32,7 @@ const iconMap: Record<string, React.ReactNode> = {
   embassy: <FaBuilding className="w-4 h-4 shrink-0" />,
   globe: <FaGlobe className="w-4 h-4 shrink-0" />,
   border: <FaRoute className="w-4 h-4 shrink-0" />,
+  faq: <FaCircleQuestion className="w-4 h-4 shrink-0" />,
 };
 
 export type SidebarLink = {

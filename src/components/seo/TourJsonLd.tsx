@@ -92,10 +92,21 @@ export default function TourJsonLd({
    * тексте страницы.
    */
 
+  /*
+   * AggregateOffer с lowPrice, а не Offer с точной ценой.
+   *
+   * На странице цена подписана «от 1470$»: она зависит от числа человек,
+   * размещения и дат. Offer описывает конкретное предложение по конкретной
+   * цене, и поисковик показал бы её как окончательную — турист увидел бы в
+   * выдаче одну сумму, а на сайте другую.
+   *
+   * lowPrice говорит ровно то, что написано на странице: дешевле этого не
+   * бывает. highPrice не ставим — верхней границы у нас нет.
+   */
   if (tour.price) {
     data.offers = {
-      "@type": "Offer",
-      price: String(tour.price),
+      "@type": "AggregateOffer",
+      lowPrice: String(tour.price),
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
       url,
