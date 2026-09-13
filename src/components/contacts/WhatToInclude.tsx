@@ -15,8 +15,7 @@ export default async function WhatToInclude({ locale }: { locale: string }) {
   const items = t.raw("includeItems") as string[];
 
   return (
-    <section className="w-full bg-tileTint py-10 lg:py-14">
-      <div className="container mx-auto px-5">
+    <div className="rounded-2xl bg-tileTint px-6 py-8">
         <h2
           className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl`}
         >
@@ -28,7 +27,7 @@ export default async function WhatToInclude({ locale }: { locale: string }) {
           {t("includeText")}
         </p>
 
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-6 flex flex-col gap-3">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-3">
               <IoMdCheckmarkCircleOutline
@@ -43,7 +42,6 @@ export default async function WhatToInclude({ locale }: { locale: string }) {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+    </div>
   );
 }

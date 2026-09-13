@@ -71,17 +71,20 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="w-full py-10">
-      <div className="container mx-auto px-5">
+    /* Форма растягивалась на всю ширину страницы — поля в полтора метра, в
+       которые вводят имя и почту. Теперь она живёт в колонке, которую задаёт
+       страница, а серая плашка заменена на такую же белую карточку со
+       светлой обводкой, как у остальных блоков. */
+    <div className="w-full">
         <form
           onSubmit={handleSubmit}
-          className="relative px-5 w-full bg-gray-100 rounded grid gap-y-7 py-10 md:gap-x-5 grid-cols-1 md:grid-cols-2"
+          className="relative grid grid-cols-1 gap-y-5 rounded-2xl bg-white px-6 py-8 ring-1 ring-sand sm:grid-cols-2 sm:gap-x-5"
         >
           <input
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="border w-full py-2 px-5 rounded-lg"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight"
             type="text"
             placeholder={t("Iname")}
             required
@@ -90,7 +93,7 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="border w-full py-2 px-5 rounded-lg"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight"
             type="email"
             placeholder={t("Iemail")}
             required
@@ -99,7 +102,7 @@ const ContactForm = () => {
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            className="border w-full py-2 px-5 rounded-lg md:col-span-full"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight sm:col-span-full"
             type="text"
             placeholder={t("Isubject")}
           />
@@ -108,7 +111,7 @@ const ContactForm = () => {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            className="border w-full resize-none h-48 py-2 text-gray-500 rounded-lg md:col-span-full px-5"
+            className="h-40 w-full resize-none rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight sm:col-span-full"
             placeholder={t("Imessage")}
             required
           />
@@ -126,7 +129,6 @@ const ContactForm = () => {
           </button>
           {error && <p className="text-red-600 mt-2">{error}</p>}
         </form>
-      </div>
       <SuccessModal
         open={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}

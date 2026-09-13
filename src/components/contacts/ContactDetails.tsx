@@ -22,6 +22,9 @@ import { formatOfficeHours, languageNames } from "@/lib/languages";
  * контакта: поисковик видел заголовок и форму. Для страницы, у которой одна
  * задача — дать способ связаться, это худшее, что можно сделать.
  *
+ * Стоит в колонке рядом с картой и своей обёртки не держит: ширину и
+ * отступы задаёт страница, иначе два соседних блока не выровнять.
+ *
  * Строка не выводится, если значения нет. Пустой WhatsApp или незаполненные
  * часы работы — обычное состояние настроек, а «Часы работы: —» выглядит
  * поломкой, а не отсутствием данных.
@@ -114,14 +117,18 @@ export default async function ContactDetails({ locale }: { locale: string }) {
   ].filter((row) => Boolean(row.value));
 
   return (
-    <section className="container mx-auto px-5 py-10 lg:py-14">
+    <div>
       <h2
         className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl`}
       >
         {t("detailsTitle")}
       </h2>
 
-      <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Две колонки, а не три и не одна. Три в половине ширины дают узкие
+          полоски, одна вытягивает блок на восемь строк — и карта рядом,
+          растянутая по его высоте, занимает больше экрана, чем сама
+          страница. */}
+      <dl className="mt-6 grid gap-4 sm:grid-cols-2">
         {rows.map((row) => (
           <div
             key={row.label}
@@ -155,6 +162,6 @@ export default async function ContactDetails({ locale }: { locale: string }) {
           </div>
         ))}
       </dl>
-    </section>
+    </div>
   );
 }

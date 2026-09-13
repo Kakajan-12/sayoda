@@ -21,16 +21,19 @@ export default async function ContactMap({ locale }: { locale: string }) {
   if (!contacts.mapEmbed) return null;
 
   return (
-    <section className="container mx-auto px-5 pb-10 lg:pb-14">
-      <div className="overflow-hidden rounded-2xl ring-1 ring-sand">
-        <iframe
-          src={contacts.mapEmbed}
-          title={t("mapTitle")}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          className="h-[320px] w-full border-0 md:h-[420px]"
-        />
-      </div>
-    </section>
+    /* Карта занимала всю ширину и почти весь экран по высоте — целый
+       разворот под одним объектом. Теперь она стоит рядом с реквизитами и
+       тянется на их высоту, но не выше 520 пикселей: без потолка карта
+       повторяла высоту соседней колонки и выходила за экран. На узких
+       экранах 320, чтобы под ней оставалось видно продолжение. */
+    <div className="h-[320px] overflow-hidden rounded-2xl ring-1 ring-sand lg:h-full lg:max-h-[520px] lg:min-h-[420px]">
+      <iframe
+        src={contacts.mapEmbed}
+        title={t("mapTitle")}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        className="h-full w-full border-0"
+      />
+    </div>
   );
 }

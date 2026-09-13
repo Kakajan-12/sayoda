@@ -7,6 +7,7 @@ import ContactMap from "@/components/contacts/ContactMap";
 import WhatToInclude from "@/components/contacts/WhatToInclude";
 import ContactForm from "@/components/contacts/ContactForm";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import { PoppinFont } from "@/components/ui/Fonts";
 import { pageMetadata } from "@/lib/metadata";
 import { routing } from "@/i18n/routing";
 
@@ -34,9 +35,14 @@ export async function generateMetadata({
  * у которой одна задача — дать способ связаться, это худшее, что можно
  * сделать.
  *
- * Порядок такой: сначала способы связи, потом карта, потом что написать, и
- * только затем форма. Человек, которому достаточно позвонить, не должен
- * пролистывать форму, чтобы найти номер.
+ * Вёрстка в две колонки, а не полосами во всю ширину. Полосами выходило,
+ * что карта занимает целый разворот, а под ней такая же широкая форма: поля
+ * для имени и почты растягивались на полтора метра, и чтобы дойти от адреса
+ * до формы, приходилось прокручивать два пустых экрана. Теперь реквизиты
+ * стоят рядом с картой, а форма — рядом с памяткой о том, что в ней писать.
+ *
+ * Порядок тот же: сначала способы связи, потом форма. Человеку, которому
+ * достаточно позвонить, не нужно пролистывать форму ради номера.
  */
 export default async function Page({
   params,
@@ -48,7 +54,10 @@ export default async function Page({
   // и страница снова станет динамической. См. корневой макет локали.
   setRequestLocale(locale);
 
-  const nav = await getTranslations({ locale, namespace: "Header" });
+  const [nav, t] = await Promise.all([
+    getTranslations({ locale, namespace: "Header" }),
+    getTranslations({ locale, namespace: "ContactUs" }),
+  ]);
 
   return (
     <section>
@@ -60,10 +69,38 @@ export default async function Page({
         ]}
       />
       <ContactMain />
-      <ContactDetails locale={locale} />
-      <ContactMap locale={locale} />
-      <WhatToInclude locale={locale} />
-      <ContactForm />
+
+      <div className="container mx-auto px-5 py-10 lg:py-14">
+        {/* Карта шире колонки реквизитов: смотреть на неё полезнее, чем на
+            список из восьми строк, но не во весь экран. */}
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-stretch">
+          <ContactDetails locale={locale} />
+          <ContactMap locale={locale} />
+        </div>
+      </div>
+
+      <div className="w-full bg-tileTint/40 py-10 lg:py-14">
+        <div className="container mx-auto px-5">
+          <h2
+            className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl`}
+          >
+            {t("formTitle")}
+          </h2>
+
+          {/* Памятка стоит сбоку от формы, а не над ней: её читают, пока
+              заполняют поля, а не до того. На узких экранах она уходит вниз
+              — там подсказка после формы всё равно бесполезна, поэтому
+              порядок задан явно. */}
+          <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start">
+            <div className="order-2 lg:order-1">
+              <ContactForm />
+            </div>
+            <div className="order-1 lg:order-2">
+              <WhatToInclude locale={locale} />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
