@@ -5,7 +5,7 @@ import { ComfortaFont } from "@/components/ui/Fonts";
 import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
 import EmbassiesAbroadTable from "@/components/destinations/EmbassiesAbroadTable";
 import Faq from "@/components/home/Faq";
-import { getFaq } from "@/lib/api/faq";
+import { faqFor, getFaq } from "@/lib/api/faq";
 
 /**
  * Визовый раздел страны — одной страницей.
@@ -40,10 +40,11 @@ export default async function VisaSections({
 
   const isTurkmenistan = country === "turkmenistan";
 
-  // Вопросы приходят из админки и могут кончиться. Пункт меню, ведущий в
-  // пустоту, хуже отсутствующего, поэтому спрашиваем заранее — запрос тот
-  // же, что делает сам блок, и внутри одного рендера он не повторяется.
-  const hasFaq = isTurkmenistan && (await getFaq()).length > 0;
+  // Вопросы приходят из админки, привязаны к стране и могут кончиться.
+  // Пункт меню, ведущий в пустоту, хуже отсутствующего, поэтому спрашиваем
+  // заранее — запрос тот же, что делает сам блок, и внутри одного рендера
+  // он не повторяется.
+  const hasFaq = faqFor(await getFaq(), destination.id).length > 0;
 
   // Ключи совпадают с прежними адресами подстраниц: по ним же настроены
   // переадресации со старых ссылок, см. next.config.
@@ -111,20 +112,27 @@ export default async function VisaSections({
                 {t("crossingBordersText")}
               </p>
             </section>
-
-            {/* Вопросы в базе — про визу, приглашение и организацию тура,
-                то есть ровно про эту страницу. Здесь же и разметка FAQPage:
-                на главной она была не по теме и уводила выдачу не туда. */}
-            <section id="faq" className="mb-12 scroll-mt-[180px]">
-              <Faq
-                locale={locale}
-                jsonLd
-                className=""
-                headingClassName={heading}
-                listClassName=""
-              />
-            </section>
           </>
+        )}
+
+        {/* Вопросы про визу, приглашение и организацию поездки — ровно про
+            эту страницу, поэтому здесь же и разметка FAQPage: на главной
+            она была не по теме и уводила выдачу не туда.
+
+            Раздел не привязан к Туркменистану, в отличие от посольств и
+            границ: вопросы есть у каждой страны, просто заполнены пока не
+            у всех. */}
+        {hasFaq && (
+          <section id="faq" className="mb-12 scroll-mt-[180px]">
+            <Faq
+              locale={locale}
+              destinationId={destination.id}
+              jsonLd
+              className=""
+              headingClassName={heading}
+              listClassName=""
+            />
+          </section>
         )}
       </article>
     </div>

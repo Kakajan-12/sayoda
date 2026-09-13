@@ -1,7 +1,7 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
-import { faqField, getFaq } from "@/lib/api/faq";
+import { faqField, faqFor, getFaq } from "@/lib/api/faq";
 
 /**
  * Частые вопросы.
@@ -16,14 +16,15 @@ import { faqField, getFaq } from "@/lib/api/faq";
  * Раскрытие сделано на <details>, а не на состоянии React: работает без
  * JavaScript, доступно с клавиатуры и не требует клиентского компонента.
  *
- * Блок стоит на двух страницах, но размечен только на одной. Все вопросы
- * в базе — про визу, приглашение и организацию тура, поэтому развёрнутый
- * список с FAQPage живёт на визовой странице, а главная показывает первые
- * несколько без разметки. Одинаковый FAQPage на двух адресах поиск считает
- * дублем и обычно не показывает ни один из них.
+ * Вопросы привязаны к стране. Визовая страница показывает вопросы своей —
+ * «Do I need a visa for Turkmenistan?» на странице Узбекистана отвечает не
+ * о том, что человек читает, — а главная берёт вопросы без страны, то есть
+ * общие. Наборы не пересекаются намеренно: одинаковую разметку FAQPage на
+ * двух адресах поиск считает дублем и обычно не показывает ни один.
  */
 export default async function Faq({
   locale,
+  destinationId,
   limit,
   jsonLd = false,
   className = "container mx-auto px-5 py-10 md:py-16",
@@ -31,6 +32,8 @@ export default async function Faq({
   listClassName = "mx-auto max-w-3xl",
 }: {
   locale: string;
+  /** Страна, чьи вопросы показываем. Без значения — общие, без страны. */
+  destinationId?: number | null;
   /** Сколько вопросов показать. Без значения — все. */
   limit?: number;
   /** Выводить ли разметку FAQPage. Только на одной странице сайта. */
@@ -50,7 +53,7 @@ export default async function Faq({
   ]);
 
   // Вопрос без текста пропускаем: пустая строка в списке читается как сбой.
-  const all = items
+  const all = faqFor(items, destinationId)
     .map((item) => ({
       id: item.id,
       q: faqField(item, "question", locale),

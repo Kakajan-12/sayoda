@@ -17,6 +17,16 @@ export const FAQ_REVALIDATE = 300;
 export interface FaqItem {
   id: number;
   sort_order: number;
+  /**
+   * Страна вопроса. null — общий вопрос.
+   *
+   * Значение здесь значащее, а не «не заполнено»: вопрос без страны
+   * показывается на главной, вопрос со страной — на визовой странице этой
+   * страны, и только там. Так главная и визовый раздел не дублируют друг
+   * друга: одинаковую разметку FAQPage на двух адресах поиск считает
+   * дублем и обычно не показывает ни один.
+   */
+  destination_id: number | null;
   question_tk: string | null;
   question_en: string | null;
   question_ru: string | null;
@@ -38,6 +48,22 @@ export async function getFaq(): Promise<FaqItem[]> {
     // упавшей страницы: остальная главная от недоступного API не страдает.
     return [];
   }
+}
+
+/**
+ * Вопросы одной страны или, если страна не задана, общие.
+ *
+ * Старые записи, сделанные до появления привязки, приезжают из API без
+ * поля вовсе — отсюда проверка на undefined, а не только на null.
+ */
+export function faqFor(
+  items: FaqItem[],
+  destinationId?: number | null,
+): FaqItem[] {
+  if (destinationId) {
+    return items.filter((item) => item.destination_id === destinationId);
+  }
+  return items.filter((item) => !item.destination_id);
 }
 
 /** Значение поля на нужном языке с откатом на английский, затем на туркменский. */
