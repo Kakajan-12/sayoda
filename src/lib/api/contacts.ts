@@ -25,6 +25,15 @@ export interface SiteContacts {
   email: string;
   address: string;
   socials: SocialLink[];
+  /**
+   * Адрес карты из поля iframe.
+   *
+   * В базе лежит целиком тег <iframe> — так его вставляют из Google Maps, и
+   * бэкенд чистит именно его. Сайту нужен только src: свой тег он собирает
+   * сам, с отложенной загрузкой и подписью для скринридера. Вставлять чужую
+   * разметку через dangerouslySetInnerHTML ради этого незачем.
+   */
+  mapEmbed: string;
 }
 
 async function getJson<T>(path: string, fallback: T): Promise<T> {
@@ -56,11 +65,19 @@ export async function getContacts(locale: string): Promise<SiteContacts> {
       )
     : "";
 
+  // Только google.com/maps: в поле может оказаться что угодно, а мы ставим
+  // этот адрес в src фрейма. Чужой домен здесь — сторонний код на странице.
+  const rawSrc = /src="([^"]+)"/.exec(addressRow?.iframe || "")?.[1] || "";
+  const mapEmbed = /^https:\/\/(www\.)?google\.com\/maps\/embed/.test(rawSrc)
+    ? rawSrc
+    : "";
+
   return {
     phone: numbers[0]?.number || CONTACT_FALLBACK.phone,
     email: mails[0]?.mail || CONTACT_FALLBACK.email,
     address: address || CONTACT_FALLBACK.address,
     socials: Array.isArray(socials) ? socials : [],
+    mapEmbed,
   };
 }
 

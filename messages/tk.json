@@ -234,23 +234,43 @@
   ],
   "About": {
     "title": "Biziň hakda",
-    "text": "SAYODA TRAVEL-a hoş geldiňiz, Merkezi Aziýanyň täsirli sahypalaryna, baý taryhy we janly medeniýetlerine ýol açýar. Biz Özbegistan, Türkmenistan, Täjigistan, Gyrgyzstan we Gazagystan boýunça ähli toparly syýahatlary taýýarlap, unudylmaz syýahatlary hödürleýäris."
+    "text": "Sayoda Travel — Aşgabatda ýerleşýän, ygtyýarnamaly içerki syýahatçylyk operatory. Biz çakylyknamany we wiza goldawyny taýýarlaýarys, gid, ulag we myhmanhana bilen üpjün edýäris hem-de ugurlary özümiz alyp barýarys: Derweze gaz krateri, gadymy Merw, Nusaý, Köneürgenç, Ýangygala jülgesi. Özbegistan, Gazagystan, Gyrgyzystan we Täjigistan boýunça turlar Merkezi Aziýany has köp görmek islänler üçin şol bir syýahaty dowam etdirýär.",
+    "whyTitle": "Näme üçin ýerli operator arkaly",
+    "whyCardTitle": [
+      "Çakylyknamany biz taýýarlaýarys",
+      "Rugsatnamalar ugra goşulýar",
+      "Gidler şu ýerde ýaşaýar"
+    ],
+    "whyCardText": [
+      "Türkmenistana syýahat wizasy çakylyknamasyz berilmeýär, ony diňe ygtyýarnamaly ýerli operator sargyt edip bilýär. Ony özümiz resmileşdirýäris: sizden pasportyň nusgasy we anketa, galany biziň işimiz.",
+      "Derwezä, serhetýaka zolaklara we birnäçe ýere öňünden resmileşdirilen rugsatnama gerek. Biz olary maksatnama goşýarys, sizi barlag nokadynda oýlanmaga goýmaýarys.",
+      "Gidlerimiz Türkmenistanda ýaşaýar, möwsüme gelmeýär. Ýagyşdan soň haýsy ýoluň açykdygyny, krateriň haçan iň gowy görünýändigini we Marydaky naharhanalary bilýärler."
+    ],
+    "factsTitle": "Sayoda Travel sanlarda",
+    "factSince": "Işläp başlan ýylymyz",
+    "factTeam": "Toparymyzdaky adam",
+    "factTravellers": "Kabul edilen syýahatçy",
+    "factLanguages": "Gidleriň dilleri",
+    "factLicence": "Operator ygtyýarnamasy",
+    "ctaTitle": "Türkmenistana syýahatyňyzy meýilleşdiriň",
+    "ctaText": "Senelerini we görmek isleýän ýerleriňizi ýazyň. Jogap hökmünde ugry we bir adam üçin bahany ibereris, bronlamany bolsa öňünden tölegsiz tassyklarys.",
+    "ctaTours": "Turlara seret",
+    "ctaContact": "Bize ýazyň"
   },
   "Services": {
-    "title": "Hyzmatlarymyz",
-    "provide": "Biz ýokary hilli hyzmatlary hödürleýäris",
-    "text": "Merkezi Aziýany rahat öwrenmek üçin dürli syýahatlary hödürleýäris:",
+    "provide": "Biz näme edýäris",
+    "text": "Türkmenistana syýahat üçin gerek zatlaryň ählisi bir ýerde:",
     "cardtitle": [
-      "Indiwidual syýahatlar",
-      "Medeniýet çäreleri",
-      "Ýokary komfort we rahatlyk",
-      "Başdan geçirme syýahatlary"
+      "Wiza we çakylyknama",
+      "Gidli turlar",
+      "Ulag we myhmanhana",
+      "Size görä ugur"
     ],
     "cardtext": [
-      "Ýekelikdäki syýahatçylar, toparlar we maşgalalar üçin aýratyn ugurlar.",
-      "ESUNESKO-nyň Bütindünýä mirasynyň ýerleri, ýerli senetler we däp-dessurlar boýunça ekskursiýalar.",
-      "Ýokary derejeli myhmanhanalar we hususy transport hyzmatlary.",
-      "Daş araçäklerde ýerleşen çöllerde ekspedisiýalar we gezelençler."
+      "Çakylyknamany taýýarlaýarys, sargyt edýäris we wizany almagyňyza çenli ýany bilen barýarys — ilçihanada ýa-da Aşgabada gelen güniňiz.",
+      "Bellenen senelerde topar bilen we siziň seneleriňizde şahsy syýahatlar, diliňizde gürleýän ýerli gid bilen.",
+      "Tutuş ugur üçin sürüjili ulag, Aşgabatdaky, Marydaky we Daşoguzdaky myhmanhanalar, Derwezedäki çöl düşelgesinde gije.",
+      "Seneleri, gyzyklanmalaryňyzy we depgini aýdyň — maksatnamany şolara görä düzeris, goňşy ýurtlar hem goşulyp."
     ]
   },
   "Why": {
@@ -316,7 +336,37 @@
     "btn": "Habarnama iberiň",
     "successTitle": "Habarnama iberildi!",
     "successMessage": "Habarlaşanyňyz üçin sag boluň. Biz siziň bilen gysga wagtda habarlaşarys.",
-    "close": "Ýapmak"
+    "close": "Ýapmak",
+    "detailsTitle": "Biz bilen nädip habarlaşmaly",
+    "labelAddress": "Ofis",
+    "labelPhone": "Telefon",
+    "labelEmail": "E-poçta",
+    "labelWhatsapp": "WhatsApp",
+    "labelInstagram": "Instagram",
+    "labelHours": "Iş sagatlary",
+    "labelReply": "Jogap möhleti",
+    "labelLanguages": "Gürleýän dillerimiz",
+    "hoursNote": "Aşgabat wagty, UTC+5",
+    "replyValue": "Iş günlerinde {hours} sagadyň dowamynda",
+    "includeTitle": "Hatda näme ýazmaly",
+    "includeText": "Şulardan näçe köpüsi birbada gelse, şonça-da tiz sorag tapgyryna derek ugry we bahany alarsyňyz.",
+    "includeItems": [
+      "Seneler, seneler entek belli däl bolsa — aý.",
+      "Näçe adam barýarsyňyz we çaga barmy.",
+      "Näme görmek isleýärsiňiz — krater, gadymy şäherler, jülge ýa-da ählisi.",
+      "Raýatlygyňyz: çakylyknama pasporta görä resmileşdirilýär."
+    ],
+    "formTitle": "Bize ýazyň",
+    "mapTitle": "Ofisimiz kartada",
+    "days": {
+      "Mo": "duş",
+      "Tu": "siş",
+      "We": "çar",
+      "Th": "pen",
+      "Fr": "ann",
+      "Sa": "şen",
+      "Su": "ýek"
+    }
   },
   "Visa": {
     "turkmenVisa": "Türkmen wizasy",

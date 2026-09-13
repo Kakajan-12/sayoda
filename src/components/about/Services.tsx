@@ -37,13 +37,11 @@ const Services = () => {
   return (
     <div className="flex flex-col md:flex-row md:container md:items-start lg:items-center md:mx-auto md:px-5 gap-14 md:gap-5 2xl:gap-7 pt-16 md:pt-20 pb-20">
       <div className="container md:w-2/6 mx-auto px-5 md:px-0 space-y-2 sm:space-y-3 md:space-y-4  ">
-        <h3
-          className={`${PoppinFont.className} text-2xl  sm:text-3xl  lg:text-3xl  2xl:text-4xl leading-9  2xl:leading-[65px] font-bold`}
-        >
-          {t("title")}
-        </h3>
+        {/* Раньше над этим заголовком стоял h3 «SERVICES» — надзаголовок,
+            который ничего не добавлял к самому заголовку и при этом ломал
+            порядок: h1 страницы, следом h3, и только потом h2. */}
         <h2
-          className={`${MontserratFont.className} text-xl sm:text-[22px] lg:text-2xl xl:text-4xl font-bold text-tileMid`}
+          className={`${MontserratFont.className} text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-bold text-tileMid`}
         >
           {t("provide")}
         </h2>
@@ -67,18 +65,16 @@ const Services = () => {
                   src={items.img}
                 />
               </div>
-              <h3
-                className={`${PoppinFont.className} md:mt-2 hidden lg:block xl:mt-3 text-center text-[16px] lg:text-sm font-medium break-words `}
-              >
-                {rawtitle[i]}
-              </h3>
               {/* min-w-0 обязателен: у элемента флекса минимальная ширина по
                   умолчанию равна содержимому, поэтому на телефоне текстовый
                   блок отказывался сжиматься и вылезал за правый край карточки
                   на 10–15px вместе со всей страницей. */}
               <div className="min-w-0 flex-1 md:text-center md:mt-4 gap-3 flex flex-col  xl:mt-3 ">
+                {/* Заголовок один. Прежде их было два — один с hidden
+                    lg:block, второй с lg:hidden, — и оба лежали в разметке:
+                    скринридер читал название дважды, поиск засчитывал повтор. */}
                 <h3
-                  className={`${PoppinFont.className} md:mt-2 lg:hidden xl:mt-3  text-[16px] lg:text-xl 2xl:text-2xl font-medium break-words `}
+                  className={`${PoppinFont.className} md:mt-2 xl:mt-3 text-[16px] lg:text-lg 2xl:text-xl font-medium break-words`}
                 >
                   {rawtitle[i]}
                 </h3>

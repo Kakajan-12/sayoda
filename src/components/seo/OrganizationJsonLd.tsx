@@ -53,6 +53,25 @@ export default async function OrganizationJsonLd({
     };
   }
 
+  /*
+   * Часы работы отдаём только в родном формате schema.org — «Mo-Fr 09:00-18:00».
+   * В настройках они хранятся именно так, и если заказчик ввёл что-то своё,
+   * строка на страницу попадёт, а в разметку нет: непонятое значение поиск
+   * трактует как ошибку данных, а не как «часы неизвестны».
+   */
+  if (/^[A-Za-z]{2}(-[A-Za-z]{2})?\s+\d{2}:\d{2}-\d{2}:\d{2}$/.test(
+      (settings.office_hours || "").trim())) {
+    data.openingHours = (settings.office_hours || "").trim();
+  }
+
+  // Языки, на которых можно обратиться. Для въездного оператора это часть
+  // предложения, а не справка: от языка гида зависит, состоится ли поездка.
+  const languages = (settings.guide_languages || "")
+    .split(",")
+    .map((code) => code.trim())
+    .filter(Boolean);
+  if (languages.length) data.availableLanguage = languages;
+
   const sameAs = contacts.socials.map((s) => s.url).filter(Boolean);
   if (sameAs.length) data.sameAs = sameAs;
 

@@ -233,23 +233,43 @@
   ],
   "About": {
     "title": "About Us",
-    "text": "Welcome to SAYODA TRAVEL, your gateway to the breathtaking landscapes, rich history, and vibrant cultures of Central Asia. As a licensed Turkmen tour operator, we specialize in carefully curated tours across Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan, and Kazakhstan, offering unforgettable travel experiences."
+    "text": "Sayoda Travel is a licensed inbound tour operator based in Ashgabat. We prepare the letter of invitation and visa support, arrange guides, transport and hotels, and run the routes ourselves — the Darvaza gas crater, ancient Merv, Nisa, Kunya-Urgench and the Yangykala canyon. Tours across Uzbekistan, Kazakhstan, Kyrgyzstan and Tajikistan continue the same trip when you want more of Central Asia.",
+    "whyTitle": "Why Book with a Local Operator",
+    "whyCardTitle": [
+      "The invitation comes from us",
+      "Permits are part of the route",
+      "The guides live here"
+    ],
+    "whyCardText": [
+      "A Turkmen tourist visa is not issued without a letter of invitation, and only a licensed local operator can apply for one. We prepare it ourselves: you send a passport copy and the form, the rest is our job.",
+      "Darvaza, the border zones and several sites need paperwork arranged in advance. We plan it into the itinerary instead of leaving you to discover it at a checkpoint.",
+      "Our guides are based in Turkmenistan, not flown in for the season. They know which road is open after rain, when the crater looks best and where to eat in Mary."
+    ],
+    "factsTitle": "Sayoda Travel in Numbers",
+    "factSince": "Working since",
+    "factTeam": "People on the team",
+    "factTravellers": "Travellers hosted",
+    "factLanguages": "Guide languages",
+    "factLicence": "Tour operator licence",
+    "ctaTitle": "Plan Your Trip to Turkmenistan",
+    "ctaText": "Tell us your dates and what you want to see. We reply with a route and a price per person, and the booking is confirmed without any prepayment.",
+    "ctaTours": "See the tours",
+    "ctaContact": "Contact us"
   },
   "Services": {
-    "title": "SERVICES",
-    "provide": "We Provide Awesome Services",
-    "text": "We offer a variety of travel experiences to help you explore Central Asia with ease:",
+    "provide": "What We Do",
+    "text": "Everything a trip to Turkmenistan needs, arranged in one place:",
     "cardtitle": [
-      "Customized Tours",
-      "Cultural Experiences",
-      "Luxury & Comfort",
-      "Adventure Travel"
+      "Visa Support and Invitation",
+      "Guided Tours",
+      "Transport and Hotels",
+      "Tailor-Made Routes"
     ],
     "cardtext": [
-      "Tailor-made itineraries for solo travelers, groups, and families.",
-      "Guided tours to UNESCO sites, local crafts, and traditions.",
-      "High-end accommodations and private transport options.",
-      "Trekking, desert expeditions, and off-the-beaten-path discoveries."
+      "We prepare the letter of invitation, submit it, and walk you through collecting the visa at an embassy or on arrival in Ashgabat.",
+      "Group departures on fixed dates and private trips on yours, with a local guide who speaks your language.",
+      "Cars and drivers for the whole route, hotels in Ashgabat, Mary and Dashoguz, and desert camp nights at Darvaza.",
+      "Tell us the dates, the interests and the pace — we build the itinerary around them, neighbouring countries included."
     ]
   },
   "Why": {
@@ -315,7 +335,37 @@
     "btn": "Send Message",
     "successTitle": "Message sent!",
     "successMessage": "Thank you for reaching out. We will get back to you as soon as possible.",
-    "close": "Close"
+    "close": "Close",
+    "detailsTitle": "How to Reach Us",
+    "labelAddress": "Office",
+    "labelPhone": "Phone",
+    "labelEmail": "E-mail",
+    "labelWhatsapp": "WhatsApp",
+    "labelInstagram": "Instagram",
+    "labelHours": "Opening hours",
+    "labelReply": "Reply time",
+    "labelLanguages": "We speak",
+    "hoursNote": "Ashgabat time, UTC+5",
+    "replyValue": "Within {hours} hours on working days",
+    "includeTitle": "What to Put in Your Message",
+    "includeText": "The more of this you send at once, the sooner you get a route and a price instead of a round of questions.",
+    "includeItems": [
+      "Your dates, or the month if the dates are not fixed yet.",
+      "How many of you are travelling, and whether there are children.",
+      "What you want to see — the crater, the ancient cities, the canyon, or all of it.",
+      "Your citizenship: the invitation is prepared on the basis of the passport."
+    ],
+    "formTitle": "Send Us a Message",
+    "mapTitle": "Our office on the map",
+    "days": {
+      "Mo": "Mon",
+      "Tu": "Tue",
+      "We": "Wed",
+      "Th": "Thu",
+      "Fr": "Fri",
+      "Sa": "Sat",
+      "Su": "Sun"
+    }
   },
   "Visa": {
     "turkmenVisa": "Turkmen Visa",
