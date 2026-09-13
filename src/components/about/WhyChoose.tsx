@@ -60,7 +60,11 @@ const WhyChoose = () => {
         <h2
           className={`${PoppinFont.className} font-bold text-xl md:text-2xl xl:text-3xl`}
         >
-          {t("why")}?
+          {/* Знак вопроса раньше стоял прямо здесь, в разметке. Из-за этого
+              пунктуация не переводилась: в английском заголовок вопрос, в
+              туркменском — нет, а изменить это можно было только правкой кода.
+              Теперь знак живёт в самом переводе. */}
+          {t("why")}
         </h2>
 
         {/*
@@ -68,7 +72,7 @@ const WhyChoose = () => {
           столбик восемь штук растянулись бы на два экрана — список,
           который должен схватываться взглядом, пришлось бы листать.
         */}
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {titles.map((title, i) => {
             const Icon = ICONS[i % ICONS.length];
             return (

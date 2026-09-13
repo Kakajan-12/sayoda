@@ -42,7 +42,7 @@
     "subtitle": "A licensed local operator in Ashgabat. We handle your letter of invitation, visa, guides and transport — you just travel.",
     "cta": "See tours & prices",
     "ctaPlan": "Plan my trip",
-    "priceTitle": "How much does a trip to Turkmenistan cost?",
+    "priceTitle": "How Much Does a Trip to Turkmenistan Cost?",
     "priceLead": "Prices below are the lowest for each length of trip. Every tour page shows its own price and what it covers.",
     "priceFrom": "from",
     "priceShort": "3 days",
@@ -85,24 +85,24 @@
     "exitFullscreen": "Exit fullscreen"
   },
   "SectionTitle": {
-    "popular": "Popular tours",
-    "blogs": "Blogs",
+    "popular": "Popular Tours",
+    "blogs": "Travel Guides",
     "itinerary": "Tour Itinerary",
     "includnesses": "What's Included & Excluded?",
     "gallery": "Gallery",
     "map": "Map",
-    "why": "Why book with Sayoda Travel",
+    "why": "Why Book with Sayoda Travel?",
     "how": "How We Work",
     "testimonial": "Testimonials",
-    "similar": "Similar tours",
-    "highlights": "Tour highlights",
+    "similar": "Similar Tours",
+    "highlights": "Tour Highlights",
     "tours": "Tours"
   },
   "Header": {
     "main": "Home",
     "tours": "Tours",
     "about": "About Us",
-    "blog": "Blog",
+    "blog": "Travel Guides",
     "contact": "Contact Us",
     "destinations": "Destinations",
     "search": "Search"
@@ -117,7 +117,7 @@
     "license": "Tour operator license",
     "useful": [
       "About Us",
-      "Blogs",
+      "Travel Guides",
       "Contact us"
     ],
     "our": [
@@ -130,7 +130,7 @@
   "Blogs": {
     "learn": "Learn more",
     "all": "All articles",
-    "blogs": "Blogs",
+    "blogs": "Turkmenistan Travel Guides",
     "date": "Date"
   },
   "Trust": {
@@ -142,7 +142,7 @@
     "guides": "Guides in Russian, English and Turkmen"
   },
   "VisaBlock": {
-    "title": "Turkmenistan visa and letter of invitation",
+    "title": "Turkmenistan Visa and Letter of Invitation",
     "text": "A tourist visa for Turkmenistan is not issued without a letter of invitation from a licensed local operator. We arrange the invitation ourselves: you send a passport copy and the application form, the rest is our job.",
     "cta": "How to get a visa",
     "steps": [
@@ -153,10 +153,10 @@
     ]
   },
   "Faq": {
-    "title": "Frequently asked questions"
+    "title": "Frequently Asked Questions"
   },
   "HomeLead": {
-    "title": "Plan your trip",
+    "title": "Plan Your Trip",
     "text": "Tell us where and when you would like to travel. We reply within one working day — with a programme, a price and the list of what you need for the visa.",
     "subject": "Enquiry from the home page",
     "phone": "Phone or WhatsApp (optional)",
@@ -269,7 +269,7 @@
     "cardtext": [
       "Browse the ready-made programmes in the Tours section: each one shows the route, duration, guide languages and price per person. If nothing fits, write to us and we will suggest options for your dates.",
       "Not all travelers are the same! Our team will help personalize your itinerary, adjusting activities, accommodations, and travel dates to fit your needs. Want to add extra days or visit a special location? We’ve got you covered.",
-      "Once you’ve finalized your itinerary, secure your booking with a simple online payment. We accept multiple payment methods and provide transparent pricing with no hidden fees."
+      "Once your itinerary is settled, we confirm the booking straight away — no deposit, no card details, nothing to pay in advance. You settle up in cash on the first day, after you have met your guide and seen the programme for yourself."
     ]
   },
   "Discover": {
@@ -364,7 +364,7 @@
     "freeParking": "Free parking",
     "freeWifi": "Free Wi-Fi",
     "freeCancellation": "Free cancellation, Zero Payment Now on select rates",
-    "includedTitle": "Included in the price",
+    "includedTitle": "Included in the Price",
     "travelTax": "Travel tax",
     "bookNow": "Book now",
     "loading": "Loading hotels...",

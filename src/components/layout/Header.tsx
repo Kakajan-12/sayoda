@@ -359,7 +359,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
           scrolled ? "bg-mainBlue" : "bg-mainBlue/85 backdrop-blur-sm"
         }`}
       >
-        <div className="container mx-auto sm:pr-5 lg:pr-10">
+        <div className="container mx-auto px-4">
           <div className="flex justify-between items-center relative py-2">
             {/* LOGO */}
             <Link href="/" className="">
@@ -373,7 +373,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
             </Link>
 
             {/* NAVBAR FOR DESKTOP */}
-            <div className="hidden md:flex items-center lg:gap-x-12 gap-x-6">
+            <div className="hidden md:flex items-center lg:gap-x-12 gap-x-4">
               {/*
                 Активный раздел помечен белой полоской под пунктом, а не
                 цветом текста: кирпичный на бирюзовой шапке читался хуже

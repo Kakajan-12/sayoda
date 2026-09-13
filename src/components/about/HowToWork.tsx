@@ -26,7 +26,9 @@ const HowToWork = () => {
         <h2
           className={`${PoppinFont.className} font-bold text-xl md:text-2xl xl:text-3xl`}
         >
-          {section("how")}?
+          {/* Знак вопроса убран из разметки: «How We Work» — утверждение, а не
+              вопрос, и пунктуация у каждого языка своя. См. WhyChoose. */}
+          {section("how")}
         </h2>
 
         <div className="relative mt-10">

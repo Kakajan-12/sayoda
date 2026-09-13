@@ -49,7 +49,7 @@ export default async function TrustStrip({ locale }: { locale: string }) {
   ].filter(Boolean) as { icon: React.ReactNode; text: string }[];
 
   return (
-    <div className="w-full border-y border-sand bg-sandLight">
+    <div className="w-full border-y border-sand bg-sandLight mt-10 lg:mt-5">
       {/*
         Ряд, а не сетка с фиксированным числом колонок. Год основания —
         необязательное поле из админки, поэтому пунктов бывает четыре или

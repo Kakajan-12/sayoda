@@ -114,12 +114,14 @@ export default async function Page({
             {t("title")}
           </h1>
 
-          <div className="mt-5 max-w-2xl">
-            <SearchField
-              initial={q}
-              placeholder={t("placeholder")}
-              label={t("title")}
-            />
+          <div className="mt-5 flex items-center justify-center w-full">
+            <div className="max-w-2xl w-full">
+              <SearchField
+                  initial={q}
+                  placeholder={t("placeholder")}
+                  label={t("title")}
+              />
+            </div>
           </div>
 
           {q && (
