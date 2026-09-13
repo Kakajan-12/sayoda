@@ -40,15 +40,25 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
   const name = getLocalizedHotelField(hotel, locale, "name");
   const city = getLocalizedHotelField(hotel, locale, "city");
   const address = getLocalizedHotelField(hotel, locale, "address");
-  const reviewLabel = getLocalizedHotelField(hotel, locale, "review_label");
 
-  const stars = Array.from({ length: 5 }, (_, i) =>
-    i < Math.round(hotel.rating) ? (
-      <MdStar key={i} className="text-mainBlue" />
-    ) : (
-      <MdStarBorder key={i} className="text-mainBlue/40" />
-    ),
-  );
+  /*
+   * Звёзды рисуются только когда категория проставлена.
+   *
+   * Раньше здесь округлялась «оценка» вроде 4.5 — выдуманное число из
+   * статики, которое выглядело на карточке как настоящая оценка гостей.
+   * Теперь поле означает категорию отеля, и пустое значение — это «не
+   * указана», а не «ноль звёзд»: пять пустых контуров сказали бы о
+   * гостинице неправду.
+   */
+  const stars = hotel.stars
+    ? Array.from({ length: 5 }, (_, i) =>
+        i < hotel.stars! ? (
+          <MdStar key={i} className="text-mainBlue" />
+        ) : (
+          <MdStarBorder key={i} className="text-mainBlue/40" />
+        ),
+      )
+    : null;
 
   const amenities = [
     { show: hotel.breakfast, icon: MdFreeBreakfast, label: t("freeBreakfast") },
@@ -90,17 +100,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
           >
             {name}
           </h3>
-          <span className="flex text-lg">{stars}</span>
-          {hotel.reviews > 0 && (
-            <span className="flex items-center gap-2">
-              <span className="rounded bg-green-600 px-2 py-0.5 text-xs font-semibold text-white">
-                {reviewLabel}
-              </span>
-              <span className="text-sm text-mainBlue">
-                {hotel.reviews} {t("reviews")}
-              </span>
-            </span>
-          )}
+          {stars && <span className="flex text-lg">{stars}</span>}
         </div>
 
         <p
@@ -151,16 +151,20 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
             ))}
           </ul>
         </div>
-        {/* <a
-          href={hotel.book_url || "#"}
-          target={
-            hotel.book_url && hotel.book_url !== "#" ? "_blank" : undefined
-          }
-          rel="noopener noreferrer"
-          className="rounded-md bg-mainBlue py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-mainBlue/90"
-        >
-          {t("bookNow")}
-        </a> */}
+        {/* Кнопка появляется, только когда ссылка заполнена. Прежде она
+            была закомментирована целиком — и не зря: у всех двенадцати
+            отелей в статике стоял book_url: "#", то есть кнопка вела в
+            никуда. Теперь адрес задаётся в админке у каждого отеля. */}
+        {hotel.book_url && (
+          <a
+            href={hotel.book_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md bg-mainBlue py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-mainBlue/90"
+          >
+            {t("bookNow")}
+          </a>
+        )}
       </div>
     </div>
   );
