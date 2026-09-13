@@ -28,6 +28,7 @@ export default async function Faq({
   jsonLd = false,
   className = "container mx-auto px-5 py-10 md:py-16",
   headingClassName = `${PoppinFont.className} mb-8 font-bold text-xl md:text-2xl xl:text-3xl`,
+  listClassName = "mx-auto max-w-3xl",
 }: {
   locale: string;
   /** Сколько вопросов показать. Без значения — все. */
@@ -36,6 +37,12 @@ export default async function Faq({
   jsonLd?: boolean;
   className?: string;
   headingClassName?: string;
+  /**
+   * Ширина списка. На главной он стоит посреди широкой полосы и его надо
+   * ограничить, внутри узкой колонки визовой страницы — наоборот, растянуть
+   * на всю: иначе вопросы съезжают вбок от остальных разделов.
+   */
+  listClassName?: string;
 }) {
   const [t, items] = await Promise.all([
     getTranslations({ locale, namespace: "Faq" }),
@@ -79,7 +86,7 @@ export default async function Faq({
       <h2 className={headingClassName}>{t("title")}</h2>
 
       <div
-        className={`${QuicksandFont.className} mx-auto flex max-w-3xl flex-col gap-3`}
+        className={`${QuicksandFont.className} flex flex-col gap-3 ${listClassName}`}
       >
         {visible.map((item) => (
           <details

@@ -29,6 +29,10 @@
     "search": {
       "title": "Gözleg",
       "description": "Türkmenistan we Merkezi Aziýa hakynda syýahatlar we makalalar boýunça gözleg."
+    },
+    "turkmenistanVisa": {
+      "title": "Türkmenistana wiza we çakýlyşnama (LOI)",
+      "description": "Türkmenistana syýahat wizasyny nähili almaly: LOI çakýlyşnamasy, möhletler, Aşgabatdaky we daşary ýurtlardaky ilçihanalar, gury ýer serhet geçelgeleri. Aşgabatdaky ygtyýarnamaly operatordan."
     }
   },
   "Contact": {

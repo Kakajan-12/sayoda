@@ -57,13 +57,21 @@ const nextConfig: NextConfig = {
   },
 
   /**
-   * Визовый раздел был четырьмя страницами, стал одной с якорями. Старые
-   * адреса уже разошлись по ссылкам и попали в выдачу, поэтому вместо 404
-   * уводим их на соответствующий кусок новой страницы.
+   * Визовый раздел переезжал дважды, и оба следа надо увести на живой адрес.
+   *
+   * Сначала он был четырьмя страницами и стал одной с якорями. Потом виза
+   * Туркменистана ушла с четвёртого уровня вложенности на верхний:
+   * /en/turkmenistan-visa. Это посадочная страница по самому частотному
+   * запросу, и вдобавок на неё вели два разных адреса — из меню и из
+   * футера, — которые делили вес между собой.
    *
    * Переадресация постоянная: адреса поменялись насовсем, и поисковику надо
    * передать вес на новый. Якорь браузер подставляет сам — до сервера он
    * не доходит, но в заголовке Location работает.
+   *
+   * Порядок важен. Правила проверяются сверху вниз, поэтому частные случаи
+   * Туркменистана стоят раньше общего правила по :country — иначе оно
+   * перехватило бы их и оставило человека на старом адресе.
    */
   async redirects() {
     const sections = [
@@ -72,11 +80,30 @@ const nextConfig: NextConfig = {
       "crossing-borders",
     ];
 
-    return sections.map((section) => ({
-      source: `/:locale/destinations/:country/visa/${section}`,
-      destination: `/:locale/destinations/:country/visa#${section}`,
-      permanent: true,
-    }));
+    return [
+      ...sections.map((section) => ({
+        source: `/:locale/destinations/turkmenistan/visa/${section}`,
+        destination: `/:locale/turkmenistan-visa#${section}`,
+        permanent: true,
+      })),
+      {
+        source: "/:locale/destinations/turkmenistan/visa",
+        destination: "/:locale/turkmenistan-visa",
+        permanent: true,
+      },
+      // Вторая ссылка из футера: подстраницы нумеровались, и /visa/1 была
+      // тем же разделом под другим адресом.
+      {
+        source: "/:locale/destinations/turkmenistan/visa/:page(\\d+)",
+        destination: "/:locale/turkmenistan-visa",
+        permanent: true,
+      },
+      ...sections.map((section) => ({
+        source: `/:locale/destinations/:country/visa/${section}`,
+        destination: `/:locale/destinations/:country/visa#${section}`,
+        permanent: true,
+      })),
+    ];
   },
 
   images: {

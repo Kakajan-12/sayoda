@@ -30,7 +30,7 @@ export default async function VisaTeaser({ locale }: { locale: string }) {
             {t("text")}
           </p>
           <Link
-            href="/destinations/turkmenistan/visa"
+            href="/turkmenistan-visa"
             className={`${PoppinFont.className} mt-6 inline-block rounded-full bg-brick px-8 py-3 text-sm text-white transition-colors hover:bg-brickDark md:text-base`}
           >
             {t("cta")}

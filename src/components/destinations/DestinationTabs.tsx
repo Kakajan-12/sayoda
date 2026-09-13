@@ -62,9 +62,14 @@ export default function DestinationTabs({ slug }: Props) {
     };
   }, []);
 
+  // Виза Туркменистана лежит не в сегменте направления, а на верхнем уровне:
+  // это посадочная страница по самому частотному запросу, см. next.config.
+  const visaHref =
+    slug === "turkmenistan" ? "/turkmenistan-visa" : `${base}/visa`;
+
   const tabs = [
     { href: base, label: t("tabGeneral"), exact: true },
-    { href: `${base}/visa`, label: t("tabVisa"), exact: false },
+    { href: visaHref, label: t("tabVisa"), exact: false },
     { href: `${base}/tours`, label: t("tabTours"), exact: false },
     { href: `${base}/sights`, label: t("tabSights"), exact: false },
     { href: `${base}/hotels`, label: t("tabHotels"), exact: false },

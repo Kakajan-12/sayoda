@@ -1,26 +1,18 @@
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { destField, getDestinationBySlug } from "@/lib/api/destinations";
-import { ComfortaFont } from "@/components/ui/Fonts";
-import GeneralInfoSidebar from "@/components/destinations/GeneralInfoSidebar";
-import EmbassiesAbroadTable from "@/components/destinations/EmbassiesAbroadTable";
-import Faq from "@/components/home/Faq";
-import { getFaq } from "@/lib/api/faq";
+import { setRequestLocale } from "next-intl/server";
+import VisaSections from "@/components/destinations/VisaSections";
 
 export const revalidate = 300;
 
 /**
- * Визовый раздел страны — одной страницей.
+ * Визовый раздел соседних стран.
  *
- * Раньше это были четыре отдельные страницы, и боковое меню работало не так,
- * как точно такое же меню на «Общей информации»: там переходы по якорям внутри
- * одного текста, здесь — переходы между маршрутами. Разделы короткие: у
- * «Пересечения границ» один абзац, и ради него человек ждал загрузку страницы.
- * Теперь всё лежит подряд, меню ведёт по якорям и подсвечивает раздел, дошедший
- * до верха, — как и на соседней вкладке.
+ * У Туркменистана он переехал на верхний уровень — /turkmenistan-visa: это
+ * посадочная страница по самому частотному запросу, и четвёртый уровень
+ * вложенности ей мешал. Сюда запрос по Туркменистану уже не доходит, его
+ * перехватывает постоянная переадресация в next.config.
  *
- * Подробности по посольствам и границам собраны только по Туркменистану,
- * поэтому у остальных стран остаётся один раздел — и меню им не нужно.
+ * Остальные страны продолжают жить здесь: их визовый текст — один абзац,
+ * отдельной посадочной страницы он не стоит.
  */
 export default async function VisaPage({
   params,
@@ -29,101 +21,6 @@ export default async function VisaPage({
 }) {
   const { locale, country } = await params;
   setRequestLocale(locale);
-  const destination = await getDestinationBySlug(country);
-  if (!destination) notFound();
 
-  const t = await getTranslations({ locale, namespace: "Visa" });
-  const td = await getTranslations({ locale, namespace: "Destinations" });
-  const tf = await getTranslations({ locale, namespace: "Faq" });
-
-  const isTurkmenistan = country === "turkmenistan";
-
-  // Вопросы приходят из админки и могут кончиться. Пункт меню, ведущий в
-  // пустоту, хуже отсутствующего, поэтому спрашиваем заранее — запрос тот
-  // же, что делает сам блок, и внутри одного рендера он не повторяется.
-  const hasFaq = isTurkmenistan && (await getFaq()).length > 0;
-
-  // Ключи совпадают с прежними адресами подстраниц: по ним же настроены
-  // переадресации со старых ссылок, см. next.config.
-  const links = [
-    { id: "visa", icon: "visa", label: td("tabVisa") },
-    ...(isTurkmenistan
-      ? [
-          {
-            id: "embassies-in-turkmenistan",
-            icon: "embassy",
-            label: t("embassiesIn"),
-          },
-          { id: "embassies-abroad", icon: "globe", label: t("embassiesAbroad") },
-          { id: "crossing-borders", icon: "border", label: t("crossingBorders") },
-        ]
-      : []),
-    ...(hasFaq ? [{ id: "faq", icon: "faq", label: tf("title") }] : []),
-  ];
-
-  const heading =
-    "text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-6";
-
-  return (
-    <div className="flex flex-col items-start gap-8 lg:flex-row">
-      {/* Меню из одного пункта ничего не даёт — оно только отнимает колонку. */}
-      {links.length > 1 && (
-        <div className="w-full shrink-0 lg:sticky lg:top-[172px] lg:w-72">
-          <GeneralInfoSidebar links={links} />
-        </div>
-      )}
-
-      <article className={`w-full min-w-0 flex-1 ${ComfortaFont.className}`}>
-        <section id="visa" className="mb-12 scroll-mt-[180px]">
-          <h2 className={heading}>
-            {td("tabVisa")} — {destField(destination, "name", locale)}
-          </h2>
-          <div
-            className="rich-content space-y-4 leading-relaxed text-gray-700 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6"
-            dangerouslySetInnerHTML={{
-              __html: destField(destination, "visa", locale),
-            }}
-          />
-        </section>
-
-        {isTurkmenistan && (
-          <>
-            <section
-              id="embassies-in-turkmenistan"
-              className="mb-12 scroll-mt-[180px]"
-            >
-              <h2 className={heading}>{t("embassiesIn")}</h2>
-              <p className="leading-relaxed text-gray-700">
-                {t("embassiesInText")}
-              </p>
-            </section>
-
-            {/* Свой заголовок таблица печатает сама. */}
-            <section id="embassies-abroad" className="mb-12 scroll-mt-[180px]">
-              <EmbassiesAbroadTable locale={locale} />
-            </section>
-
-            <section id="crossing-borders" className="mb-12 scroll-mt-[180px]">
-              <h2 className={heading}>{t("crossingBorders")}</h2>
-              <p className="leading-relaxed text-gray-700">
-                {t("crossingBordersText")}
-              </p>
-            </section>
-
-            {/* Вопросы в базе — про визу, приглашение и организацию тура,
-                то есть ровно про эту страницу. Здесь же и разметка FAQPage:
-                на главной она была не по теме и уводила выдачу не туда. */}
-            <section id="faq" className="mb-12 scroll-mt-[180px]">
-              <Faq
-                locale={locale}
-                jsonLd
-                className=""
-                headingClassName={heading}
-              />
-            </section>
-          </>
-        )}
-      </article>
-    </div>
-  );
+  return <VisaSections locale={locale} country={country} />;
 }

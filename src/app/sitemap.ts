@@ -37,11 +37,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["about", 0.6],
     ["contacts", 0.6],
     ["hotels", 0.5],
+    // Виза Туркменистана лежит на верхнем уровне, а не в сегменте страны:
+    // со старого адреса стоит постоянная переадресация, и в карте сайта
+    // должен быть только новый — иначе поиск ходит по редиректам.
+    ["turkmenistan-visa", 0.9],
   ];
 
   const destinationPaths = destinations.flatMap((d) => [
     entry(`destinations/${d.slug}`, { priority: 0.8 }),
-    entry(`destinations/${d.slug}/visa`, { priority: 0.9 }),
+    ...(d.slug === "turkmenistan"
+      ? []
+      : [entry(`destinations/${d.slug}/visa`, { priority: 0.9 })]),
     entry(`destinations/${d.slug}/tours`, { priority: 0.7 }),
     entry(`destinations/${d.slug}/sights`, { priority: 0.6 }),
     entry(`destinations/${d.slug}/hotels`, { priority: 0.5 }),
