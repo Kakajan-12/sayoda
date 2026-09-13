@@ -212,7 +212,17 @@
     "departureDate": "Ugramak senesi",
     "chooseDeparture": "Ugramak senesini saýlaň, biz ýerleriň barlygyny tassyklarys",
     "showMap": "Kartany görkez",
-    "showMapNote": "Karta Google serwerinden ýüklener"
+    "showMapNote": "Karta Google serwerinden ýüklener",
+    "payment": {
+      "title": "Töleg nähili geçýär",
+      "lead": "Öňünden töleg gerek däl. Ugur ylalaşylandan soň bronlamany bada-bat tassyklaýarys, töleg bolsa turuň birinji güni, gid bilen duşuşanyňyzdan soň, nagt görnüşde amala aşyrylýar.",
+      "noDepositTitle": "Öňünden töleg we kart maglumatlary gerek däl",
+      "noDepositText": "Gelmeňizden öň sizden hiç zat alynmaýar. Kart belgiňizi soramaýarys, saýtda onlaýn töleg hem ýok.",
+      "cashTitle": "ABŞ dollary, nagt",
+      "cashText": "Daşary ýurt kartlary Türkmenistanda işlemäýär: Visa we Mastercard bu ýerde kabul edilmäýär, daşary ýurt hasabyňyzdan pul çykarmak hem mümkin däl. Tutuş möçberi nagt getirmeli.",
+      "billsTitle": "Täze seriýaly, zeperlenmedik pullar",
+      "billsText": "Banklar we çalyşyk nokatlary diňe soňky seriýalardaky — ýyrtylmadyk, ýelmeşiksiz we ýazgysyz — pullary kabul edýär. Köne we zeperlenen pullar köplenç kabul edilmeýär."
+    }
   },
   "Include": [
     "Goşuldy",

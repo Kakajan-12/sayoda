@@ -9,6 +9,7 @@ import TourSectionNav from "@/components/tours/TourSectionNav";
 import TourItinerary from "@/components/tours/TourItinerary";
 import TourBookingCard from "@/components/tours/TourBookingCard";
 import IncludesExcludes from "@/components/tours/IncludesExcludes";
+import PaymentNote from "@/components/tours/PaymentNote";
 import Gallery from "@/components/tours/Gallery";
 import Map from "@/components/tours/Map";
 import RelatedTours from "@/components/tours/RelatedTours";
@@ -235,6 +236,8 @@ export default async function Page({
           locale={locale}
         />
       </div>
+
+      <PaymentNote locale={locale} country={tour.location_en ?? ""} />
 
       {/* Расписание идёт следом за составом цены: к этому месту человек уже
           знает, что входит в поездку, и вопрос у него один — когда ехать. */}

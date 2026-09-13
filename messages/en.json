@@ -211,7 +211,17 @@
     "departureDate": "Departure date",
     "chooseDeparture": "Pick a departure date and we will confirm availability",
     "showMap": "Show the map",
-    "showMapNote": "The map will load from Google"
+    "showMapNote": "The map will load from Google",
+    "payment": {
+      "title": "How Payment Works",
+      "lead": "No prepayment. We confirm your booking as soon as the itinerary is agreed, and you settle up in cash on the first day of the tour, after you have met your guide.",
+      "noDepositTitle": "No deposit, no card details",
+      "noDepositText": "Nothing is charged before you arrive. We never ask for card numbers, and there is no online payment on this site.",
+      "cashTitle": "Cash in US dollars",
+      "cashText": "Foreign cards do not work in Turkmenistan: Visa and Mastercard are not accepted and there is no way to withdraw from a foreign account. Bring the full amount with you in cash.",
+      "billsTitle": "New-series bills, undamaged",
+      "billsText": "Banks and exchange offices here take only recent-series notes — no tears, no tape, no handwriting. Worn or marked bills are often refused."
+    }
   },
   "Include": [
     "Included",
