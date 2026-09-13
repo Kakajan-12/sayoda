@@ -32,7 +32,7 @@ import {
   mediaUrl,
 } from "@/lib/api/catalog";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
-import { excerpt, plainText } from "@/lib/utils";
+import { plainText, sentenceExcerpt } from "@/lib/utils";
 import { routing } from "@/i18n/routing";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
@@ -77,10 +77,34 @@ export async function generateMetadata({
     .filter(Boolean)
     .join(" — ");
 
-  const body = excerpt(localizedField(tour, "text", locale), 140);
-  const description = tour.price
-    ? `${body} From $${tour.price} per person.`
-    : body || t("tourFallbackDescription");
+  /*
+   * Описание режется по границе предложения, а не по слову.
+   *
+   * Раньше выходило «…ancient fortresses and the ruins of antique… From
+   * $1470 per person»: многоточие посреди фразы, и сразу за ним отдельное
+   * предложение про цену. В выдаче это читается как повреждённый текст.
+   *
+   * Лимит считаем вместе с хвостом про цену, чтобы вся строка укладывалась
+   * в рекомендованные 160 символов. Порог целой фразы опущен до 40: у
+   * половины туров первое предложение короче 60 символов, и со штатным
+   * порогом они все скатывались обратно к многоточию.
+   *
+   * Если целая фраза не влезла вовсе (у «The Wonders of Uzbekistan» первое
+   * предложение на 159 символов), остаётся обрезка по слову — но тогда
+   * цену следом не приклеиваем: многоточие должно оставаться в конце
+   * строки, а не посередине.
+   */
+  const priceSuffix = tour.price ? ` From $${tour.price} per person.` : "";
+  const body = sentenceExcerpt(
+    localizedField(tour, "text", locale),
+    160 - priceSuffix.length,
+    40,
+  );
+  const description = body
+    ? body.endsWith("…")
+      ? body
+      : `${body}${priceSuffix}`
+    : t("tourFallbackDescription");
 
   const image = mediaUrl(tour.image);
   const alternates = alternatesFor(locale, `tours/${tour.slug}`);

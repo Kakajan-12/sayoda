@@ -100,6 +100,14 @@ const MIN_SENTENCE_LENGTH = 60;
 export function sentenceExcerpt(
   value: string | undefined | null,
   limit = 300,
+  /**
+   * Ниже какой длины целая фраза считается слишком короткой и уступает
+   * место обрезке по слову. По умолчанию 60 — для JSON-LD, где места
+   * много. Для meta description порог опускают: там за описанием идёт
+   * цена, и «…ruins of antique… From $1470 per person» читается сломанным,
+   * а короткая, но целая фраза — нет.
+   */
+  minSentenceLength = MIN_SENTENCE_LENGTH,
 ): string {
   const text = plainText(value);
   if (text.length <= limit) return text;
@@ -120,6 +128,6 @@ export function sentenceExcerpt(
 
   // Слишком ранняя точка обрезала бы описание почти до заголовка —
   // в таком случае берём обычное сокращение по слову.
-  if (end + 1 >= MIN_SENTENCE_LENGTH) return cut.slice(0, end + 1).trim();
+  if (end + 1 >= minSentenceLength) return cut.slice(0, end + 1).trim();
   return excerpt(text, limit);
 }
