@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import AboutUs from "@/components/about/AboutHero";
 import Services from "@/components/about/Services";
 import WhyLocal from "@/components/about/WhyLocal";
-import Facts from "@/components/about/Facts";
 import AboutCta from "@/components/about/AboutCta";
 import Testimonials from "@/components/about/Testimonials";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
@@ -36,8 +35,8 @@ export async function generateMetadata({
  * факта о компании.
  *
  * Порядок соответствует вопросам, которые возникают подряд: кто вы, что вы
- * делаете, почему не собрать поездку самому, чем это подтверждается, что
- * говорят другие, и что делать дальше.
+ * делаете, почему не собрать поездку самому, что говорят другие, и что
+ * делать дальше.
  */
 export default async function Page({
   params,
@@ -63,7 +62,9 @@ export default async function Page({
       <AboutUs />
       <Services />
       <WhyLocal locale={locale} />
-      <Facts locale={locale} />
+      {/* Блок «Sayoda Travel в цифрах» пока снят по просьбе заказчика.
+          Компонент и переводы на месте — вернуть строкой
+          <Facts locale={locale} /> сюда же. */}
       <Testimonials />
       <AboutCta locale={locale} />
     </section>
