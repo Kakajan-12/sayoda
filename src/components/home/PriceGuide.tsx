@@ -1,6 +1,9 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
-import { LuCheck, LuX } from "react-icons/lu";
+import {
+  IoMdCheckmarkCircleOutline,
+  IoMdCloseCircleOutline,
+} from "react-icons/io";
 import { Link } from "@/i18n/navigation";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import { type Tour, durationDays, localizedField } from "@/lib/api/catalog";
@@ -131,7 +134,14 @@ export default async function PriceGuide({
             <ul className={`${QuicksandFont.className} mt-3 space-y-2`}>
               {included.map((item) => (
                 <li key={item} className="flex gap-2.5 text-sm text-ink">
-                  <LuCheck className="mt-0.5 h-4 w-4 shrink-0 text-tile" />
+                  {/* Значки те же, что в таком же блоке на странице тура: там
+                      IoMdCheckmarkCircleOutline и IoMdCloseCircleOutline того
+                      же размера и цвета. Человек видит эти два списка дважды —
+                      на главной и в туре, — и они должны выглядеть одинаково. */}
+                  <IoMdCheckmarkCircleOutline
+                    aria-hidden
+                    className="mt-0.5 h-5 w-5 shrink-0 text-tileMid"
+                  />
                   <span>{item}</span>
                 </li>
               ))}
@@ -145,7 +155,10 @@ export default async function PriceGuide({
             <ul className={`${QuicksandFont.className} mt-3 space-y-2`}>
               {excluded.map((item) => (
                 <li key={item} className="flex gap-2.5 text-sm text-inkMuted">
-                  <LuX className="mt-0.5 h-4 w-4 shrink-0 text-brick" />
+                  <IoMdCloseCircleOutline
+                    aria-hidden
+                    className="mt-0.5 h-5 w-5 shrink-0 text-inkMuted"
+                  />
                   <span>{item}</span>
                 </li>
               ))}
