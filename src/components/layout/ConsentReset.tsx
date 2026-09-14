@@ -33,10 +33,14 @@ export default function ConsentReset({
     // Было ли что убирать: если согласия не было, ничего и не грузилось.
     const wasGranted = readConsent() === "granted";
 
-    try {
-      window.localStorage.removeItem(CONSENT_KEY);
-    } catch {
-      /* приватный режим — выбор и так не хранится */
+    // Из обоих хранилищ: согласие лежит в localStorage, отказ — в
+    // sessionStorage до конца визита (см. lib/consent).
+    for (const store of [window.localStorage, window.sessionStorage]) {
+      try {
+        store.removeItem(CONSENT_KEY);
+      } catch {
+        /* приватный режим — выбор и так не хранится */
+      }
     }
 
     const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;

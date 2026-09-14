@@ -32,18 +32,52 @@ export function applyConsentClass(granted: boolean) {
 
 export type ConsentValue = "granted" | "denied";
 
+/**
+ * Два ответа хранятся по-разному, и это намеренно.
+ *
+ * «Разрешил» лежит в localStorage и переживает закрытие браузера: человек
+ * согласился один раз, переспрашивать незачем.
+ *
+ * «Отказался» лежит в sessionStorage, то есть только до конца визита. В
+ * следующий приход баннер покажется снова. Причина простая: отказ часто
+ * механический — баннер закрывают не глядя, — и запоминать его навсегда
+ * значит больше никогда не спросить. При этом внутри одного визита вопрос
+ * не повторяется: переспрашивать на каждой странице — это уже давление, а
+ * не выбор.
+ *
+ * Ключ один и тот же: хранилища разные, пересечься значения не могут.
+ */
+function readStore(store: Storage | undefined): string | null {
+  try {
+    return store?.getItem(CONSENT_KEY) ?? null;
+  } catch {
+    // Приватный режим в некоторых браузерах запрещает хранилища.
+    return null;
+  }
+}
+
+function removeFrom(store: Storage | undefined) {
+  try {
+    store?.removeItem(CONSENT_KEY);
+  } catch {
+    /* см. выше */
+  }
+}
+
 /** null — выбор ещё не сделан, показываем баннер. */
 export function readConsent(): ConsentValue | null {
   if (typeof window === "undefined") return null;
-  try {
-    const value = window.localStorage.getItem(CONSENT_KEY);
-    return value === "granted" || value === "denied" ? value : null;
-  } catch {
-    // Приватный режим в некоторых браузерах запрещает localStorage.
-    // Считаем, что выбора нет: баннер покажется, согласие не запомнится,
-    // но ничего лишнего без спроса не загрузится.
-    return null;
-  }
+
+  if (readStore(window.localStorage) === "granted") return "granted";
+
+  /*
+   * Отказы, записанные в localStorage прежней версией, игнорируем и
+   * подчищаем. Иначе те, кто отказался до этой правки, баннера больше
+   * никогда бы не увидели — ровно то, что здесь и исправляется.
+   */
+  if (readStore(window.localStorage)) removeFrom(window.localStorage);
+
+  return readStore(window.sessionStorage) === "denied" ? "denied" : null;
 }
 
 /**
@@ -111,10 +145,21 @@ export function writeConsent(value: ConsentValue) {
   // сторонними скриптами. Читаем до записи нового значения.
   const previous = readConsent();
 
+  /*
+   * Согласие — в localStorage, отказ — в sessionStorage, см. readConsent.
+   * Прежнее значение убираем из обоих хранилищ, иначе после «разрешил →
+   * отказался» в localStorage осталось бы granted, и встроенный скрипт в
+   * ConsentDefaults включил бы счётчик на следующей же странице.
+   */
+  removeFrom(window.localStorage);
+  removeFrom(window.sessionStorage);
+
   try {
-    window.localStorage.setItem(CONSENT_KEY, value);
+    const store =
+      value === "granted" ? window.localStorage : window.sessionStorage;
+    store.setItem(CONSENT_KEY, value);
   } catch {
-    /* см. комментарий в readConsent */
+    /* см. комментарий в readStore */
   }
 
   // Сообщаем Google о смене решения. Скрипт с настройками по умолчанию
