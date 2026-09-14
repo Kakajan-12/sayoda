@@ -61,12 +61,24 @@ export default function ImageWithSkeleton({
    *
    * Кривая easeOutQuint: быстрый старт и мягкое торможение — зум так
    * читается как плавное приближение, а не как рывок.
+   *
+   * Свойств перечислено четыре, и три последних — из-за Tailwind 4. В
+   * третьей версии scale-105 писал `transform: scale(1.05)`, и хватало
+   * одного `transform`. В четвёртой те же утилиты пишут в отдельные
+   * свойства — scale, translate, rotate, — а `transform` остаётся
+   * нетронутым. После перехода на v4 зум карточек снова перестал
+   * анимироваться: свойство менялось не то, которое здесь указано.
    */
   const mergedStyle: CSSProperties = {
     ...style,
     opacity: loaded ? 1 : 0,
-    transition:
-      "opacity 0.4s ease-in-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+    transition: [
+      "opacity 0.4s ease-in-out",
+      "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+      "scale 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+      "translate 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+      "rotate 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+    ].join(", "),
   };
 
   // Картинка могла уже оказаться в кэше до того, как React навесил onLoad —
