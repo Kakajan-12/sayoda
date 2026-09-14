@@ -96,7 +96,7 @@ export default async function PriceGuide({
           {buckets.map((b) => (
             <div
               key={b.key}
-              className="rounded-lg border border-sand bg-white p-5 shadow-sm"
+              className="rounded-lg border border-sand bg-white p-5 shadow-xs"
             >
               <p className={`${QuicksandFont.className} text-sm text-inkMuted`}>
                 {b.label}

@@ -52,7 +52,7 @@ export default function TourBookingCard({
   };
 
   return (
-    <div className="rounded-2xl bg-white p-5 ring-1 ring-sand shadow-sm">
+    <div className="rounded-2xl bg-white p-5 ring-1 ring-sand shadow-xs">
       <div className="flex items-end justify-between gap-3 border-b border-sand pb-4">
         <span className="leading-tight">
           <span className="block text-sm text-inkMuted">{t("from")}</span>

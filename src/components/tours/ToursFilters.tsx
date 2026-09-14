@@ -131,7 +131,7 @@ export default function ToursFilters({
   return (
     <>
       <div className="scroll-mt-24">
-        <div className="hidden lg:flex container mx-auto px-5 justify-center -mt-16 z-20 relative mb-10">
+        <div className="hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-24">
           <div className="w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand">
             {form}
           </div>
@@ -149,8 +149,11 @@ export default function ToursFilters({
         </div>
       </div>
 
+      {/* bg-black/50 вместо пары bg-black + bg-opacity-50: утилиты
+          *-opacity-* в v4 удалены, и прозрачность фона просто переставала бы
+          работать — подложка вышла бы сплошной чёрной. */}
       {isMobileOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white w-11/12 p-6 rounded-lg relative">
             <button
               type="button"

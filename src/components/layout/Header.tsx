@@ -356,7 +356,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
       */}
       <div
         className={`transition-colors duration-300 ${
-          scrolled ? "bg-mainBlue" : "bg-mainBlue/85 backdrop-blur-sm"
+          scrolled ? "bg-mainBlue" : "bg-mainBlue/85 backdrop-blur-xs"
         }`}
       >
         <div className="container mx-auto px-4">
@@ -441,7 +441,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
                 </p>
                 {isLangOpen && (
                   <div
-                    className="absolute top-full mt-2 bg-mainBlue rounded shadow-lg z-50"
+                    className="absolute top-full mt-2 bg-mainBlue rounded-sm shadow-lg z-50"
                     style={{ left: "-16px" }}
                   >
                     {filteredLanguages.map((lang) => (
@@ -465,7 +465,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
             <div className="flex md:hidden">
               <button
                 onClick={() => dispatch(makeToggle())}
-                className="px-4 py-2 z-50 relative text-white rounded"
+                className="px-4 py-2 z-50 relative text-white rounded-sm"
               >
                 <RxHamburgerMenu className="w-6 h-6 text-white" />
               </button>

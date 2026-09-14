@@ -32,7 +32,7 @@ export default async function BlogsCards({ blogs }: { blogs: Blog[] }) {
   // там человек уже пришёл читать и выбирает сам, выделять за него нечего.
 
   return (
-    <div className="w-full bg-gradient-to-b from-mainForBackground to-white py-10 md:py-20">
+    <div className="w-full bg-linear-to-b from-mainForBackground to-white py-10 md:py-20">
       <div className="container mx-auto px-5">
         <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3 md:mb-12">
           <h2

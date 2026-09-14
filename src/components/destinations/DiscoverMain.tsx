@@ -11,9 +11,9 @@ const DiscoverMain = () => {
       <div className="relative">
         <ImageWithSkeleton
           alt="Desert landscape of Turkmenistan on a Sayoda Travel tour"
-          className=" w-full  object-cover  h-[60vh] md:h-[80vh] lg:h-[92vh]   "
-          width={800}
-          height={500}
+          className="w-full h-[44vh] md:h-[64vh] lg:h-[72vh] object-center object-cover"
+          width={1800}
+          height={1500}
           src={mainImg}
         />
         {/*
@@ -24,11 +24,11 @@ const DiscoverMain = () => {
          * участках пустыни белый текст размывался. Значения те же, что у
          * баннера главной, чтобы страницы не расходились.
          */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/45" />
-        <div className="absolute  w-full h-full  top-0  ">
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/50 via-black/35 to-black/45" />
+        <div className="absolute w-full h-full top-0">
           {/* items-center: раньше здесь стояло items-cente — класса с такой
               опечаткой не существует, и Tailwind молча его выбрасывал. */}
-          <div className="container px-5 sm:px-10  pb-10 flex justify-center gap-8   text-center flex-col  items-center mx-auto md:w-3/4 lg:w-3/5 w-full  h-full">
+          <div className="container px-5 sm:px-10  pb-10 flex justify-center gap-8 text-center flex-col items-center mx-auto md:w-3/4 lg:w-3/5 w-full  h-full">
             <h1
               className={`${PoppinFont.className} px-2 text-xl sm:text-2xl lg:text-2xl xl:text-3xl  font-semibold text-white leading-8 lg:leading-10 xl:leading-[60px] tracking-wider`}
             >

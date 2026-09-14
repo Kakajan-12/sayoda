@@ -141,7 +141,7 @@ export default function Dropdown({
         aria-activedescendant={open ? `${id}-${highlighted}` : undefined}
         onClick={() => (open ? setOpen(false) : openList())}
         onKeyDown={onKeyDown}
-        className={`${QuicksandFont.className} flex w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-left text-sm text-ink outline-none transition ${
+        className={`${QuicksandFont.className} flex w-full items-center justify-between gap-2 rounded-lg border bg-white px-4 py-2.5 text-left text-sm text-ink outline-hidden transition ${
           open ? "border-tileLight" : "border-sand hover:border-tileLight/60"
         }`}
       >

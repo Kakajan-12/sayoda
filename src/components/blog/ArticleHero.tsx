@@ -47,7 +47,7 @@ const MainCountries: React.FC<MainCountriesProps> = ({ data }) => {
         />
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-transparent" />
 
       <div className="absolute text-start pt-20 md:pt-0 w-full h-full top-0">
         <div className="container px-5 sm:px-10 flex gap-10 sm:gap-8 text-start flex-col justify-start md:justify-center items-end mx-auto w-full h-full">

@@ -101,7 +101,7 @@ export default function PhotoGallery({
             key={photo.id}
             type="button"
             onClick={() => setIndex(position)}
-            className="group relative block w-full overflow-hidden rounded-xl shadow-sm ring-1 ring-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tileLight"
+            className="group relative block w-full overflow-hidden rounded-xl shadow-xs ring-1 ring-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tileLight"
           >
             <ImageWithSkeleton
               className="h-full max-h-[500px] w-full rounded-xl object-cover transition-transform duration-700 ease-out group-hover:scale-105"

@@ -25,7 +25,7 @@ import { useTranslations } from "next-intl";
  * то выше, то ниже на несколько пикселей — строка формы выглядела рваной.
  */
 const controlBase =
-  "w-full h-12 rounded-lg border border-sand bg-white px-3.5 text-ink outline-none transition focus:border-tileLight";
+  "w-full h-12 rounded-lg border border-sand bg-white px-3.5 text-ink outline-hidden transition focus:border-tileLight";
 
 export const inputClass = `${controlBase} placeholder:text-inkMuted/60`;
 
@@ -48,7 +48,7 @@ export const dateClass = `${controlBase} cursor-pointer`;
 
 /** Многострочное поле: высота своя, всё остальное как у прочих. */
 export const textareaClass =
-  "w-full rounded-lg border border-sand bg-white px-3.5 py-3 text-ink outline-none transition placeholder:text-inkMuted/60 focus:border-tileLight resize-none";
+  "w-full rounded-lg border border-sand bg-white px-3.5 py-3 text-ink outline-hidden transition placeholder:text-inkMuted/60 focus:border-tileLight resize-none";
 
 export function Field({
   label,

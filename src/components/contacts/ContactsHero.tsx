@@ -16,7 +16,7 @@ const ContactMain = () => {
         src={MainImg}
         priority
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/50 to-black/20" />
+      <div className="absolute inset-0 bg-linear-to-r from-black/20 via-black/50 to-black/20" />
       <div className="absolute w-full h-full top-16 md:top-0 ">
         <div className="container px-5 sm:px-10  flex  gap-10 sm:gap-8   text-center flex-col justify-start md:justify-center   items-center mx-auto h-full">
           <h1

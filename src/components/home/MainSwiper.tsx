@@ -58,7 +58,7 @@ interface MainSwiperProps {
  * pointer-events-none — чтобы слой не перехватывал наведение и клики.
  */
 const HERO_OVERLAY =
-  "pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-black/35 to-black/45";
+  "pointer-events-none absolute inset-0 z-10 bg-linear-to-b from-black/50 via-black/35 to-black/45";
 
 const MainSwiper = ({ cards, heading, backgroundImage }: MainSwiperProps) => {
   const heroImage = backgroundImage || mainImage;
@@ -114,7 +114,7 @@ const MainSwiper = ({ cards, heading, backgroundImage }: MainSwiperProps) => {
                         />
                       </div>
 
-                      <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-black/55 to-transparent" />
+                      <div className="absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/55 to-transparent" />
 
                       {/* h2, а не h1: единственный h1 страницы — заголовок
                           первого экрана, он приходит пропсом сверху. */}

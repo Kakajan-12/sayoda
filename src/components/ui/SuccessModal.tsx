@@ -35,7 +35,7 @@ export default function SuccessModal({
           exit={{ opacity: 0 }}
           /* backdrop-blur-sm, а не -xs: -xs это имя из Tailwind 4, здесь стоит
              третья версия, и такого класса в сборке нет — фон не размывался. */
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4"
           onClick={onClose}
         >
           <motion.div
@@ -78,7 +78,7 @@ export default function SuccessModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full rounded bg-tile py-3 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-tile/80"
+                className="w-full rounded-sm bg-tile py-3 text-sm font-bold uppercase tracking-widest text-white transition hover:bg-tile/80"
               >
                 {closeLabel}
               </button>

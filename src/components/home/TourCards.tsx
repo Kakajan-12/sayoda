@@ -75,7 +75,7 @@ const TourCards: React.FC<Props> = ({ tours }) => {
           <Link
             key={tour.id}
             href={tour.slug ? `/tours/${tour.slug}` : "#"}
-            className="group flex flex-col overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-tileLight"
+            className="group flex flex-col overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-xs transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-tileLight"
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <ImageWithSkeleton
@@ -88,17 +88,17 @@ const TourCards: React.FC<Props> = ({ tours }) => {
 
               {/* Затемнение только снизу: под ним плашка страны, а верх
                   картинки должен остаться видимым. */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/55 to-transparent" />
 
               {country && (
-                <span className="absolute bottom-3 left-3 flex items-center gap-1 text-sm font-semibold text-white drop-shadow">
+                <span className="absolute bottom-3 left-3 flex items-center gap-1 text-sm font-semibold text-white drop-shadow-sm">
                   <IoLocationSharp className="h-4 w-4 shrink-0" />
                   {country}
                 </span>
               )}
 
               {days !== null && (
-                <span className="absolute top-3 right-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-tile shadow-sm backdrop-blur">
+                <span className="absolute top-3 right-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-tile shadow-xs backdrop-blur-sm">
                   {t("days", { count: days })}
                 </span>
               )}

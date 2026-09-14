@@ -75,7 +75,7 @@ const HomeLeadForm = () => {
   };
 
   const field =
-    "w-full rounded-lg border border-sand bg-white px-4 py-2.5 text-sm text-ink outline-none transition focus:border-tileLight";
+    "w-full rounded-lg border border-sand bg-white px-4 py-2.5 text-sm text-ink outline-hidden transition focus:border-tileLight";
 
   return (
     <div className="w-full bg-tileTint py-12 md:py-16">
@@ -95,7 +95,7 @@ const HomeLeadForm = () => {
 
         <form
           onSubmit={handleSubmit}
-          className={`${QuicksandFont.className} relative grid grid-cols-1 gap-4 rounded-lg bg-white p-5 shadow-sm ring-1 ring-sand sm:grid-cols-2 md:p-6`}
+          className={`${QuicksandFont.className} relative grid grid-cols-1 gap-4 rounded-lg bg-white p-5 shadow-xs ring-1 ring-sand sm:grid-cols-2 md:p-6`}
         >
           <input
             name="name"

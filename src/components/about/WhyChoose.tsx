@@ -78,7 +78,7 @@ const WhyChoose = () => {
             return (
               <article
                 key={title}
-                className="flex h-full flex-col gap-2 rounded-lg bg-white p-4 shadow-sm ring-1 ring-sand transition duration-300 hover:shadow-md hover:ring-tileLight sm:p-5"
+                className="flex h-full flex-col gap-2 rounded-lg bg-white p-4 shadow-xs ring-1 ring-sand transition duration-300 hover:shadow-md hover:ring-tileLight sm:p-5"
               >
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-tileTint text-tile">
                   <Icon className="h-5 w-5" />

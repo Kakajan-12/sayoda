@@ -36,7 +36,7 @@ export default async function DestinationShell({
           alt={name}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/20" />
         <div className="absolute inset-0 container mx-auto px-5 sm:px-10 flex flex-col justify-center">
           {/* Заголовок допускает <br/> для переноса, поэтому выводится разметкой */}
           <h1

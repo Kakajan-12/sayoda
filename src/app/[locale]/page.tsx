@@ -159,7 +159,7 @@ export default async function Home({
           </Link>
           <Link
             href="/booking"
-            className={`${PoppinFont.className} inline-block w-full max-w-xs rounded-full border-2 border-white/80 px-6 py-2.5 sm:w-auto sm:max-w-none sm:px-8 sm:py-3 text-white text-sm sm:text-base backdrop-blur-sm transition-colors hover:bg-white/15`}
+            className={`${PoppinFont.className} inline-block w-full max-w-xs rounded-full border-2 border-white/80 px-6 py-2.5 sm:w-auto sm:max-w-none sm:px-8 sm:py-3 text-white text-sm sm:text-base backdrop-blur-xs transition-colors hover:bg-white/15`}
           >
             {t("ctaPlan")}
           </Link>

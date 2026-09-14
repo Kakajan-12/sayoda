@@ -60,7 +60,7 @@ const stripHtml = (html: string) =>
     .trim();
 
 const CARD_BASE =
-  "group block overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-sm transition duration-300 hover:shadow-xl hover:ring-tileLight";
+  "group block overflow-hidden rounded-lg bg-white ring-1 ring-sand shadow-xs transition duration-300 hover:shadow-xl hover:ring-tileLight";
 
 const BlogCard: React.FC<BlogCardProps> = ({
   blog,
@@ -113,7 +113,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             width={256}
             height={192}
             className="h-full w-full object-cover group-hover:scale-105"
-            skeletonClassName="rounded"
+            skeletonClassName="rounded-sm"
           />
         </div>
         <div className="gap-1">

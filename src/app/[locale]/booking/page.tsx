@@ -171,7 +171,7 @@ const BookingPage = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="relative mt-6 space-y-6 rounded-xl bg-white p-5 shadow-sm ring-1 ring-sand sm:p-8"
+          className="relative mt-6 space-y-6 rounded-xl bg-white p-5 shadow-xs ring-1 ring-sand sm:p-8"
         >
           <Section title={t("contact")}>
             <Field label={t("Iname")} htmlFor="firstName" required>

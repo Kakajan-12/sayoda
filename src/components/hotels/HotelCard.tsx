@@ -73,7 +73,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
   ].filter((i) => i.show);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="flex flex-col md:flex-row gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-xs">
       {/* Image */}
       <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-xl md:h-auto md:w-56 lg:w-64">
         {hotel.image ? (
@@ -110,7 +110,7 @@ const HotelCard: React.FC<Props> = ({ hotel }) => {
           {address || city}
         </p>
 
-        <span className="inline-flex w-fit items-center gap-1 rounded bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+        <span className="inline-flex w-fit items-center gap-1 rounded-sm bg-green-600 px-3 py-1 text-xs font-semibold text-white">
           <MdVerifiedUser /> {t("safeStays")}
         </span>
 

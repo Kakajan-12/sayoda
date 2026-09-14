@@ -76,7 +76,7 @@ export default function SearchField({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
-        className="h-12 w-full rounded-full border border-sand bg-white pl-12 pr-28 text-ink outline-none transition placeholder:text-inkMuted/60 focus:border-tileLight"
+        className="h-12 w-full rounded-full border border-sand bg-white pl-12 pr-28 text-ink outline-hidden transition placeholder:text-inkMuted/60 focus:border-tileLight"
       />
       <button
         type="submit"

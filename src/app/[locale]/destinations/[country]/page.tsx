@@ -57,7 +57,7 @@ export default async function GeneralInformationPage({
                     <img
                       src={destImage(img.src)}
                       alt={destField(img, "caption", locale)}
-                      className="w-full h-62 object-cover rounded-xl shadow-sm"
+                      className="w-full h-62 object-cover rounded-xl shadow-xs"
                     />
                     <figcaption className="text-sm text-gray-600 text-left underline underline-offset-8">
                       {destField(img, "caption", locale)}

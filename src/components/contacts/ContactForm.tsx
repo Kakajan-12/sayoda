@@ -84,7 +84,7 @@ const ContactForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-hidden transition focus:border-tileLight"
             type="text"
             placeholder={t("Iname")}
             required
@@ -93,7 +93,7 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-hidden transition focus:border-tileLight"
             type="email"
             placeholder={t("Iemail")}
             required
@@ -102,7 +102,7 @@ const ContactForm = () => {
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight sm:col-span-full"
+            className="w-full rounded-lg border border-sand px-4 py-2.5 outline-hidden transition focus:border-tileLight sm:col-span-full"
             type="text"
             placeholder={t("Isubject")}
           />
@@ -111,7 +111,7 @@ const ContactForm = () => {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            className="h-40 w-full resize-none rounded-lg border border-sand px-4 py-2.5 outline-none transition focus:border-tileLight sm:col-span-full"
+            className="h-40 w-full resize-none rounded-lg border border-sand px-4 py-2.5 outline-hidden transition focus:border-tileLight sm:col-span-full"
             placeholder={t("Imessage")}
             required
           />
