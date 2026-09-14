@@ -373,7 +373,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
             </Link>
 
             {/* NAVBAR FOR DESKTOP */}
-            <div className="hidden md:flex items-center lg:gap-x-12 gap-x-4">
+            <div className="hidden md:flex items-center lg:gap-x-8 gap-x-2">
               {/*
                 Активный раздел помечен белой полоской под пунктом, а не
                 цветом текста: кирпичный на бирюзовой шапке читался хуже

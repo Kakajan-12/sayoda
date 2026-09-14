@@ -20,8 +20,8 @@ const Explore = () => {
   const t = useTranslations("Explore");
   const offers = t.raw("offers");
   return (
-    <div className="  container mx-auto px-5  py-10 lg:py-20 mt-10 lg:mt-20">
-      <div className="w-full flex md:flex-row flex-col md:space-x-10 space-y-10 md:space-y-0 md:justify-between ">
+    <div className="container mx-auto px-5 py-10 lg:py-20">
+      <div className="w-full flex md:flex-row flex-col md:space-x-10 space-y-12 sm:space-y-16 md:space-y-0 md:justify-between ">
         <div className="relative w-full md:w-1/2  h-full  ">
           <div className="relative w-3/4 md:w-[85%] lg:w-3/4 h-1/2 pb-5 lg:pb-7 rounded-2xl ">
             <ImageWithSkeleton
@@ -41,7 +41,7 @@ const Explore = () => {
             />
           </div>
         </div>
-        <div className="flex md:w-1/2 flex-col gap-6 ">
+        <div className="flex md:w-1/2 flex-col gap-6">
           <h2
             className={`text-2xl lg:text-3xl  2xl:text-5xl leading-9  2xl:leading-[65px] font-bold   ${PoppinFont.className}`}
           >

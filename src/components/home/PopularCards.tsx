@@ -17,7 +17,7 @@ export default async function PopularCards({ tours }: { tours: Tour[] }) {
   return (
     <div className="container mx-auto px-5 py-10 md:py-20">
       <h2
-        className={`${PoppinFont.className} md:mb-14 mb-10 font-bold text-xl md:text-2xl xl:text-3xl`}
+        className={`${PoppinFont.className} mb-10 font-bold text-xl lg:text-2xl xl:text-3xl`}
       >
         {t("popular")}
       </h2>

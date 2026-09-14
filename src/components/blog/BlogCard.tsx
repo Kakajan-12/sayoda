@@ -104,25 +104,28 @@ const BlogCard: React.FC<BlogCardProps> = ({
     return (
       <Link
         href={href}
-        className={`${CARD_BASE} flex gap-4 p-3 hover:-translate-y-0.5 ${className}`}
+        className={`${CARD_BASE} flex gap-4 hover:-translate-y-0.5 ${className}`}
       >
-        <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-md sm:h-28 sm:w-36">
+        <div className="relative w-32 sm:w-44 md:w-52 lg:w-60 shrink-0 overflow-hidden h-24 sm:h-28 xl:h-32 2xl:h-36">
           <ImageWithSkeleton
             alt={title}
             src={mediaUrl(blog.image)}
             width={256}
             height={192}
             className="h-full w-full object-cover group-hover:scale-105"
-            skeletonClassName="rounded-md"
+            skeletonClassName="rounded"
           />
         </div>
-        <div className="flex min-w-0 flex-col justify-center gap-1">
+        <div className="gap-1">
           {dateLabel && dateEl("text-[11px]")}
-          <h3
-            className={`${PoppinFont.className} text-sm/snug sm:text-base/snug font-semibold text-ink line-clamp-3 transition-colors group-hover:text-tileLight`}
-          >
-            {title}
-          </h3>
+          <div className="flex items-center">
+            <h3
+                className={`${PoppinFont.className} text-sm/snug sm:text-base/snug font-semibold text-ink line-clamp-3 transition-colors group-hover:text-tileLight`}
+            >
+              {title}
+            </h3>
+          </div>
+
         </div>
       </Link>
     );
