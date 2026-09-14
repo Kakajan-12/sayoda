@@ -168,8 +168,6 @@
     "btn": "Отправить заявку"
   },
   "Filter": {
-    "popular": "Популярные",
-    "all-tours": "Все туры",
     "all-types": "Все типы",
     "all-categories": "Все категории",
     "all-locations": "Все локации",
@@ -179,8 +177,7 @@
     "close": "Закрыть",
     "group-type": "Тип тура",
     "group-category": "Формат",
-    "group-location": "Страна",
-    "all": "Все"
+    "group-location": "Страна"
   },
   "Explore": {
     "title": "Исследуйте сердце Центральной Азии",

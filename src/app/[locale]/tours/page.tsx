@@ -33,9 +33,27 @@ type Search = Record<string, string | string[] | undefined>;
 const one = (value: string | string[] | undefined) =>
   (Array.isArray(value) ? value[0] : value) ?? "";
 
-const asId = (value: string) => {
-  const n = Number.parseInt(value, 10);
-  return Number.isFinite(n) && n > 0 ? n : null;
+/**
+ * Список идентификаторов из адреса: «8,9» или повторённый параметр.
+ *
+ * Значения приходят извне, поэтому пропускаем только целые положительные
+ * числа и убираем повторы. Порядок сохраняем — по нему собирается тот же
+ * адрес обратно, и ссылка не переписывается сама собой при первом же клике.
+ *
+ * Предел в пятьдесят значений — тот же, что на сервере: без него строка на
+ * тысячу чисел ушла бы в запрос целиком.
+ */
+const asIds = (value: string | string[] | undefined): string[] => {
+  const parts = Array.isArray(value) ? value : String(value ?? "").split(",");
+  const ids: string[] = [];
+  for (const part of parts) {
+    const n = Number.parseInt(part, 10);
+    if (!Number.isInteger(n) || n <= 0) continue;
+    const text = String(n);
+    if (!ids.includes(text)) ids.push(text);
+    if (ids.length >= 50) break;
+  }
+  return ids;
 };
 
 export async function generateMetadata({
@@ -92,9 +110,9 @@ export default async function ToursPage({
   const search = await searchParams;
 
   const values = {
-    type: one(search.type),
-    cat: one(search.cat),
-    destination: one(search.destination),
+    type: asIds(search.type),
+    cat: asIds(search.cat),
+    destination: asIds(search.destination),
     popular: one(search.popular),
     /*
      * Запрос из поиска по сайту. Каталог принимает его наравне с
@@ -116,9 +134,9 @@ export default async function ToursPage({
     getToursPage({
       page,
       perPage: PER_PAGE,
-      type: asId(values.type),
-      cat: asId(values.cat),
-      destination: asId(values.destination),
+      type: values.type.join(","),
+      cat: values.cat.join(","),
+      destination: values.destination.join(","),
       popular: values.popular === "1",
       q: values.q,
     }),
@@ -165,7 +183,14 @@ export default async function ToursPage({
         page={page}
         pageCount={pageCount}
         basePath="/tours"
-        params={values}
+        // Пагинация собирает адрес из тех же условий, поэтому списки
+        // приводим к тому же виду, в каком они пришли: «8,9».
+        params={{
+          ...values,
+          type: values.type.join(","),
+          cat: values.cat.join(","),
+          destination: values.destination.join(","),
+        }}
         label={filterLabels("filter")}
       />
     </>

@@ -168,8 +168,6 @@
     "btn": "Ýüztutma ibermek"
   },
   "Filter": {
-    "popular": "Meşhur",
-    "all-tours": "Ähli syýahatlar",
     "all-types": "Ähli görnüşler",
     "all-categories": "Ähli kategoriýalar",
     "all-locations": "Ähli lokasiýalar",
@@ -179,8 +177,7 @@
     "close": "Ýap",
     "group-type": "Syýahatyň görnüşi",
     "group-category": "Format",
-    "group-location": "Ýurt",
-    "all": "Ählisi"
+    "group-location": "Ýurt"
   },
   "Explore": {
     "title": "Merkezi Aziýanyň ýüregini derňäň",

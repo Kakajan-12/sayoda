@@ -168,8 +168,6 @@
     "btn": "Send enquiry"
   },
   "Filter": {
-    "popular": "Popular",
-    "all-tours": "All tours",
     "all-types": "All types",
     "all-categories": "All categories",
     "all-locations": "All locations",
@@ -179,8 +177,7 @@
     "close": "Close",
     "group-type": "Tour type",
     "group-category": "Format",
-    "group-location": "Country",
-    "all": "All"
+    "group-location": "Country"
   },
   "Explore": {
     "title": "Explore the Heart of Central Asia",

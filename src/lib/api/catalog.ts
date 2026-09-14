@@ -108,10 +108,15 @@ export const PER_PAGE = 12;
 export interface ToursQuery {
   page?: number;
   perPage?: number;
-  /** Идентификаторы из соответствующих справочников. */
-  type?: number | null;
-  cat?: number | null;
-  destination?: number | null;
+  /**
+   * Идентификаторы из соответствующих справочников, списком через запятую.
+   *
+   * Значений может быть несколько: «8,9» значит «или тот тип, или этот».
+   * Сервер складывает их в IN, между разными осями остаётся И.
+   */
+  type?: string;
+  cat?: string;
+  destination?: string;
   popular?: boolean | null;
   /** Поиск по словам: заголовки, тексты и города на всех трёх языках. */
   q?: string;

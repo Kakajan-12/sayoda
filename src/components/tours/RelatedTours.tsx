@@ -32,14 +32,14 @@ export default async function RelatedTours({
 
   if (tour.tour_cat_id) {
     const byCategory = await getToursPage({
-      cat: tour.tour_cat_id,
+      cat: String(tour.tour_cat_id),
       perPage: 4,
     });
     related = pick(byCategory.items);
   }
 
   if (related.length < 3 && tour.tour_type_id) {
-    const byType = await getToursPage({ type: tour.tour_type_id, perPage: 4 });
+    const byType = await getToursPage({ type: String(tour.tour_type_id), perPage: 4 });
     const seen = new Set(related.map((item) => item.id));
     related = [
       ...related,

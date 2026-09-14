@@ -30,7 +30,7 @@ export default async function ToursPage({
    * страницы внутри вкладки незачем — человек уже сузил выбор до страны.
    */
   const { items: countryTours } = await getToursPage({
-    destination: destination.id,
+    destination: String(destination.id),
     perPage: 100,
   });
 
