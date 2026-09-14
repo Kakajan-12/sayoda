@@ -176,7 +176,11 @@
     "reset": "Filterleri aýrmak",
     "search": "Gözleg",
     "filter": "Filter",
-    "close": "Ýap"
+    "close": "Ýap",
+    "group-type": "Syýahatyň görnüşi",
+    "group-category": "Format",
+    "group-location": "Ýurt",
+    "all": "Ählisi"
   },
   "Explore": {
     "title": "Merkezi Aziýanyň ýüregini derňäň",

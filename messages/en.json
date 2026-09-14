@@ -176,7 +176,11 @@
     "reset": "Reset filters",
     "search": "Search",
     "filter": "Filter",
-    "close": "Close"
+    "close": "Close",
+    "group-type": "Tour type",
+    "group-category": "Format",
+    "group-location": "Country",
+    "all": "All"
   },
   "Explore": {
     "title": "Explore the Heart of Central Asia",

@@ -1,49 +1,50 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { FiFilter } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
 import { useRouter } from "@/i18n/navigation";
-import Dropdown from "@/components/ui/Dropdown";
 import { PoppinFont } from "@/components/ui/Fonts";
 import type { TaxonomyItem } from "@/lib/api/catalog";
 
 /**
  * Фильтры каталога туров.
  *
- * Отбор перенесён на сервер, поэтому фильтр больше не просеивает массив в
- * браузере — он меняет адрес, а страницу с нужными турами собирает сервер.
- * Иначе фильтровать было бы нечего: браузер видит только текущие двенадцать
- * карточек, а не весь каталог.
+ * Отбор идёт на сервере: фильтр меняет адрес, а страницу с нужными турами
+ * собирает сервер. Иначе фильтровать было бы нечего — браузер видит только
+ * текущую страницу выдачи, а не весь каталог. Побочная польза: отобранный
+ * список получил собственный адрес, его можно отправить клиенту в переписке.
  *
- * Побочная польза: отобранный список получил собственный адрес — его можно
- * отправить клиенту в переписке, и он откроется тем же самым.
+ * Вместо выпадающих списков — видимые чипы, и это главное здесь решение.
+ *
+ * Списков было четыре, и на мобильном они жили в модалке: чтобы поставить
+ * один фильтр, человек делал четыре касания (иконка, список, значение,
+ * «Искать»), и всё это ради каталога из двенадцати туров. Чипы дают одно
+ * касание и заодно показывают, что вообще бывает, — при трёх-пяти значениях
+ * на ось прятать их за кнопкой незачем.
+ *
+ * Модалки больше нет: чипы помещаются на странице на любой ширине, а окно
+ * поверх содержимого нужно было только для того, чтобы вместить списки.
+ *
+ * Фильтра «Популярные» тоже нет. Из двенадцати туров популярными отмечены
+ * девять — такой отбор ничего не отбирает. Адрес ?popular=1 сервер по-прежнему
+ * понимает, старые ссылки не ломаются.
  *
  * При смене любого условия номер страницы сбрасывается: на четвёртой
  * странице прежней выборки в новой может не быть ничего, и человек попадал
  * бы на пустой экран.
- *
- * На широком экране условия применяются сразу по выбору, в мобильной
- * модалке — только по кнопке «Искать». Раньше модалка использовала ту же
- * мгновенную схему, и получалось три странности разом: каждый выбор из
- * четырёх списков уходил на сервер отдельным запросом, список под модалкой
- * перестраивался, пока её ещё не закрыли, а сама кнопка «Искать» ничего не
- * делала — она просто закрывала окно.
  */
 
 export interface ToursFilterValues {
   type: string;
   cat: string;
   destination: string;
+  /** Сервер понимает, управления на странице нет — см. комментарий выше. */
   popular: string;
   /**
    * Запрос из поиска по сайту.
    *
-   * В списке нет поля для него — каталог только не теряет его при смене
-   * фильтров. Раньше это работало случайно: поле не было объявлено в типе,
-   * но приезжало в объекте и переживало пересборку адреса. Объявлено явно,
-   * чтобы не потерялось при первой же правке.
+   * Поля для него в фильтре нет — каталог только не теряет его при смене
+   * условий. Объявлен явно, чтобы не потерялся при первой же правке.
    */
   q?: string;
 }
@@ -55,7 +56,7 @@ interface Props {
   destinations: TaxonomyItem[];
 }
 
-const EMPTY = { type: "", cat: "", destination: "", popular: "" };
+type Option = { value: string; label: string };
 
 export default function ToursFilters({
   values,
@@ -66,9 +67,8 @@ export default function ToursFilters({
   const t = useTranslations("Filter");
   const locale = useLocale();
   const router = useRouter();
-  const [isMobileOpen, setMobileOpen] = useState(false);
-  // Черновик модалки: копится, пока человек перебирает списки.
-  const [draft, setDraft] = useState<ToursFilterValues>(values);
+
+  const isFiltered = Boolean(values.type || values.cat || values.destination);
 
   const apply = (next: Partial<ToursFilterValues>) => {
     const merged = { ...values, ...next };
@@ -82,148 +82,100 @@ export default function ToursFilters({
     router.push(query ? `/tours?${query}` : "/tours", { scroll: false });
   };
 
-  const openMobile = () => {
-    // Черновик каждый раз начинается с того, что уже применено: иначе
-    // модалка показывала бы «все туры» при включённом фильтре.
-    setDraft(values);
-    setMobileOpen(true);
-  };
-
-  /**
-   * Одна и та же разметка на оба случая. Различается только то, куда
-   * уходит выбор: сразу в адрес или в черновик.
-   */
-  const renderForm = (
-    current: ToursFilterValues,
-    onChange: (next: Partial<ToursFilterValues>) => void,
+  const group = (
+    label: string,
+    current: string,
+    options: Option[],
+    onPick: (value: string) => void,
   ) => {
-    const isFiltered = Boolean(
-      current.type || current.cat || current.destination || current.popular,
-    );
+    // Одно значение фильтровать нечем: колонка чипов только отнимает место.
+    if (options.length < 2) return null;
 
     return (
-      <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
-        <Dropdown
-          label={t("all-tours")}
-          value={current.popular}
-          options={[
-            { value: "", label: t("all-tours") },
-            { value: "1", label: t("popular") },
-          ]}
-          onChange={(value) => onChange({ popular: value })}
-        />
+      <div key={label} className="flex flex-col gap-2">
+        <span className="text-xs font-semibold uppercase tracking-wide text-inkMuted">
+          {label}
+        </span>
+        {/*
+          role="group": для скринридера это набор переключателей одной оси,
+          а не россыпь одиночных кнопок. Состояние — через aria-pressed.
 
-        <Dropdown
-          label={t("all-types")}
-          value={current.type}
-          options={[
-            { value: "", label: t("all-types") },
-            ...types.map((item) => ({
-              value: String(item.id),
-              label: item.label,
-            })),
-          ]}
-          onChange={(value) => onChange({ type: value })}
-        />
+          На узком экране ось — одна прокручиваемая дорожка, с sm — обычный
+          перенос. Измерено на ширине 360: с переносом три оси занимали девять
+          рядов, почти пол-экрана до первой карточки, — а ради этого фильтр и
+          вынимали из модалки. Дорожками те же три оси умещаются в три ряда.
 
-        <Dropdown
-          label={t("all-categories")}
-          value={current.cat}
-          options={[
-            { value: "", label: t("all-categories") },
-            ...categories.map((cat) => ({
-              value: String(cat.id),
-              label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
-            })),
-          ]}
-          onChange={(value) => onChange({ cat: value })}
-        />
-
-        <Dropdown
-          label={t("all-locations")}
-          value={current.destination}
-          options={[
-            { value: "", label: t("all-locations") },
-            ...destinations.map((item) => ({
-              value: String(item.id),
-              label: String(
-                item[`location_${locale}`] ?? item.location_en ?? "",
-              ),
-            })),
-          ]}
-          onChange={(value) => onChange({ destination: value })}
-        />
-
-        <button
-          type="button"
-          onClick={() => onChange(EMPTY)}
-          disabled={!isFiltered}
-          className={`${PoppinFont.className} shrink-0 rounded-full border border-tile px-6 py-2.5 text-sm text-tile transition-colors hover:bg-tile hover:text-white disabled:cursor-default disabled:border-sand disabled:text-inkMuted disabled:hover:bg-transparent disabled:hover:text-inkMuted`}
+          Отрицательные поля с таким же padding: дорожка доезжает до края
+          карточки, и обрезанный чип у границы видно — это и подсказывает,
+          что вбок можно листать.
+        */}
+        <div
+          role="group"
+          aria-label={label}
+          className="-mx-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:overflow-x-visible sm:px-0"
         >
-          {t("reset")}
-        </button>
+          {[{ value: "", label: t("all") }, ...options].map((option) => {
+            const active = current === option.value;
+            return (
+              <button
+                key={option.value || "all"}
+                type="button"
+                aria-pressed={active}
+                onClick={() => onPick(option.value)}
+                // shrink-0: внутри дорожки без переноса флекс иначе сжал бы
+                // чипы до нечитаемых столбиков вместо прокрутки.
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors ${
+                  active
+                    ? "border-tile bg-tile text-white"
+                    : "border-sand text-ink hover:border-tileLight hover:text-tileLight"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
     );
   };
 
   return (
-    <>
-      <div className="scroll">
-        <div className="hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-9">
-          <div className="w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand">
-            {renderForm(values, apply)}
-          </div>
-        </div>
+    /* Наложение на обложку только с lg: там карточка узкая и ложится поверх
+       красиво, а на телефоне тремя рядами чипов она закрыла бы её целиком. */
+    <div className="container mx-auto px-5 mb-10 mt-6 lg:relative lg:z-20 lg:-mt-9 lg:flex lg:justify-center">
+      <div className="w-full max-w-[1200px] rounded-xl bg-white px-5 py-5 shadow-lg ring-1 ring-sand sm:px-6">
+        <div className={`${PoppinFont.className} flex flex-col gap-5`}>
+          {group(t("group-type"), values.type, types.map((item) => ({
+            value: String(item.id),
+            label: item.label,
+          })), (value) => apply({ type: value }))}
 
-        <div className="flex lg:hidden justify-end px-5 mt-4">
-          <button
-            type="button"
-            aria-label={t("filter")}
-            onClick={openMobile}
-            className="p-2 border rounded-full"
-          >
-            <FiFilter size={24} />
-          </button>
+          {group(t("group-category"), values.cat, categories.map((cat) => ({
+            value: String(cat.id),
+            label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
+          })), (value) => apply({ cat: value }))}
+
+          {group(t("group-location"), values.destination, destinations.map((item) => ({
+            value: String(item.id),
+            label: String(item[`location_${locale}`] ?? item.location_en ?? ""),
+          })), (value) => apply({ destination: value }))}
+
+          {/* Кнопка появляется, только когда есть что сбрасывать: «Все» в
+              каждой группе и так снимает свою ось, а вечно висящая неактивная
+              кнопка — лишний шум. */}
+          {isFiltered && (
+            <div>
+              <button
+                type="button"
+                onClick={() => apply({ type: "", cat: "", destination: "" })}
+                className="rounded-full border border-tile px-6 py-2 text-sm text-tile transition-colors hover:bg-tile hover:text-white"
+              >
+                {t("reset")}
+              </button>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* bg-black/50 вместо пары bg-black + bg-opacity-50: утилиты
-          *-opacity-* в v4 удалены, и прозрачность фона просто переставала бы
-          работать — подложка вышла бы сплошной чёрной. */}
-      {isMobileOpen && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white w-11/12 p-6 rounded-lg relative">
-            <button
-              type="button"
-              aria-label={t("close")}
-              className="absolute top-3 right-3 text-inkMuted transition-colors hover:text-ink"
-              onClick={() => setMobileOpen(false)}
-            >
-              <IoClose size={28} />
-            </button>
-            <h2
-              className={`${PoppinFont.className} mb-4 text-lg font-bold text-ink`}
-            >
-              {t("filter")}
-            </h2>
-
-            {renderForm(draft, (next) =>
-              setDraft((prev) => ({ ...prev, ...next })),
-            )}
-
-            <button
-              type="button"
-              className={`${PoppinFont.className} mt-5 w-full rounded-full bg-tile py-2.5 text-sm text-white transition-colors hover:bg-tileDark`}
-              onClick={() => {
-                apply(draft);
-                setMobileOpen(false);
-              }}
-            >
-              {t("search")}
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+    </div>
   );
 }
