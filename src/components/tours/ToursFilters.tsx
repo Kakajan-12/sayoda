@@ -23,6 +23,13 @@ import type { TaxonomyItem } from "@/lib/api/catalog";
  * При смене любого условия номер страницы сбрасывается: на четвёртой
  * странице прежней выборки в новой может не быть ничего, и человек попадал
  * бы на пустой экран.
+ *
+ * На широком экране условия применяются сразу по выбору, в мобильной
+ * модалке — только по кнопке «Искать». Раньше модалка использовала ту же
+ * мгновенную схему, и получалось три странности разом: каждый выбор из
+ * четырёх списков уходил на сервер отдельным запросом, список под модалкой
+ * перестраивался, пока её ещё не закрыли, а сама кнопка «Искать» ничего не
+ * делала — она просто закрывала окно.
  */
 
 export interface ToursFilterValues {
@@ -30,6 +37,15 @@ export interface ToursFilterValues {
   cat: string;
   destination: string;
   popular: string;
+  /**
+   * Запрос из поиска по сайту.
+   *
+   * В списке нет поля для него — каталог только не теряет его при смене
+   * фильтров. Раньше это работало случайно: поле не было объявлено в типе,
+   * но приезжало в объекте и переживало пересборку адреса. Объявлено явно,
+   * чтобы не потерялось при первой же правке.
+   */
+  q?: string;
 }
 
 interface Props {
@@ -38,6 +54,8 @@ interface Props {
   categories: TaxonomyItem[];
   destinations: TaxonomyItem[];
 }
+
+const EMPTY = { type: "", cat: "", destination: "", popular: "" };
 
 export default function ToursFilters({
   values,
@@ -49,8 +67,8 @@ export default function ToursFilters({
   const locale = useLocale();
   const router = useRouter();
   const [isMobileOpen, setMobileOpen] = useState(false);
-
-  const isFiltered = Object.values(values).some(Boolean);
+  // Черновик модалки: копится, пока человек перебирает списки.
+  const [draft, setDraft] = useState<ToursFilterValues>(values);
 
   const apply = (next: Partial<ToursFilterValues>) => {
     const merged = { ...values, ...next };
@@ -64,76 +82,96 @@ export default function ToursFilters({
     router.push(query ? `/tours?${query}` : "/tours", { scroll: false });
   };
 
-  const form = (
-    <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
-      <Dropdown
-        label={t("all-tours")}
-        value={values.popular}
-        options={[
-          { value: "", label: t("all-tours") },
-          { value: "1", label: t("popular") },
-        ]}
-        onChange={(value) => apply({ popular: value })}
-      />
+  const openMobile = () => {
+    // Черновик каждый раз начинается с того, что уже применено: иначе
+    // модалка показывала бы «все туры» при включённом фильтре.
+    setDraft(values);
+    setMobileOpen(true);
+  };
 
-      <Dropdown
-        label={t("all-types")}
-        value={values.type}
-        options={[
-          { value: "", label: t("all-types") },
-          ...types.map((item) => ({
-            value: String(item.id),
-            label: item.label,
-          })),
-        ]}
-        onChange={(value) => apply({ type: value })}
-      />
+  /**
+   * Одна и та же разметка на оба случая. Различается только то, куда
+   * уходит выбор: сразу в адрес или в черновик.
+   */
+  const renderForm = (
+    current: ToursFilterValues,
+    onChange: (next: Partial<ToursFilterValues>) => void,
+  ) => {
+    const isFiltered = Boolean(
+      current.type || current.cat || current.destination || current.popular,
+    );
 
-      <Dropdown
-        label={t("all-categories")}
-        value={values.cat}
-        options={[
-          { value: "", label: t("all-categories") },
-          ...categories.map((cat) => ({
-            value: String(cat.id),
-            label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
-          })),
-        ]}
-        onChange={(value) => apply({ cat: value })}
-      />
+    return (
+      <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
+        <Dropdown
+          label={t("all-tours")}
+          value={current.popular}
+          options={[
+            { value: "", label: t("all-tours") },
+            { value: "1", label: t("popular") },
+          ]}
+          onChange={(value) => onChange({ popular: value })}
+        />
 
-      <Dropdown
-        label={t("all-locations")}
-        value={values.destination}
-        options={[
-          { value: "", label: t("all-locations") },
-          ...destinations.map((item) => ({
-            value: String(item.id),
-            label: String(item[`location_${locale}`] ?? item.location_en ?? ""),
-          })),
-        ]}
-        onChange={(value) => apply({ destination: value })}
-      />
+        <Dropdown
+          label={t("all-types")}
+          value={current.type}
+          options={[
+            { value: "", label: t("all-types") },
+            ...types.map((item) => ({
+              value: String(item.id),
+              label: item.label,
+            })),
+          ]}
+          onChange={(value) => onChange({ type: value })}
+        />
 
-      <button
-        type="button"
-        onClick={() =>
-          apply({ type: "", cat: "", destination: "", popular: "" })
-        }
-        disabled={!isFiltered}
-        className={`${PoppinFont.className} shrink-0 rounded-full border border-tile px-6 py-2.5 text-sm text-tile transition-colors hover:bg-tile hover:text-white disabled:cursor-default disabled:border-sand disabled:text-inkMuted disabled:hover:bg-transparent disabled:hover:text-inkMuted`}
-      >
-        {t("reset")}
-      </button>
-    </div>
-  );
+        <Dropdown
+          label={t("all-categories")}
+          value={current.cat}
+          options={[
+            { value: "", label: t("all-categories") },
+            ...categories.map((cat) => ({
+              value: String(cat.id),
+              label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
+            })),
+          ]}
+          onChange={(value) => onChange({ cat: value })}
+        />
+
+        <Dropdown
+          label={t("all-locations")}
+          value={current.destination}
+          options={[
+            { value: "", label: t("all-locations") },
+            ...destinations.map((item) => ({
+              value: String(item.id),
+              label: String(
+                item[`location_${locale}`] ?? item.location_en ?? "",
+              ),
+            })),
+          ]}
+          onChange={(value) => onChange({ destination: value })}
+        />
+
+        <button
+          type="button"
+          onClick={() => onChange(EMPTY)}
+          disabled={!isFiltered}
+          className={`${PoppinFont.className} shrink-0 rounded-full border border-tile px-6 py-2.5 text-sm text-tile transition-colors hover:bg-tile hover:text-white disabled:cursor-default disabled:border-sand disabled:text-inkMuted disabled:hover:bg-transparent disabled:hover:text-inkMuted`}
+        >
+          {t("reset")}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <>
-      <div className="scroll-mt-24">
-        <div className="hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-24">
+      <div className="scroll">
+        <div className="hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-9">
           <div className="w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand">
-            {form}
+            {renderForm(values, apply)}
           </div>
         </div>
 
@@ -141,7 +179,7 @@ export default function ToursFilters({
           <button
             type="button"
             aria-label={t("filter")}
-            onClick={() => setMobileOpen(true)}
+            onClick={openMobile}
             className="p-2 border rounded-full"
           >
             <FiFilter size={24} />
@@ -168,11 +206,18 @@ export default function ToursFilters({
             >
               {t("filter")}
             </h2>
-            {form}
+
+            {renderForm(draft, (next) =>
+              setDraft((prev) => ({ ...prev, ...next })),
+            )}
+
             <button
               type="button"
               className={`${PoppinFont.className} mt-5 w-full rounded-full bg-tile py-2.5 text-sm text-white transition-colors hover:bg-tileDark`}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => {
+                apply(draft);
+                setMobileOpen(false);
+              }}
             >
               {t("search")}
             </button>
