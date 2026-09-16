@@ -88,7 +88,7 @@ export default function DestinationTabs({ slug }: Props) {
     */
     <div
       ref={wrapRef}
-      className={`sticky top-20 z-30 -mt-14 mb-8 pt-2 sm:top-24 md:-mt-16 ${
+      className={`relative z-30 mb-8 pt-2 -mt-16 md:-mt-20 ${
         stuck ? "bg-white" : ""
       }`}
     >
@@ -106,7 +106,7 @@ export default function DestinationTabs({ slug }: Props) {
                 href={tab.href}
                 scroll={false}
                 onClick={(event) => onNavigate(tab.href, event)}
-                className={`flex-1 whitespace-nowrap text-center px-5 py-4 text-sm md:text-base font-semibold border-b-4 transition-colors ${
+                className={`flex-1 whitespace-nowrap text-center px-4 py-4 text-sm md:text-base font-semibold border-b-4 transition-colors ${
                   active
                     ? "border-mainBlue text-white bg-mainBlue"
                     : "border-transparent text-mainBlue hover:bg-mainForBackground"

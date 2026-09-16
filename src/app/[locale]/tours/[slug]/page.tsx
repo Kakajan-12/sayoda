@@ -7,7 +7,6 @@ import TourHighlights from "@/components/tours/TourHighlights";
 import TourDepartures from "@/components/tours/TourDepartures";
 import TourSectionNav from "@/components/tours/TourSectionNav";
 import TourItinerary from "@/components/tours/TourItinerary";
-import TourBookingCard from "@/components/tours/TourBookingCard";
 import IncludesExcludes from "@/components/tours/IncludesExcludes";
 import PaymentNote from "@/components/tours/PaymentNote";
 import Gallery from "@/components/tours/Gallery";
@@ -194,64 +193,47 @@ export default async function Page({
         ]}
       />
 
-      <TourHero tour={tour} locale={locale} />
-
-      <TourHighlights items={highlights} locale={locale} />
-
-      <TourSectionNav
-        locale={locale}
-        hasItinerary={itinerary.length > 0}
-        hasIncluded={includes.length > 0 || excludes.length > 0}
-        hasDepartures={departures.length > 0}
-        hasGallery={photos.length > 0}
-        hasMap={Boolean(tour.map_embed)}
-      />
-
       {/*
-        Описание и программа слева, карточка брони справа. Раньше правая
-        половина под программой просто пустовала, а кнопка заявки лежала
-        в самом низу страницы — за галереей и картой.
-
-        На узких экранах карточка идёт первой (order), чтобы цена и кнопка
-        попадались раньше длинного текста программы.
+        Всё, что читают под фотографией, лежит внутри героя — он и держит
+        двухколоночную раскладку. Так карточка брони получает высокую
+        колонку и остаётся липкой, пока человек листает описание и
+        программу. Ширину чтения ограничивает сама колонка, отдельный
+        потолок больше не нужен.
       */}
-      <div className="container mx-auto mt-10 px-4">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start">
-          <div className="order-2 min-w-0 flex-1 lg:order-1">
-            {summary && (
-              <section className="mb-12">
-                <h2
-                  className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl 2xl:text-4xl`}
-                >
-                  {tp("overview")}
-                </h2>
-                {/*
-                  Описание выводится один раз. Прежде в разметке лежали два
-                  блока с одним и тем же текстом — один для телефона, другой
-                  для десктопа: скринридер читал его дважды, поисковик
-                  засчитывал как повтор.
-                */}
-                <div
-                  className="cms-text mt-5 text-base/relaxed text-ink lg:text-lg/relaxed"
-                  dangerouslySetInnerHTML={{ __html: summary }}
-                />
-              </section>
-            )}
+      <TourHero tour={tour} locale={locale} whatsappHref={whatsapp}>
+        <TourHighlights items={highlights} locale={locale} />
 
-            <TourItinerary days={itinerary} locale={locale} />
-          </div>
+        <TourSectionNav
+          locale={locale}
+          hasItinerary={itinerary.length > 0}
+          hasIncluded={includes.length > 0 || excludes.length > 0}
+          hasDepartures={departures.length > 0}
+          hasGallery={photos.length > 0}
+          hasMap={Boolean(tour.map_embed)}
+        />
 
-          <aside className="order-1 w-full lg:order-2 lg:sticky lg:top-24 lg:w-[340px] lg:shrink-0">
-            <TourBookingCard
-              tourId={tour.id}
-              tourTitle={tourTitle}
-              price={tour.price}
-              days={days}
-              whatsappHref={whatsapp}
+        {summary && (
+          <section className="mb-12 mt-8">
+            <h2
+              className={`${PoppinFont.className} text-2xl font-bold text-tile md:text-3xl`}
+            >
+              {tp("overview")}
+            </h2>
+            {/*
+              Описание выводится один раз. Прежде в разметке лежали два
+              блока с одним и тем же текстом — один для телефона, другой
+              для десктопа: скринридер читал его дважды, поисковик
+              засчитывал как повтор.
+            */}
+            <div
+              className="cms-text mt-5 text-base/relaxed text-ink lg:text-lg/relaxed"
+              dangerouslySetInnerHTML={{ __html: summary }}
             />
-          </aside>
-        </div>
-      </div>
+          </section>
+        )}
+
+        <TourItinerary days={itinerary} locale={locale} />
+      </TourHero>
 
       <div className="mt-14">
         <IncludesExcludes

@@ -409,7 +409,13 @@
     "dateClear": "Arassala",
     "datePrevMonth": "Öňki aý",
     "dateNextMonth": "Indiki aý",
-    "dateDialog": "Ugramak senesini saýlaň"
+    "dateDialog": "Ugramak senesini saýlaň",
+    "sendingTitle": "Arza ugradylýar…",
+    "sendingMsg": "Bir pursat — bu penjiräni ýapmaň.",
+    "successTitle": "Arza ugradyldy",
+    "errorTitle": "Arza ugradylmady",
+    "close": "Ýap",
+    "retry": "Gaýtadan synanyşyň"
   },
   "NotFound": {
     "title": "Sahypa tapylmady",

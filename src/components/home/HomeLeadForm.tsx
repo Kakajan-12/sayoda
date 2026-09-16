@@ -25,8 +25,8 @@ const HomeLeadForm = () => {
   const tc = useTranslations("ContactUs");
   const locale = useLocale();
 
-  // website — поле-ловушка вместо капчи: человек его не видит, см. BotTrap.
-  const empty = { name: "", email: "", phone: "", message: "", website: "" };
+  // contact_ref — поле-ловушка вместо капчи: человек его не видит, см. BotTrap.
+  const empty = { name: "", email: "", phone: "", message: "", contact_ref: "" };
   const [formData, setFormData] = useState(empty);
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -134,8 +134,10 @@ const HomeLeadForm = () => {
           />
 
           <BotTrap
-            value={formData.website}
-            onChange={(v) => setFormData((prev) => ({ ...prev, website: v }))}
+            value={formData.contact_ref}
+            onChange={(v) =>
+              setFormData((prev) => ({ ...prev, contact_ref: v }))
+            }
           />
 
           <button

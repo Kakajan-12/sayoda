@@ -405,7 +405,13 @@
     "dateClear": "Очистить",
     "datePrevMonth": "Предыдущий месяц",
     "dateNextMonth": "Следующий месяц",
-    "dateDialog": "Выбор даты заезда"
+    "dateDialog": "Выбор даты заезда",
+    "sendingTitle": "Отправляем заявку…",
+    "sendingMsg": "Одну секунду — не закрывайте окно.",
+    "successTitle": "Заявка отправлена",
+    "errorTitle": "Заявка не ушла",
+    "close": "Закрыть",
+    "retry": "Попробовать ещё раз"
   },
   "NotFound": {
     "title": "Страница не найдена",

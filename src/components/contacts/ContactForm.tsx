@@ -17,7 +17,7 @@ const ContactForm = () => {
     subject: "",
     message: "",
     // Поле-ловушка вместо капчи: человек его не видит, см. BotTrap.
-    website: "",
+    contact_ref: "",
   });
 
   const [sending, setSending] = useState(false);
@@ -60,7 +60,7 @@ const ContactForm = () => {
           email: "",
           subject: "",
           message: "",
-          website: "",
+          contact_ref: "",
         });
       }
     } catch (err) {
@@ -116,8 +116,10 @@ const ContactForm = () => {
             required
           />
           <BotTrap
-            value={formData.website}
-            onChange={(v) => setFormData((prev) => ({ ...prev, website: v }))}
+            value={formData.contact_ref}
+            onChange={(v) =>
+              setFormData((prev) => ({ ...prev, contact_ref: v }))
+            }
           />
 
           <button

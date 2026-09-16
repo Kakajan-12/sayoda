@@ -116,7 +116,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             skeletonClassName="rounded-sm"
           />
         </div>
-        <div className="gap-1">
+        <div className="gap-1 pr-2">
           {dateLabel && dateEl("text-[11px]")}
           <div className="flex items-center">
             <h3

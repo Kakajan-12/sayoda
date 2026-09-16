@@ -47,7 +47,7 @@ export default async function TourSectionNav({
   return (
     <nav
       aria-label={tp("overview")}
-      className="container mx-auto mt-8 px-4"
+      className="mt-8"
     >
       {/* Горизонтальная прокрутка вместо переноса: на телефоне четыре
           вкладки в столбик заняли бы пол-экрана перед содержимым. */}

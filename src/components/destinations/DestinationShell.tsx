@@ -52,7 +52,7 @@ export default async function DestinationShell({
       </section>
 
       {/* TABS + CONTENT */}
-      <div className="container mx-auto px-5 py-8 md:py-10">
+      <div className="container mx-auto px-4 py-8 md:py-10">
         {/*
           Панель вкладок липкая — она сама держит свою обёртку и отступы, см.
           DestinationTabs. От неё отсчитывается всё, что ниже: боковые меню

@@ -27,7 +27,7 @@ export default async function TourHighlights({
   const t = await getTranslations({ locale, namespace: "SectionTitle" });
 
   return (
-    <section className="container mx-auto mt-8 px-4">
+    <section className="mt-8">
       <div className="rounded-2xl bg-tileTint px-5 py-6 sm:px-7 sm:py-7">
         <h2
           className={`${PoppinFont.className} text-xl font-bold text-tile sm:text-2xl`}

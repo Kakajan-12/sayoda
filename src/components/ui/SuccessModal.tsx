@@ -33,8 +33,9 @@ export default function SuccessModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          /* backdrop-blur-sm, а не -xs: -xs это имя из Tailwind 4, здесь стоит
-             третья версия, и такого класса в сборке нет — фон не размывался. */
+          /* backdrop-blur-xs — четыре пикселя, как было в Tailwind 3 под
+             именем backdrop-blur-sm. В четвёртой версии шкала сдвинулась, и
+             прежнее имя стало означать восемь. */
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4"
           onClick={onClose}
         >

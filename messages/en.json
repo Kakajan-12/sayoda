@@ -412,7 +412,13 @@
     "dateClear": "Clear",
     "datePrevMonth": "Previous month",
     "dateNextMonth": "Next month",
-    "dateDialog": "Choose a departure date"
+    "dateDialog": "Choose a departure date",
+    "sendingTitle": "Sending your request…",
+    "sendingMsg": "One moment — do not close this window.",
+    "successTitle": "Request sent",
+    "errorTitle": "The request was not sent",
+    "close": "Close",
+    "retry": "Try again"
   },
   "NotFound": {
     "title": "Page not found",

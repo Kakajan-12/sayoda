@@ -14,6 +14,9 @@ import {
   textareaClass,
 } from "@/components/contacts/BookingFields";
 import { BASE_API_URL } from "@/i18n/api";
+import SubmitStatusModal, {
+  type SubmitStatus,
+} from "@/components/ui/SubmitStatusModal";
 import { trackEvent } from "@/lib/analytics";
 
 /**
@@ -47,7 +50,8 @@ import { trackEvent } from "@/lib/analytics";
 
 const EMPTY_FORM = {
   // Поле-ловушка: человек его не видит и не заполняет, см. BotTrap.
-  website: "",
+  // Поле-ловушка: человек его не видит и не заполняет, см. BotTrap.
+  contact_ref: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -65,9 +69,17 @@ const BookingPage = () => {
   const searchParams = useSearchParams();
 
   const [formData, setFormData] = useState(EMPTY_FORM);
-  const [sending, setSending] = useState(false);
-  const [success, setSuccess] = useState(false);
+  /*
+   * Одно состояние вместо трёх флагов.
+   *
+   * Было sending, success и error по отдельности, и любая пара из них могла
+   * оказаться истинной разом — например, если после ошибки отправить снова
+   * и не сбросить прежний флаг. Здесь состояние ровно одно, и невозможных
+   * сочетаний просто нет.
+   */
+  const [status, setStatus] = useState<SubmitStatus>("idle");
   const [error, setError] = useState<string | null>(null);
+  const sending = status === "sending";
 
   /*
    * Тур и дату читаем прямо при отрисовке, а не в эффекте после неё.
@@ -94,9 +106,8 @@ const BookingPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSending(true);
+    setStatus("sending");
     setError(null);
-    setSuccess(false);
 
     try {
       const res = await fetch(`${BASE_API_URL}/send-tour`, {
@@ -115,6 +126,7 @@ const BookingPage = () => {
 
       if (!res.ok) {
         setError(data.error || t("errorMsg"));
+        setStatus("error");
         return;
       }
 
@@ -126,7 +138,7 @@ const BookingPage = () => {
         departure_date: formData.departureDate || undefined,
       });
 
-      setSuccess(true);
+      setStatus("success");
       // Тур и дату оставляем: если человек отправит вторую заявку, они те же.
       setFormData((prev) => ({
         ...EMPTY_FORM,
@@ -135,8 +147,7 @@ const BookingPage = () => {
       }));
     } catch {
       setError(t("errorMsg"));
-    } finally {
-      setSending(false);
+      setStatus("error");
     }
   };
 
@@ -264,7 +275,10 @@ const BookingPage = () => {
             </Field>
           </Section>
 
-          <BotTrap value={formData.website} onChange={(v) => set("website", v)} />
+          <BotTrap
+            value={formData.contact_ref}
+            onChange={(v) => set("contact_ref", v)}
+          />
 
           <div className="flex flex-col gap-3 border-t border-sand pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-inkMuted">{t("requiredNote")}</p>
@@ -277,17 +291,26 @@ const BookingPage = () => {
             </button>
           </div>
 
-          {success && (
-            <p className="rounded-lg bg-tileTint px-4 py-3 text-sm text-tile">
-              {t("successMsg")}
-            </p>
-          )}
-          {error && (
-            <p className="rounded-lg bg-brick/10 px-4 py-3 text-sm text-brick">
-              {error}
-            </p>
-          )}
         </form>
+
+        {/*
+          Результат отправки — окном поверх страницы, а не строчкой под
+          кнопкой. В форме одиннадцать полей, и строчка появлялась ниже
+          сгиба: человек нажимал «Отправить», на экране ничего не менялось,
+          и он жал ещё раз.
+        */}
+        <SubmitStatusModal
+          status={status}
+          onClose={() => setStatus("idle")}
+          sendingTitle={t("sendingTitle")}
+          sendingMessage={t("sendingMsg")}
+          successTitle={t("successTitle")}
+          successMessage={t("successMsg")}
+          errorTitle={t("errorTitle")}
+          errorMessage={error ?? t("errorMsg")}
+          closeLabel={t("close")}
+          retryLabel={t("retry")}
+        />
       </div>
     </div>
   );

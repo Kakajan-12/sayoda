@@ -25,7 +25,7 @@ export default async function GeneralInformationPage({
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
-      <div className="w-full shrink-0 lg:sticky lg:top-[172px] lg:w-72">
+      <div className="w-full shrink-0 lg:sticky lg:top-28 lg:w-72">
         <GeneralInfoSidebar links={links} />
       </div>
 
@@ -38,7 +38,7 @@ export default async function GeneralInformationPage({
           <section
             key={section.id}
             id={section.section_key}
-            className="mb-12 scroll-mt-[180px]"
+            className="mb-12 scroll-mt-2"
           >
             <h2 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-5">
               {destField(section, "title", locale)}
@@ -50,7 +50,7 @@ export default async function GeneralInformationPage({
               }}
             />
             {section.images && section.images.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 {section.images.map((img, i) => (
                   <figure key={i} className="flex flex-col gap-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
