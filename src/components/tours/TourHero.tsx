@@ -16,6 +16,7 @@ import {
 } from "@/lib/api/catalog";
 import TourBookingCard from "@/components/tours/TourBookingCard";
 import { plainText } from "@/lib/utils";
+import { IMAGE_QUALITY } from "@/components/ui/ImageWithSkeleton";
 
 /**
  * Первый экран страницы тура.
@@ -222,10 +223,12 @@ export default async function TourHero({
             // и страница «догоняла» себя.
             priority
             sizes="(max-width: 1024px) 100vw, 66vw"
-            // 90 вместо 75 по умолчанию: это самая крупная картинка
-            // страницы, и на ней потери сжатия заметны. Значение разрешено
-            // в next.config — без записи там оно молча стало бы прежним.
-            quality={90}
+            // Качество общее для сайта, объявлено в ImageWithSkeleton.
+            // Здесь next/image напрямую — обёртка со скелетоном не нужна,
+            // картинка грузится с priority, — поэтому значение ставим сами.
+            // Оно же перечислено в images.qualities в next.config: без записи
+            // там Next молча заменил бы его ближайшим разрешённым.
+            quality={IMAGE_QUALITY}
           />
         </div>
 

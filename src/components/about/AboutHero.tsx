@@ -1,7 +1,7 @@
-import img1 from "../../../public/AboutImgs/1.jpg";
-import img2 from "../../../public/AboutImgs/2.jpg";
-import img3 from "../../../public/AboutImgs/3.jpg";
-import img4 from "../../../public/AboutImgs/4.jpg";
+import img1 from "../../../public/AboutImgs/1.webp";
+import img2 from "../../../public/AboutImgs/2.webp";
+import img3 from "../../../public/AboutImgs/3.webp";
+import img4 from "../../../public/AboutImgs/4.webp";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import aboutImg from "../../../public/AboutImgs/about.webp";
 import { useTranslations } from "next-intl";

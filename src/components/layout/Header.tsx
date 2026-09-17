@@ -29,6 +29,7 @@ import {
 } from "react-icons/fa6";
 import { GrInstagram } from "react-icons/gr";
 import { FiFacebook } from "react-icons/fi";
+import { IMAGE_QUALITY } from "@/components/ui/ImageWithSkeleton";
 
 /** Страна для выпадающего списка. Готовится на сервере, чтобы ссылки попали в HTML. */
 export interface HeaderCountry {
@@ -43,30 +44,30 @@ interface Messenger {
 }
 
 export const navbar = [
-  { key: "main", url: "/", name: "Main", img: "/IconMenu/home_10024936.png" },
+  { key: "main", url: "/", name: "Main", img: "/IconMenu/home_10024936.webp" },
   {
     key: "tours",
     url: "/tours",
     name: "Tours",
-    img: "/IconMenu/maps_9570867.png",
+    img: "/IconMenu/maps_9570867.webp",
   },
   {
     key: "blog",
     url: "/blog",
     name: "Blog",
-    img: "/IconMenu/feedback_11910958.png",
+    img: "/IconMenu/feedback_11910958.webp",
   },
   {
     key: "about",
     url: "/about",
     name: "About Us",
-    img: "/IconMenu/maps_9570867.png",
+    img: "/IconMenu/maps_9570867.webp",
   },
   {
     key: "contact",
     url: "/contacts",
     name: "Contact Us",
-    img: "/IconMenu/location-dot-slash_9612477.png",
+    img: "/IconMenu/location-dot-slash_9612477.webp",
   },
 ];
 
@@ -367,6 +368,7 @@ export default function Header({ countries = [] }: { countries?: HeaderCountry[]
                 className="sm:w-48 sm:h-20 w-36 h-16"
                 alt="Sayoda Travel — tour operator in Turkmenistan"
                 src={Logo}
+                quality={IMAGE_QUALITY}
                 loading="eager"
                 priority
               />

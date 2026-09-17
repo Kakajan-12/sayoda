@@ -1,7 +1,7 @@
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import React from "react";
-import MainImg from "../../../public/ContactUs/bg.jpg";
+import MainImg from "../../../public/ContactUs/bg.webp";
 import { useTranslations } from "next-intl";
 
 const ContactMain = () => {

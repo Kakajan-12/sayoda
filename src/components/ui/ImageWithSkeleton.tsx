@@ -11,6 +11,20 @@ type ImageWithSkeletonProps = ImageProps & {
 };
 
 /**
+ * Качество сжатия картинок на сайте.
+ *
+ * Значение одно на весь сайт и лежит здесь, чтобы менять его в одном месте,
+ * а не искать по двум десяткам компонентов. Оно же должно быть перечислено
+ * в images.qualities в next.config: в Next 16 список обязателен, и любое
+ * значение не из него молча заменяется ближайшим разрешённым.
+ *
+ * 100 — по решению заказчика. Для справки, замер на кадре 1920px:
+ * при 75 файл весит 249 КБ, при 90 — 434 КБ, при 100 — 1,18 МБ.
+ * То есть сотня вчетверо-впятеро тяжелее семидесяти пяти.
+ */
+export const IMAGE_QUALITY = 100;
+
+/**
  * Обёртка над next/image, которая показывает skeleton-заглушку, пока картинка
  * грузится, и плавно показывает изображение по событию загрузки.
  *
@@ -26,6 +40,7 @@ export default function ImageWithSkeleton({
   onLoad,
   onError,
   alt,
+  quality = IMAGE_QUALITY,
   ...props
 }: ImageWithSkeletonProps) {
   const [loaded, setLoaded] = useState(false);
@@ -115,6 +130,7 @@ export default function ImageWithSkeleton({
         {...props}
         ref={handleRef}
         alt={alt}
+        quality={quality}
         className={className}
         style={mergedStyle}
         onLoad={(e) => {

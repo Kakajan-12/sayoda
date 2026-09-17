@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
+import ImageWithSkeleton, { IMAGE_QUALITY } from "@/components/ui/ImageWithSkeleton";
 import { PoppinFont } from "@/components/ui/Fonts";
 import { Link } from "@/i18n/navigation";
 import { FreeMode, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import mainImage from "../../../public/main3.jpg";
+import mainImage from "../../../public/main3.webp";
 
 /**
  * Первый экран главной: карта, заголовок и лента карточек стран.
@@ -103,11 +103,30 @@ const MainSwiper = ({ cards, heading, backgroundImage }: MainSwiperProps) => {
                       className="group relative block w-full aspect-[3/4] overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
                       <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                        {/*
+                          Размеры совпадают с рамкой — 3:4. Они задают только
+                          пропорцию места, которое держится под картинку до
+                          загрузки; сам размер файла выбирается по sizes.
+                          Стояло 800×1500 — это 1:1.9, вдвое уже рамки, и
+                          заглушка занимала не ту площадь, которую потом
+                          занимала картинка.
+
+                          sizes описывает ширину плитки на экране и совпадает
+                          с разбивкой слайдера ниже: 2.8 карточки в ряду на
+                          телефоне, 3.8 на планшете, 5 на широком экране.
+
+                          Качество указано явно, хотя обёртка и так ставит
+                          IMAGE_QUALITY: здесь оно важно по делу. Кадр
+                          обрезается по вертикали, то есть показывается
+                          увеличенным, а на увеличении следы сжатия заметнее
+                          всего на сайте.
+                        */}
                         <ImageWithSkeleton
                           src={card.image}
                           alt={card.title}
-                          width={400}
-                          height={533}
+                          width={600}
+                          height={800}
+                          quality={IMAGE_QUALITY}
                           sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
                           className="h-full w-full object-cover"
                           skeletonClassName="rounded-2xl"

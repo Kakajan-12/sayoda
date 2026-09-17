@@ -71,7 +71,7 @@ export default async function VisaSections({
     <div className="flex flex-col items-start gap-8 lg:flex-row">
       {/* Меню из одного пункта ничего не даёт — оно только отнимает колонку. */}
       {links.length > 1 && (
-        <div className="w-full shrink-0 lg:sticky lg:top-[172px] lg:w-72">
+        <div className="w-full shrink-0 lg:sticky lg:top-28 lg:w-72">
           <GeneralInfoSidebar links={links} />
         </div>
       )}

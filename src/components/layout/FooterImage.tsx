@@ -1,5 +1,5 @@
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
-import footerImage from "../../../public/image2.png";
+import footerImage from "../../../public/image2.webp";
 
 const FooterImage = () => {
   return (

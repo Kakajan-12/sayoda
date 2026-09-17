@@ -14,6 +14,7 @@ import {
   getToursPage,
 } from "@/lib/api/catalog";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
+import { asIds, asPage, one, type Search } from "@/lib/searchParams";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
 export const revalidate = 300;
@@ -27,35 +28,6 @@ export const revalidate = 300;
  * не изменилось: динамический рендер и пустая страница — разные вещи.
  */
 
-type Search = Record<string, string | string[] | undefined>;
-
-/** Берём первое значение: ?type=1&type=2 не должно ломать разбор. */
-const one = (value: string | string[] | undefined) =>
-  (Array.isArray(value) ? value[0] : value) ?? "";
-
-/**
- * Список идентификаторов из адреса: «8,9» или повторённый параметр.
- *
- * Значения приходят извне, поэтому пропускаем только целые положительные
- * числа и убираем повторы. Порядок сохраняем — по нему собирается тот же
- * адрес обратно, и ссылка не переписывается сама собой при первом же клике.
- *
- * Предел в пятьдесят значений — тот же, что на сервере: без него строка на
- * тысячу чисел ушла бы в запрос целиком.
- */
-const asIds = (value: string | string[] | undefined): string[] => {
-  const parts = Array.isArray(value) ? value : String(value ?? "").split(",");
-  const ids: string[] = [];
-  for (const part of parts) {
-    const n = Number.parseInt(part, 10);
-    if (!Number.isInteger(n) || n <= 0) continue;
-    const text = String(n);
-    if (!ids.includes(text)) ids.push(text);
-    if (ids.length >= 50) break;
-  }
-  return ids;
-};
-
 export async function generateMetadata({
   params,
   searchParams,
@@ -64,7 +36,7 @@ export async function generateMetadata({
   searchParams: Promise<Search>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const page = Math.max(1, Number.parseInt(one((await searchParams).page), 10) || 1);
+  const page = asPage((await searchParams).page);
   const t = await getTranslations({ locale, namespace: "Seo" });
   const alternates = alternatesFor(locale, "tours");
 
@@ -123,7 +95,7 @@ export default async function ToursPage({
      */
     q: one(search.q).slice(0, 100),
   };
-  const page = Math.max(1, Number.parseInt(one(search.page), 10) || 1);
+  const page = asPage(search.page);
 
   /*
    * Сервер отбирает и режет на страницы сам. Раньше сюда приезжал весь

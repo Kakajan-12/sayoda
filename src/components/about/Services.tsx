@@ -6,6 +6,7 @@ import img3 from "../../../public/AboutImgs/Servicessimg/Снимок_экран
 import img4 from "../../../public/AboutImgs/Servicessimg/Снимок_экрана_2025-03-29_165648-removebg-preview.svg";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import { useTranslations } from "next-intl";
+import { IMAGE_QUALITY } from "@/components/ui/ImageWithSkeleton";
 
 /**
  * Что мы делаем.
@@ -58,7 +59,7 @@ const Services = () => {
                 иконки сплошные, а здесь тонкая линейная графика заказчика —
                 на 24 пикселях она превращается в бледное пятно. */}
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-mainForBackground">
-              <Image alt="" aria-hidden src={icons[i]} className="h-8 w-8" />
+              <Image alt="" aria-hidden src={icons[i]} quality={IMAGE_QUALITY} className="h-8 w-8" />
             </span>
             {/* Заголовок один. Прежде их было два — один с hidden lg:block,
                 второй с lg:hidden, — и оба лежали в разметке: скринридер

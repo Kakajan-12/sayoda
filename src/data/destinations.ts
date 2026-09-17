@@ -47,7 +47,7 @@ const turkmenistan: Destination = {
     "Путешествие в Туркменистан",
     "Türkmenistana syýahat",
   ),
-  heroImage: "/Cards/tm.jpg",
+  heroImage: "/Cards/tm.webp",
   intro: L(
     "Being the heart of the Great Silk Road, Turkmenistan has unique nature, a favourable climate, remarkable national values, distinctive customs and traditions, and an abundance of historical and architectural monuments. Open-hearted and hospitable people live in the country, which can be called a paradise for tourists who strive for discoveries and new emotions.",
     "Будучи сердцем Великого шёлкового пути, Туркменистан обладает уникальной природой, благоприятным климатом, замечательными национальными ценностями, самобытными обычаями и традициями, а также обилием исторических и архитектурных памятников. В стране живут открытые и гостеприимные люди, и её можно назвать раем для туристов, стремящихся к открытиям и новым эмоциям.",
@@ -71,7 +71,7 @@ const turkmenistan: Destination = {
       ),
       images: [
         {
-          src: "/Cards/merv.jpg",
+          src: "/Cards/merv.webp",
           caption: L(
             "Ancient Merv — UNESCO World Heritage Site",
             "Древний Мерв — объект Всемирного наследия ЮНЕСКО",
@@ -79,7 +79,7 @@ const turkmenistan: Destination = {
           ),
         },
         {
-          src: "/Cards/urgench.jpg",
+          src: "/Cards/urgench.webp",
           caption: L(
             "Kunya-Urgench — UNESCO World Heritage Site",
             "Куня-Ургенч — объект Всемирного наследия ЮНЕСКО",
@@ -129,7 +129,7 @@ const turkmenistan: Destination = {
       ),
       images: [
         {
-          src: "/Cards/plov.jpg",
+          src: "/Cards/plov.webp",
           caption: L(
             "Turkmen plov (palov)",
             "Туркменский плов (палов)",
@@ -137,7 +137,7 @@ const turkmenistan: Destination = {
           ),
         },
         {
-          src: "/Cards/ishlekli.jpg",
+          src: "/Cards/ishlekli.webp",
           caption: L("Ishlikli", "Ишликли", "Işlikli"),
         },
       ],
@@ -239,7 +239,7 @@ const buildDestination = (s: CountrySeed): Destination => ({
 const uzbekistan = buildDestination({
   slug: "uzbekistan",
   name: L("Uzbekistan", "Узбекистан", "Özbegistan"),
-  heroImage: "/Cards/uz.jpg",
+  heroImage: "/Cards/uz.webp",
   intro: L(
     "Uzbekistan is the jewel of the Silk Road, home to the legendary cities of Samarkand, Bukhara and Khiva. Dazzling blue-tiled madrasahs, bustling bazaars and warm hospitality make it one of Central Asia's most rewarding destinations.",
     "Узбекистан — жемчужина Шёлкового пути, родина легендарных городов Самарканда, Бухары и Хивы. Ослепительные медресе в голубой плитке, шумные базары и тёплое гостеприимство делают его одним из самых ярких направлений Центральной Азии.",
@@ -273,7 +273,7 @@ const uzbekistan = buildDestination({
   ),
   cuisineImages: [
     {
-      src: "/Cards/plovUzbek.jpg",
+      src: "/Cards/plovUzbek.webp",
       caption: L(
         "Uzbek plov (osh)",
         "Узбекский плов (ош)",
@@ -281,7 +281,7 @@ const uzbekistan = buildDestination({
       ),
     },
     {
-      src: "/Cards/lagman.jpg",
+      src: "/Cards/lagman.webp",
       caption: L("Uzbek lagman", "Узбекский лагман", "Özbek lagmany"),
     },
   ],
@@ -297,7 +297,7 @@ const uzbekistan = buildDestination({
 const kazakhstan = buildDestination({
   slug: "kazakhstan",
   name: L("Kazakhstan", "Казахстан", "Gazagystan"),
-  heroImage: "/Cards/kaz.jpg",
+  heroImage: "/Cards/kaz.webp",
   intro: L(
     "Kazakhstan is the world's largest landlocked country, a land of endless steppe, snow-capped mountains and ultramodern cities. From the futuristic capital Astana to the canyons of Charyn, it offers nature and adventure on an epic scale.",
     "Казахстан — крупнейшая в мире страна без выхода к морю, край бескрайних степей, заснеженных гор и сверхсовременных городов. От футуристической столицы Астаны до каньонов Чарына он предлагает природу и приключения эпического масштаба.",
@@ -331,11 +331,11 @@ const kazakhstan = buildDestination({
   ),
   cuisineImages: [
     {
-      src: "/Cards/beshbarmak.jpg",
+      src: "/Cards/beshbarmak.webp",
       caption: L("Beshbarmak", "Бешбармак", "Beşbarmak"),
     },
     {
-      src: "/Cards/baursak.jpeg",
+      src: "/Cards/baursak.webp",
       caption: L("Baursak", "Баурсак", "Bauyrsak"),
     },
   ],
@@ -389,7 +389,7 @@ const kyrgyzstan = buildDestination({
       caption: L("Beshbarmak", "Бешбармак", "Beşbarmak"),
     },
     {
-      src: "/Cards/kuurdak.jpg",
+      src: "/Cards/kuurdak.webp",
       caption: L("Kuurdak", "Куурдак", "Kuurdak"),
     },
   ],
@@ -405,7 +405,7 @@ const kyrgyzstan = buildDestination({
 const tajikistan = buildDestination({
   slug: "tajikistan",
   name: L("Tajikistan", "Таджикистан", "Täjigistan"),
-  heroImage: "/Cards/tj.jpg",
+  heroImage: "/Cards/tj.webp",
   intro: L(
     "Tajikistan is the rooftop of Central Asia, dominated by the soaring Pamir Mountains. The legendary Pamir Highway, remote mountain villages and turquoise lakes draw adventurers seeking one of the world's last great wildernesses.",
     "Таджикистан — крыша Центральной Азии, над которой возвышаются Памирские горы. Легендарный Памирский тракт, удалённые горные кишлаки и бирюзовые озёра притягивают искателей приключений, ищущих один из последних великих диких уголков планеты.",
@@ -444,7 +444,7 @@ const tajikistan = buildDestination({
       caption: L("Qurutob", "Курутоб", "Kurutob"),
     },
     {
-      src: "/Cards/obi-non.jpg",
+      src: "/Cards/obi-non.webp",
       caption: L(
         "Tajik Flatbread (Obi Non)",
         "Лепешки таджикские (Оби Нон)",

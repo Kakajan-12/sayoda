@@ -29,7 +29,12 @@ import type { TaxonomyItem } from "@/lib/api/catalog";
  *
  * При смене любого условия номер страницы сбрасывается: на четвёртой
  * странице прежней выборки в новой может не быть ничего, и человек попадал
- * бы на пустой экран.
+ * бы на пустой экран. Сбрасывается он сам собой — page не входит в набор
+ * условий и в новый адрес просто не переносится.
+ *
+ * Фильтр стоит в двух местах: в общем каталоге и на вкладке «Туры» у
+ * направления. Отличаются они двумя вещами — адресом, куда уходит отбор, и
+ * тем, что во вкладке нет оси стран: страна там задана самим адресом.
  */
 
 export interface ToursFilterValues {
@@ -56,7 +61,25 @@ interface Props {
   values: ToursFilterValues;
   types: { id: number; label: string }[];
   categories: TaxonomyItem[];
-  destinations: TaxonomyItem[];
+  /**
+   * Ось стран. Не передаётся там, где страна уже задана адресом: на вкладке
+   * «Туры» у направления выбирать её второй раз незачем, а выбрать чужую —
+   * и вовсе означало бы уйти со страницы, на которой стоишь.
+   */
+  destinations?: TaxonomyItem[];
+  /**
+   * Куда уходит отбор. По умолчанию общий каталог; вкладка страны передаёт
+   * свой адрес, чтобы фильтр не выкидывал из направления.
+   */
+  basePath?: string;
+  /**
+   * Врезка в готовую вёрстку.
+   *
+   * В каталоге панель лежит поверх обложки — отсюда отрицательный отступ и
+   * собственный контейнер. Внутри вкладки и то, и другое лишнее: контейнер
+   * уже есть, а наезжать не на что.
+   */
+  inset?: boolean;
 }
 
 const EMPTY = { type: [], cat: [], destination: [] };
@@ -66,6 +89,8 @@ export default function ToursFilters({
   types,
   categories,
   destinations,
+  basePath = "/tours",
+  inset = false,
 }: Props) {
   const t = useTranslations("Filter");
   const locale = useLocale();
@@ -85,7 +110,7 @@ export default function ToursFilters({
     const query = search.toString();
     // scroll: false — список сам подставится под фильтром, а перескок
     // страницы наверх сбивает при переборе вариантов.
-    router.push(query ? `/tours?${query}` : "/tours", { scroll: false });
+    router.push(query ? `${basePath}?${query}` : basePath, { scroll: false });
   };
 
   const openMobile = () => {
@@ -103,7 +128,7 @@ export default function ToursFilters({
     value: String(cat.id),
     label: String(cat[`cat_${locale}`] ?? cat.cat_en ?? ""),
   }));
-  const destinationOptions = destinations.map((item) => ({
+  const destinationOptions = (destinations ?? []).map((item) => ({
     value: String(item.id),
     label: String(item[`location_${locale}`] ?? item.location_en ?? ""),
   }));
@@ -119,6 +144,7 @@ export default function ToursFilters({
     const isFiltered = Boolean(
       current.type.length || current.cat.length || current.destination.length,
     );
+    const hasDestinations = destinationOptions.length > 0;
 
     return (
       <div className="flex w-full flex-col gap-3 lg:flex-row lg:items-center">
@@ -138,13 +164,15 @@ export default function ToursFilters({
           onChange={(value) => onChange({ cat: value })}
         />
 
-        <MultiSelect
-          label={t("group-location")}
-          emptyLabel={t("all-locations")}
-          values={current.destination}
-          options={destinationOptions}
-          onChange={(value) => onChange({ destination: value })}
-        />
+        {hasDestinations && (
+          <MultiSelect
+            label={t("group-location")}
+            emptyLabel={t("all-locations")}
+            values={current.destination}
+            options={destinationOptions}
+            onChange={(value) => onChange({ destination: value })}
+          />
+        )}
 
         <button
           type="button"
@@ -161,13 +189,27 @@ export default function ToursFilters({
   return (
     <>
       <div className="scroll">
-        <div className="hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-9">
-          <div className="w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand">
+        <div
+          className={
+            inset
+              ? "mb-6 hidden lg:block"
+              : "hidden lg:flex container mx-auto px-5 justify-center z-20 relative mb-10 -mt-9"
+          }
+        >
+          <div
+            className={
+              inset
+                ? "rounded-xl bg-white px-5 py-4 ring-1 ring-sand"
+                : "w-full max-w-[1200px] rounded-xl bg-white px-6 py-5 shadow-lg ring-1 ring-sand"
+            }
+          >
             {renderForm(values, apply)}
           </div>
         </div>
 
-        <div className="flex lg:hidden justify-end px-5 mt-4">
+        <div
+          className={`flex lg:hidden justify-end ${inset ? "mb-4" : "px-5 mt-4"}`}
+        >
           <button
             type="button"
             aria-label={t("filter")}

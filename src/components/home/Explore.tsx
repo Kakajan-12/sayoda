@@ -1,6 +1,6 @@
 import React from "react";
-import MainImg from "../../../public/ExploreImg/discover.jpg";
-import LowerImg from "../../../public/ExploreImg/discover2.jpg";
+import MainImg from "../../../public/ExploreImg/discover.webp";
+import LowerImg from "../../../public/ExploreImg/discover2.webp";
 import ImageWithSkeleton from "@/components/ui/ImageWithSkeleton";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
 import { useTranslations } from "next-intl";

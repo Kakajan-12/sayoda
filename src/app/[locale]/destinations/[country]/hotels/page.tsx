@@ -29,8 +29,7 @@ export default async function HotelsPage({
         {t("tabHotels")} — {destField(destination, "name", locale)}
       </h2>
 
-      {/* Отсчёт от липкой панели вкладок, а не от шапки. */}
-      <HotelsList hotels={hotels} asideTopClassName="lg:top-[172px]" />
+      <HotelsList hotels={hotels} />
     </div>
   );
 }

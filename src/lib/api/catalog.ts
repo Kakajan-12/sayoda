@@ -75,6 +75,16 @@ export interface Blog {
   text_en: string;
   text_ru: string;
   date: string;
+  /**
+   * Страна, о которой статья. null значит «не про конкретную страну»:
+   * такая статья видна в общем блоге, но ни на одной вкладке направления.
+   *
+   * До миграции 023 признака не было, и вкладка «Достопримечательности»
+   * искала название страны в тексте — со всеми последствиями: статья про
+   * Мерв, где страна не названа, на вкладку не попадала, а упоминание
+   * соседней страны в одном абзаце затаскивало статью на чужую.
+   */
+  destination_id: number | null;
 }
 
 export interface TaxonomyItem {
@@ -229,8 +239,13 @@ export const getTourLocations = () =>
  * сортируем сами; на бэкенде порядок менять не стали, чтобы не задеть админку,
  * которая опирается на тот же список.
  */
-export const getBlogs = async () => {
-  const blogs = await getJson<Blog[]>("/api/blogs", []);
+export const getBlogs = async (destinationId?: number) => {
+  // Отбор по стране делает сервер: тащить весь блог ради статей одной
+  // страны незачем, а при сотне статей это уже заметный ответ.
+  const path = destinationId
+    ? `/api/blogs${toQuery({ destination: destinationId })}`
+    : "/api/blogs";
+  const blogs = await getJson<Blog[]>(path, []);
   return [...blogs].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );

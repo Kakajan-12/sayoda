@@ -14,6 +14,7 @@ import { localizedField } from "@/lib/api/catalog";
 import { getSettings } from "@/lib/api/settings";
 import { destField, getDestinations } from "@/lib/api/destinations";
 import { plainText } from "@/lib/utils";
+import { IMAGE_QUALITY } from "@/components/ui/ImageWithSkeleton";
 
 /**
  * Футер — Server Component.
@@ -61,7 +62,12 @@ export default async function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid sm:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 items-start gap-3 sm:gap-10 lg:gap-16">
           <div className="flex flex-col gap-3">
-            <Image className="w-48 h-20" alt="Sayoda Travel" src={Logo} />
+            <Image
+              className="w-48 h-20"
+              alt="Sayoda Travel"
+              src={Logo}
+              quality={IMAGE_QUALITY}
+            />
 
             <h5 className="font-semibold font-poppins">
               {t("location")}:{" "}
@@ -178,6 +184,7 @@ export default async function Footer() {
             alt="Hebent Tech"
             width={30}
             height={30}
+            quality={IMAGE_QUALITY}
             className="w-5 h-auto"
           />
           <a

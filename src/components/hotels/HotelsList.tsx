@@ -18,16 +18,17 @@ import HotelCard from "@/components/hotels/HotelCard";
  * Фильтр держит id города, а не название: названия переводятся, и на
  * туркменской версии «Ashgabat» и «Aşgabat» разъехались бы в два города.
  *
- * sticky у боковой колонки задаётся снаружи: на общей странице отсчёт идёт
- * от шапки, внутри вкладки страны — от липкой панели вкладок.
+ * Боковая колонка липнет под шапкой на обеих страницах — и на общей, и во
+ * вкладке страны. Отступ раньше приходил снаружи: во вкладке под колонкой
+ * стояла ещё и липкая панель вкладок, и отсчёт шёл от неё — 172 пикселя.
+ * Панель больше не липкая, отступать не от чего, и оба места сошлись на
+ * одном значении. Параметр убран вместе с расхождением: пока значение
+ * передавалось снаружи, правка в одном месте молча обходила другое —
+ * ровно так 172 и пережили переделку панели.
+ *
+ * 28 в мере Tailwind — это 112 пикселей: шапка ровно 96 плюс зазор.
  */
-export default function HotelsList({
-  hotels,
-  asideTopClassName = "lg:top-28",
-}: {
-  hotels: Hotel[];
-  asideTopClassName?: string;
-}) {
+export default function HotelsList({ hotels }: { hotels: Hotel[] }) {
   const t = useTranslations("Hotels");
   const locale = useLocale();
   const [activeCity, setActiveCity] = useState<number | null>(null);
@@ -55,7 +56,7 @@ export default function HotelsList({
           только отнимает место, как и меню из одного пункта на визовой. */}
       {cities.length > 1 && (
         <aside
-          className={`h-fit w-full shrink-0 rounded-2xl border border-gray-200 bg-white p-2 lg:sticky lg:w-56 lg:self-start ${asideTopClassName}`}
+          className="h-fit w-full shrink-0 rounded-2xl border border-gray-200 bg-white p-2 lg:sticky lg:top-28 lg:w-56 lg:self-start"
         >
           <ul className="flex flex-row flex-wrap gap-1 lg:flex-col">
             <li className="lg:w-full">

@@ -42,13 +42,49 @@ export type SidebarLink = {
 };
 
 /**
- * Линия, по которой считается, что раздел дошёл до верха. Ниже неё начинается
- * то, что действительно видно: шапка занимает 96 пикселей, просвет под ней 8,
- * прилипшая панель вкладок — ещё 60, и снова 8 просвета. По этой же линии
- * встаёт раздел после нажатия в меню, поэтому подсветка всегда совпадает с
- * тем, что на экране.
+ * Запасное значение, если замерить липкие полосы не удалось: 96 пикселей
+ * шапки, 68 панели вкладок и 8 просвета.
  */
-const HEADER_OFFSET = 180;
+const FALLBACK_OFFSET = 172;
+
+/** Просвет между нижним краем липких полос и заголовком раздела. */
+const GAP = 8;
+
+/**
+ * Линия, ниже которой начинается то, что действительно видно.
+ *
+ * Раньше здесь стояло число 180. Оно почти совпадало с правдой, но не
+ * совсем: панель вкладок кончается на 164, и между ней и заголовком
+ * оставался просвет в шестнадцать пикселей. В нём было видно хвост
+ * предыдущего раздела — человек нажимал «Безопасность», а сверху ещё
+ * виднелся конец «Авиаперелётов».
+ *
+ * Хуже другое: высота липкой части непостоянна. Контактная строка над
+ * меню раскрывается при прокрутке вверх, и шапка становится 132 вместо
+ * 96 — фиксированное число промахивается уже на тридцать шесть пикселей,
+ * и заголовок уезжает под панель.
+ *
+ * Поэтому считаем на месте: берём всё липкое и приклеенное у верхнего
+ * края во всю ширину и отступаем от нижнего края самого нижнего из них.
+ * Боковое меню под это не попадает — оно уже 60% ширины, а кнопка чата и
+ * плашка про куки сидят внизу экрана.
+ */
+function topOffset(): number {
+  if (typeof window === "undefined") return FALLBACK_OFFSET;
+
+  let bottom = 0;
+  for (const el of document.querySelectorAll<HTMLElement>("header, div, nav")) {
+    const style = getComputedStyle(el);
+    if (style.position !== "sticky" && style.position !== "fixed") continue;
+
+    const rect = el.getBoundingClientRect();
+    const полосаСверху =
+      rect.top < 250 && rect.height >= 30 && rect.width > window.innerWidth * 0.6;
+    if (полосаСверху) bottom = Math.max(bottom, rect.bottom);
+  }
+
+  return bottom > 0 ? bottom + GAP : FALLBACK_OFFSET;
+}
 
 export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) {
   const [active, setActive] = useState(links[0]?.id ?? "");
@@ -73,6 +109,10 @@ export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) 
     const update = () => {
       frame = 0;
 
+      // Считаем на каждый кадр прокрутки: контактная строка над меню
+      // раскрывается и схлопывается на ходу, и линия вместе с ней едет.
+      const линия = topOffset();
+
       let current = links[0]?.id ?? "";
       for (const link of links) {
         const el = document.getElementById(link.id);
@@ -81,9 +121,9 @@ export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) 
         // все следующие тем более ниже.
         //
         // Допуск в пиксель — из-за дробных координат. Прокрутка по нажатию
-        // ставит раздел ровно на линию, но попасть может в 180.5, и тогда
+        // ставит раздел ровно на линию, но попасть может в 172.5, и тогда
         // строгое сравнение сочло бы, что он до неё не дошёл.
-        if (el.getBoundingClientRect().top > HEADER_OFFSET + 1) break;
+        if (el.getBoundingClientRect().top > линия + 1) break;
         current = link.id;
       }
 
@@ -141,7 +181,7 @@ export default function GeneralInfoSidebar({ links }: { links: SidebarLink[] }) 
     goingTo.current = id;
     setActive(id);
     window.scrollTo({
-      top: el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
+      top: el.getBoundingClientRect().top + window.scrollY - topOffset(),
       behavior: "smooth",
     });
   };
