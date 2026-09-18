@@ -28,6 +28,7 @@ import {
   getTours,
   localizedField,
   mediaUrl,
+  seoTitle,
 } from "@/lib/api/catalog";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
 import { plainText, sentenceExcerpt } from "@/lib/utils";
@@ -69,11 +70,27 @@ export async function generateMetadata({
   const name = plainText(localizedField(tour, "title", locale));
   const days = durationDays(localizedField(tour, "duration", locale));
 
-  // "Ancient Treasures of Turkmenistan — 3 Days in Turkmenistan"
+  /*
+   * Заголовок в выдаче.
+   *
+   * Если в админке заполнено поле «Заголовок для поиска» — берём его как
+   * есть. Оно на то и заведено: название тура пишут для человека, уже
+   * открывшего страницу, а в выдаче нужна фраза, которой человека ещё
+   * только предстоит привести.
+   *
+   * Пусто — собираем как раньше, из названия, длительности и страны:
+   * "Ancient Treasures of Turkmenistan — 3 Days in Turkmenistan".
+   *
+   * Подстановка касается только заголовка страницы. В соцсетях (og:title)
+   * и в структурированных данных остаётся название тура: там читатель уже
+   * пришёл по ссылке, и ему нужно имя, а не поисковая фраза.
+   */
   const country = plainText(localizedField(tour, "location", locale));
-  const title = [name, days ? t("days", { count: days }) : null, country]
-    .filter(Boolean)
-    .join(" — ");
+  const title =
+    seoTitle(tour, locale) ||
+    [name, days ? t("days", { count: days }) : null, country]
+      .filter(Boolean)
+      .join(" — ");
 
   /*
    * Описание режется по границе предложения, а не по слову.
@@ -116,7 +133,7 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       locale,
       url: alternates.canonical,
-      title,
+      title: name,
       description,
       images: image ? [{ url: image, alt: name }] : undefined,
     },

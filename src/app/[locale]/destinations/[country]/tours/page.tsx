@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { destinationMetadata } from "@/lib/destinationMeta";
 import { notFound } from "next/navigation";
 import { destField, getDestinationBySlug } from "@/lib/api/destinations";
 import { ComfortaFont } from "@/components/ui/Fonts";
@@ -14,6 +16,21 @@ import PageLinks from "@/components/ui/PageLinks";
 import { asIds, asPage, one, type Search } from "@/lib/searchParams";
 
 export const revalidate = 300;
+
+/**
+ * Свой заголовок и свой канонический адрес.
+ *
+ * Без них вкладка наследовала заголовок страны и указывала канонической
+ * страницу обзора — пять разных вкладок объявляли себя одной страницей.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; country: string }>;
+}): Promise<Metadata> {
+  const { locale, country } = await params;
+  return destinationMetadata({ locale, country, tab: "tours", path: "tours" });
+}
 
 /*
  * Страница читает параметры отбора из адреса и поэтому собирается на запрос,
@@ -38,6 +55,7 @@ export default async function ToursPage({
   if (!destination) notFound();
   const search = await searchParams;
   const t = await getTranslations("Destinations");
+  const seo = await getTranslations({ locale, namespace: "Seo" });
 
   /*
    * Страна берётся из адреса, а не из фильтра, и перебить её параметром
@@ -96,9 +114,13 @@ export default async function ToursPage({
 
   return (
     <div className={ComfortaFont.className}>
-      <h2 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-6">
-        {t("tabTours")} — {destField(destination, "name", locale)}
-      </h2>
+      {/* Заголовок первого уровня страницы: обложка над ним — общая на всю
+          страну и главным заголовком быть не может, см. HeroHeading. */}
+      <h1 className="text-xl sm:text-2xl font-bold text-mainBlue break-words border-b-2 border-mainBlue pb-2 mb-6">
+        {seo("destinationTab.tours.heading", {
+          country: destField(destination, "name", locale),
+        })}
+      </h1>
 
       <div className="max-w-4xl mx-auto">
         <ToursFilters

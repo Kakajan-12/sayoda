@@ -36,6 +36,7 @@ export default async function VisaSections({
 
   const t = await getTranslations({ locale, namespace: "Visa" });
   const td = await getTranslations({ locale, namespace: "Destinations" });
+  const seo = await getTranslations({ locale, namespace: "Seo" });
   const tf = await getTranslations({ locale, namespace: "Faq" });
 
   const isTurkmenistan = country === "turkmenistan";
@@ -78,9 +79,15 @@ export default async function VisaSections({
 
       <article className={`w-full min-w-0 flex-1 ${ComfortaFont.className}`}>
         <section id="visa" className="mb-12 scroll-mt-[180px]">
-          <h2 className={heading}>
-            {td("tabVisa")} — {destField(destination, "name", locale)}
-          </h2>
+          {/* Заголовок первого уровня: обложка над ним общая на всю
+              страну и главной быть не может, см. HeroHeading. Тот же
+              блок стоит на отдельном адресе /turkmenistan-visa, и там
+              он тем более главный заголовок страницы. */}
+          <h1 className={heading}>
+            {seo("destinationTab.visa.heading", {
+              country: destField(destination, "name", locale),
+            })}
+          </h1>
           <div
             className="rich-content space-y-4 leading-relaxed text-gray-700 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6"
             dangerouslySetInnerHTML={{

@@ -24,6 +24,10 @@
       "title": "Hotels in Turkmenistan",
       "description": "Hotels we work with across Turkmenistan — Ashgabat, Mary, Turkmenabat and Dashoguz. Included in our tour packages or bookable separately."
     },
+    "destination": {
+      "title": "Tours to {country} — Routes, Prices and Visa",
+      "description": "Tours to {country} from a licensed operator: group and private itineraries, hotels, visa support and letter of invitation."
+    },
     "tourFallbackDescription": "Guided tour in Turkmenistan with Sayoda Travel, a licensed local operator. Visa support and letter of invitation included.",
     "days": "{count, plural, one {# Day} other {# Days}}",
     "search": {
@@ -33,6 +37,32 @@
     "turkmenistanVisa": {
       "title": "Turkmenistan Visa and Letter of Invitation (LOI)",
       "description": "How to get a Turkmenistan tourist visa: the Letter of Invitation, processing times, embassies in Ashgabat and abroad, and the land border crossings. Prepared by a licensed operator in Ashgabat."
+    },
+    "destinationTab": {
+      "tours": {
+        "title": "{country} Tours — Itineraries and Prices",
+        "heading": "Tours to {country}",
+        "description": "Group and private tours to {country}: day-by-day itineraries, duration, departure dates and price per person. Booked directly with a licensed local operator."
+      },
+      "hotels": {
+        "title": "Hotels in {country} — Where to Stay",
+        "heading": "Hotels in {country}",
+        "description": "Hotels in {country} we book for our travellers — city centre, mid-range and upper class. Included in a tour package or booked on their own."
+      },
+      "sights": {
+        "title": "What to See in {country} — Top Sights",
+        "heading": "Sights of {country}",
+        "description": "What to see in {country}: landmarks, ancient cities, deserts and mountains, described by a licensed local tour operator."
+      },
+      "visa": {
+        "title": "{country} Visa — Rules and Invitation",
+        "heading": "{country} Visa: How to Apply",
+        "description": "How to get a visa to {country}: documents, letter of invitation, processing time, embassies and border crossings. Prepared by a licensed operator."
+      }
+    },
+    "booking": {
+      "title": "Book a Tour to Turkmenistan",
+      "description": "Send a booking request to Sayoda Travel: choose a tour, tell us your dates and group size. We reply within one working day with the programme and prices."
     }
   },
   "Contact": {
@@ -224,7 +254,7 @@
     "Not Included"
   ],
   "About": {
-    "title": "About Us",
+    "title": "About Sayoda Travel — Tour Operator in Ashgabat",
     "text": "Sayoda Travel is a licensed inbound tour operator based in Ashgabat. We prepare the letter of invitation and visa support, arrange guides, transport and hotels, and run the routes ourselves — the Darvaza gas crater, ancient Merv, Nisa, Kunya-Urgench and the Yangykala canyon. Tours across Uzbekistan, Kazakhstan, Kyrgyzstan and Tajikistan continue the same trip when you want more of Central Asia.",
     "whyTitle": "Why Book with a Local Operator",
     "whyCardTitle": [
@@ -299,7 +329,7 @@
     ]
   },
   "Discover": {
-    "title": "Discover Your Perfect Central Asia Adventure",
+    "title": "Tours to Turkmenistan and Central Asia",
     "text": "Explore a variety of handpicked tours across Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking landscapes, or thrilling adventures, we have the perfect itinerary for you!",
     "des": "Destinations",
     "tour": "Tour Type",
@@ -307,11 +337,11 @@
     "btnSearch": "Search"
   },
   "Unveiling": {
-    "title": "Unveiling Central Asia — The Journey of a Lifetime",
+    "title": "Turkmenistan Travel Guide — Articles and Tips",
     "text": "Explore a variety of handpicked tours across Turkmenistan, Uzbekistan, Tajikistan, Kyrgyzstan, and Kazakhstan. Whether you seek cultural heritage, breathtaking landscapes, or thrilling adventures, we have the perfect itinerary for you!"
   },
   "ContactUs": {
-    "title": "Have questions or need help planning your trip?",
+    "title": "Contact Sayoda Travel in Ashgabat",
     "cardtitle": [
       "Our Address",
       "Email Us",
@@ -417,7 +447,7 @@
     "home": "Back to home"
   },
   "Hotels": {
-    "title": "Hotels",
+    "title": "Hotels in Turkmenistan",
     "all": "All",
     "reviews": "reviews",
     "safeStays": "Safe and Hygienic Stays",

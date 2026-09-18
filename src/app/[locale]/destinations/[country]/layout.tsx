@@ -1,22 +1,25 @@
+import type { Metadata } from "next";
 import { getDestinations } from "@/lib/api/destinations";
 import DestinationShell from "@/components/destinations/DestinationShell";
 import { setRequestLocale } from "next-intl/server";
+import { destinationMetadata } from "@/lib/destinationMeta";
 
 export const revalidate = 300;
 
 /**
- * Список стран для построения страниц заранее.
- *
- * Без него сегмент [country] неизвестен на сборке, и все разделы направления
- * помечались в выводе как динамические: каждый визит шёл мимо кэша прямо на
- * сервер. Макет сегмента вправе задавать параметр своего уровня — дочерние
- * страницы разделов достраиваются по нему.
- *
- * Ошибку запроса глушим намеренно: недоступный на момент сборки API не должен
- * ронять весь деплой. Тогда список окажется пустым, страницы построятся при
- * первом обращении и дальше будут отдаваться из кэша — dynamicParams это
- * разрешает по умолчанию.
+ * Заголовок страны. Стоит в макете, а не на странице обзора: сюда он
+ * годится как запасной для вкладок, которые своего не задали.
+ * Подробности — в описании destinationMetadata.
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; country: string }>;
+}): Promise<Metadata> {
+  const { locale, country } = await params;
+  return destinationMetadata({ locale, country });
+}
+
 export async function generateStaticParams() {
   try {
     const destinations = await getDestinations();

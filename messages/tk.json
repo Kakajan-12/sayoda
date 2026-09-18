@@ -24,6 +24,10 @@
       "title": "Türkmenistandaky myhmanhanalar",
       "description": "Biz bilen işleşýän myhmanhanalar: Aşgabat, Mary, Türkmenabat, Daşoguz."
     },
+    "destination": {
+      "title": "{country} syýahatlary — ugurlar, bahalar we wiza",
+      "description": "{country} boýunça ygtyýarnamaly operatordan syýahatlar: toparlaýyn we şahsy ugurlar, myhmanhanalar, wiza goldawy we çakylyk haty."
+    },
     "tourFallbackDescription": "Ygtyýarnamaly ýerli operator Sayoda Travel bilen Türkmenistan boýunça syýahat. Wiza goldawy we çakylyk haty goşulýar.",
     "days": "{count, plural, one {# gün} other {# gün}}",
     "search": {
@@ -33,6 +37,32 @@
     "turkmenistanVisa": {
       "title": "Türkmenistana wiza we çakýlyşnama (LOI)",
       "description": "Türkmenistana syýahat wizasyny nähili almaly: LOI çakýlyşnamasy, möhletler, Aşgabatdaky we daşary ýurtlardaky ilçihanalar, gury ýer serhet geçelgeleri. Aşgabatdaky ygtyýarnamaly operatordan."
+    },
+    "destinationTab": {
+      "tours": {
+        "title": "{country} syýahatlary — bahalar we seneler",
+        "heading": "{country} syýahatlary",
+        "description": "{country} boýunça toparlaýyn we şahsy syýahatlar: günme-gün maksatnama, dowamlylygy, ugramak seneleri we bir adam üçin bahasy."
+      },
+      "hotels": {
+        "title": "{country}: myhmanhanalar we ýerleşdiriş",
+        "heading": "{country}: myhmanhanalar",
+        "description": "{country} boýunça syýahatlar üçin bron edýän myhmanhanalarymyz: şäher merkezi, orta we ýokary derejeli. Syýahat bukjasyna goşulýar ýa-da aýratyn bron edilýär."
+      },
+      "sights": {
+        "title": "{country}: görmeli ýerler",
+        "heading": "{country}: görmeli ýerler",
+        "description": "{country} boýunça görmeli ýerler: ýadygärlikler, gadymy şäherler, çöller we daglar — ýerli syýahatçylyk operatoryndan."
+      },
+      "visa": {
+        "title": "{country} wizasy — düzgünler we çakylyk",
+        "heading": "{country} wizasy: nähili almaly",
+        "description": "{country} wizasyny nähili almaly: resminamalar, çakylyk haty, resmileşdirmegiň möhleti, ilçihanalar we serhet geçelgeleri."
+      }
+    },
+    "booking": {
+      "title": "Türkmenistana syýahat bron etmek",
+      "description": "Sayoda Travel-e arza iberiň: syýahaty saýlaň, seneleri we adam sanyny ýazyň. Bir iş gününiň dowamynda maksatnamany we bahalary ibereris."
     }
   },
   "Contact": {
@@ -225,7 +255,7 @@
     "Goşulmaýar"
   ],
   "About": {
-    "title": "Biziň hakda",
+    "title": "Sayoda Travel — Aşgabatdaky syýahat operatory",
     "text": "Sayoda Travel — Aşgabatda ýerleşýän, ygtyýarnamaly içerki syýahatçylyk operatory. Biz çakylyknamany we wiza goldawyny taýýarlaýarys, gid, ulag we myhmanhana bilen üpjün edýäris hem-de ugurlary özümiz alyp barýarys: Derweze gaz krateri, gadymy Merw, Nusaý, Köneürgenç, Ýangygala jülgesi. Özbegistan, Gazagystan, Gyrgyzystan we Täjigistan boýunça turlar Merkezi Aziýany has köp görmek islänler üçin şol bir syýahaty dowam etdirýär.",
     "whyTitle": "Näme üçin ýerli operator arkaly",
     "whyCardTitle": [
@@ -300,7 +330,7 @@
     ]
   },
   "Discover": {
-    "title": "Merkezi Aziýada özüňize laýyk syýahaty tapyň",
+    "title": "Türkmenistana we Merkezi Aziýa syýahatlar",
     "text": "Özbegistan, Türkmenistan, Tadjikistan, Kyrgyzstan we Gazagystan boýunça saýlanan syýahatlary derňäň. Eger-de medeni mirasy, täsirli tebigaty ýa-da sergäni syýahatlary gözleseňiz, biz size iň gowy syýahaty üpjün ederis!",
     "des": "Wejeler",
     "tour": "Syýahat görnüşi",
@@ -308,11 +338,11 @@
     "btnSearch": "Gözleg"
   },
   "Unveiling": {
-    "title": "Merkezi Aziýany açmak — Ýaşam syýahaty",
+    "title": "Türkmenistan boýunça gollanma — makalalar we maslahatlar",
     "text": "Özbegistan, Türkmenistan, Tadjikistan, Kyrgyzstan we Gazagystan boýunça saýlanan syýahatlaryň çeşmelerini öwreniň. Eger-de siz medeni miras, täsirli tebigat ýa-da syýahatlaryň güýçli täsirini gözleýän bolsaňyz, biz size iň amatly syýahaty taýýarlarys!"
   },
   "ContactUs": {
-    "title": "Soraglaryňyz barmy ýa-da syýahaty planlaşdyrmak üçin kömek gerekmi?",
+    "title": "Aşgabatdaky Sayoda Travel bilen habarlaşyň",
     "cardtitle": [
       "Biziň salgymyz",
       "Bize hat ýazyň",
@@ -414,7 +444,7 @@
     "home": "Baş sahypa"
   },
   "Hotels": {
-    "title": "Myhmanhanalar",
+    "title": "Türkmenistandaky myhmanhanalar",
     "all": "Hemmesi",
     "reviews": "syn",
     "safeStays": "Howpsuz we arassaçylykly ýaşaýyş",

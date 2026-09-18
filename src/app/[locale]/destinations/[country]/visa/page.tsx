@@ -1,7 +1,24 @@
+import type { Metadata } from "next";
+import { destinationMetadata } from "@/lib/destinationMeta";
 import { setRequestLocale } from "next-intl/server";
 import VisaSections from "@/components/destinations/VisaSections";
 
 export const revalidate = 300;
+
+/**
+ * Свой заголовок и свой канонический адрес.
+ *
+ * Без них вкладка наследовала заголовок страны и указывала канонической
+ * страницу обзора — пять разных вкладок объявляли себя одной страницей.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; country: string }>;
+}): Promise<Metadata> {
+  const { locale, country } = await params;
+  return destinationMetadata({ locale, country, tab: "visa", path: "visa" });
+}
 
 /**
  * Визовый раздел соседних стран.

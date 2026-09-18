@@ -49,6 +49,16 @@ export interface Tour {
    * ссылкой. Пусто — на странице остаётся картинка из поля map.
    */
   map_embed?: string | null;
+  /**
+   * Заголовок для поисковой выдачи — необязательный.
+   *
+   * Название выше пишется для человека, который уже открыл страницу; это
+   * поле — для того, кого ещё предстоит привести из поиска. Пусто или
+   * отсутствует — заголовок собирается из названия, как раньше.
+   */
+  seo_title_tk?: string | null;
+  seo_title_en?: string | null;
+  seo_title_ru?: string | null;
   tour_type_id: number;
   tour_cat_id: number;
   location_id: number;
@@ -75,6 +85,16 @@ export interface Blog {
   text_en: string;
   text_ru: string;
   date: string;
+  /**
+   * Заголовок для поисковой выдачи — необязательный.
+   *
+   * Название выше пишется для человека, который уже открыл страницу; это
+   * поле — для того, кого ещё предстоит привести из поиска. Пусто или
+   * отсутствует — заголовок собирается из названия, как раньше.
+   */
+  seo_title_tk?: string | null;
+  seo_title_en?: string | null;
+  seo_title_ru?: string | null;
   /**
    * Категория статьи. null — категория не выбрана; такая статья видна в
    * общем списке, но не попадает в отбор по категориям.
@@ -387,6 +407,27 @@ export const getDepartures = (tourId: number) =>
   getJson<Departure[]>(`/api/departures/tour/${tourId}`, []);
 
 /** Локализованное поле CMS с фолбэком на английский, затем на туркменский. */
+/**
+ * Заголовок для выдачи на нужном языке — или пустая строка.
+ *
+ * Строго по своему языку, без отката на английский, в отличие от
+ * localizedField. Откат здесь был бы вреден: русский заголовок оставили
+ * пустым не потому, что его нет, а потому что для русской выдачи хватает
+ * обычного названия. Подставить туда английскую фразу значит показать
+ * человеку, ищущему по-русски, заголовок на чужом языке.
+ *
+ * Пустая строка означает «не задан» — вызывающий собирает заголовок сам.
+ */
+export function seoTitle(
+  item: object | null | undefined,
+  locale: string,
+): string {
+  if (!item) return "";
+  const record = item as Record<string, unknown>;
+  const value = record[`seo_title_${locale}`];
+  return typeof value === "string" ? value.trim() : "";
+}
+
 export function localizedField(
   item: object | null | undefined,
   field: string,

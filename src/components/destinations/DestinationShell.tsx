@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { destField, destImage, getDestinationBySlug } from "@/lib/api/destinations";
 import { PoppinFont } from "@/components/ui/Fonts";
 import DestinationTabs from "@/components/destinations/DestinationTabs";
+import HeroHeading from "@/components/destinations/HeroHeading";
 import { CONTENT_ANCHOR } from "@/components/destinations/useTabScroll";
 
 /**
@@ -38,12 +39,13 @@ export default async function DestinationShell({
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/40 to-black/20" />
         <div className="absolute inset-0 container mx-auto px-5 sm:px-10 flex flex-col justify-center">
-          {/* Заголовок допускает <br/> для переноса, поэтому выводится разметкой */}
-          <h1
+          {/* Заголовком первого уровня надпись бывает только на обзоре
+              страны — на вкладках его даёт их собственное содержимое,
+              см. HeroHeading. */}
+          <HeroHeading
+            slug={destination.slug}
+            html={destField(destination, "hero_title", locale)}
             className={`${PoppinFont.className} text-3xl/snug sm:text-5xl/snug xl:text-6xl/snug font-bold text-white drop-shadow-lg`}
-            dangerouslySetInnerHTML={{
-              __html: destField(destination, "hero_title", locale),
-            }}
           />
           <p className="mt-3 text-mainLight font-medium tracking-wide">
             {name} · Sayoda Travel

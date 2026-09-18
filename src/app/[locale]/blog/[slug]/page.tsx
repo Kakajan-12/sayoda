@@ -15,6 +15,7 @@ import {
   getBlogs,
   localizedField,
   mediaUrl,
+  seoTitle,
 } from "@/lib/api/catalog";
 import { destField, getDestinations } from "@/lib/api/destinations";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
@@ -52,7 +53,16 @@ export async function generateMetadata({
   const blog = await getBlog(slug);
   if (!blog) return {};
 
-  const title = plainText(localizedField(blog, "title", locale));
+  /*
+   * Заполненное в админке поле «Заголовок для поиска» побеждает: заголовок
+   * статьи пишут для читателя, а в выдаче нужна фраза под запрос. Пусто —
+   * остаётся заголовок статьи, как было.
+   *
+   * Подстановка только для заголовка страницы: в соцсетях и в
+   * структурированных данных ниже остаётся название статьи.
+   */
+  const name = plainText(localizedField(blog, "title", locale));
+  const title = seoTitle(blog, locale) || name;
   const description = excerpt(localizedField(blog, "text", locale));
   const image = mediaUrl(blog.image);
   const alternates = alternatesFor(locale, `blog/${blog.slug}`);
@@ -66,12 +76,12 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       locale,
       url: alternates.canonical,
-      title,
+      title: name,
       description,
       publishedTime: blog.date
         ? new Date(blog.date).toISOString()
         : undefined,
-      images: image ? [{ url: image, alt: title }] : undefined,
+      images: image ? [{ url: image, alt: name }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
