@@ -25,6 +25,7 @@ export default function SearchField({
   label,
   basePath = "/search",
   keep = {},
+  compact = false,
 }: {
   initial?: string;
   placeholder: string;
@@ -37,6 +38,20 @@ export default function SearchField({
    * и человек не понимал бы, почему список вдруг стал шире.
    */
   keep?: Record<string, string | undefined>;
+  /**
+   * Вид для строки фильтров.
+   *
+   * На странице поиска поле — главный элемент экрана: крупное, круглое, с
+   * кнопкой внутри. В панели блога оно стоит рядом с выпадающими списками,
+   * и там эти же приметы мешают: круглое поле высотой 48 пикселей рядом с
+   * прямоугольными списками по 42 читается как две разные формы, случайно
+   * оказавшиеся в одном ряду.
+   *
+   * Компактный вид выравнивает поле по спискам: та же высота, то же
+   * скругление, та же рамка. Кнопка остаётся — без неё непонятно, что
+   * искать нужно по вводу.
+   */
+  compact?: boolean;
 }) {
   const router = useRouter();
   const [value, setValue] = useState(initial);
@@ -66,7 +81,9 @@ export default function SearchField({
       </label>
       <LuSearch
         aria-hidden
-        className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-inkMuted"
+        className={`pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-inkMuted ${
+          compact ? "left-3.5" : "left-4"
+        }`}
       />
       <input
         id="site-search"
@@ -76,11 +93,19 @@ export default function SearchField({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
-        className="h-12 w-full rounded-full border border-sand bg-white pl-12 pr-28 text-ink outline-hidden transition placeholder:text-inkMuted/60 focus:border-tileLight"
+        className={`w-full border border-sand bg-white text-ink outline-hidden transition placeholder:text-inkMuted/60 focus:border-tileLight ${
+          compact
+            ? "h-[42px] rounded-lg pl-11 pr-24 text-sm"
+            : "h-12 rounded-full pl-12 pr-28"
+        }`}
       />
       <button
         type="submit"
-        className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-full bg-tile px-5 py-2 text-sm text-white transition-colors hover:bg-tileDark"
+        className={`absolute top-1/2 -translate-y-1/2 bg-tile text-white transition-colors hover:bg-tileDark ${
+          compact
+            ? "right-1 rounded-md px-4 py-1.5 text-sm"
+            : "right-1.5 rounded-full px-5 py-2 text-sm"
+        }`}
       >
         {label}
       </button>

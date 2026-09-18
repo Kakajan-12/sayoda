@@ -172,14 +172,19 @@ export default async function TourHero({
       )}
 
       {/*
-        Фон подложки виден, пока картинка не пришла, — поэтому обёртки со
-        скелетоном здесь намеренно нет.
+        Обёртки со скелетоном здесь намеренно нет.
 
         Та обёртка держит картинку в opacity: 0 и проявляет её по событию
         onLoad, то есть уже после гидратации. Для самого крупного элемента
         первого экрана это сводит на нет весь смысл priority: байты пришли,
         а место всё ещё пустое. Остальные картинки страницы скелетон
         сохраняют — там он к месту.
+
+        Ожидание всё же показываем, но подложкой, а не поверх фотографии:
+        класс hero-loading пускает по песочному фону бегущий блик, а
+        фотография ложится сверху, как только доедет, и ничего не ждёт.
+        Нужно это потому, что первая загрузка занимает около трёх секунд —
+        подробности и замеры в описании класса, в globals.css.
       */}
       {/*
         Фотография и карточка брони в один ряд.
@@ -211,12 +216,15 @@ export default async function TourHero({
         бы на всю высоту области, и липнуть внутри себя ему было бы некуда.
       */}
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-start lg:gap-6">
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-sand sm:aspect-[16/9] lg:col-start-1 lg:row-start-1 lg:aspect-auto lg:h-[420px] xl:h-[460px]">
+        <div className="hero-loading relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-sand sm:aspect-[16/9] lg:col-start-1 lg:row-start-1 lg:aspect-auto lg:h-[420px] xl:h-[460px]">
           <Image
             // Раньше здесь стояло alt="tour image" — подпись, не говорящая ни
             // о чём, на самой крупной картинке страницы.
             alt={title}
-            className="h-full w-full object-cover"
+            // relative z-10 — чтобы фотография легла поверх бегущего блика
+            // подложки, иначе он остался бы поверх неё: он рисуется
+            // псевдоэлементом, а тот идёт последним в своём слое.
+            className="relative z-10 h-full w-full object-cover"
             src={mediaUrl(tour.image)}
             fill
             // Без priority браузеру запрещено грузить картинку заранее,

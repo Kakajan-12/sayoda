@@ -218,17 +218,7 @@
     "departureDate": "Ugramak senesi",
     "chooseDeparture": "Ugramak senesini saýlaň, biz ýerleriň barlygyny tassyklarys",
     "showMap": "Kartany görkez",
-    "showMapNote": "Karta Google serwerinden ýüklener",
-    "payment": {
-      "title": "Töleg nähili geçýär",
-      "lead": "Öňünden töleg gerek däl. Ugur ylalaşylandan soň bronlamany bada-bat tassyklaýarys, töleg bolsa turuň birinji güni, gid bilen duşuşanyňyzdan soň, nagt görnüşde amala aşyrylýar.",
-      "noDepositTitle": "Öňünden töleg we kart maglumatlary gerek däl",
-      "noDepositText": "Gelmeňizden öň sizden hiç zat alynmaýar. Kart belgiňizi soramaýarys, saýtda onlaýn töleg hem ýok.",
-      "cashTitle": "ABŞ dollary, nagt",
-      "cashText": "Daşary ýurt kartlary Türkmenistanda işlemäýär: Visa we Mastercard bu ýerde kabul edilmäýär, daşary ýurt hasabyňyzdan pul çykarmak hem mümkin däl. Tutuş möçberi nagt getirmeli.",
-      "billsTitle": "Täze seriýaly, zeperlenmedik pullar",
-      "billsText": "Banklar we çalyşyk nokatlary diňe soňky seriýalardaky — ýyrtylmadyk, ýelmeşiksiz we ýazgysyz — pullary kabul edýär. Köne we zeperlenen pullar köplenç kabul edilmeýär."
-    }
+    "showMapNote": "Karta Google serwerinden ýüklener"
   },
   "Include": [
     "Goşuldy",
@@ -255,7 +245,7 @@
     "factLanguages": "Gidleriň dilleri",
     "factLicence": "Operator ygtyýarnamasy",
     "ctaTitle": "Türkmenistana syýahatyňyzy meýilleşdiriň",
-    "ctaText": "Senelerini we görmek isleýän ýerleriňizi ýazyň. Jogap hökmünde ugry we bir adam üçin bahany ibereris, bronlamany bolsa öňünden tölegsiz tassyklarys.",
+    "ctaText": "Senelerini we görmek isleýän ýerleriňizi ýazyň. Jogap hökmünde ugry we bir adam üçin bahany ibereris.",
     "ctaTours": "Turlara seret",
     "ctaContact": "Bize ýazyň"
   },
@@ -306,7 +296,7 @@
     "cardtext": [
       "«Syýahatlar» bölüminde taýýar maksatnamalara serediň: her birinde ugur, dowamlylygy, gidleriň dilleri we bir adam üçin bahasy görkezilen. Laýygyny tapmasaňyz, bize ýazyň — seneleriňize görä görnüşleri hödürläris.",
       "Häzirki wagtda ähli syýahatçylar birmeňzeş däl! Biziň toparymyz syýahatyňyzy diňe bir meňzeş däl, eýsem hereketleriňizi, ýerleşmegiňizi we syýahatyňyzy özüňiziň islegleriňize görä sazlamakda kömek eder. Köp gün goşmak ýa-da aýratyn bir ýerde gezelenç etmek isleýärsiňizmi? Biz ähli zatlary üpjün ederis.",
-      "Ugur ylalaşylandan soň, biz bronlamany bada-bat tassyklaýarys — öňünden töleg ýok, kart maglumatlary gerek däl, hiç zat öňünden tölenmeýär. Töleg syýahatyň birinji güni nagt görnüşde, siz gid bilen tanşyp, maksatnamany öz gözüňiz bilen görnüzden soň."
+      "Ugur ylalaşylandan soň, biz bronlamany bada-bat tassyklaýarys. Soraglaryňyz bar bolsa ýazyň — WhatsApp ýa-da e-poçta arkaly jogap bereris."
     ]
   },
   "Discover": {
@@ -432,7 +422,7 @@
     "kidsPlayArea": "Çagalar üçin oýun meýdançasy",
     "freeParking": "Mugt awtoduralga",
     "freeWifi": "Mugt Wi-Fi",
-    "freeCancellation": "Mugt ýatyrmak, saýlanan nyrhlarda häzir töleg ýok",
+    "freeCancellation": "Saýlanan nyrhlarda mugt ýatyrmak",
     "includedTitle": "Bahasyna girýär",
     "travelTax": "Syýahat salgydy",
     "bookNow": "Bron etmek",
@@ -486,12 +476,14 @@
     "notice": "Maglumatlaryňyz bilen näme bolýandygyna şübhelenseňiz, bize ýazyň — düşnükli dilde düşündireris."
   },
   "Blog": {
+    "categoryLabel": "Kategoriýa",
     "allCategories": "Ähli makalalar",
     "nothingFound": "Hiç zat tapylmady. Başga bölümi synanyşyň.",
     "searchPlaceholder": "Makalalar boýunça gözleg",
     "searchLabel": "Tapmak",
     "foundCount": "Tapyldy: {count}",
-    "resetFilters": "Arassala"
+    "resetFilters": "Arassala",
+    "related": "Meňzeş makalalar"
   },
   "Search": {
     "title": "Gözleg",
@@ -499,6 +491,12 @@
     "found": "«{query}» boýunça tapyldy: {count}",
     "nothing": "«{query}» boýunça hiç zat tapylmady. Gysgaraq söz synanyşyň.",
     "allTours": "Tapylan ähli syýahatlar",
-    "allBlogs": "Tapylan ähli makalalar"
+    "allBlogs": "Tapylan ähli makalalar",
+    "suggestTitle": "Nireden başlamaly",
+    "suggestText": "Ýeriň, syýahatyň ýa-da mowzugyň adyny ýazyň — syýahatlarda-da, makalalarda-da gözläris.",
+    "popular": "Meselem:",
+    "nothingHint": "Klawiaturany barlaň we gysgarak söz synanyşyň — ýa-da barymyza serediň:",
+    "goTours": "Ähli syýahatlar",
+    "goBlog": "Ähli makalalar"
   }
 }

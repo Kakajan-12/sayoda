@@ -10,7 +10,12 @@ import {
   LuTimer,
 } from "react-icons/lu";
 import { PoppinFont, QuicksandFont } from "@/components/ui/Fonts";
-import { getContacts, telHref, whatsappHref } from "@/lib/api/contacts";
+import {
+  getContacts,
+  telHref,
+  whatsappHref,
+  type Office,
+} from "@/lib/api/contacts";
 import { getSettings } from "@/lib/api/settings";
 import { formatOfficeHours, languageNames } from "@/lib/languages";
 
@@ -29,7 +34,18 @@ import { formatOfficeHours, languageNames } from "@/lib/languages";
  * часы работы — обычное состояние настроек, а «Часы работы: —» выглядит
  * поломкой, а не отсутствием данных.
  */
-export default async function ContactDetails({ locale }: { locale: string }) {
+export default async function ContactDetails({
+  locale,
+  office,
+}: {
+  locale: string;
+  /**
+   * Офис, чьи адрес, телефон и почту показываем. Не передан — берём то,
+   * что отдаёт getContacts: первый адрес, первый телефон, первую почту.
+   * Так страница переживает случай, когда точки в админке не заведены.
+   */
+  office?: Office;
+}) {
   const [t, tc, contacts, settings] = await Promise.all([
     getTranslations({ locale, namespace: "ContactUs" }),
     getTranslations({ locale, namespace: "Contact" }),
@@ -57,26 +73,34 @@ export default async function ContactDetails({ locale }: { locale: string }) {
     ? whatsappNumber
     : `+${whatsappNumber.replace(/\D/g, "")}`;
 
+  /*
+   * Реквизиты офиса берём из переданной точки, остальное — общее для
+   * компании: часы работы, языки, WhatsApp и Instagram одни на всех.
+   */
+  const адрес = office?.address || contacts.address;
+  const телефон = office?.phone || contacts.phone;
+  const почта = office?.email || contacts.email;
+
   const rows = [
     {
       icon: LuMapPin,
       label: t("labelAddress"),
-      value: contacts.address,
+      value: адрес,
       href: null as string | null,
       note: null as string | null,
     },
     {
       icon: LuPhone,
       label: t("labelPhone"),
-      value: contacts.phone,
-      href: telHref(contacts.phone),
+      value: телефон,
+      href: telHref(телефон),
       note: null,
     },
     {
       icon: LuMail,
       label: t("labelEmail"),
-      value: contacts.email,
-      href: `mailto:${contacts.email}`,
+      value: почта,
+      href: `mailto:${почта}`,
       note: null,
     },
     {

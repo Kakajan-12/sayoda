@@ -76,6 +76,11 @@ export interface Blog {
   text_ru: string;
   date: string;
   /**
+   * Категория статьи. null — категория не выбрана; такая статья видна в
+   * общем списке, но не попадает в отбор по категориям.
+   */
+  blog_cat_id: number | null;
+  /**
    * Страна, о которой статья. null значит «не про конкретную страну»:
    * такая статья видна в общем блоге, но ни на одной вкладке направления.
    *
@@ -200,10 +205,25 @@ export function getToursPage({
 export function getBlogsPage(
   page = 1,
   perPage = PER_PAGE,
-  filters: { category?: string; q?: string } = {},
+  filters: {
+    /**
+     * Категории списком через запятую: «2,3» значит «или та, или эта».
+     * Внутри оси сервер складывает значения через IN, между осями — И.
+     */
+    category?: string;
+    /** Страны. Тем же списком. */
+    destination?: string;
+    q?: string;
+  } = {},
 ): Promise<Page<Blog>> {
   return getPage<Blog>(
-    `/api/blogs${toQuery({ page, limit: perPage, category: filters.category, q: filters.q })}`,
+    `/api/blogs${toQuery({
+      page,
+      limit: perPage,
+      category: filters.category,
+      destination: filters.destination,
+      q: filters.q,
+    })}`,
   );
 }
 

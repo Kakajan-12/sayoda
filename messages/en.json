@@ -217,17 +217,7 @@
     "departureDate": "Departure date",
     "chooseDeparture": "Pick a departure date and we will confirm availability",
     "showMap": "Show the map",
-    "showMapNote": "The map will load from Google",
-    "payment": {
-      "title": "How Payment Works",
-      "lead": "No prepayment. We confirm your booking as soon as the itinerary is agreed, and you settle up in cash on the first day of the tour, after you have met your guide.",
-      "noDepositTitle": "No deposit, no card details",
-      "noDepositText": "Nothing is charged before you arrive. We never ask for card numbers, and there is no online payment on this site.",
-      "cashTitle": "Cash in US dollars",
-      "cashText": "Foreign cards do not work in Turkmenistan: Visa and Mastercard are not accepted and there is no way to withdraw from a foreign account. Bring the full amount with you in cash.",
-      "billsTitle": "New-series bills, undamaged",
-      "billsText": "Banks and exchange offices here take only recent-series notes — no tears, no tape, no handwriting. Worn or marked bills are often refused."
-    }
+    "showMapNote": "The map will load from Google"
   },
   "Include": [
     "Included",
@@ -254,7 +244,7 @@
     "factLanguages": "Guide languages",
     "factLicence": "Tour operator licence",
     "ctaTitle": "Plan Your Trip to Turkmenistan",
-    "ctaText": "Tell us your dates and what you want to see. We reply with a route and a price per person, and the booking is confirmed without any prepayment.",
+    "ctaText": "Tell us your dates and what you want to see. We reply with a route and a price per person.",
     "ctaTours": "See the tours",
     "ctaContact": "Contact us"
   },
@@ -305,7 +295,7 @@
     "cardtext": [
       "Browse the ready-made programmes in the Tours section: each one shows the route, duration, guide languages and price per person. If nothing fits, write to us and we will suggest options for your dates.",
       "Not all travelers are the same! Our team will help personalize your itinerary, adjusting activities, accommodations, and travel dates to fit your needs. Want to add extra days or visit a special location? We’ve got you covered.",
-      "Once your itinerary is settled, we confirm the booking straight away — no deposit, no card details, nothing to pay in advance. You settle up in cash on the first day, after you have met your guide and seen the programme for yourself."
+      "Once your itinerary is settled, we confirm the booking straight away. Any questions left — just write to us on WhatsApp or by email."
     ]
   },
   "Discover": {
@@ -435,7 +425,7 @@
     "kidsPlayArea": "Kids play area",
     "freeParking": "Free parking",
     "freeWifi": "Free Wi-Fi",
-    "freeCancellation": "Free cancellation, Zero Payment Now on select rates",
+    "freeCancellation": "Free cancellation on select rates",
     "includedTitle": "Included in the Price",
     "travelTax": "Travel tax",
     "bookNow": "Book now",
@@ -489,12 +479,14 @@
     "notice": "If you are unsure what happens to your data, just write to us and we will explain in plain words."
   },
   "Blog": {
+    "categoryLabel": "Category",
     "allCategories": "All articles",
     "nothingFound": "Nothing found. Try another category.",
     "searchPlaceholder": "Search articles",
     "searchLabel": "Search",
     "foundCount": "Found: {count}",
-    "resetFilters": "Reset"
+    "resetFilters": "Reset",
+    "related": "Related articles"
   },
   "Search": {
     "title": "Search",
@@ -502,6 +494,12 @@
     "found": "Found {count} for “{query}”",
     "nothing": "Nothing found for “{query}”. Try a shorter word.",
     "allTours": "All tours found",
-    "allBlogs": "All articles found"
+    "allBlogs": "All articles found",
+    "suggestTitle": "Where to start",
+    "suggestText": "Type a place, a tour or a topic — we search both tours and articles at once.",
+    "popular": "For example:",
+    "nothingHint": "Check the keyboard layout and try a shorter word — or see what we have:",
+    "goTours": "All tours",
+    "goBlog": "All articles"
   }
 }

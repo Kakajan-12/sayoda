@@ -2,18 +2,21 @@ import React from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import MainCountries from "@/components/blog/ArticleHero";
-import TextsCountry from "@/components/blog/ArticleBody";
+import ArticleHero from "@/components/blog/ArticleHero";
+import ArticleBody from "@/components/blog/ArticleBody";
+import RelatedArticles from "@/components/blog/RelatedArticles";
 import ArticleGallery from "@/components/blog/ArticleGallery";
 import ArticleJsonLd from "@/components/seo/ArticleJsonLd";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import {
   getBlog,
+  getBlogCategories,
   getBlogGallery,
   getBlogs,
   localizedField,
   mediaUrl,
 } from "@/lib/api/catalog";
+import { destField, getDestinations } from "@/lib/api/destinations";
 import { SITE_NAME, alternatesFor } from "@/lib/site";
 import { excerpt, plainText } from "@/lib/utils";
 import { routing } from "@/i18n/routing";
@@ -92,9 +95,44 @@ export default async function Page({
   if (!blog) notFound();
 
   const nav = await getTranslations({ locale, namespace: "Header" });
+  const tc = await getTranslations({ locale, namespace: "Common" });
   const blogTitle = plainText(localizedField(blog, "title", locale));
-  // Снимки берём на сервере: из браузера они в HTML статьи не попадали.
-  const photos = await getBlogGallery(blog.id);
+
+  /*
+   * Снимки, страны и категории берём на сервере одной пачкой: запросы
+   * независимы, и выстраивать их в очередь незачем. Из браузера галерея
+   * в HTML статьи вообще не попадала.
+   *
+   * Страна и категория нужны строке под заголовком. Названия приходится
+   * искать по справочникам: выдача одной статьи их не джойнит — отдаёт
+   * только destination_id и blog_cat_id.
+   */
+  const [photos, destinations, categories] = await Promise.all([
+    getBlogGallery(blog.id),
+    getDestinations(),
+    getBlogCategories(),
+  ]);
+
+  const country = blog.destination_id
+    ? destField(
+        destinations.find((item) => item.id === blog.destination_id),
+        "name",
+        locale,
+      )
+    : "";
+
+  const category = blog.blog_cat_id
+    ? plainText(
+        String(
+          categories.find((item) => Number(item.id) === blog.blog_cat_id)?.[
+            `cat_${locale}`
+          ] ?? "",
+        ),
+      )
+    : "";
+
+  const text =
+    localizedField(blog, "text", locale) || tc("noText");
 
   return (
     <div>
@@ -107,9 +145,17 @@ export default async function Page({
           { name: blogTitle, path: `blog/${blog.slug}` },
         ]}
       />
-      <MainCountries data={blog} />
-      <TextsCountry data={blog} />
+      <ArticleHero
+        title={blogTitle}
+        image={blog.image}
+        date={blog.date}
+        country={country}
+        category={category}
+        locale={locale}
+      />
+      <ArticleBody html={text} />
       <ArticleGallery images={photos} title={blogTitle} />
+      <RelatedArticles blog={blog} locale={locale} />
     </div>
   );
 }

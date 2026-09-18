@@ -48,6 +48,79 @@ async function getJson<T>(path: string, fallback: T): Promise<T> {
   }
 }
 
+/**
+ * Один офис: название точки и всё, что к ней привязано.
+ *
+ * В админке это «Точки на карте» плюс три соседних раздела — адрес,
+ * телефоны, почты. Каждая запись там хранит location_id_real, то есть
+ * ссылку на точку; по нему всё и собирается.
+ */
+export interface Office {
+  id: number;
+  /** Название точки: «Туркменистан», «Узбекистан». */
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+  /** Адрес карты из поля iframe — только src, без чужой разметки. */
+  mapEmbed: string;
+}
+
+/** Достаёт src из тега <iframe> и пропускает только карты Google. */
+function mapSrc(iframe?: string): string {
+  const raw = /src="([^"]+)"/.exec(iframe || "")?.[1] || "";
+  // Чужой домен здесь — сторонний код на странице, поэтому проверяем.
+  return /^https:\/\/(www\.)?google\.com\/maps\/embed/.test(raw) ? raw : "";
+}
+
+/** Берёт поле нужного языка с откатом на английский и туркменский. */
+function поЯзыку(
+  row: Record<string, string> | undefined,
+  base: string,
+  locale: string,
+): string {
+  if (!row) return "";
+  return plainText(row[`${base}_${locale}`] || row[`${base}_en`] || row[`${base}_tk`]);
+}
+
+/**
+ * Офисы компании со всеми реквизитами.
+ *
+ * Разделы админки связаны через location_id_real, но страница контактов
+ * этой связи не знала: брала первый адрес, первый телефон и первую почту.
+ * Пока офис один, разницы не было; со вторым на сайте не появилось бы
+ * ничего — ни его адреса, ни телефона.
+ *
+ * Точки без адреса пропускаем: показывать вкладку с одним названием и
+ * пустотой под ним хуже, чем не показывать её вовсе.
+ */
+export async function getOffices(locale: string): Promise<Office[]> {
+  const [locations, addresses, mails, numbers] = await Promise.all([
+    getJson<Array<Record<string, string>>>("/api/contact-location", []),
+    getJson<Array<Record<string, string>>>("/api/contact-address", []),
+    getJson<Array<Record<string, string>>>("/api/contact-mails", []),
+    getJson<Array<Record<string, string>>>("/api/contact-numbers", []),
+  ]);
+
+  const кОфису = (rows: Array<Record<string, string>>, id: number) =>
+    rows.find((row) => Number(row.location_id_real) === id);
+
+  return locations
+    .map((loc) => {
+      const id = Number(loc.id);
+      const address = кОфису(addresses, id);
+      return {
+        id,
+        name: поЯзыку(loc, "location", locale),
+        address: поЯзыку(address, "address", locale),
+        phone: кОфису(numbers, id)?.number || "",
+        email: кОфису(mails, id)?.mail || "",
+        mapEmbed: mapSrc(address?.iframe),
+      };
+    })
+    .filter((office) => office.address);
+}
+
 export async function getContacts(locale: string): Promise<SiteContacts> {
   const [addresses, mails, numbers, socials] = await Promise.all([
     getJson<Array<Record<string, string>>>("/api/contact-address", []),

@@ -98,50 +98,72 @@ const MainSwiper = ({ cards, heading, backgroundImage }: MainSwiperProps) => {
               >
                 {cards.map((card) => (
                   <SwiperSlide key={card.slug}>
+                    {/*
+                      Ссылка стоит на месте, приподнимается только её
+                      содержимое.
+
+                      Раньше подъём висел на самой ссылке, и она мерцала.
+                      Цикл был такой: курсор у нижнего края — наведение
+                      сработало — карточка уехала вверх на четыре пикселя —
+                      нижний край оказался выше курсора — наведение снялось —
+                      карточка опустилась обратно под курсор — и снова по
+                      кругу, несколько раз в секунду. На записи это видно как
+                      дрожание: кромка скачет, пока курсор стоит неподвижно.
+
+                      Теперь ссылка задаёт неподвижную область наведения, а
+                      двигается вложенный слой. Курсор из области не выпадает,
+                      и цикл разрывается.
+
+                      Скругление и обрезка переехали на тот же слой: на
+                      неподвижной ссылке они обрезали бы приподнятое
+                      содержимое по старой границе.
+                    */}
                     <Link
                       href={`/destinations/${card.slug}`}
-                      className="group relative block w-full aspect-[3/4] overflow-hidden rounded-2xl transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="group relative block w-full aspect-[3/4] rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
-                      <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
-                        {/*
-                          Размеры совпадают с рамкой — 3:4. Они задают только
-                          пропорцию места, которое держится под картинку до
-                          загрузки; сам размер файла выбирается по sizes.
-                          Стояло 800×1500 — это 1:1.9, вдвое уже рамки, и
-                          заглушка занимала не ту площадь, которую потом
-                          занимала картинка.
+                      <div className="absolute inset-0 overflow-hidden rounded-2xl transition-transform duration-300 ease-out group-hover:-translate-y-1">
+                        <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                          {/*
+                            Размеры совпадают с рамкой — 3:4. Они задают только
+                            пропорцию места, которое держится под картинку до
+                            загрузки; сам размер файла выбирается по sizes.
+                            Стояло 800×1500 — это 1:1.9, вдвое уже рамки, и
+                            заглушка занимала не ту площадь, которую потом
+                            занимала картинка.
 
-                          sizes описывает ширину плитки на экране и совпадает
-                          с разбивкой слайдера ниже: 2.8 карточки в ряду на
-                          телефоне, 3.8 на планшете, 5 на широком экране.
+                            sizes описывает ширину плитки на экране и совпадает
+                            с разбивкой слайдера ниже: 2.8 карточки в ряду на
+                            телефоне, 3.8 на планшете, 5 на широком экране.
 
-                          Качество указано явно, хотя обёртка и так ставит
-                          IMAGE_QUALITY: здесь оно важно по делу. Кадр
-                          обрезается по вертикали, то есть показывается
-                          увеличенным, а на увеличении следы сжатия заметнее
-                          всего на сайте.
-                        */}
-                        <ImageWithSkeleton
-                          src={card.image}
-                          alt={card.title}
-                          width={600}
-                          height={800}
-                          quality={IMAGE_QUALITY}
-                          sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
-                          className="h-full w-full object-cover"
-                          skeletonClassName="rounded-2xl"
-                        />
+                            Качество указано явно, хотя обёртка и так ставит
+                            IMAGE_QUALITY: здесь оно важно по делу. Кадр
+                            обрезается по вертикали, то есть показывается
+                            увеличенным, а на увеличении следы сжатия заметнее
+                            всего на сайте.
+                          */}
+                          <ImageWithSkeleton
+                            src={card.image}
+                            alt={card.title}
+                            width={600}
+                            height={800}
+                            quality={IMAGE_QUALITY}
+                            sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 20vw"
+                            className="h-full w-full object-cover"
+                            skeletonClassName="rounded-2xl"
+                          />
+                        </div>
+
+                        <div className="absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/55 to-transparent" />
+
+                        {/* h2, а не h1: единственный h1 страницы — заголовок
+                            первого экрана, он приходит пропсом сверху. */}
+                        <h2
+                          className={`${PoppinFont.className} absolute top-4 left-4 right-4 text-left text-sm font-semibold leading-tight text-white drop-shadow-md sm:text-base lg:text-lg`}
+                        >
+                          {card.title}
+                        </h2>
                       </div>
-
-                      <div className="absolute inset-x-0 top-0 h-2/5 bg-linear-to-b from-black/55 to-transparent" />
-
-                      {/* h2, а не h1: единственный h1 страницы — заголовок
-                          первого экрана, он приходит пропсом сверху. */}
-                      <h2
-                        className={`${PoppinFont.className} absolute top-4 left-4 right-4 text-left text-sm font-semibold leading-tight text-white drop-shadow-md sm:text-base lg:text-lg`}
-                      >
-                        {card.title}
-                      </h2>
                     </Link>
                   </SwiperSlide>
                 ))}

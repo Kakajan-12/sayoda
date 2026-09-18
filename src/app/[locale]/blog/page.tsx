@@ -8,6 +8,8 @@ import PageLinks from "@/components/ui/PageLinks";
 import { pageMetadata } from "@/lib/metadata";
 import BlogToolbar from "@/components/blog/BlogToolbar";
 import { PER_PAGE, getBlogCategories, getBlogsPage } from "@/lib/api/catalog";
+import { getDestinations } from "@/lib/api/destinations";
+import { asIds, one, type Search } from "@/lib/searchParams";
 
 // Литерал обязателен: конфиг сегмента разбирается статически.
 export const revalidate = 300;
@@ -19,30 +21,13 @@ export const revalidate = 300;
  * это разные вещи.
  */
 
-type Search = Record<string, string | string[] | undefined>;
-
 const readPage = (search: Search) => {
   const raw = Array.isArray(search.page) ? search.page[0] : search.page;
   return Math.max(1, Number.parseInt(raw ?? "", 10) || 1);
 };
 
-/**
- * Выбранная категория из адреса.
- *
- * Принимаем только цифры: значение приходит из адресной строки, то есть
- * подставить туда можно что угодно, а сервер ждёт идентификатор. На мусор
- * возвращаем пустую строку — покажется весь блог, а не пустая страница.
- */
-const readCategory = (search: Search) => {
-  const raw = Array.isArray(search.category) ? search.category[0] : search.category;
-  return /^\d+$/.test(raw ?? "") ? String(raw) : "";
-};
-
 /** Поисковый запрос из адреса. Длину режем: строка приходит извне. */
-const readQuery = (search: Search) => {
-  const raw = Array.isArray(search.q) ? search.q[0] : search.q;
-  return String(raw ?? "").trim().slice(0, 100);
-};
+const readQuery = (search: Search) => one(search.q).trim().slice(0, 100);
 
 export async function generateMetadata({
   params,
@@ -54,7 +39,8 @@ export async function generateMetadata({
   const { locale } = await params;
   const search = await searchParams;
   const page = readPage(search);
-  const category = readCategory(search);
+  const category = asIds(search.category);
+  const destination = asIds(search.destination);
   const q = readQuery(search);
   const base = await pageMetadata(locale, "blog", "blog");
 
@@ -66,19 +52,20 @@ export async function generateMetadata({
    */
   if (q) return { ...base, robots: { index: false, follow: true } };
 
-  if (page === 1 && !category) return base;
+  if (page === 1 && !category.length && !destination.length) return base;
 
   /*
    * У второй и дальше страниц свой канонический адрес. Указывать первую
    * нельзя: поисковик счёл бы остальные дублем и выбросил из выдачи всё,
    * кроме девяти первых статей.
    *
-   * Категория входит в канонический адрес наравне с номером. Без неё у
+   * Отбор входит в канонический адрес наравне с номером. Без него у
    * второй страницы отбора получался адрес /blog?page=2 — то есть ссылка
    * на другой список, где на этом месте стоит совсем другая статья.
    */
   const query = new URLSearchParams();
-  if (category) query.set("category", category);
+  if (category.length) query.set("category", category.join(","));
+  if (destination.length) query.set("destination", destination.join(","));
   if (page > 1) query.set("page", String(page));
 
   const canonical = `${base.alternates?.canonical ?? ""}?${query.toString()}`;
@@ -100,16 +87,25 @@ export default async function Page({
   setRequestLocale(locale);
   const search = await searchParams;
   const page = readPage(search);
-  const category = readCategory(search);
+  const category = asIds(search.category);
+  const destination = asIds(search.destination);
   const q = readQuery(search);
 
-  // Сервер отдаёт только нужную страницу и только выбранную категорию:
-  // раньше сюда приезжали все статьи целиком, а браузер показывал девять.
-  // Счётчик страниц сервер считает тем же отбором, поэтому пагинация не
-  // обещает страниц, которых в выборке нет.
-  const [{ items, total }, categories] = await Promise.all([
-    getBlogsPage(page, PER_PAGE, { category, q }),
+  // Сервер отдаёт только нужную страницу и только отобранное: раньше сюда
+  // приезжали все статьи целиком, а браузер показывал девять. Счётчик
+  // страниц сервер считает тем же отбором, поэтому пагинация не обещает
+  // страниц, которых в выборке нет.
+  //
+  // Страны берём тем же запросом, что и категории: они нужны второй оси
+  // фильтра. Список короткий — пять направлений.
+  const [{ items, total }, categories, destinations] = await Promise.all([
+    getBlogsPage(page, PER_PAGE, {
+      category: category.join(","),
+      destination: destination.join(","),
+      q,
+    }),
     getBlogCategories(),
+    getDestinations(),
   ]);
   const pageCount = Math.max(1, Math.ceil(total / PER_PAGE));
   const t = await getTranslations("SectionTitle");
@@ -129,16 +125,17 @@ export default async function Page({
       <BlogsMain />
 
       {/*
-        Панель стоит вплотную к списку, а не в пустоте между шапкой и
-        заголовком: раньше кнопки категорий висели выше раздела, к
-        которому относятся, и было непонятно, к чему они.
+        Панель приподнята на обложку и стоит вплотную к списку: раньше
+        кнопки категорий висели выше раздела, к которому относятся, в
+        полосе пустого места, и было непонятно, к чему они.
       */}
       <BlogToolbar
         categories={categories}
-        activeCategory={category}
+        destinations={destinations}
+        activeCategories={category}
+        activeDestinations={destination}
         query={q}
         total={total}
-        locale={locale}
       />
 
       {/* Заголовок «Блоги» скрыт: сверху уже есть h1 в шапке, а между ним
@@ -149,7 +146,13 @@ export default async function Page({
         page={page}
         pageCount={pageCount}
         basePath="/blog"
-        params={{ category: category || undefined, q: q || undefined }}
+        // Разбивка собирает адрес из тех же условий: без этого переход на
+        // вторую страницу сбрасывал бы отбор.
+        params={{
+          category: category.join(",") || undefined,
+          destination: destination.join(",") || undefined,
+          q: q || undefined,
+        }}
         label={t("blogs")}
       />
     </div>
